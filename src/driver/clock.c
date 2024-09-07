@@ -4,13 +4,13 @@
 
 #include "stm32g4xx_hal.h"
 
-bool core_clock_adc_init() {
+bool core_clock_ADC12_init() {
     // Initialize peripheral clocks
     __HAL_RCC_ADC12_CONFIG(RCC_ADC12CLKSOURCE_SYSCLK);
     return true;
 }
 
-bool core_clock_fdcan_init() {
+bool core_clock_FDCAN_init() {
     // Code copied from HAL source
     __HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);
     __HAL_RCC_FDCAN_CLK_ENABLE();
