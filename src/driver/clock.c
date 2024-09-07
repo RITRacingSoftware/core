@@ -7,8 +7,7 @@
 bool core_clock_adc_init() {
     // Initialize peripheral clocks
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-    HAL_RCCEx_GetPeriphCLKConfig(&PeriphClkInit);
-    PeriphClkInit.PeriphClockSelection |= RCC_PERIPHCLK_ADC12;
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC12;
     PeriphClkInit.Adc12ClockSelection = RCC_ADC12CLKSOURCE_SYSCLK;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) {
         return false;
@@ -19,8 +18,7 @@ bool core_clock_adc_init() {
 bool core_clock_fdcan_init() {
     // Initialize peripheral clocks
     RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-    HAL_RCCEx_GetPeriphCLKConfig(&PeriphClkInit);
-    PeriphClkInit.PeriphClockSelection |= RCC_PERIPHCLK_FDCAN;
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_FDCAN;
     PeriphClkInit.Adc12ClockSelection = RCC_FDCANCLKSOURCE_PCLK1;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK) {
         return false;
