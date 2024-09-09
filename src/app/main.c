@@ -7,35 +7,34 @@
 #include "gpio.h"
 #include "i2c.h"
 #include "interrupts.h"
+#include "error_handler.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
+
+#include <stm32g4xx_hal.h>
 
 
 void heartbeat_task(void *pvParameters) {
 	(void) pvParameters;
 	while(true)
 	{
-		// CAN_send(0, 8, 0x0123456789abcdef);
+//        if (!fake_CAN_send(3, 2, 0xf5aa)) error_handler();
+        if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
 		GPIO_toggle_heartbeat();
-		vTaskDelay(500 / portTICK_PERIOD_MS);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
 
 int main(void)
 {
+    HAL_Init();
 	// Drivers
-	if (!Clock_init()) {
-		Error_Handler();
-	}
-	GPIO_init();
-	if (!I2C_init()) {
-		Error_Handler();
-	}
-	if (!CAN_init()) {
-		Error_Handler();
-	}
-	Interrupts_init();
+	if (!core_clock_init()) error_handler();
+    if (!core_CAN_init(CAN2)) error_handler();
+
+    heartbeat_init(GPIOB, GPIO_PIN_9);
+    GPIO_set_heartbeat(GPIO_PIN_SET);
 
 	int err = xTaskCreate(heartbeat_task, 
         "heartbeat", 
@@ -44,14 +43,14 @@ int main(void)
         4,
         NULL);
     if (err != pdPASS) {
-        Error_Handler();
+        error_handler();
     }
 
     // hand control over to FreeRTOS
     vTaskStartScheduler();
 
     // we should not get here ever
-    Error_Handler();
+    error_handler();
 }
 
 // Called when stack overflows from rtos
@@ -61,11 +60,5 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName)
 	(void) xTask;
 	(void) pcTaskName;
 
-    Error_Handler();
-}
-
-void Error_Handler(void)
-{
-	Interrupts_disable();
-	while (true) {}
+    error_handler();
 }

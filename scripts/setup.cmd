@@ -1,2 +1,2 @@
 git submodule update --init --recursive
-docker build --build-arg=UNAME=%username% .\\docker\\ -t temp
+docker build --build-arg=UNAME=%username% .\\docker\\ -t core
