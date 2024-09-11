@@ -25,7 +25,7 @@ void heartbeat_task(void *pvParameters) {
 int main(void)
 {
 	// Drivers
-	if (!core_clock_init()) {
+	if (!core_clock_init(1, 16000, 102400)) {
 		Error_Handler();
 	}
 	GPIO_init();
