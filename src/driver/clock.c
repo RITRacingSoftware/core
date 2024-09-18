@@ -19,6 +19,73 @@ bool core_clock_FDCAN_init() {
 }
 
 /**
+  * @brief  Set a USART clock to PCLK1 and enable it
+  * @param  usart_num  USART module number
+  * @retval 1 if usart_num is a valid USART module, 0 otherwise
+  */
+bool core_clock_USART_init(uint8_t usart_num) {
+    if (usart_num == CORE_CLOCK_USART1) {
+        __HAL_RCC_USART1_CONFIG(RCC_USART1CLKSOURCE_PCLK2);
+        __HAL_RCC_USART1_CLK_ENABLE();
+    }
+    else if (usart_num == CORE_CLOCK_USART2) {
+        __HAL_RCC_USART2_CONFIG(RCC_USART2CLKSOURCE_PCLK1);
+        __HAL_RCC_USART2_CLK_ENABLE();
+    }
+    else if (usart_num == CORE_CLOCK_USART3) {
+        __HAL_RCC_USART3_CONFIG(RCC_USART3CLKSOURCE_PCLK1);
+        __HAL_RCC_USART3_CLK_ENABLE();
+    }
+    else if (usart_num == CORE_CLOCK_UART4) {
+        __HAL_RCC_UART4_CONFIG(RCC_UART4CLKSOURCE_PCLK1);
+        __HAL_RCC_UART4_CLK_ENABLE();
+    }
+    else if (usart_num == CORE_CLOCK_UART5) {
+        __HAL_RCC_UART5_CONFIG(RCC_UART5CLKSOURCE_PCLK1);
+        __HAL_RCC_UART5_CLK_ENABLE();
+    }
+    else return false;
+    return true;
+}
+
+/**
+  * @brief  Set an I2C clock to PCLK1 and enable it
+  * @param  i2c_num  I2C module number
+  * @retval 1 if i2c_num is a valid I2C module, 0 otherwise
+  */
+bool core_clock_I2C_init(uint8_t i2c_num) {
+    if (i2c_num == CORE_CLOCK_I2C1) {
+        __HAL_RCC_I2C1_CONFIG(RCC_I2C1CLKSOURCE_PCLK1);
+        __HAL_RCC_I2C1_CLK_ENABLE();
+    }
+    else if (i2c_num == CORE_CLOCK_I2C1) {
+        __HAL_RCC_I2C2_CONFIG(RCC_I2C2CLKSOURCE_PCLK1);
+        __HAL_RCC_I2C2_CLK_ENABLE();
+    }
+    else if (i2c_num == CORE_CLOCK_I2C1) {
+        __HAL_RCC_I2C3_CONFIG(RCC_I2C3CLKSOURCE_PCLK1);
+        __HAL_RCC_I2C3_CLK_ENABLE();
+    }
+    else if (i2c_num == CORE_CLOCK_I2C1) {
+        __HAL_RCC_I2C4_CONFIG(RCC_I2C4CLKSOURCE_PCLK1);
+        __HAL_RCC_I2C4_CLK_ENABLE();
+    }
+    else return false;
+    return true;
+}
+
+/**
+  * @brief  Enable the external 32.768kHz oscillator and set the RTC clock to it.
+  * @retval 1
+  */
+bool core_clock_RTC_init() {
+    __HAL_RCC_LSE_CONFIG(RCC_LSE_ON);
+    __HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
+    __HAL_RCC_RTC_ENABLE();
+    return true;
+}
+
+/**
   * @brief  Generate the settings for the N, M, and R dividers from the clock
   *         source frequency and the desired output frequency
   * @param  src_freq  Frequency of the clock source of the PLL, in kilohertz
