@@ -85,7 +85,7 @@ bool core_clock_RTC_init() {
     return true;
 }
 
-bool clock_port_init(uint32_t port) {
+bool core_clock_port_init(GPIO_TypeDef *port) {
     if (port == GPIOA) __HAL_RCC_GPIOA_CLK_ENABLE();
     else if (port == GPIOB) __HAL_RCC_GPIOB_CLK_ENABLE();
     else if (port == GPIOC) __HAL_RCC_GPIOC_CLK_ENABLE();

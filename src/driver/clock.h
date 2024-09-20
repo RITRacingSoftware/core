@@ -1,5 +1,6 @@
 #pragma once
 
+#include "stm32g4xx_hal.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -19,6 +20,6 @@ bool core_clock_FDCAN_init();
 bool core_clock_USART_init(uint8_t usart_num);
 bool core_clock_I2C_init(uint8_t i2c_num);
 bool core_clock_RTC_init();
-bool clock_port_init(uint32_t port);
+bool core_clock_port_init(GPIO_TypeDef *port);
 uint8_t core_clock_generate_params(uint32_t src_freq, uint32_t target_freq, uint8_t *n, uint8_t *m, uint8_t *r);
 bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq);

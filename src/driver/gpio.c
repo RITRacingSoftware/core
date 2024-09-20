@@ -5,14 +5,14 @@
 
 #include <stm32g4xx_hal.h>
 
-uint32_t LED_port;
+GPIO_TypeDef *LED_port;
 uint32_t LED_pin;
 
-void GPIO_init(uint32_t port, uint32_t pin, uint32_t dir,
+void GPIO_init(GPIO_TypeDef *port, uint32_t pin, uint32_t dir,
                uint32_t pull)
 {
 
-    clock_port_init(port);
+    core_clock_port_init(port);
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = pin;
@@ -24,7 +24,7 @@ void GPIO_init(uint32_t port, uint32_t pin, uint32_t dir,
 }
 
 
-void heartbeat_init(uint32_t port, uint32_t pin)
+void heartbeat_init(GPIO_TypeDef *port, uint32_t pin)
 {
     LED_port = port;
     LED_pin = pin;
