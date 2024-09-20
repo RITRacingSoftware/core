@@ -4,7 +4,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
+typedef enum
+{
+    CAN1,
+    CAN2,
+    CAN3
+}CAN_num;
 
 bool fake_CAN_init();
 bool fake_CAN_send(uint32_t id, uint8_t dlc, uint64_t data);

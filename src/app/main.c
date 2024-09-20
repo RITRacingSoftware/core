@@ -30,7 +30,7 @@ int main(void)
 {
     HAL_Init();
 	// Drivers
-	if (!core_clock_init()) error_handler();
+	if (!core_clock_init(1, 16000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
 
     heartbeat_init(GPIOB, GPIO_PIN_9);
