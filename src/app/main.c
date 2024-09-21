@@ -6,6 +6,7 @@
 #include "clock.h"
 #include "gpio.h"
 #include "i2c.h"
+#include "spi.h"
 #include "interrupts.h"
 #include "error_handler.h"
 
@@ -20,7 +21,9 @@ void heartbeat_task(void *pvParameters) {
 	while(true)
 	{
 //        if (!fake_CAN_send(3, 2, 0xf5aa)) error_handler();
-        if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
+        //if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
+        core_SPI_fifowrite(SPI1, 0x5a);
 		GPIO_toggle_heartbeat();
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
@@ -32,6 +35,7 @@ int main(void)
 	// Drivers
 	if (!core_clock_init(1, 16000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
+    if (!core_SPI_init(SPI1)) error_handler();
 
     heartbeat_init(GPIOB, GPIO_PIN_9);
     GPIO_set_heartbeat(GPIO_PIN_SET);
