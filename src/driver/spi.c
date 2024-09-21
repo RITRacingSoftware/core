@@ -39,7 +39,7 @@ bool core_SPI_init(SPI_TypeDef *spi) {
     // SPI master, /256 prescaler, CPOL=0, CPHA=0
     spi->I2SCFGR = 0;
     spi->CR1 = (7 << SPI_CR1_BR_Pos) | SPI_CR1_MSTR | SPI_CR1_SSI | SPI_CR1_SSM;
-    spi->CR2 = SPI_CR2_SSOE | (7 << SPI_CR2_DS_Pos);
+    spi->CR2 = SPI_CR2_SSOE | (7 << SPI_CR2_DS_Pos) | SPI_CR2_FRXTH;
     spi->CR1 |= SPI_CR1_SPE;
 
     /*SPI_InitTypeDef spiInit;
@@ -61,8 +61,20 @@ bool core_SPI_init(SPI_TypeDef *spi) {
     return true;
 }
 
-bool core_SPI_fifowrite(SPI_TypeDef *spi, uint8_t value) {
+bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen) {
     //spi->DR = value;
-    *(__IO uint8_t *)&(spi->DR) = value;
+    uint32_t total = (txbuflen > rxbuflen ? txbuflen : rxbuflen);
+    uint32_t n_tx = 0;
+    uint32_t n_rx = 0;
+    while ((n_tx < total) || (n_rx < total)) {
+        if (spi->SR & SPI_SR_TXE) {
+            *(__IO uint8_t *)&(spi->DR) = (n_tx < txbuflen ? txbuf[n_tx] : 0x00);
+            n_tx++;
+        }
+        if (spi->SR & SPI_SR_RXNE) {
+            if (n_rx < rxbuflen) rxbuf[n_rx] = *(__IO uint8_t *)&(spi->DR);
+            n_rx++;
+        }
+    }
     return true;
 }
