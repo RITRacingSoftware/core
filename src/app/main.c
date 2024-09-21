@@ -34,7 +34,7 @@ int main(void)
 {
     HAL_Init();
 	// Drivers
-	if (!core_clock_init(1, 16000, 102400)) error_handler();
+	if (!core_clock_init(1, 24000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
     if (!core_SPI_init(SPI1)) error_handler();
 
