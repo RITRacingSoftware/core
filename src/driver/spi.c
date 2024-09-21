@@ -63,11 +63,14 @@ bool core_SPI_init(SPI_TypeDef *spi) {
 
 bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen) {
     //spi->DR = value;
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
     uint32_t total = (txbuflen > rxbuflen ? txbuflen : rxbuflen);
     uint32_t n_tx = 0;
     uint32_t n_rx = 0;
+    uint8_t temp;
+    while (spi->SR & SPI_SR_RXNE) temp = *(__IO uint8_t *)&(spi->DR);
     while ((n_tx < total) || (n_rx < total)) {
-        if (spi->SR & SPI_SR_TXE) {
+        if ((spi->SR & SPI_SR_TXE) && (n_tx < total)) {
             *(__IO uint8_t *)&(spi->DR) = (n_tx < txbuflen ? txbuf[n_tx] : 0x00);
             n_tx++;
         }
@@ -76,5 +79,7 @@ bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, ui
             n_rx++;
         }
     }
+    while (spi->SR & SPI_SR_BSY);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
     return true;
 }

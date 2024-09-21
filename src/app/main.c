@@ -24,7 +24,6 @@ void heartbeat_task(void *pvParameters) {
 	{
 //        if (!fake_CAN_send(3, 2, 0xf5aa)) error_handler();
         //if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
-        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
         core_SPI_read_write(SPI1, txbuf, 2, rxbuf, 2);
 		GPIO_toggle_heartbeat();
 		vTaskDelay(100 / portTICK_PERIOD_MS);
