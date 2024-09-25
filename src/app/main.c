@@ -36,7 +36,7 @@ int main(void)
 	// Drivers
 	if (!core_clock_init(1, 24000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
-    if (!core_SPI_init(SPI1)) error_handler();
+    if (!core_SPI_init(SPI1, GPIOA, GPIO_PIN_4)) error_handler();
 
     heartbeat_init(GPIOB, GPIO_PIN_9);
     GPIO_set_heartbeat(GPIO_PIN_SET);
