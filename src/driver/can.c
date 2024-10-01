@@ -21,7 +21,7 @@ bool core_CAN_init(CAN_num canNum)
 {
 
     // Init port clock based on which CAN bus
-    core_clock_FDCAN_init(canNum);
+    core_clock_FDCAN_init();
     FDCAN_HandleTypeDef *p_can;
 
     // Initialize pins
@@ -36,6 +36,7 @@ bool core_CAN_init(CAN_num canNum)
     {
         case CAN1:
             p_can = &can1;
+            p_can->Instance = FDCAN1;
             gpio.Pin = CAN1_PINS;
             gpio.Alternate = GPIO_AF9_FDCAN1;
             HAL_GPIO_Init(CAN1_PORT, &gpio);
@@ -43,6 +44,7 @@ bool core_CAN_init(CAN_num canNum)
 
         case CAN2:
             p_can = &can2;
+            p_can->Instance = FDCAN2;
             gpio.Pin = CAN2_PINS;
             gpio.Alternate = GPIO_AF9_FDCAN2;
             HAL_GPIO_Init(CAN2_PORT, &gpio);
@@ -50,6 +52,7 @@ bool core_CAN_init(CAN_num canNum)
 
         case CAN3:
             p_can = &can3;
+            p_can->Instance = FDCAN3;
             gpio.Pin = CAN3_PINS;
             gpio.Alternate = GPIO_AF11_FDCAN3;
             HAL_GPIO_Init(CAN3_PORT, &gpio);
@@ -58,7 +61,6 @@ bool core_CAN_init(CAN_num canNum)
 
 
 	// Initialize CAN interface
-	p_can->Instance = FDCAN2;
 	p_can->Init.ClockDivider = FDCAN_CLOCK_DIV1;
 	p_can->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
 	p_can->Init.Mode = FDCAN_MODE_NORMAL;
@@ -117,13 +119,11 @@ bool core_CAN_send(CAN_num canNum, uint32_t id, uint8_t dlc, uint64_t data)
 	header.MessageMarker = 0;
 
     HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(p_can, &header, (uint8_t*) &data);
-//    return (err == HAL_OK);
-    return true;
+    return (err == HAL_OK);
 }
 
-bool fake_CAN_init()
+bool test_CAN_init()
 {
-
     // Initialize pins
     GPIO_InitTypeDef gpio1 = {CAN2_PINS, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, GPIO_AF9_FDCAN2};
     HAL_GPIO_Init(GPIOB, &gpio1);
@@ -161,7 +161,7 @@ bool fake_CAN_init()
     return true;
 }
 
-bool fake_CAN_send(uint32_t id, uint8_t dlc, uint64_t data)
+bool test_CAN_send(uint32_t id, uint8_t dlc, uint64_t data)
 {
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = id;

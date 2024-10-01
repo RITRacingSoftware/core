@@ -15,16 +15,11 @@
 
 #include <stm32g4xx_hal.h>
 
-uint8_t txbuf[4] = {0xaa, 0xbb, 0xcc, 0xdd};
-uint8_t rxbuf[4];
 
 void heartbeat_task(void *pvParameters) {
 	(void) pvParameters;
 	while(true)
 	{
-//        if (!fake_CAN_send(3, 2, 0xf5aa)) error_handler();
-        //if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
-        core_SPI_read_write(SPI1, txbuf, 2, rxbuf, 2);
 		GPIO_toggle_heartbeat();
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
@@ -34,9 +29,9 @@ int main(void)
 {
     HAL_Init();
 	// Drivers
-	if (!core_clock_init(1, 24000, 102400)) error_handler();
-    if (!core_CAN_init(CAN2)) error_handler();
-    if (!core_SPI_init(SPI1)) error_handler();
+	if (!core_clock_init(1, 24000, 170000)) error_handler();
+
+    core_SPI_init(SPI1)
 
     heartbeat_init(GPIOB, GPIO_PIN_9);
     GPIO_set_heartbeat(GPIO_PIN_SET);

@@ -2,20 +2,27 @@
 #include <stdint.h>
 
 #include "clock.h"
+#include "can.h"
 
 #include "stm32g4xx_hal.h"
 
-bool core_clock_ADC12_init() {
-    // Initialize peripheral clocks
+
+void core_clock_ADC12_init() {
     __HAL_RCC_ADC12_CONFIG(RCC_ADC12CLKSOURCE_SYSCLK);
-    return true;
 }
 
-bool core_clock_FDCAN_init() {
-    // Code copied from HAL source
+/**
+ * @brief Set FDCAN clock to PCLK1 and enable it.
+ * Initialize GPIO port clocks corresponding to CAN bus selected
+ * @param canNum CAN bus to init
+ */
+void core_clock_FDCAN_init(CAN_num canNum)
+{
+    // Initialize peripheral clocks
     __HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);
+    if (canNum == CAN2) __HAL_RCC_GPIOA_CLK_ENABLE();
+    else __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_FDCAN_CLK_ENABLE();
-    return true;
 }
 
 /**
@@ -85,16 +92,18 @@ bool core_clock_RTC_init() {
     return true;
 }
 
-bool core_clock_port_init(GPIO_TypeDef *port) {
+/**
+ * @brief Initializes port clock for selected port
+ * @param port Port to initialize clock for
+ */
+
+void core_clock_port_init(GPIO_TypeDef *port) {
     if (port == GPIOA) __HAL_RCC_GPIOA_CLK_ENABLE();
     else if (port == GPIOB) __HAL_RCC_GPIOB_CLK_ENABLE();
     else if (port == GPIOC) __HAL_RCC_GPIOC_CLK_ENABLE();
     else if (port == GPIOD) __HAL_RCC_GPIOD_CLK_ENABLE();
     else if (port == GPIOF) __HAL_RCC_GPIOF_CLK_ENABLE();
     else if (port == GPIOG) __HAL_RCC_GPIOG_CLK_ENABLE();
-    else return false;
-
-    return true;
 }
 
 /**
@@ -198,7 +207,7 @@ bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
 
     // Initialize the RCC Oscillators
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.OscillatorType = (use_ext? RCC_OSCILLATORTYPE_HSE : RCC_OSCILLATORTYPE_HSI);
     RCC_OscInitStruct.HSEState = (use_ext ? RCC_HSE_ON : RCC_HSE_OFF);
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = (use_ext ? RCC_PLLSOURCE_HSE : RCC_PLLSOURCE_HSI);
@@ -223,12 +232,6 @@ bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
         return false;
     }
-
-
-    // Initialize peripheral clocks
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_I2C1_CLK_ENABLE();
 
     return true;
 }
