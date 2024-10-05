@@ -20,6 +20,8 @@ uint32_t core_USART3_rxbuflen_int;
 volatile uint8_t *core_USART3_rxbuf;
 volatile uint32_t *core_USART3_rxbuflen;
 
+volatile uint8_t core_USART_flags;
+
 USART_HandleTypeDef usart1;
 USART_HandleTypeDef usart2;
 USART_HandleTypeDef usart3;
@@ -51,7 +53,7 @@ bool core_USART_init(USART_TypeDef *usart) {
     husart->Init.WordLength = USART_WORDLENGTH_8B;
     husart->Init.StopBits = USART_STOPBITS_1;
     husart->Init.Parity = USART_PARITY_NONE;
-    husart->Init.Mode = (usart == USART1 ? USART_MODE_RX : USART_MODE_TX_RX);
+    husart->Init.Mode = USART_MODE_TX_RX;
     husart->Init.ClockPrescaler = USART_PRESCALER_DIV4;
     husart->FifoMode = USART_FIFOMODE_ENABLE;
     husart->SlaveMode = USART_SLAVEMODE_DISABLE;
@@ -61,8 +63,6 @@ bool core_USART_init(USART_TypeDef *usart) {
     usart->CR1 &= ~USART_CR1_UE;
     usart->CR2 &= ~USART_CR2_CLKEN;
     usart->CR1 |= USART_CR1_UE;
-    //husart->RxISR = core_USART_RX_callback;
-    //SET_BIT(husart->Instance->CR1, USART_CR1_RXNEIE_RXFNEIE);
     return true;
 }
 
@@ -86,9 +86,11 @@ bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile
         HAL_NVIC_EnableIRQ(USART3_IRQn);
         __HAL_USART_ENABLE_IT(&usart3, USART_IT_RXNE);
     } else return false;
-    usart->RTOR = (usart->RTOR & 0xff000000) | 16;
+    // Enable the receiver timeout
+    usart->RTOR = (usart->RTOR & 0xff000000) | CORE_USART_RX_TIMEOUT;
     usart->CR1 |= USART_CR1_RTOIE;
     usart->CR2 |= USART_CR2_RTOEN;
+    core_USART_update_enable(usart);
     return true;
 }
 
@@ -100,8 +102,8 @@ void USART1_IRQHandler() {
     }
     if (flags & USART_ISR_RTOF) {
         // Timed out (end of transmission)
-        if (core_USART1_rxbuf && core_USART1_rxbuflen) {
-            memcpy(core_USART1_rxbuf, core_USART1_rxbuf_int, core_USART1_rxbuflen_int);
+        if (core_USART1_rxbuf && core_USART1_rxbuflen && (core_USART_flags & CORE_USART1_UPDATE)) {
+            for (uint32_t i=0; i < core_USART1_rxbuflen_int; i++) core_USART1_rxbuf[i] = core_USART1_rxbuf_int[i];
             *core_USART1_rxbuflen = core_USART1_rxbuflen_int;
         }
         core_USART1_rxbuflen_int = 0;
@@ -109,32 +111,51 @@ void USART1_IRQHandler() {
     }
 }
 
-/*uint8_t core_USART_read_buffer(USART_TypeDef *usart, uint8_t *dest) {
-    core_USART_disable_rx(usart);
-    if (usart == USART1) {
-        uint8_t len = core_USART1_rxbuflen;
-        for (uint8_t i=0; i < core_USART1_rxbuflen; i++) dest[i] = core_USART1_rxbuf[i];
-        core_USART1_rxbuflen = 0;
-    } else if (usart == USART2) {
-        uint8_t len = core_USART2_rxbuflen;
-        for (uint8_t i=0; i < core_USART2_rxbuflen; i++) dest[i] = core_USART2_rxbuf[i];
-        core_USART2_rxbuflen = 0;
-    } else if (usart == USART3) {
-        uint8_t len = core_USART3_rxbuflen;
-        for (uint8_t i=0; i < core_USART3_rxbuflen; i++) dest[i] = core_USART3_rxbuf[i];
-        core_USART3_rxbuflen = 0;
-    } else return 0;
-    core_USART_enable_rx(usart);
-    return 0;
+void USART2_IRQHandler() {
+    uint32_t flags = USART2->ISR;
+    if (flags & USART_ISR_RXNE) {
+        // Receive data
+        core_USART2_rxbuf_int[core_USART2_rxbuflen_int++] = USART2->RDR;
+    }
+    if (flags & USART_ISR_RTOF) {
+        // Timed out (end of transmission)
+        if (core_USART2_rxbuf && core_USART2_rxbuflen && (core_USART_flags & CORE_USART2_UPDATE)) {
+            for (uint32_t i=0; i < core_USART2_rxbuflen_int; i++) core_USART2_rxbuf[i] = core_USART2_rxbuf_int[i];
+            *core_USART2_rxbuflen = core_USART2_rxbuflen_int;
+        }
+        core_USART2_rxbuflen_int = 0;
+        USART2->ICR = USART_ICR_RTOCF;
+    }
 }
 
-bool core_USART_enable_rx(USART_TypeDef *usart) {
-
+void USART3_IRQHandler() {
+    uint32_t flags = USART3->ISR;
+    if (flags & USART_ISR_RXNE) {
+        // Receive data
+        core_USART3_rxbuf_int[core_USART3_rxbuflen_int++] = USART3->RDR;
+    }
+    if (flags & USART_ISR_RTOF) {
+        // Timed out (end of transmission)
+        if (core_USART3_rxbuf && core_USART3_rxbuflen && (core_USART_flags & CORE_USART3_UPDATE)) {
+            for (uint32_t i=0; i < core_USART3_rxbuflen_int; i++) core_USART3_rxbuf[i] = core_USART3_rxbuf_int[i];
+            *core_USART3_rxbuflen = core_USART3_rxbuflen_int;
+        }
+        core_USART3_rxbuflen_int = 0;
+        USART3->ICR = USART_ICR_RTOCF;
+    }
 }
 
-bool core_USART_disable_rx(USART_TypeDef *usart) {
+void core_USART_update_disable(USART_TypeDef *usart) {
+    if (usart == USART1) core_USART_flags &= ~CORE_USART1_UPDATE;
+    else if (usart == USART2) core_USART_flags &= ~CORE_USART2_UPDATE;
+    else if (usart == USART3) core_USART_flags &= ~CORE_USART3_UPDATE;
+}
 
-}*/
+void core_USART_update_enable(USART_TypeDef *usart) {
+    if (usart == USART1) core_USART_flags |= CORE_USART1_UPDATE;
+    else if (usart == USART2) core_USART_flags |= CORE_USART2_UPDATE;
+    else if (usart == USART3) core_USART_flags |= CORE_USART3_UPDATE;
+}
 
 bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen) {
     USART_HandleTypeDef *husart;

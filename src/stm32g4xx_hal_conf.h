@@ -64,7 +64,7 @@
 /*#define HAL_SRAM_MODULE_ENABLED   */
 #define HAL_TIM_MODULE_ENABLED
 /*#define HAL_UART_MODULE_ENABLED   */
-/*#define HAL_USART_MODULE_ENABLED   */
+#define HAL_USART_MODULE_ENABLED
 /*#define HAL_WWDG_MODULE_ENABLED   */
 #define HAL_GPIO_MODULE_ENABLED
 #define HAL_EXTI_MODULE_ENABLED
@@ -105,7 +105,7 @@
 #define USE_HAL_SRAM_REGISTER_CALLBACKS       0U
 #define USE_HAL_TIM_REGISTER_CALLBACKS        0U
 #define USE_HAL_UART_REGISTER_CALLBACKS       0U
-#define USE_HAL_USART_REGISTER_CALLBACKS      0U
+#define USE_HAL_USART_REGISTER_CALLBACKS      1U
 #define USE_HAL_WWDG_REGISTER_CALLBACKS       0U
 
 /* ########################## Oscillator Values adaptation ####################*/
@@ -115,7 +115,7 @@
   *        (when HSE is used as system clock source, directly or through the PLL).
   */
 #if !defined  (HSE_VALUE)
-  #define HSE_VALUE    (25000000UL) /*!< Value of the External oscillator in Hz */
+  #define HSE_VALUE    (24000000UL) /*!< Value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
 #if !defined  (HSE_STARTUP_TIMEOUT)
