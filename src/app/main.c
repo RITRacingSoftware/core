@@ -1,6 +1,7 @@
 #include "main.h"
 
 #include <stdbool.h>
+#include <string.h>
 
 #include "can.h"
 #include "clock.h"
@@ -17,7 +18,8 @@
 #include <stm32g4xx_hal.h>
 
 uint8_t txbuf[4] = {0xab, 0xbb, 0xcc, 0xdd};
-uint8_t rxbuf[4];
+volatile uint8_t rxbuf[4];
+volatile uint32_t rxbuflen;
 
 void heartbeat_task(void *pvParameters) {
 	(void) pvParameters;
@@ -26,8 +28,13 @@ void heartbeat_task(void *pvParameters) {
 //        if (!fake_CAN_send(3, 2, 0xf5aa)) error_handler();
         //if (!core_CAN_send(CAN2, 3, 2, 0xf5aa)) error_handler();
         //core_SPI_read_write(SPI1, txbuf, 2, rxbuf, 2);
-        if (core_USART_transmit(USART1, txbuf, 2))
+        if (rxbuflen && (memcmp(txbuf, txbuf, 4) == 0)) {
             GPIO_toggle_heartbeat();
+            rxbuflen = 0;
+        }
+        if (!core_USART_transmit(USART2, txbuf, 4)) error_handler();
+        //GPIO_set_heartbeat((USART1->ISR & USART_ISR_RXNE) && (USART1->RDR == 0xab));
+        //GPIO_set_heartbeat(USART1->CR1 & (1<<2));
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
@@ -39,7 +46,9 @@ int main(void)
 	if (!core_clock_init(1, 24000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
     //if (!core_SPI_init(SPI1)) error_handler();
+    if (!core_USART_init(USART2)) error_handler();
     if (!core_USART_init(USART1)) error_handler();
+    if (!core_USART_start_rx(USART1, rxbuf, &rxbuflen)) error_handler();
 
     heartbeat_init(GPIOA, GPIO_PIN_5);
     GPIO_set_heartbeat(GPIO_PIN_SET);
