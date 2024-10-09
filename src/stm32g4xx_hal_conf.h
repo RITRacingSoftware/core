@@ -26,6 +26,7 @@
  extern "C" {
 #endif
 
+#include "core_config.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 
@@ -84,7 +85,7 @@
 #define USE_HAL_CRYP_REGISTER_CALLBACKS       0U
 #define USE_HAL_DAC_REGISTER_CALLBACKS        0U
 #define USE_HAL_EXTI_REGISTER_CALLBACKS       0U
-#define USE_HAL_FDCAN_REGISTER_CALLBACKS      0U
+#define USE_HAL_FDCAN_REGISTER_CALLBACKS      1U
 #define USE_HAL_FMAC_REGISTER_CALLBACKS       0U
 #define USE_HAL_HRTIM_REGISTER_CALLBACKS      0U
 #define USE_HAL_I2C_REGISTER_CALLBACKS        0U
@@ -114,9 +115,11 @@
   *        This value is used by the RCC HAL module to compute the system frequency
   *        (when HSE is used as system clock source, directly or through the PLL).
   */
-#if !defined  (HSE_VALUE)
-  #define HSE_VALUE    (25000000UL) /*!< Value of the External oscillator in Hz */
-#endif /* HSE_VALUE */
+#ifdef CORE_CLOCK_HSE_FREQ
+#define HSE_VALUE (CORE_HSE_FREQ*1000UL)
+#else
+#define HSE_VALUE    (25000000UL) /*!< Value of the External oscillator in Hz */
+#endif
 
 #if !defined  (HSE_STARTUP_TIMEOUT)
   #define HSE_STARTUP_TIMEOUT    (100UL)   /*!< Time out for HSE start up, in ms */

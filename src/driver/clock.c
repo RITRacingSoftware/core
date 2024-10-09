@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "can.h"
 
+
 #include "stm32g4xx_hal.h"
 
 
@@ -16,12 +17,13 @@ void core_clock_ADC12_init() {
  * Initialize GPIO port clocks corresponding to CAN bus selected
  * @param canNum CAN bus to init
  */
-void core_clock_FDCAN_init(CAN_num canNum)
+void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
 {
     // Initialize peripheral clocks
     __HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);
-    if (canNum == CAN2) __HAL_RCC_GPIOA_CLK_ENABLE();
+    if (can == FDCAN1) __HAL_RCC_GPIOA_CLK_ENABLE();
     else __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_FDCAN_CLK_ENABLE();
 }
 
@@ -185,13 +187,9 @@ uint8_t core_clock_generate_params(uint32_t src_freq, uint32_t target_freq, uint
 
 /**
   * @brief  Initialize the STM32G4's core clocks
-  * @param  use_ext  Boolean that indicates if an external oscillator should
-  *         be used.
-  * @param  ext_freq  Frequency of the external oscillator in kilohertz
-  * @param  sysclk_freq  Desired frequency of the SYSCLK in kilohertz
   * @retval 1 on success, 0 otherwise
   */
-bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
+bool core_clock_init() {
     HAL_Init();
 
     // Configure the main internal regulator output voltage
@@ -199,7 +197,13 @@ bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
 
     // Compute the values of the N, M, and R dividers
     uint8_t ndiv, mdiv, rdiv;
-    ext_freq = (use_ext ? ext_freq : 16000);
+    uint32_t ext_freq;
+#ifdef CORE_CLOCK_USE_HSE
+    ext_freq = CORE_CLOCK_HSE_FREQ;
+#else
+    ext_freq = HSI_FREQ;
+#endif
+    uint32_t sysclk_freq = CORE_CLOCK_SYSCLK_FREQ;
     if (!core_clock_generate_params(ext_freq, sysclk_freq, &ndiv, &mdiv, &rdiv)) {
         return false;
     }
@@ -207,10 +211,16 @@ bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
 
     // Initialize the RCC Oscillators
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-    RCC_OscInitStruct.OscillatorType = (use_ext? RCC_OSCILLATORTYPE_HSE : RCC_OSCILLATORTYPE_HSI);
-    RCC_OscInitStruct.HSEState = (use_ext ? RCC_HSE_ON : RCC_HSE_OFF);
+#ifdef CORE_CLOCK_USE_HSE
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+#else
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+#endif
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-    RCC_OscInitStruct.PLL.PLLSource = (use_ext ? RCC_PLLSOURCE_HSE : RCC_PLLSOURCE_HSI);
     RCC_OscInitStruct.PLL.PLLM = mdiv;
     RCC_OscInitStruct.PLL.PLLN = ndiv;
     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
@@ -224,7 +234,11 @@ bool core_clock_init(bool use_ext, uint32_t ext_freq, uint32_t sysclk_freq) {
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                                   |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-    RCC_ClkInitStruct.SYSCLKSource = (ext_freq == sysclk_freq ? (use_ext ? RCC_SYSCLKSOURCE_HSE : RCC_SYSCLKSOURCE_HSI) : RCC_SYSCLKSOURCE_PLLCLK);
+#ifdef CORE_CLOCK_USE_HSE
+    RCC_ClkInitStruct.SYSCLKSource = (ext_freq == sysclk_freq ? RCC_SYSCLKSOURCE_HSE : RCC_SYSCLKSOURCE_PLLCLK);
+#else
+    RCC_ClkInitStruct.SYSCLKSource = (ext_freq == sysclk_freq ? RCC_SYSCLKSOURCE_HSI : RCC_SYSCLKSOURCE_PLLCLK);
+#endif
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
