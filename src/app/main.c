@@ -17,18 +17,24 @@
 
 #include <stm32g4xx_hal.h>
 
-
 CanMessage_s canMessage;
+
+void send_CAN_task (void *pvParameters)
+{
+    (void) pvParameters;
+    core_CAN_send_from_tx_queue_task(FDCAN3);
+}
 
 void receive_CAN_task(void *pvParameters)
 {
     (void) pvParameters;
     while(true)
     {
-        if (core_CAN_receive_from_queue(FDCAN2, &canMessage)) {
+        if (core_CAN_receive_from_queue(FDCAN2, &canMessage))
+        {
             if (canMessage.data == 0xfa55) GPIO_toggle_heartbeat();
         }
-        vTaskDelay(100 * portTICK_PERIOD_MS);
+        vTaskDelay(50 * portTICK_PERIOD_MS);
     }
 }
 
@@ -37,11 +43,10 @@ void heartbeat_task(void *pvParameters)
 	(void) pvParameters;
 	while(true)
 	{
-        //core_CAN_send(FDCAN2, 3, 2, 0xfa55);
-//        test_CAN_send(3, 2, 0xf5aa);
-//		GPIO_set_heartbeat(GPIO_PIN_SET);
-        //GPIO_toggle_heartbeat();
-		vTaskDelay(100 * portTICK_PERIOD_MS);
+        if (core_CAN_add_message_to_tx_queue(FDCAN3, 3, 2, 0xfa55)) GPIO_toggle_heartbeat();
+//        CAN_send_message(FDCAN3, 3, 2, 0xfa55);
+//        GPIO_toggle_heartbeat();
+        vTaskDelay(100 * portTICK_PERIOD_MS);
 	}
 }
 
@@ -50,33 +55,42 @@ int main(void)
     HAL_Init();
 	// Drivers
 
-    heartbeat_init(GPIOB, GPIO_PIN_9);
+    heartbeat_init(GPIOA, GPIO_PIN_5);
     GPIO_set_heartbeat(GPIO_PIN_RESET);
 
 	if (!core_clock_init()) error_handler();
-    if (!core_CAN_init(FDCAN2)) error_handler();
-//    error_handler();
+    if (!core_CAN_init(FDCAN3)) error_handler();
 
 
-	/*int err = xTaskCreate(heartbeat_task,
-        "heartbeat",
-        1000,
-        NULL,
-        4,
-        NULL);
-    if (err != pdPASS) {
-        error_handler();
-    }*/
-
-    int err = xTaskCreate(receive_CAN_task,
-        "CAN_RX",
-        1000,
-        NULL,
-        4,
-        NULL);
+	int err = xTaskCreate(heartbeat_task,
+    "heartbeat",
+    1000,
+    NULL,
+    4,
+    NULL);
     if (err != pdPASS) {
         error_handler();
     }
+
+    err = xTaskCreate(send_CAN_task,
+    "CAN_TX",
+    1000,
+    NULL,
+    3,
+    NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+
+//    int err = xTaskCreate(receive_CAN_task,
+//        "CAN_RX",
+//        1000,
+//        NULL,
+//        4,
+//        NULL);
+//    if (err != pdPASS) {
+//        error_handler();
+//    }
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
