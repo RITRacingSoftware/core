@@ -8,6 +8,7 @@
 #include "gpio.h"
 #include "i2c.h"
 #include "spi.h"
+#include "adc.h"
 #include "interrupts.h"
 #include "error_handler.h"
 
@@ -18,6 +19,8 @@
 #include <stm32g4xx_hal.h>
 
 CanMessage_s canMessage;
+uint8_t txbuf[4];
+uint8_t rxbuf[4];
 
 void send_CAN_task (void *pvParameters)
 {
@@ -41,11 +44,16 @@ void receive_CAN_task(void *pvParameters)
 void heartbeat_task(void *pvParameters)
 {
 	(void) pvParameters;
+    uint16_t value;
 	while(true)
 	{
-        if (core_CAN_add_message_to_tx_queue(FDCAN3, 3, 2, 0xfa55)) GPIO_toggle_heartbeat();
 //        CAN_send_message(FDCAN3, 3, 2, 0xfa55);
-//        GPIO_toggle_heartbeat();
+        GPIO_toggle_heartbeat();
+        core_ADC_read_channel(GPIOA, GPIO_PIN_0, &value, NULL);
+        txbuf[0] = 0x0f;
+        txbuf[1] = value>>8;
+        txbuf[2] = value&0xff;
+        core_SPI_read_write(SPI1, txbuf, 3, rxbuf, 3);
         vTaskDelay(100 * portTICK_PERIOD_MS);
 	}
 }
@@ -59,8 +67,10 @@ int main(void)
     GPIO_set_heartbeat(GPIO_PIN_RESET);
 
 	if (!core_clock_init()) error_handler();
-    if (!core_CAN_init(FDCAN3)) error_handler();
+    if (!core_ADC_init(ADC1)) error_handler();
+    if (!core_SPI_init(SPI1)) error_handler();
 
+    core_ADC_setup_pin(GPIOA, GPIO_PIN_0);
 
 	int err = xTaskCreate(heartbeat_task,
     "heartbeat",
@@ -72,7 +82,7 @@ int main(void)
         error_handler();
     }
 
-    err = xTaskCreate(send_CAN_task,
+    /*err = xTaskCreate(send_CAN_task,
     "CAN_TX",
     1000,
     NULL,
@@ -80,7 +90,7 @@ int main(void)
     NULL);
     if (err != pdPASS) {
         error_handler();
-    }
+    }*/
 
 //    int err = xTaskCreate(receive_CAN_task,
 //        "CAN_RX",
