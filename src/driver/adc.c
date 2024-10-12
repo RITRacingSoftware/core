@@ -17,6 +17,7 @@ static ADC_HandleTypeDef adc3 = {0};
 static ADC_HandleTypeDef adc4 = {0};
 static ADC_HandleTypeDef adc5 = {0};
 
+// Look-up table defining the pins assigned to each input to ADC1
 static const core_ADC_def_t adc1_defs[19] = {
     {ADC_CHANNEL_0, NULL, 0},
     {ADC_CHANNEL_1, GPIOA, GPIO_PIN_0},
@@ -38,6 +39,7 @@ static const core_ADC_def_t adc1_defs[19] = {
     {ADC_CHANNEL_17, NULL, 0},
     {ADC_CHANNEL_18, NULL, 0}
 };
+// Look-up table defining the pins assigned to each input to ADC2
 static const core_ADC_def_t adc2_defs[19] = {
     {ADC_CHANNEL_0, NULL, 0},
     {ADC_CHANNEL_1, GPIOA, GPIO_PIN_0},
@@ -59,6 +61,7 @@ static const core_ADC_def_t adc2_defs[19] = {
     {ADC_CHANNEL_17, GPIOA, GPIO_PIN_4},
     {ADC_CHANNEL_18, NULL, 0}
 };
+// Look-up table defining the pins assigned to each input to ADC3
 static const core_ADC_def_t adc3_defs[19] = {
     {ADC_CHANNEL_0, NULL, 0},
     {ADC_CHANNEL_1, GPIOB, GPIO_PIN_1},
@@ -80,6 +83,7 @@ static const core_ADC_def_t adc3_defs[19] = {
     {ADC_CHANNEL_17, NULL, 0},
     {ADC_CHANNEL_18, NULL, 0}
 };
+// Look-up table defining the pins assigned to each input to ADC4
 static const core_ADC_def_t adc4_defs[19] = {
     {ADC_CHANNEL_0, NULL, 0},
     {ADC_CHANNEL_1, GPIOE, GPIO_PIN_14},
@@ -101,6 +105,7 @@ static const core_ADC_def_t adc4_defs[19] = {
     {ADC_CHANNEL_17, NULL, 0},
     {ADC_CHANNEL_18, NULL, 0}
 };
+// Look-up table defining the pins assigned to each input to ADC5
 static const core_ADC_def_t adc5_defs[19] = {
     {ADC_CHANNEL_0, NULL, 0},
     {ADC_CHANNEL_1, GPIOA, GPIO_PIN_8},
@@ -123,6 +128,13 @@ static const core_ADC_def_t adc5_defs[19] = {
     {ADC_CHANNEL_18, NULL, 0}
 };
 
+/**
+  * @brief  Initialize an ADC module, including its clock. Also performs
+  *         calibration. GPIO ports are not initialized.
+  * @param  adc The ADC module to initialize
+  * @retval 0 if adc is not a valid ADC module or if the ADC fails to
+  *         initialize, 1 otherwise.
+  */
 bool core_ADC_init(ADC_TypeDef *adc) {
     ADC_HandleTypeDef *hadc;
     if (adc == ADC1) {
@@ -165,6 +177,11 @@ bool core_ADC_init(ADC_TypeDef *adc) {
     return true;
 }
 
+/**
+  * @brief  Set up a pin as an analog input
+  * @param  port GPIO port (GPIOx)
+  * @param  pin GPIO pin (GPIO_PIN_x)
+  */
 void core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin) {
     GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.Pin = pin;
@@ -174,6 +191,19 @@ void core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin) {
     HAL_GPIO_Init(port, &GPIO_InitStructure);
 }
 
+/**
+  * @brief  Determine which input to a particular ADC corresponds to a given
+  *         pin and port.
+  * @param  port GPIO port (GPIOx)
+  * @param  pin GPIO pin (GPIO_PIN_x)
+  * @param  adc ADC module (ADCx)
+  * @param  hadc_r Location to which the ADC handle corresponding to adc
+  *                should be stored if a match is found.
+  * @param  chan_r Location to which the input identifier should be stored
+  *                if a match is found
+  * @retval 0 if adc is null or not initialized or a match is not found, 
+  *         1 otherwise.
+  */
 bool core_ADC_convert_pin(GPIO_TypeDef *port, uint32_t pin, ADC_TypeDef *adc, ADC_HandleTypeDef **hadc_r, uint32_t *chan_r) {
     if (adc == NULL) return false;
     const core_ADC_def_t *defs = NULL;
@@ -205,6 +235,18 @@ bool core_ADC_convert_pin(GPIO_TypeDef *port, uint32_t pin, ADC_TypeDef *adc, AD
     return false;
 }
 
+/**
+  * @brief  Read the value of an analog input as a value between 0 and 4095
+  * @param  port GPIO port of the pin to be read (GPIOx)
+  * @param  pin Pin number of the pin to be read (GPIO_PIN_x)
+  * @param  result Location to which the result should be stored
+  * @param  preference Preference for which ADC module should be used to
+  *         perform the conversion. If null, the ADC module is automatically
+  *         selected.
+  * @retval 0 if the given pin is not an analog input or if the corresponding
+  *         ADC module is not initialized or if an error occurs while reading,
+  *         1 otherwise
+  */
 bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result, ADC_TypeDef *preference) {
     // Initialize channel
     ADC_HandleTypeDef *hadc;
