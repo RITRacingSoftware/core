@@ -23,7 +23,6 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
     __HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);
     if (can == FDCAN1) __HAL_RCC_GPIOA_CLK_ENABLE();
     else __HAL_RCC_GPIOB_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_FDCAN_CLK_ENABLE();
 }
 
@@ -207,7 +206,6 @@ bool core_clock_init() {
     if (!core_clock_generate_params(ext_freq, sysclk_freq, &ndiv, &mdiv, &rdiv)) {
         return false;
     }
-    
 
     // Initialize the RCC Oscillators
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};

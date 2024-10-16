@@ -8,6 +8,6 @@ void error_handler()
     while(1)
     {
         GPIO_toggle_heartbeat();
-        for (unsigned long long  i = 0; i < 1000000; i++);
+        for (unsigned long long  i = 0; i < 200000; i++);
     }
 }

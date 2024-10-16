@@ -4,15 +4,17 @@
 /*** CLOCK CONFIG PARAMETERS ***/
 
 #define CORE_CLOCK_USE_HSE
-#define CORE_CLOCK_HSE_FREQ 24000
-#define CORE_CLOCK_SYSCLK_FREQ 102400
+#define CORE_CLOCK_HSE_FREQ 25000
+#define CORE_CLOCK_SYSCLK_FREQ 160000
 
 
 /*** CAN CONFIG PARAMETERS ***/
 
-// Number of CAN messages that can be stored in the CAN FreeRTOS queue
-#define CAN_QUEUE_LENGTH 15
+// CAN bitrate in Hz
+#define CORE_CAN_BITRATE 1000000
 
+// Number of CAN messages that can be stored in the CAN FreeRTOS queue
+#define CORE_CAN_QUEUE_LENGTH 15
 
 // Ports and pins for CAN communication
 #define CAN1_PORT GPIOA
@@ -27,6 +29,13 @@
 #define CORE_FDCAN2_AF GPIO_AF9_FDCAN2
 #define CORE_FDCAN3_AF GPIO_AF11_FDCAN3
 
+// Filters
+#define CORE_FDCAN1_MAX_STANDARD_FILTER_NUM 28
+#define CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM 8
+#define CORE_FDCAN2_MAX_STANDARD_FILTER_NUM 28
+#define CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM 8
+#define CORE_FDCAN3_MAX_STANDARD_FILTER_NUM 28
+#define CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM 8
 
 
 
