@@ -8,8 +8,7 @@
 GPIO_TypeDef *LED_port;
 uint32_t LED_pin;
 
-void GPIO_init(GPIO_TypeDef *port, uint32_t pin, uint32_t dir,
-               uint32_t pull)
+void core_GPIO_init(GPIO_TypeDef *port, uint16_t pin, uint16_t dir, uint32_t pull)
 {
 
     core_clock_port_init(port);
@@ -23,21 +22,25 @@ void GPIO_init(GPIO_TypeDef *port, uint32_t pin, uint32_t dir,
     HAL_GPIO_WritePin(port, pin, GPIO_PIN_RESET);
 }
 
+void core_GPIO_pin_set(GPIO_TypeDef *port, uint16_t pin, GPIO_PinState state)
+{
+    HAL_GPIO_WritePin(port, pin, state);
+}
 
-void heartbeat_init(GPIO_TypeDef *port, uint32_t pin)
+void core_heartbeat_init(GPIO_TypeDef *port, uint16_t pin)
 {
     LED_port = port;
     LED_pin = pin;
 
-    GPIO_init(LED_port, LED_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL);
+    core_GPIO_init(LED_port, LED_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL);
 }
 
-void GPIO_toggle_heartbeat(void)
+void core_GPIO_toggle_heartbeat()
 {
 	HAL_GPIO_TogglePin(LED_port, LED_pin);
 }
 
-void GPIO_set_heartbeat(bool state)
+void core_GPIO_set_heartbeat(GPIO_PinState state)
 {
-	HAL_GPIO_WritePin(LED_port, LED_pin, state ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED_port, LED_pin, state);
 }
