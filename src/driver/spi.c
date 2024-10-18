@@ -3,37 +3,75 @@
 #include <stm32g4xx_hal.h>
 #include <stm32g4xx_hal_spi.h>
 
-bool core_SPI_init(SPI_TypeDef *spi) {
+#include "spi.h"
+
+uint16_t core_SPI1_CS_pin;
+GPIO_TypeDef *core_SPI1_CS_port;
+uint16_t core_SPI2_CS_pin;
+GPIO_TypeDef *core_SPI2_CS_port;
+uint16_t core_SPI3_CS_pin;
+GPIO_TypeDef *core_SPI3_CS_port;
+uint16_t core_SPI4_CS_pin;
+GPIO_TypeDef *core_SPI4_CS_port;
+
+/**
+  * @brief  Initialize an SPI module and set up a CS pin for it
+  * @param  spi The SPI module to be initialized
+  * @param  cs_port Port the CS pin is located on (GPIOx)
+  * @param  cs_pin CS pin (GPIO_PIN_x)
+  */
+bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
+    GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 0};
+    HAL_GPIO_Init(cs_port, &cs_init);
+    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     if (spi == SPI1) {
+        core_SPI1_CS_port = cs_port;
+        core_SPI1_CS_pin = cs_pin;
         __HAL_RCC_GPIOA_CLK_ENABLE();
-        GPIO_InitTypeDef spiGPIOinit1 = {GPIO_PIN_4, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 0};
-        HAL_GPIO_Init(GPIOA, &spiGPIOinit1);
-        GPIO_InitTypeDef spiGPIOinit2 = {GPIO_PIN_5, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
-        HAL_GPIO_Init(GPIOA, &spiGPIOinit2);
-        GPIO_InitTypeDef spiGPIOinit3 = {GPIO_PIN_6, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
-        HAL_GPIO_Init(GPIOA, &spiGPIOinit3);
-        GPIO_InitTypeDef spiGPIOinit4 = {GPIO_PIN_7, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
-        HAL_GPIO_Init(GPIOA, &spiGPIOinit4);
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI1_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI1_SCK_PORT, &spiGPIOinit2);
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI1_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI1_MISO_PORT, &spiGPIOinit3);
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI1_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI1_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI1_CLK_ENABLE();
     }
     else if (spi == SPI2) {
-        /*GPIO_InitTypeDef spiGPIOinit1 = {12, GPIO_Mode_OUT, GPIO_Speed_Level_3, GPIO_OType_PP, GPIO_PuPd_NOPULL};
-        GPIO_Init(GPIOB, &spiGPIOinit1);
-        GPIO_InitTypeDef spiGPIOinit2 = {13, GPIO_Mode_AF, GPIO_Speed_Level_3, GPIO_OType_PP, GPIO_PuPd_NOPULL};
-        GPIO_Init(GPIOB, &spiGPIOinit2);
-        GPIO_InitTypeDef spiGPIOinit3 = {14, GPIO_Mode_AF, GPIO_Speed_Level_3, GPIO_OType_PP, GPIO_PuPd_NOPULL}; //Not sure about speed, OType, and PuPd
-        GPIO_Init(GPIOB, &spiGPIOinit3);
-        GPIO_InitTypeDef spiGPIOinit4 = {15, GPIO_Mode_AF, GPIO_Speed_Level_3, GPIO_OType_PP, GPIO_PuPd_NOPULL};
-        GPIO_Init(GPIOB, &spiGPIOinit4);
-        GPIO_WriteBit(GPIOB, 12, 1);
-        GPIO_PinAFConfig(GPIOB, 13, GPIO_AF_5);
-        GPIO_PinAFConfig(GPIOB, 14, GPIO_AF_5);
-        GPIO_PinAFConfig(GPIOB, 15, GPIO_AF_5);*/
+        core_SPI2_CS_port = cs_port;
+        core_SPI2_CS_pin = cs_pin;
+        __HAL_RCC_GPIOB_CLK_ENABLE();
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI2_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI2_SCK_PORT, &spiGPIOinit2);
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI2_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI2_MISO_PORT, &spiGPIOinit3);
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI2_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI2_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI2_CLK_ENABLE();
     }
-    else if (spi == SPI3) __HAL_RCC_SPI3_CLK_ENABLE();
-    else if (spi == SPI4) __HAL_RCC_SPI4_CLK_ENABLE();
+    else if (spi == SPI3) {
+        core_SPI3_CS_port = cs_port;
+        core_SPI3_CS_pin = cs_pin;
+        __HAL_RCC_GPIOC_CLK_ENABLE();
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI3_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 6};
+        HAL_GPIO_Init(CORE_SPI3_SCK_PORT, &spiGPIOinit2);
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI3_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 6};
+        HAL_GPIO_Init(CORE_SPI3_MISO_PORT, &spiGPIOinit3);
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI3_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 6};
+        HAL_GPIO_Init(CORE_SPI3_MOSI_PORT, &spiGPIOinit4);
+        __HAL_RCC_SPI3_CLK_ENABLE();
+    }
+    else if (spi == SPI4) {
+        core_SPI4_CS_port = cs_port;
+        core_SPI4_CS_pin = cs_pin;
+        __HAL_RCC_GPIOE_CLK_ENABLE();
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI4_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI4_SCK_PORT, &spiGPIOinit2);
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI4_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI4_MISO_PORT, &spiGPIOinit3);
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI4_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 5};
+        HAL_GPIO_Init(CORE_SPI4_MOSI_PORT, &spiGPIOinit4);
+        __HAL_RCC_SPI4_CLK_ENABLE();
+    }
     else return false;
 
     // SPI master, /256 prescaler, CPOL=0, CPHA=0
@@ -61,9 +99,36 @@ bool core_SPI_init(SPI_TypeDef *spi) {
     return true;
 }
 
+/**
+  * @brief  Transmit data from a buffer on the given SPI bus and store the
+  *         incoming data in a separate buffer
+  * @note   The number of bytes transmitted or received on the SPI bus is the
+  *         greater of txbuflen and rxbuflen. Only the number of bytes given
+  *         by each parameter will be read/stored respectively.
+  * @param  spi The SPI module
+  * @param  txbuf Buffer from which data to be transmitted is read
+  * @param  txbuflen Number of bytes to read from the TX buffer
+  * @param  rxbuf Buffer to which received data is to be stored
+  * @param  rxbuflen Number of bytes to write to the RX buffer
+  */
 bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen) {
     //spi->DR = value;
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+    uint16_t cs_pin;
+    GPIO_TypeDef *cs_port;
+    if (spi == SPI1) {
+        cs_pin = core_SPI1_CS_pin;
+        cs_port = core_SPI1_CS_port;
+    } else if (spi == SPI2) {
+        cs_pin = core_SPI2_CS_pin;
+        cs_port = core_SPI2_CS_port;
+    } else if (spi == SPI3) {
+        cs_pin = core_SPI3_CS_pin;
+        cs_port = core_SPI3_CS_port;
+    } else if (spi == SPI4) {
+        cs_pin = core_SPI4_CS_pin;
+        cs_port = core_SPI4_CS_port;
+    } else return false;
+    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_RESET);
     uint32_t total = (txbuflen > rxbuflen ? txbuflen : rxbuflen);
     uint32_t n_tx = 0;
     uint32_t n_rx = 0;
@@ -80,6 +145,7 @@ bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, ui
         }
     }
     while (spi->SR & SPI_SR_BSY);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     return true;
 }
+
