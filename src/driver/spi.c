@@ -14,6 +14,12 @@ GPIO_TypeDef *core_SPI3_CS_port;
 uint16_t core_SPI4_CS_pin;
 GPIO_TypeDef *core_SPI4_CS_port;
 
+/**
+  * @brief  Initialize an SPI module and set up a CS pin for it
+  * @param  spi The SPI module to be initialized
+  * @param  cs_port Port the CS pin is located on (GPIOx)
+  * @param  cs_pin CS pin (GPIO_PIN_x)
+  */
 bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
     GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 0};
     HAL_GPIO_Init(cs_port, &cs_init);
@@ -93,6 +99,18 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
     return true;
 }
 
+/**
+  * @brief  Transmit data from a buffer on the given SPI bus and store the
+  *         incoming data in a separate buffer
+  * @note   The number of bytes transmitted or received on the SPI bus is the
+  *         greater of txbuflen and rxbuflen. Only the number of bytes given
+  *         by each parameter will be read/stored respectively.
+  * @param  spi The SPI module
+  * @param  txbuf Buffer from which data to be transmitted is read
+  * @param  txbuflen Number of bytes to read from the TX buffer
+  * @param  rxbuf Buffer to which received data is to be stored
+  * @param  rxbuflen Number of bytes to write to the RX buffer
+  */
 bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen) {
     //spi->DR = value;
     uint16_t cs_pin;
@@ -130,3 +148,4 @@ bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, ui
     HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     return true;
 }
+
