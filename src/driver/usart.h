@@ -19,7 +19,7 @@
 #define CORE_USART2_UPDATE 0x02
 #define CORE_USART3_UPDATE 0x04
 
-bool core_USART_init(USART_TypeDef *usart);
+bool core_USART_init(USART_TypeDef *usart, uint32_t baud);
 bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile uint32_t *rxbuflen);
 void core_USART_update_disable(USART_TypeDef *usart);
 void core_USART_update_enable(USART_TypeDef *usart);

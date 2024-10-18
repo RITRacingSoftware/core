@@ -46,8 +46,8 @@ int main(void)
 	if (!core_clock_init(1, 24000, 102400)) error_handler();
     if (!core_CAN_init(CAN2)) error_handler();
     //if (!core_SPI_init(SPI1)) error_handler();
-    if (!core_USART_init(USART2)) error_handler();
-    if (!core_USART_init(USART1)) error_handler();
+    if (!core_USART_init(USART2, 9600)) error_handler();
+    if (!core_USART_init(USART1, 9600)) error_handler();
     if (!core_USART_start_rx(USART1, rxbuf, &rxbuflen)) error_handler();
 
     heartbeat_init(GPIOA, GPIO_PIN_5);

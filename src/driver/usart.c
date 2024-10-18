@@ -26,7 +26,15 @@ USART_HandleTypeDef usart1;
 USART_HandleTypeDef usart2;
 USART_HandleTypeDef usart3;
 
-bool core_USART_init(USART_TypeDef *usart) {
+/**
+  * @brief  Initialize a USART module in asynchronous mode with the given baud
+  *         rate.
+  * @param  usart The USART module to initialize
+  * @param  baud Baud rate
+  * @param  0 if the given USART is not valid of if the initialization failed,
+  *         1 otherwise
+  */
+bool core_USART_init(USART_TypeDef *usart, uint32_t baud) {
     USART_HandleTypeDef *husart;
     GPIO_InitTypeDef usartGPIO = {0, GPIO_MODE_AF_PP, GPIO_PULLUP, GPIO_SPEED_FREQ_LOW, 7};
     if (usart == USART1) {
@@ -49,7 +57,7 @@ bool core_USART_init(USART_TypeDef *usart) {
     if (!core_clock_USART_init(usart)) return false;
 
     husart->Instance = usart;
-    husart->Init.BaudRate = 9600;
+    husart->Init.BaudRate = baud;
     husart->Init.WordLength = USART_WORDLENGTH_8B;
     husart->Init.StopBits = USART_STOPBITS_1;
     husart->Init.Parity = USART_PARITY_NONE;
@@ -66,6 +74,13 @@ bool core_USART_init(USART_TypeDef *usart) {
     return true;
 }
 
+/**
+  * @brief  Start the receiver for the given USART module
+  * @param  usart The USART module
+  * @param  rxbuf Location where received data from the USART should be stored
+  * @param  rxbuflen Location where the number of received bytes should be stored
+  * @retval 0 if the given USART is not valid, 1 otherwise
+  */
 bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile uint32_t *rxbuflen) {
     if (usart == USART1) {
         core_USART1_rxbuf = rxbuf;
@@ -145,18 +160,39 @@ void USART3_IRQHandler() {
     }
 }
 
+/**
+  * @brief  Disable updating the RX buffer for the given USART. Use this
+  *         before reading from the buffer to which data is stored to 
+  *         prevent corruption
+  * @param  usart The USART module
+  */
 void core_USART_update_disable(USART_TypeDef *usart) {
     if (usart == USART1) core_USART_flags &= ~CORE_USART1_UPDATE;
     else if (usart == USART2) core_USART_flags &= ~CORE_USART2_UPDATE;
     else if (usart == USART3) core_USART_flags &= ~CORE_USART3_UPDATE;
 }
 
+/**
+  * @brief  Enable updating the RX buffer for the given USART.
+  * @note   Receiving is disabled by default. Make sure to call
+  *         core_USART_update_enable after setting up the receiver with
+  *         core_USART_start_rx.
+  * @param  usart The USART module
+  */
 void core_USART_update_enable(USART_TypeDef *usart) {
     if (usart == USART1) core_USART_flags |= CORE_USART1_UPDATE;
     else if (usart == USART2) core_USART_flags |= CORE_USART2_UPDATE;
     else if (usart == USART3) core_USART_flags |= CORE_USART3_UPDATE;
 }
 
+/**
+  * @brief  Transmit data from a USART
+  * @note   This function is blocking and will not return until all data has
+  *         been transmitted.
+  * @param  usart The USART module
+  * @param  txbuf Location where the data to be transmitted is read from
+  * @param  txbuflen Number of bytes to transmit
+  */
 bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen) {
     USART_HandleTypeDef *husart;
     if (usart == USART1) husart = &usart1;
