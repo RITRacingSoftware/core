@@ -31,24 +31,24 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
   * @param  usart_num  USART module number
   * @retval 1 if usart_num is a valid USART module, 0 otherwise
   */
-bool core_clock_USART_init(uint8_t usart_num) {
-    if (usart_num == CORE_CLOCK_USART1) {
+bool core_clock_USART_init(USART_TypeDef *usart) {
+    if (usart == USART1) {
         __HAL_RCC_USART1_CONFIG(RCC_USART1CLKSOURCE_PCLK2);
         __HAL_RCC_USART1_CLK_ENABLE();
     }
-    else if (usart_num == CORE_CLOCK_USART2) {
+    else if (usart == USART2) {
         __HAL_RCC_USART2_CONFIG(RCC_USART2CLKSOURCE_PCLK1);
         __HAL_RCC_USART2_CLK_ENABLE();
     }
-    else if (usart_num == CORE_CLOCK_USART3) {
+    else if (usart == USART3) {
         __HAL_RCC_USART3_CONFIG(RCC_USART3CLKSOURCE_PCLK1);
         __HAL_RCC_USART3_CLK_ENABLE();
     }
-    else if (usart_num == CORE_CLOCK_UART4) {
+    else if (usart == UART4) {
         __HAL_RCC_UART4_CONFIG(RCC_UART4CLKSOURCE_PCLK1);
         __HAL_RCC_UART4_CLK_ENABLE();
     }
-    else if (usart_num == CORE_CLOCK_UART5) {
+    else if (usart == UART5) {
         __HAL_RCC_UART5_CONFIG(RCC_UART5CLKSOURCE_PCLK1);
         __HAL_RCC_UART5_CLK_ENABLE();
     }
