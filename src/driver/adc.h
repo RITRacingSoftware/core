@@ -2,14 +2,14 @@
 #include <stdbool.h>
 #include <stm32g4xx_hal.h>
 
+#ifndef CORE_ADC_H
+#define CORE_ADC_H
+
 typedef struct core_ADC_def_s {
     uint32_t chan;
     GPIO_TypeDef *port;
     uint32_t pin;
 } core_ADC_def_t;
-
-#ifndef CORE_ADC_H
-#define CORE_ADC_H
 
 bool core_ADC_init(ADC_TypeDef *adc);
 void core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin);

@@ -4,6 +4,7 @@
 #include "usart.h"
 #include "clock.h"
 #include "gpio.h"
+#include "core_config.h"
 #include <stm32g4xx_hal.h>
 #include <stm32g4xx_hal_usart.h>
 
