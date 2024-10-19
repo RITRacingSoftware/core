@@ -1,12 +1,16 @@
+#include "usart.h"
+#include "core_config.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "usart.h"
+#include <stm32g4xx_hal.h>
+#include <stm32g4xx_hal_usart.h>
+
+
 #include "clock.h"
 #include "gpio.h"
 #include "core_config.h"
-#include <stm32g4xx_hal.h>
-#include <stm32g4xx_hal_usart.h>
 
 uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
 uint32_t core_USART1_rxbuflen_int;

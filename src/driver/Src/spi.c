@@ -1,10 +1,11 @@
+#include "spi.h"
+#include "core_config.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stm32g4xx_hal.h>
 #include <stm32g4xx_hal_spi.h>
 
-#include "spi.h"
-#include "core_config.h"
 #include "clock.h"
 
 uint16_t core_SPI1_CS_pin;

@@ -1,4 +1,5 @@
 #include "i2c.h"
+#include "core_config.h"
 
 #include "stdbool.h"
 #include "stdint.h"

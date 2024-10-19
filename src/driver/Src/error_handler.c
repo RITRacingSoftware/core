@@ -1,4 +1,6 @@
 #include "error_handler.h"
+#include "core_config.h"
+
 #include "gpio.h"
 
 void error_handler()

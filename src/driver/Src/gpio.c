@@ -1,7 +1,7 @@
 #include "gpio.h"
-#include "clock.h"
+#include "core_config.h"
 
-#include "stdbool.h"
+#include "clock.h"
 
 #include <stm32g4xx_hal.h>
 

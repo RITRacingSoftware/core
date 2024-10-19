@@ -1,9 +1,7 @@
-#include <stdbool.h>
-#include <stdint.h>
-
 #include "clock.h"
-#include "can.h"
+#include "core_config.h"
 
+#include <stdbool.h>
 
 #include "stm32g4xx_hal.h"
 
