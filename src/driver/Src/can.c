@@ -71,6 +71,9 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         gpio.Alternate = CORE_FDCAN1_AF;
         HAL_GPIO_Init(CAN1_PORT, &gpio);
 
+        // Auto retransmission settings
+        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN1_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+
         // Set max filter numbers
         p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
         p_hfdcan->Init.ExtFiltersNbr = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
@@ -86,6 +89,9 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         gpio.Pin = CAN2_PINS;
         gpio.Alternate = CORE_FDCAN2_AF;
         HAL_GPIO_Init(CAN2_PORT, &gpio);
+
+        // Auto retransmission settings
+        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
 
         // Set max filter numbers
         p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
@@ -103,6 +109,9 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         gpio.Alternate = CORE_FDCAN3_AF;
         HAL_GPIO_Init(CAN3_PORT, &gpio);
 
+        // Auto retransmission settings
+        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+
         // Set max filter numbers
         p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
         p_hfdcan->Init.ExtFiltersNbr = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
@@ -113,7 +122,6 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 	p_hfdcan->Init.ClockDivider = FDCAN_CLOCK_DIV1;
 	p_hfdcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
 	p_hfdcan->Init.Mode = FDCAN_MODE_NORMAL;
-	p_hfdcan->Init.AutoRetransmission = DISABLE;
 	p_hfdcan->Init.TransmitPause = DISABLE;
 	p_hfdcan->Init.ProtocolException = ENABLE;
 	p_hfdcan->Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
