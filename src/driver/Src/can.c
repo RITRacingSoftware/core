@@ -61,12 +61,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     // GPIO inits specific to different CAN buses, and HAL GPIO inits
     if (can == FDCAN1)
     {
-
-        // Set RX and TX queue pointers to can1
+        // Set pointers
         p_canQueueRx = &can1_queue_rx;
         p_canQueueTx = &can1_queue_tx;
-
         p_hfdcan = &hfdcan1;
+
         p_hfdcan->Instance = FDCAN1;
         gpio.Pin = CAN1_PINS;
         gpio.Alternate = CORE_FDCAN1_AF;
@@ -78,11 +77,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
     else if (can == FDCAN2)
     {
-        // Set RX and TX queue pointers
+        // Set pointers
         p_canQueueRx = &can2_queue_rx;
         p_canQueueTx = &can2_queue_tx;
-
         p_hfdcan = &hfdcan2;
+
         p_hfdcan->Instance = FDCAN2;
         gpio.Pin = CAN2_PINS;
         gpio.Alternate = CORE_FDCAN2_AF;
@@ -94,11 +93,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
     else if (can == FDCAN3)
     {
-        // Set RX and TX queue pointers
+        // Set pointers
         p_canQueueRx = &can3_queue_rx;
         p_canQueueTx = &can3_queue_tx;
-
         p_hfdcan = &hfdcan3;
+
         p_hfdcan->Instance = FDCAN3;
         gpio.Pin = CAN3_PINS;
         gpio.Alternate = CORE_FDCAN3_AF;
@@ -134,13 +133,6 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     {
         return false;
     }
-//    if (HAL_FDCAN_ConfigGlobalFilter(p_hfdcan, FDCAN_ACCEPT_IN_RX_FIFO0,
-//                                     FDCAN_ACCEPT_IN_RX_FIFO0,
-//                                     FDCAN_REJECT_REMOTE,
-//                                     FDCAN_REJECT_REMOTE) != HAL_OK)
-//    {
-//        return false;
-//    }
 
     // Set up RX interrupts
     if (can == FDCAN1)
@@ -296,10 +288,7 @@ bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *receive
 }
 
 // Call RX interrupt handlers
-void FDCAN1_IT0_IRQHandler(void) {
-    GPIO_set_heartbeat(GPIO_PIN_SET);
-    rx_handler(FDCAN1);
-}
+void FDCAN1_IT0_IRQHandler(void) {rx_handler(FDCAN1);}
 void FDCAN2_IT0_IRQHandler(void) {rx_handler(FDCAN2);}
 void FDCAN3_IT0_IRQHandler(void) {rx_handler(FDCAN3);}
 
@@ -369,8 +358,6 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
 
 static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan)
 {
-    int nominal_bit_time = 1/(CORE_CAN_BITRATE);
-
     hfdcan->Init.NominalPrescaler = 8;
     hfdcan->Init.NominalSyncJumpWidth = 1;
     hfdcan->Init.DataPrescaler = 1; // Data timing fields unused for classic CAN

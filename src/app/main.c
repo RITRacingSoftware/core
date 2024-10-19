@@ -26,12 +26,12 @@ void task1(void *pvParameters)
     (void) pvParameters;
     while(true)
     {
-        if (core_CAN_receive_from_queue(FDCAN2, &canMessage))
+        if (!core_CAN_add_message_to_tx_queue(FDCAN2, 3, 2, 0xfa55)) error_handler();
+        if (core_CAN_send_from_tx_queue_task(FDCAN2))
         {
-//            GPIO_toggle_heartbeat();
-            if (canMessage.data == 0xfa55) core_GPIO_toggle_heartbeat();
+            core_GPIO_toggle_heartbeat();
         }
-        vTaskDelay(5 * portTICK_PERIOD_MS);
+//        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
@@ -41,8 +41,6 @@ void heartbeat_task(void *pvParameters)
 	while(true)
 	{
         if (core_CAN_add_message_to_tx_queue(FDCAN2, 3, 2, 0xfa55)) core_GPIO_toggle_heartbeat();
-//        CAN_send_message(FDCAN3, 3, 2, 0xfa55);
-//        GPIO_toggle_heartbeat();
         vTaskDelay(100 * portTICK_PERIOD_MS);
 	}
 }
@@ -64,7 +62,7 @@ int main(void)
     }
 
     int err = xTaskCreate(task1,
-        "CAN_RX",
+        "Task1",
         1000,
         NULL,
         4,

@@ -29,7 +29,7 @@ APP_INCLUDE := -I $(APP_DIR)
 STM32_APP_OBJS := $(APP_SRCS:$(APP_DIR)/%=$(STM32_BUILD_DIR)/obj/app/%.o)
 
 DRIVER_DIR := src/driver
-DRIVER_SRCS := $(DRIVER_DIR)/Src
+DRIVER_SRCS := $(shell find $(DRIVER_DIR)/Src -type f -name "*.c")
 DRIVER_INCLUDE := -I $(DRIVER_DIR)/Inc
 STM32_DRIVER_OBJS := $(DRIVER_SRCS:$(DRIVER_DIR)/%=$(STM32_BUILD_DIR)/obj/driver/%.o)
 
