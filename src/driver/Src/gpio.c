@@ -27,6 +27,11 @@ void core_GPIO_pin_set(GPIO_TypeDef *port, uint16_t pin, GPIO_PinState state)
     HAL_GPIO_WritePin(port, pin, state);
 }
 
+GPIO_PinState core_GPIO_pin_digital_read(GPIO_TypeDef *port, uint16_t pin)
+{
+    return HAL_GPIO_ReadPin(port, pin);
+}
+
 void core_heartbeat_init(GPIO_TypeDef *port, uint16_t pin)
 {
     LED_port = port;
