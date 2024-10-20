@@ -17,116 +17,60 @@ static ADC_HandleTypeDef adc3 = {0};
 static ADC_HandleTypeDef adc4 = {0};
 static ADC_HandleTypeDef adc5 = {0};
 
-// Look-up table defining the pins assigned to each input to ADC1
-static const core_ADC_def_t adc1_defs[19] = {
-    {ADC_CHANNEL_0, NULL, 0},
-    {ADC_CHANNEL_1, GPIOA, GPIO_PIN_0},
-    {ADC_CHANNEL_2, GPIOA, GPIO_PIN_1},
-    {ADC_CHANNEL_3, GPIOA, GPIO_PIN_2},
-    {ADC_CHANNEL_4, GPIOA, GPIO_PIN_3},
-    {ADC_CHANNEL_5, GPIOB, GPIO_PIN_14},
-    {ADC_CHANNEL_6, GPIOC, GPIO_PIN_0},
-    {ADC_CHANNEL_7, GPIOC, GPIO_PIN_1},
-    {ADC_CHANNEL_8, GPIOC, GPIO_PIN_2},
-    {ADC_CHANNEL_9, GPIOC, GPIO_PIN_3},
-    {ADC_CHANNEL_10, GPIOF, GPIO_PIN_0},
-    {ADC_CHANNEL_11, GPIOB, GPIO_PIN_12},
-    {ADC_CHANNEL_12, GPIOB, GPIO_PIN_1},
-    {ADC_CHANNEL_13, NULL, 0},
-    {ADC_CHANNEL_14, GPIOB, GPIO_PIN_11},
-    {ADC_CHANNEL_15, GPIOB, GPIO_PIN_0},
-    {ADC_CHANNEL_16, NULL, 0},
-    {ADC_CHANNEL_17, NULL, 0},
-    {ADC_CHANNEL_18, NULL, 0}
+
+static core_ADC_def_t adc_defs[] = {
+{GPIOA, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {1, 1, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP1 | CORE_ADC_ALLOWED_OPAMP3, {2, 2, 0, 0, 0}, 32, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC1, {3, 0, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_3, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_OPAMP1, {4, 0, 0, 0, 0}, 1, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_4, CORE_ADC_ALLOWED_ADC2, {0, 17, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_5, CORE_ADC_ALLOWED_ADC2, {0, 13, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_6, CORE_ADC_ALLOWED_ADC2, {0, 3, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_7, CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP1 | CORE_ADC_ALLOWED_OPAMP2, {0, 4, 0, 0, 0}, 2, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC5, {0, 0, 0, 0, 1}, 0, NULL, NULL, 0, 0},
+{GPIOA, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC5, {0, 0, 0, 0, 2}, 0, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP3, {15, 0, 12, 0, 0}, 8, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC3, {12, 0, 1, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_11, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP4, {14, 14, 0, 0, 0}, 128, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_12, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP6, {11, 0, 0, 3, 0}, 0, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_13, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP3 | CORE_ADC_ALLOWED_OPAMP4 | CORE_ADC_ALLOWED_OPAMP6, {0, 0, 5, 0, 0}, 2064, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP5, {5, 0, 0, 4, 0}, 4, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_15, CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_ADC4, {0, 15, 0, 5, 0}, 0, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC2, {0, 12, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {6, 6, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {7, 7, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {8, 8, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_3, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP5, {9, 9, 0, 0, 0}, 512, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_4, CORE_ADC_ALLOWED_ADC2, {0, 5, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOC, GPIO_PIN_5, CORE_ADC_ALLOWED_ADC2, {0, 11, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_10, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 7, 7, 7}, 0, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_11, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP4, {0, 0, 8, 8, 8}, 64, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_12, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP5, {0, 0, 9, 9, 9}, 256, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_13, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 10, 10, 10}, 0, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP2, {0, 0, 11, 11, 11}, 12, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 0, 12, 12}, 0, NULL, NULL, 0, 0},
+{GPIOD, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP6, {0, 0, 0, 13, 13}, 1024, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_10, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 14, 14, 14}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_11, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 15, 15, 15}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_12, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 16, 16, 16}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_13, CORE_ADC_ALLOWED_ADC3, {0, 0, 3, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC4, {0, 0, 0, 1, 0}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_15, CORE_ADC_ALLOWED_ADC4, {0, 0, 0, 2, 0}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_7, CORE_ADC_ALLOWED_ADC3, {0, 0, 4, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 6, 6, 6}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC3, {0, 0, 2, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOF, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1, {10, 0, 0, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOF, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC2, {0, 10, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 };
-// Look-up table defining the pins assigned to each input to ADC2
-static const core_ADC_def_t adc2_defs[19] = {
-    {ADC_CHANNEL_0, NULL, 0},
-    {ADC_CHANNEL_1, GPIOA, GPIO_PIN_0},
-    {ADC_CHANNEL_2, GPIOA, GPIO_PIN_1},
-    {ADC_CHANNEL_3, GPIOA, GPIO_PIN_6},
-    {ADC_CHANNEL_4, GPIOA, GPIO_PIN_7},
-    {ADC_CHANNEL_5, GPIOC, GPIO_PIN_4},
-    {ADC_CHANNEL_6, GPIOC, GPIO_PIN_0},
-    {ADC_CHANNEL_7, GPIOC, GPIO_PIN_1},
-    {ADC_CHANNEL_8, GPIOC, GPIO_PIN_2},
-    {ADC_CHANNEL_9, GPIOC, GPIO_PIN_3},
-    {ADC_CHANNEL_10, GPIOF, GPIO_PIN_1},
-    {ADC_CHANNEL_11, GPIOC, GPIO_PIN_5},
-    {ADC_CHANNEL_12, GPIOB, GPIO_PIN_2},
-    {ADC_CHANNEL_13, GPIOA, GPIO_PIN_5},
-    {ADC_CHANNEL_14, GPIOB, GPIO_PIN_11},
-    {ADC_CHANNEL_15, GPIOB, GPIO_PIN_15},
-    {ADC_CHANNEL_16, NULL, 0},
-    {ADC_CHANNEL_17, GPIOA, GPIO_PIN_4},
-    {ADC_CHANNEL_18, NULL, 0}
-};
-// Look-up table defining the pins assigned to each input to ADC3
-static const core_ADC_def_t adc3_defs[19] = {
-    {ADC_CHANNEL_0, NULL, 0},
-    {ADC_CHANNEL_1, GPIOB, GPIO_PIN_1},
-    {ADC_CHANNEL_2, GPIOE, GPIO_PIN_9},
-    {ADC_CHANNEL_3, GPIOE, GPIO_PIN_13},
-    {ADC_CHANNEL_4, GPIOE, GPIO_PIN_7},
-    {ADC_CHANNEL_5, GPIOB, GPIO_PIN_13},
-    {ADC_CHANNEL_6, GPIOE, GPIO_PIN_8},
-    {ADC_CHANNEL_7, GPIOD, GPIO_PIN_10},
-    {ADC_CHANNEL_8, GPIOD, GPIO_PIN_11},
-    {ADC_CHANNEL_9, GPIOD, GPIO_PIN_12},
-    {ADC_CHANNEL_10, GPIOD, GPIO_PIN_13},
-    {ADC_CHANNEL_11, GPIOD, GPIO_PIN_14},
-    {ADC_CHANNEL_12, GPIOB, GPIO_PIN_0},
-    {ADC_CHANNEL_13, NULL, 0},
-    {ADC_CHANNEL_14, GPIOE, GPIO_PIN_10},
-    {ADC_CHANNEL_15, GPIOE, GPIO_PIN_11},
-    {ADC_CHANNEL_16, GPIOE, GPIO_PIN_12},
-    {ADC_CHANNEL_17, NULL, 0},
-    {ADC_CHANNEL_18, NULL, 0}
-};
-// Look-up table defining the pins assigned to each input to ADC4
-static const core_ADC_def_t adc4_defs[19] = {
-    {ADC_CHANNEL_0, NULL, 0},
-    {ADC_CHANNEL_1, GPIOE, GPIO_PIN_14},
-    {ADC_CHANNEL_2, GPIOE, GPIO_PIN_15},
-    {ADC_CHANNEL_3, GPIOB, GPIO_PIN_12},
-    {ADC_CHANNEL_4, GPIOB, GPIO_PIN_14},
-    {ADC_CHANNEL_5, GPIOB, GPIO_PIN_15},
-    {ADC_CHANNEL_6, GPIOE, GPIO_PIN_8},
-    {ADC_CHANNEL_7, GPIOD, GPIO_PIN_10},
-    {ADC_CHANNEL_8, GPIOD, GPIO_PIN_11},
-    {ADC_CHANNEL_9, GPIOD, GPIO_PIN_12},
-    {ADC_CHANNEL_10, GPIOD, GPIO_PIN_13},
-    {ADC_CHANNEL_11, GPIOD, GPIO_PIN_14},
-    {ADC_CHANNEL_12, GPIOD, GPIO_PIN_8},
-    {ADC_CHANNEL_13, GPIOD, GPIO_PIN_9},
-    {ADC_CHANNEL_14, GPIOE, GPIO_PIN_10},
-    {ADC_CHANNEL_15, GPIOE, GPIO_PIN_11},
-    {ADC_CHANNEL_16, GPIOE, GPIO_PIN_12},
-    {ADC_CHANNEL_17, NULL, 0},
-    {ADC_CHANNEL_18, NULL, 0}
-};
-// Look-up table defining the pins assigned to each input to ADC5
-static const core_ADC_def_t adc5_defs[19] = {
-    {ADC_CHANNEL_0, NULL, 0},
-    {ADC_CHANNEL_1, GPIOA, GPIO_PIN_8},
-    {ADC_CHANNEL_2, GPIOA, GPIO_PIN_9},
-    {ADC_CHANNEL_3, NULL, 0},
-    {ADC_CHANNEL_4, NULL, 0},
-    {ADC_CHANNEL_5, NULL, 0},
-    {ADC_CHANNEL_6, GPIOE, GPIO_PIN_8},
-    {ADC_CHANNEL_7, GPIOD, GPIO_PIN_10},
-    {ADC_CHANNEL_8, GPIOD, GPIO_PIN_11},
-    {ADC_CHANNEL_9, GPIOD, GPIO_PIN_12},
-    {ADC_CHANNEL_10, GPIOD, GPIO_PIN_13},
-    {ADC_CHANNEL_11, GPIOD, GPIO_PIN_14},
-    {ADC_CHANNEL_12, GPIOD, GPIO_PIN_8},
-    {ADC_CHANNEL_13, GPIOD, GPIO_PIN_9},
-    {ADC_CHANNEL_14, GPIOE, GPIO_PIN_10},
-    {ADC_CHANNEL_15, GPIOE, GPIO_PIN_11},
-    {ADC_CHANNEL_16, GPIOE, GPIO_PIN_12},
-    {ADC_CHANNEL_17, NULL, 0},
-    {ADC_CHANNEL_18, NULL, 0}
-};
+
+static uint16_t core_ADC_initialized = 0;
+static const uint32_t core_ADC_channel_lookup[19] = {
+    ADC_CHANNEL_0, ADC_CHANNEL_1, ADC_CHANNEL_2, ADC_CHANNEL_3,
+    ADC_CHANNEL_4, ADC_CHANNEL_5, ADC_CHANNEL_6, ADC_CHANNEL_7,
+    ADC_CHANNEL_8, ADC_CHANNEL_9, ADC_CHANNEL_10, ADC_CHANNEL_11,
+    ADC_CHANNEL_12, ADC_CHANNEL_13, ADC_CHANNEL_14, ADC_CHANNEL_15,
+    ADC_CHANNEL_16, ADC_CHANNEL_17, ADC_CHANNEL_18};
+
 
 /**
   * @brief  Initialize an ADC module, including its clock. Also performs
@@ -136,22 +80,29 @@ static const core_ADC_def_t adc5_defs[19] = {
   *         initialize, 1 otherwise.
   */
 bool core_ADC_init(ADC_TypeDef *adc) {
+    // Enable clock for opamps
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
     ADC_HandleTypeDef *hadc;
     if (adc == ADC1) {
         hadc = &adc1;
         core_clock_ADC12_init();
+        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_OPAMP1;
     } else if (adc == ADC2) {
         hadc = &adc2;
         core_clock_ADC12_init();
+        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP3;
     } else if (adc == ADC3) {
         hadc = &adc3;
         core_clock_ADC345_init();
+        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP3;
     } else if (adc == ADC4) {
         hadc = &adc4;
         core_clock_ADC345_init();
+        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP6;
     } else if (adc == ADC5) {
         hadc = &adc5;
         core_clock_ADC345_init();
+        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP4 | CORE_ADC_ALLOWED_OPAMP5;
     } else return false;
 
     hadc->Instance = adc;
@@ -181,88 +132,128 @@ bool core_ADC_init(ADC_TypeDef *adc) {
   * @brief  Set up a pin as an analog input
   * @param  port GPIO port (GPIOx)
   * @param  pin GPIO pin (GPIO_PIN_x)
+  * @param  opamp 1 if the input should be routed through an opamp, 
+  *         0 otherwise
+  * @retval 1 if a configuration was found for the given pin
+  *         0 otherwise
   */
-void core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin) {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.Pin = pin;
-    GPIO_InitStructure.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStructure.Pull = GPIO_NOPULL;
-    GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(port, &GPIO_InitStructure);
-}
-
-/**
-  * @brief  Determine which input to a particular ADC corresponds to a given
-  *         pin and port.
-  * @param  port GPIO port (GPIOx)
-  * @param  pin GPIO pin (GPIO_PIN_x)
-  * @param  adc ADC module (ADCx)
-  * @param  hadc_r Location to which the ADC handle corresponding to adc
-  *                should be stored if a match is found.
-  * @param  chan_r Location to which the input identifier should be stored
-  *                if a match is found
-  * @retval 0 if adc is null or not initialized or a match is not found, 
-  *         1 otherwise.
-  */
-bool core_ADC_convert_pin(GPIO_TypeDef *port, uint32_t pin, ADC_TypeDef *adc, ADC_HandleTypeDef **hadc_r, uint32_t *chan_r) {
-    if (adc == NULL) return false;
-    const core_ADC_def_t *defs = NULL;
-    ADC_HandleTypeDef *hadc;
-    if (adc == ADC1) {
-        defs = adc1_defs;
-        hadc = &adc1;
-    } else if (adc == ADC2) {
-        defs = adc2_defs;
-        hadc = &adc2;
-    } else if (adc == ADC3) {
-        defs = adc3_defs;
-        hadc = &adc3;
-    } else if (adc == ADC4) {
-        defs = adc4_defs;
-        hadc = &adc4;
-    } else if (adc == ADC5) {
-        defs = adc5_defs;
-        hadc = &adc5;
-    } else return false;
-    if (hadc->Instance == NULL) return false;
-    for (uint8_t i=0; i < 19; i++) {
-        if ((defs[i].port == port) && (defs[i].pin == pin)) {
-            *hadc_r = hadc;
-            *chan_r = defs[i].chan;
-            return true;
+bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
+    core_ADC_def_t *adc_def_ptr = NULL;
+    for (uint8_t i=0; i < 42; i++) {
+        if ((adc_defs[i].port == port) && (adc_defs[i].pin == pin)) {
+            adc_def_ptr = adc_defs + i;
+            break;
         }
     }
-    return false;
+    if (!adc_def_ptr) return false;
+    uint16_t mask = adc_def_ptr->allowed_connections & core_ADC_initialized;
+    
+    if (opamp) {
+        // Look for opamps that can be connected to
+        if (mask & CORE_ADC_ALLOWED_OPAMP1) {
+            adc_def_ptr->adc = ADC1;
+            adc_def_ptr->adc_chan_sel = 13;
+            adc_def_ptr->opamp = OPAMP1;
+            adc_def_ptr->opamp_chan_sel = (adc_def_ptr->opamp_chan & 3);
+        } else if (mask & CORE_ADC_ALLOWED_OPAMP2) {
+            adc_def_ptr->adc = ADC2;
+            adc_def_ptr->adc_chan_sel = 16;
+            adc_def_ptr->opamp = OPAMP2;
+            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>2) & 3);
+        } else if (mask & CORE_ADC_ALLOWED_OPAMP3) {
+            if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC2) {
+                adc_def_ptr->adc = ADC2;
+                adc_def_ptr->adc_chan_sel = 18;
+            } else {
+                adc_def_ptr->adc = ADC3;
+                adc_def_ptr->adc_chan_sel = 13;
+            }
+            adc_def_ptr->opamp = OPAMP3;
+            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>4) & 3);
+        } else if (mask & CORE_ADC_ALLOWED_OPAMP4) {
+            adc_def_ptr->adc = ADC5;
+            adc_def_ptr->adc_chan_sel = 5;
+            adc_def_ptr->opamp = OPAMP4;
+            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>6) & 3);
+        } else if (mask & CORE_ADC_ALLOWED_OPAMP5) {
+            adc_def_ptr->adc = ADC5;
+            adc_def_ptr->adc_chan_sel = 3;
+            adc_def_ptr->opamp = OPAMP5;
+            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>8) & 3);
+        } else if (mask & CORE_ADC_ALLOWED_OPAMP6) {
+            adc_def_ptr->adc = ADC4;
+            adc_def_ptr->adc_chan_sel = 17;
+            adc_def_ptr->opamp = OPAMP6;
+            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>10) & 3);
+        } else return false;
+    } else {
+        if (mask & CORE_ADC_ALLOWED_ADC1) {
+            adc_def_ptr->adc = ADC1;
+            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[0];
+        } else if (mask & CORE_ADC_ALLOWED_ADC2) {
+            adc_def_ptr->adc = ADC2;
+            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[1];
+        } else if (mask & CORE_ADC_ALLOWED_ADC3) {
+            adc_def_ptr->adc = ADC3;
+            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[2];
+        } else if (mask & CORE_ADC_ALLOWED_ADC4) {
+            adc_def_ptr->adc = ADC4;
+            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[3];
+        } else if (mask & CORE_ADC_ALLOWED_ADC5) {
+            adc_def_ptr->adc = ADC5;
+            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[4];
+        }
+        else return false;
+        GPIO_InitTypeDef GPIO_InitStructure;
+        GPIO_InitStructure.Pin = pin;
+        GPIO_InitStructure.Mode = GPIO_MODE_ANALOG;
+        GPIO_InitStructure.Pull = GPIO_NOPULL;
+        GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
+        HAL_GPIO_Init(port, &GPIO_InitStructure);
+    }
 }
+
 
 /**
   * @brief  Read the value of an analog input as a value between 0 and 4095
   * @param  port GPIO port of the pin to be read (GPIOx)
   * @param  pin Pin number of the pin to be read (GPIO_PIN_x)
   * @param  result Location to which the result should be stored
-  * @param  preference Preference for which ADC module should be used to
-  *         perform the conversion. If null, the ADC module is automatically
-  *         selected.
   * @retval 0 if the given pin is not an analog input or if the corresponding
   *         ADC module is not initialized or if an error occurs while reading,
   *         1 otherwise
   */
-bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result, ADC_TypeDef *preference) {
-    // Initialize channel
+bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result) {
+    core_ADC_def_t *adc_def_ptr = NULL;
+    for (uint8_t i=0; i < 42; i++) {
+        if ((adc_defs[i].port == port) && (adc_defs[i].pin == pin)) {
+            adc_def_ptr = adc_defs + i;
+            break;
+        }
+    }
     ADC_HandleTypeDef *hadc;
     uint32_t chan;
-    if (!(core_ADC_convert_pin(port, pin, preference, &hadc, &chan) || 
-                core_ADC_convert_pin(port, pin, ADC1, &hadc, &chan) || 
-                core_ADC_convert_pin(port, pin, ADC2, &hadc, &chan) || 
-                core_ADC_convert_pin(port, pin, ADC3, &hadc, &chan) || 
-                core_ADC_convert_pin(port, pin, ADC4, &hadc, &chan) || 
-                core_ADC_convert_pin(port, pin, ADC5, &hadc, &chan))) return false;
+    if (!adc_def_ptr) return false;
+    if (adc_def_ptr->adc == ADC1) {
+        hadc = &adc1;
+    } else if (adc_def_ptr->adc == ADC2) {
+        hadc = &adc2;
+    } else if (adc_def_ptr->adc == ADC3) {
+        hadc = &adc3;
+    } else if (adc_def_ptr->adc == ADC4) {
+        hadc = &adc4;
+    } else if (adc_def_ptr->adc == ADC5) {
+        hadc = &adc5;
+    } else return false;
 
+    if (adc_def_ptr->opamp) {
+        adc_def_ptr->opamp->CSR = OPAMP_CSR_VMSEL_0 | OPAMP_CSR_VMSEL_1 | 1 | OPAMP_CSR_OPAMPINTEN | ((adc_def_ptr->opamp_chan_sel<<2) & 0xc);
+    }
 
     ADC_ChannelConfTypeDef sConfig;
-    sConfig.Channel = chan;
+    sConfig.Channel = core_ADC_channel_lookup[adc_def_ptr->adc_chan_sel];
     sConfig.Rank = ADC_REGULAR_RANK_1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_24CYCLES_5;
+    sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
     sConfig.SingleDiff = ADC_SINGLE_ENDED;
     sConfig.OffsetNumber = ADC_OFFSET_NONE;
     sConfig.Offset = 0;
@@ -275,3 +266,4 @@ bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result, A
     HAL_ADC_Stop(hadc);
     return true;
 }
+
