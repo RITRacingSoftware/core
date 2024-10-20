@@ -1,13 +1,13 @@
 #include "main.h"
 
 #include <stdbool.h>
-#include <stdio.h>
+#include <string.h>
 
 #include "can.h"
 #include "clock.h"
 #include "gpio.h"
-#include "i2c.h"
-#include "spi.h"
+#include "usart.h"
+#include "adc.h"
 #include "error_handler.h"
 
 #include "FreeRTOS.h"
@@ -16,37 +16,35 @@
 
 #include <stm32g4xx_hal.h>
 
-#define TEST_CAN_ID1 3
-#define TEST_CAN_ID2 3
+uint8_t txbuf[128];
 
-CanMessage_s canMessage;
-
-void task1(void *pvParameters)
-{
-    (void) pvParameters;
-    while(true)
-    {
-        if (!core_CAN_add_message_to_tx_queue(FDCAN2, 3, 2, 0xfa55)) error_handler();
-        if (core_CAN_send_from_tx_queue_task(FDCAN2))
-        {
-            core_GPIO_toggle_heartbeat();
-        }
-//        vTaskDelay(10 / portTICK_PERIOD_MS);
+void printdec(uint32_t num, uint8_t digits, uint8_t offset) {
+    for (uint8_t x=0; x<digits; x++) {
+        txbuf[offset+digits-1-x] = '0' + (num % 10);
+        num = num / 10;
     }
 }
 
-void heartbeat_task(void *pvParameters)
-{
-	(void) pvParameters;
-	while(true)
-	{
-        if (core_CAN_add_message_to_tx_queue(FDCAN2, 3, 2, 0xfa55)) core_GPIO_toggle_heartbeat();
-        vTaskDelay(100 * portTICK_PERIOD_MS);
-	}
+void printhex(uint32_t num, uint8_t digits, uint8_t offset) {
+    for (uint8_t x=0; x<digits; x++) {
+        txbuf[offset+digits-1-x] = ((num & 0xf) >= 10 ? 'A' + (num&0xf) - 10 : '0' + (num&0xf));
+        num = num >> 4;
+    }
 }
 
-int main(void)
-{
+void heartbeat_task(void *pvParameters) {
+    (void) pvParameters;
+    while(true) {
+        uint16_t adc;
+        core_ADC_read_channel(GPIOA, GPIO_PIN_1, &adc);
+        printdec(adc, 4, 7);
+        printhex(OPAMP3->CSR, 8, 12);
+        core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        vTaskDelay(100 * portTICK_PERIOD_MS);
+    }
+}
+
+int main(void) {
     HAL_Init();
 
 	// Drivers
@@ -54,15 +52,15 @@ int main(void)
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
 	if (!core_clock_init()) error_handler();
-    if (!core_CAN_init(FDCAN2)) error_handler();
-    if (!core_CAN_add_filter(FDCAN2, false,
-                             TEST_CAN_ID1, TEST_CAN_ID2))
-    {
-        error_handler();
-    }
+    if (!core_ADC_init(ADC1)) error_handler();
+    if (!core_USART_init(USART1, 500000)) error_handler();
+    strcpy(txbuf, "value: ---- --------\r\n");
+    core_ADC_setup_pin(GPIOA, GPIO_PIN_1, 1);
+    //OPAMP1->CSR = OPAMP_CSR_VMSEL_0 | OPAMP_CSR_VMSEL_1 | 1 | OPAMP_CSR_OPAMPINTEN;
 
-    int err = xTaskCreate(task1,
-        "Task1",
+
+    int err = xTaskCreate(heartbeat_task,
+        "heartbeat",
         1000,
         NULL,
         4,
