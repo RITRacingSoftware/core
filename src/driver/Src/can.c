@@ -9,12 +9,13 @@
 
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "semphr.h"
 
 #include "gpio.h"
 #include "clock.h"
 #include "error_handler.h"
 
-// Handlers for different CAN buses
+/*// Handlers for different CAN buses
 static FDCAN_HandleTypeDef hfdcan1;
 static FDCAN_HandleTypeDef hfdcan2;
 static FDCAN_HandleTypeDef hfdcan3;
@@ -29,27 +30,40 @@ static QueueHandle_t can1_queue_tx;
 static QueueHandle_t can2_queue_tx;
 static QueueHandle_t can3_queue_tx;
 
+static SemaphoreHandle_t can1_tx_semaphore;
+static SemaphoreHandle_t can2_tx_semaphore;
+static SemaphoreHandle_t can3_tx_semaphore;
+
 // Number of filters for each bus
 static uint8_t fdcan1_num_standard_filters = 0;
 static uint8_t fdcan1_num_extended_filters = 0;
 static uint8_t fdcan2_num_standard_filters = 0;
 static uint8_t fdcan2_num_extended_filters = 0;
 static uint8_t fdcan3_num_standard_filters = 0;
-static uint8_t fdcan3_num_extended_filters = 0;
+static uint8_t fdcan3_num_extended_filters = 0;*/
+
+core_CAN_module_t can1;
+core_CAN_module_t can2;
+core_CAN_module_t can3;
 
 static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan);
 
+core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
+    if (can == FDCAN1) return &can1;
+    if (can == FDCAN2) return &can2;
+    if (can == FDCAN3) return &can3;
+    return NULL;
+}
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 {
     // Init port clock based on which CAN bus
     core_clock_FDCAN_init(can);
-    FDCAN_HandleTypeDef *p_hfdcan;
-    QueueHandle_t *p_canQueueRx;
-    QueueHandle_t *p_canQueueTx;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+    if (p_can == NULL) return false;
 
     // Initialize pins
     GPIO_InitTypeDef gpio = {0};
@@ -61,80 +75,65 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     // GPIO inits specific to different CAN buses, and HAL GPIO inits
     if (can == FDCAN1)
     {
-        // Set pointers
-        p_canQueueRx = &can1_queue_rx;
-        p_canQueueTx = &can1_queue_tx;
-        p_hfdcan = &hfdcan1;
-
-        p_hfdcan->Instance = FDCAN1;
+        p_can->hfdcan.Instance = FDCAN1;
         gpio.Pin = CAN1_PINS;
         gpio.Alternate = CORE_FDCAN1_AF;
         HAL_GPIO_Init(CAN1_PORT, &gpio);
 
         // Auto retransmission settings
-        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN1_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN1_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
 
         // Set max filter numbers
-        p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
-        p_hfdcan->Init.ExtFiltersNbr = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
+        p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
+        p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
     }
     else if (can == FDCAN2)
     {
-        // Set pointers
-        p_canQueueRx = &can2_queue_rx;
-        p_canQueueTx = &can2_queue_tx;
-        p_hfdcan = &hfdcan2;
-
-        p_hfdcan->Instance = FDCAN2;
+        p_can->hfdcan.Instance = FDCAN2;
         gpio.Pin = CAN2_PINS;
         gpio.Alternate = CORE_FDCAN2_AF;
         HAL_GPIO_Init(CAN2_PORT, &gpio);
 
         // Auto retransmission settings
-        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
 
         // Set max filter numbers
-        p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
-        p_hfdcan->Init.ExtFiltersNbr = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
+        p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
+        p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
     }
     else if (can == FDCAN3)
     {
-        // Set pointers
-        p_canQueueRx = &can3_queue_rx;
-        p_canQueueTx = &can3_queue_tx;
-        p_hfdcan = &hfdcan3;
-
-        p_hfdcan->Instance = FDCAN3;
+        p_can->hfdcan.Instance = FDCAN3;
         gpio.Pin = CAN3_PINS;
         gpio.Alternate = CORE_FDCAN3_AF;
         HAL_GPIO_Init(CAN3_PORT, &gpio);
 
         // Auto retransmission settings
-        p_hfdcan->Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
 
         // Set max filter numbers
-        p_hfdcan->Init.StdFiltersNbr = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
-        p_hfdcan->Init.ExtFiltersNbr = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
+        p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
+        p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
     }
     else return false;
 
 	// Initialize CAN interface
-	p_hfdcan->Init.ClockDivider = FDCAN_CLOCK_DIV1;
-	p_hfdcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
-	p_hfdcan->Init.Mode = FDCAN_MODE_NORMAL;
-	p_hfdcan->Init.TransmitPause = DISABLE;
-	p_hfdcan->Init.ProtocolException = ENABLE;
-	p_hfdcan->Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
-    CAN_clock_set_params(p_hfdcan);
+	p_can->hfdcan.Init.ClockDivider = FDCAN_CLOCK_DIV1;
+	p_can->hfdcan.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+	p_can->hfdcan.Init.Mode = FDCAN_MODE_NORMAL;
+	p_can->hfdcan.Init.TransmitPause = DISABLE;
+	p_can->hfdcan.Init.ProtocolException = ENABLE;
+	p_can->hfdcan.Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
+    CAN_clock_set_params(&(p_can->hfdcan));
 
     // Init CAN interface
-    if (HAL_FDCAN_Init(p_hfdcan) != HAL_OK)
+    if (HAL_FDCAN_Init(&(p_can->hfdcan)) != HAL_OK)
     {
         return false;
     }
 
     // Reject all frames not configured in filter
-    if (HAL_FDCAN_ConfigGlobalFilter(p_hfdcan, FDCAN_REJECT,
+    if (HAL_FDCAN_ConfigGlobalFilter(&(p_can->hfdcan), FDCAN_REJECT,
                                      FDCAN_REJECT,
                                      FDCAN_REJECT_REMOTE,
                                      FDCAN_REJECT_REMOTE) != HAL_OK)
@@ -160,20 +159,25 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
 
     // Configure interrupts and set notifications for CAN bus
-    HAL_FDCAN_ConfigInterruptLines(p_hfdcan, FDCAN_IT_GROUP_RX_FIFO0, FDCAN_INTERRUPT_LINE0);
-    HAL_FDCAN_ActivateNotification(p_hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+    //HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0 | FDCAN_IT_GROUP_SMSG, FDCAN_INTERRUPT_LINE0);
+    //HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE | FDCAN_FLAG_TX_COMPLETE, 0);
+    HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0, FDCAN_INTERRUPT_LINE0);
+    HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
 
 
     // Create queue to put received messages in
-    *p_canQueueRx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
-    if (*p_canQueueRx == 0) error_handler();
+    p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
+    if (p_can->can_queue_rx == 0) error_handler();
 
     // Create queue to put outgoing messages in
-    *p_canQueueTx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
-    if (*p_canQueueTx == 0) error_handler();
+    p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
+    if (p_can->can_queue_tx == 0) error_handler();
+
+    p_can->can_tx_semaphore = xSemaphoreCreateBinary();
+    xSemaphoreGive(p_can->can_tx_semaphore);
 
 	// Start can interface
-	if (HAL_FDCAN_Start(p_hfdcan) != HAL_OK)
+	if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK)
     {
 		return false;
 	}
@@ -183,29 +187,21 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
 bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
-    QueueHandle_t *p_can_queue;
-
-    if (can == FDCAN1) p_can_queue = &can1_queue_tx;
-    else if (can == FDCAN2) p_can_queue = &can2_queue_tx;
-    else p_can_queue = &can3_queue_tx;
-
+    core_CAN_module_t *p_can = core_CAN_convert(can);
     CanMessage_s message = {(int)id, dlc, data};
 
-    return xQueueSendToBack(*p_can_queue, &message, 0);
+    return xQueueSendToBack(p_can->can_queue_tx, &message, 0);
 }
 
 bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 {
     CanMessage_s dequeuedMessage;
-    QueueHandle_t *p_can_queue;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
 
-    if (can == FDCAN1) p_can_queue = &can1_queue_tx;
-    else if (can == FDCAN2) p_can_queue = &can2_queue_tx;
-    else p_can_queue = &can3_queue_tx;
-
-    while ((xQueueReceive(*p_can_queue, &dequeuedMessage, portMAX_DELAY) == pdTRUE))
+    while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE))
     {
-        CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data);
+        //xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+        if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
     }
 
     return false;
@@ -213,13 +209,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 
 static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
-    FDCAN_HandleTypeDef *p_hfdcan;
-
-    // Which CAN bus to send through
-    if (can == FDCAN1) p_hfdcan = &hfdcan1;
-    else if (can == FDCAN2) p_hfdcan = &hfdcan2;
-    else p_hfdcan = &hfdcan3;
-
+    core_CAN_module_t *p_can = core_CAN_convert(can);
 
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = id;
@@ -232,29 +222,25 @@ static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc,
     header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
     header.MessageMarker = 0;
 
-    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(p_hfdcan, &header, (uint8_t*) &data);
+    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, (uint8_t*) &data);
     return err == HAL_OK;
 }
 
 
 static void rx_handler(FDCAN_GlobalTypeDef *can)
 {
-    FDCAN_HandleTypeDef *hfdcan;
-
-    if (can == FDCAN1) hfdcan = &hfdcan1;
-    else if (can == FDCAN2) hfdcan = &hfdcan2;
-    else hfdcan = &hfdcan3;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
 
     // If the interrupt flag is set for FIFO0
-    if (hfdcan->Instance->IR & FDCAN_IT_RX_FIFO0_NEW_MESSAGE)
+    if (p_can->hfdcan.Instance->IR & FDCAN_IT_RX_FIFO0_NEW_MESSAGE)
     {
         // Reset interrupt flag for FIFO0
-        hfdcan->Instance->IR = FDCAN_IT_RX_FIFO0_NEW_MESSAGE;
+        p_can->hfdcan.Instance->IR = FDCAN_IT_RX_FIFO0_NEW_MESSAGE;
         FDCAN_RxHeaderTypeDef header;
         uint8_t data[8];
 
         // Retrieve Rx messages from RX FIFO0
-        if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &header, data) != HAL_OK)
+        if (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) != HAL_OK)
         {
             error_handler();
         }
@@ -262,13 +248,18 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Add the message to the RX queue
         add_CAN_message_to_rx_queue(can, header.Identifier, header.DataLength, data);
     }
+    else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
+        // Clear interrupt flag
+        p_can->hfdcan.Instance->IR = FDCAN_IR_TC;
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
 }
+
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
 {
-    QueueHandle_t *p_can_queue;
-    if (can == FDCAN1) p_can_queue = &can1_queue_rx;
-    else if (can == FDCAN2) p_can_queue = &can2_queue_rx;
-    else p_can_queue = &can3_queue_rx;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
 
     uint64_t msg_data = 0;
     memcpy(&msg_data, data, dlc);
@@ -279,20 +270,18 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
     rx_msg.dlc = dlc;
 
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-    xQueueSendFromISR(*p_can_queue, &rx_msg, &xHigherPriorityTaskWoken);
+    xQueueSendFromISR(p_can->can_queue_rx, &rx_msg, &xHigherPriorityTaskWoken);
     if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
+
 bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *received_message)
 {
-    QueueHandle_t *p_can_queue;
-
-    if (can == FDCAN1) p_can_queue = &can1_queue_rx;
-    else if (can == FDCAN2) p_can_queue = &can2_queue_rx;
-    else p_can_queue = &can3_queue_rx;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+    if (p_can == NULL) return false;
 
     // Receive CAN message from queue, copy it to buffer "received_message"
     // Return true if it read a value from the queue, false if not
-    return (xQueueReceive(*p_can_queue, received_message, 0) == pdTRUE);
+    return (xQueueReceive(p_can->can_queue_rx, received_message, 0) == pdTRUE);
 }
 
 // Call RX interrupt handlers
@@ -302,56 +291,34 @@ void FDCAN3_IT0_IRQHandler(void) {rx_handler(FDCAN3);}
 
 bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1, uint32_t id2)
 {
-    FDCAN_HandleTypeDef *p_hfdcan;
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+    if (p_can == NULL) return false;
     uint8_t *p_num_filters;
     uint8_t max_filter_num;
 
     // Setup for each CAN bus, whether it's standard or extended
     if (can == FDCAN1)
     {
-        p_hfdcan = &hfdcan1;
-        if (isExtended)
-        {
-            p_num_filters = &fdcan1_num_extended_filters;
-            max_filter_num = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
-        }
-        else
-        {
-            p_num_filters = &fdcan1_num_standard_filters;
-            max_filter_num = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
-        }
+        if (isExtended) max_filter_num = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
+        else max_filter_num = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
     }
     else if (can == FDCAN2)
     {
-        p_hfdcan = &hfdcan2;
-        if (isExtended)
-        {
-            p_num_filters = &fdcan2_num_extended_filters;
-            max_filter_num = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
-        }
-        else
-        {
-            p_num_filters = &fdcan2_num_standard_filters;
-            max_filter_num = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
-        }
+        if (isExtended) max_filter_num = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
+        else max_filter_num = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
     }
     else
     {
-        p_hfdcan = &hfdcan3;
-        if (isExtended)
-        {
-            p_num_filters = &fdcan3_num_extended_filters;
-            max_filter_num = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
-        }
-        else
-        {
-            p_num_filters = &fdcan3_num_standard_filters;
-            max_filter_num = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
-        }
+        if (isExtended) max_filter_num = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
+        else max_filter_num = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
     }
 
+    if (isExtended) {
+        p_num_filters = &(p_can->fdcan_num_extended_filters);
+    } else {
+        p_num_filters = &(p_can->fdcan_num_standard_filters);
+    }
     if (*p_num_filters + 1 >  max_filter_num) return false;
-
     FDCAN_FilterTypeDef filter;
     filter.IdType = isExtended ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID;
     filter.FilterIndex = *p_num_filters++;
@@ -360,7 +327,7 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
     filter.FilterID1 = id1;
     filter.FilterID2 = id2;
 
-    return HAL_FDCAN_ConfigFilter(p_hfdcan, &filter) == HAL_OK;
+    return HAL_FDCAN_ConfigFilter(&(p_can->hfdcan), &filter) == HAL_OK;
 
 }
 

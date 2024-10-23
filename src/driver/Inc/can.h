@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "semphr.h"
+
 typedef struct
 {
     int id;
@@ -11,6 +15,14 @@ typedef struct
     uint64_t data;
 } CanMessage_s;
 
+typedef struct core_CAN_module_s {
+    FDCAN_HandleTypeDef hfdcan;
+    QueueHandle_t can_queue_rx;
+    QueueHandle_t can_queue_tx;
+    SemaphoreHandle_t can_tx_semaphore;
+    uint8_t fdcan_num_standard_filters;
+    uint8_t fdcan_num_extended_filters;
+} core_CAN_module_t;
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 
