@@ -1,0 +1,25 @@
+#ifndef CORE_TIMEOUT_H
+#define CORE_TIMEOUT_H
+
+#include <stdint.h>
+
+#define CORE_TIMEOUT_BLOCK_SIZE 16
+
+#define CORE_TIMEOUT_STATE_ENABLED 0x01
+#define CORE_TIMEOUT_STATE_TIMED_OUT 0x02
+
+typedef struct core_timeout_s {
+    void *module;
+    uint32_t ref;
+    uint32_t last_event;
+    uint32_t timeout;
+    uint8_t state;
+    void (*callback)(struct core_timeout_s *);
+} core_timeout_t;
+
+void core_timeout_insert(core_timeout_t *timeout);
+void core_timeout_start_all();
+void core_timeout_reset_by_module_ref(void *module, uint32_t ref);
+void core_timeout_check_all();
+
+#endif

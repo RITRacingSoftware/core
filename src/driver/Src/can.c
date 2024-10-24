@@ -13,34 +13,8 @@
 
 #include "gpio.h"
 #include "clock.h"
+#include "timeout.h"
 #include "error_handler.h"
-
-/*// Handlers for different CAN buses
-static FDCAN_HandleTypeDef hfdcan1;
-static FDCAN_HandleTypeDef hfdcan2;
-static FDCAN_HandleTypeDef hfdcan3;
-
-// Handlers for RX queues
-static QueueHandle_t can1_queue_rx;
-static QueueHandle_t can2_queue_rx;
-static QueueHandle_t can3_queue_rx;
-
-// Handle for TX queues
-static QueueHandle_t can1_queue_tx;
-static QueueHandle_t can2_queue_tx;
-static QueueHandle_t can3_queue_tx;
-
-static SemaphoreHandle_t can1_tx_semaphore;
-static SemaphoreHandle_t can2_tx_semaphore;
-static SemaphoreHandle_t can3_tx_semaphore;
-
-// Number of filters for each bus
-static uint8_t fdcan1_num_standard_filters = 0;
-static uint8_t fdcan1_num_extended_filters = 0;
-static uint8_t fdcan2_num_standard_filters = 0;
-static uint8_t fdcan2_num_extended_filters = 0;
-static uint8_t fdcan3_num_standard_filters = 0;
-static uint8_t fdcan3_num_extended_filters = 0;*/
 
 core_CAN_module_t can1;
 core_CAN_module_t can2;
@@ -159,11 +133,9 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
 
     // Configure interrupts and set notifications for CAN bus
-    //HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0 | FDCAN_IT_GROUP_SMSG, FDCAN_INTERRUPT_LINE0);
-    //HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE | FDCAN_FLAG_TX_COMPLETE, 0);
-    HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0, FDCAN_INTERRUPT_LINE0);
-    HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
-
+    if (HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0 | FDCAN_IT_GROUP_SMSG, FDCAN_INTERRUPT_LINE0)) return false;
+    if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK) return false;
+    if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     // Create queue to put received messages in
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
@@ -200,7 +172,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 
     while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE))
     {
-        //xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+        xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
         if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
     }
 
@@ -244,7 +216,8 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         {
             error_handler();
         }
-
+        // Reset the timeout
+        core_timeout_reset_by_module_ref(can, header.Identifier);
         // Add the message to the RX queue
         add_CAN_message_to_rx_queue(can, header.Identifier, header.DataLength, data);
     }

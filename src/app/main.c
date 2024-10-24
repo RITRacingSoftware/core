@@ -8,6 +8,7 @@
 #include "gpio.h"
 #include "usart.h"
 #include "adc.h"
+#include "timeout.h"
 #include "error_handler.h"
 
 #include "FreeRTOS.h"
@@ -15,6 +16,12 @@
 #include "task.h"
 
 #include <stm32g4xx_hal.h>
+
+#define TEST_CAN_ID1 3
+#define TEST_CAN_ID2 3
+
+CanMessage_s canMessage;
+core_timeout_t can_timeout;
 
 uint8_t txbuf[128];
 
@@ -34,32 +41,63 @@ void printhex(uint32_t num, uint8_t digits, uint8_t offset) {
 
 void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
+    uint32_t tickstart;
     while(true) {
         uint16_t adc;
-        core_ADC_read_channel(GPIOA, GPIO_PIN_1, &adc);
-        printdec(adc, 4, 7);
-        printhex(OPAMP3->CSR, 8, 12);
-        core_USART_transmit(USART1, txbuf, strlen(txbuf));
-        vTaskDelay(100 * portTICK_PERIOD_MS);
+        core_timeout_check_all();
+        vTaskDelay(50 * portTICK_PERIOD_MS);
     }
+}
+
+void can_tx_task(void *pvParameters) {
+    (void) pvParameters;
+    if (core_CAN_send_from_tx_queue_task(FDCAN3)) error_handler();
+}
+
+void receive_CAN_task(void *pvParameters) {
+    (void) pvParameters;
+    while(true) {
+        if (core_CAN_receive_from_queue(FDCAN3, &canMessage)) {
+            core_GPIO_toggle_heartbeat();
+            strcpy(txbuf, "data: ----\r\n");
+            printhex(canMessage.data, 4, 6);
+            core_USART_transmit(USART1, txbuf, strlen(txbuf));
+            //if (canMessage.data == 0xfa55) core_GPIO_toggle_heartbeat();
+        }
+        vTaskDelay(5 * portTICK_PERIOD_MS);
+    }
+}
+
+void can_timeout_callback(core_timeout_t *to) {
+    core_GPIO_toggle_heartbeat();
+    strcpy(txbuf, "Timed out\r\n");
+    core_USART_transmit(USART1, txbuf, strlen(txbuf));
 }
 
 int main(void) {
     HAL_Init();
 
-	// Drivers
-    core_heartbeat_init(GPIOB, GPIO_PIN_9);
+    // Drivers
+    core_heartbeat_init(GPIOA, GPIO_PIN_5);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
-	if (!core_clock_init()) error_handler();
-    if (!core_ADC_init(ADC1)) error_handler();
+    if (!core_clock_init()) error_handler();
     if (!core_USART_init(USART1, 500000)) error_handler();
-    strcpy(txbuf, "value: ---- --------\r\n");
-    core_ADC_setup_pin(GPIOA, GPIO_PIN_1, 1);
-    //OPAMP1->CSR = OPAMP_CSR_VMSEL_0 | OPAMP_CSR_VMSEL_1 | 1 | OPAMP_CSR_OPAMPINTEN;
+    if (!core_CAN_init(FDCAN3)) error_handler();
+    if (!core_CAN_add_filter(FDCAN3, false, TEST_CAN_ID1, TEST_CAN_ID2)) error_handler();
+    
+    can_timeout.module = FDCAN3;
+    can_timeout.ref = TEST_CAN_ID1;
+    can_timeout.timeout = 1000;
+    can_timeout.callback = can_timeout_callback;
+    core_timeout_insert(&can_timeout);
+    core_timeout_start_all();
+
+    strcpy(txbuf, "data: ----\r\n");
 
 
-    int err = xTaskCreate(heartbeat_task,
+    int err;
+    err = xTaskCreate(heartbeat_task,
         "heartbeat",
         1000,
         NULL,
@@ -68,6 +106,24 @@ int main(void) {
     if (err != pdPASS) {
         error_handler();
     }
+    err = xTaskCreate(receive_CAN_task,
+        "CAN_RX",
+        1000,
+        NULL,
+        4,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+    /*err = xTaskCreate(can_tx_task,
+        "tx_task",
+        1000,
+        NULL,
+        3,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }*/
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
@@ -83,8 +139,8 @@ int main(void) {
 // Not needed in header, since included in FreeRTOS-Kernel/include/task.h
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName)
 {
-	(void) xTask;
-	(void) pcTaskName;
+    (void) xTask;
+    (void) pcTaskName;
 
     error_handler();
 }
