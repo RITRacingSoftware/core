@@ -118,7 +118,7 @@
 #ifdef CORE_CLOCK_HSE_FREQ
 #define HSE_VALUE (CORE_CLOCK_HSE_FREQ*1000UL)
 #else
-#define HSE_VALUE    (25000000UL) /*!< Value of the External oscillator in Hz */
+#define HSE_VALUE    (24000000UL) /*!< Value of the External oscillator in Hz */
 #endif
 
 #if !defined  (HSE_STARTUP_TIMEOUT)
