@@ -169,10 +169,14 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 {
     CanMessage_s dequeuedMessage;
     core_CAN_module_t *p_can = core_CAN_convert(can);
+    bool autort;
+    if (can == FDCAN1) autort = CORE_FDCAN1_AUTO_RETRANSMISSION;
+    else if (can == FDCAN2) autort = CORE_FDCAN2_AUTO_RETRANSMISSION;
+    else if (can == FDCAN3) autort = CORE_FDCAN3_AUTO_RETRANSMISSION;
 
     while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE))
     {
-        xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+        if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
         if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
     }
 
