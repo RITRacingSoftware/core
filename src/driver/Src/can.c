@@ -20,9 +20,13 @@ core_CAN_module_t can1;
 core_CAN_module_t can2;
 core_CAN_module_t can3;
 
+static const uint8_t dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+
 static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
+static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
+static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
 static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan);
 
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
@@ -56,10 +60,14 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN1_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->autort = CORE_FDCAN1_AUTO_RETRANSMISSION;
 
         // Set max filter numbers
         p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
         p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
+
+        // Extended frame settings
+        p_can->use_fd = CORE_FDCAN1_USE_FD;
     }
     else if (can == FDCAN2)
     {
@@ -70,10 +78,14 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->autort = CORE_FDCAN2_AUTO_RETRANSMISSION;
 
         // Set max filter numbers
         p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
         p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
+
+        // Extended frame settings
+        p_can->use_fd = CORE_FDCAN2_USE_FD;
     }
     else if (can == FDCAN3)
     {
@@ -84,16 +96,20 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
+        p_can->autort = CORE_FDCAN3_AUTO_RETRANSMISSION;
 
         // Set max filter numbers
         p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
         p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
+
+        // Extended frame settings
+        p_can->use_fd = CORE_FDCAN3_USE_FD;
     }
     else return false;
 
 	// Initialize CAN interface
 	p_can->hfdcan.Init.ClockDivider = FDCAN_CLOCK_DIV1;
-	p_can->hfdcan.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+	p_can->hfdcan.Init.FrameFormat = (p_can->use_fd ? FDCAN_FRAME_FD_NO_BRS : FDCAN_FRAME_CLASSIC);
 	p_can->hfdcan.Init.Mode = FDCAN_MODE_NORMAL;
 	p_can->hfdcan.Init.TransmitPause = DISABLE;
 	p_can->hfdcan.Init.ProtocolException = ENABLE;
@@ -138,11 +154,12 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     // Create queue to put received messages in
-    p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
+    size_t msgsize = (p_can->use_fd ? sizeof(CanExtendedMessage_s) : sizeof(CanMessage_s));
+    p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
 
     // Create queue to put outgoing messages in
-    p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, sizeof(CanMessage_s));
+    p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_tx == 0) error_handler();
 
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
@@ -160,26 +177,57 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
-    CanMessage_s message = {(int)id, dlc, data};
+    if (p_can->use_fd) {
+        CanExtendedMessage_s message;
+        message.id = id;
+        message.dlc = dlc;
+        message.use_fd = false;
+        memcpy(&(message.data), &data, 8);
+        return xQueueSendToBack(p_can->can_queue_tx, &message, 0);
+    } else {
+        CanMessage_s message = {(int)id, dlc, data};
+        return xQueueSendToBack(p_can->can_queue_tx, &message, 0);
+    }
+}
 
+bool core_CAN_add_extended_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
+{
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+    if (!(p_can->use_fd)) return false;
+    if (dlc > 64) return false;
+    CanExtendedMessage_s message;
+    message.id = id;
+    message.dlc = dlc;
+    message.use_fd = true;
+    //for (uint8_t i=0; i < dlc; i++) message.data[i] = data[i];
+    memcpy(&(message.data), data, dlc);
     return xQueueSendToBack(p_can->can_queue_tx, &message, 0);
 }
 
 bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 {
+    CanExtendedMessage_s dequeuedExtendedMessage;
     CanMessage_s dequeuedMessage;
     core_CAN_module_t *p_can = core_CAN_convert(can);
-    bool autort;
-    if (can == FDCAN1) autort = CORE_FDCAN1_AUTO_RETRANSMISSION;
-    else if (can == FDCAN2) autort = CORE_FDCAN2_AUTO_RETRANSMISSION;
-    else if (can == FDCAN3) autort = CORE_FDCAN3_AUTO_RETRANSMISSION;
-
-    while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE))
-    {
-        if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
-        if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
+    bool autort = p_can->autort;
+    if (p_can->use_fd) {
+        uint64_t data;
+        while ((xQueueReceive(p_can->can_queue_tx, &dequeuedExtendedMessage, portMAX_DELAY) == pdTRUE)) {
+            if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+            if (dequeuedExtendedMessage.use_fd) {
+                if (!CAN_send_fd_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, dequeuedExtendedMessage.data)) break;
+            } else {
+                memcpy(&data, dequeuedExtendedMessage.data, 8);
+                //uint8_t dlc = dequeuedExtendedMessage.dlc;
+                if (!CAN_send_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, data)) break;
+            }
+        }
+    } else {
+        while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE)) {
+            if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+            if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
+        }
     }
-
     return false;
 }
 
@@ -202,6 +250,27 @@ static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc,
     return err == HAL_OK;
 }
 
+static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
+{
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+
+    uint8_t i=0;
+    while (dlc_lookup[i] < dlc) i++;
+    FDCAN_TxHeaderTypeDef header = {0};
+    header.Identifier = id;
+    header.IdType = FDCAN_STANDARD_ID;
+    header.TxFrameType = FDCAN_DATA_FRAME;
+    header.DataLength = i;
+    header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    header.BitRateSwitch = FDCAN_BRS_OFF;
+    header.FDFormat = FDCAN_FD_CAN;
+    header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
+    header.MessageMarker = 0;
+
+    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, data);
+    return err == HAL_OK;
+}
+
 
 static void rx_handler(FDCAN_GlobalTypeDef *can)
 {
@@ -213,7 +282,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Reset interrupt flag for FIFO0
         p_can->hfdcan.Instance->IR = FDCAN_IT_RX_FIFO0_NEW_MESSAGE;
         FDCAN_RxHeaderTypeDef header;
-        uint8_t data[8];
+        uint8_t data[64];
 
         // Retrieve Rx messages from RX FIFO0
         if (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) != HAL_OK)
@@ -223,7 +292,8 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Reset the timeout
         core_timeout_reset_by_module_ref(can, header.Identifier);
         // Add the message to the RX queue
-        add_CAN_message_to_rx_queue(can, header.Identifier, header.DataLength, data);
+        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
+        else add_CAN_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data);
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag
@@ -234,10 +304,22 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     }
 }
 
-static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
-{
+static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
+    CanExtendedMessage_s rx_msg;
+    rx_msg.id = id;
+    rx_msg.dlc = dlc;
+    rx_msg.use_fd = use_fd;
+    memcpy(rx_msg.data, data, dlc);
+
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    xQueueSendFromISR(p_can->can_queue_rx, &rx_msg, &xHigherPriorityTaskWoken);
+    if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data) {
+    core_CAN_module_t *p_can = core_CAN_convert(can);
     uint64_t msg_data = 0;
     memcpy(&msg_data, data, dlc);
 
@@ -249,6 +331,16 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     xQueueSendFromISR(p_can->can_queue_rx, &rx_msg, &xHigherPriorityTaskWoken);
     if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedMessage_s *received_message)
+{
+    core_CAN_module_t *p_can = core_CAN_convert(can);
+    if (p_can == NULL) return false;
+
+    // Receive CAN message from queue, copy it to buffer "received_message"
+    // Return true if it read a value from the queue, false if not
+    return (xQueueReceive(p_can->can_queue_rx, received_message, 0) == pdTRUE);
 }
 
 bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *received_message)
@@ -274,21 +366,8 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
     uint8_t max_filter_num;
 
     // Setup for each CAN bus, whether it's standard or extended
-    if (can == FDCAN1)
-    {
-        if (isExtended) max_filter_num = CORE_FDCAN1_MAX_EXTENDED_FILTER_NUM;
-        else max_filter_num = CORE_FDCAN1_MAX_STANDARD_FILTER_NUM;
-    }
-    else if (can == FDCAN2)
-    {
-        if (isExtended) max_filter_num = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
-        else max_filter_num = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
-    }
-    else
-    {
-        if (isExtended) max_filter_num = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
-        else max_filter_num = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
-    }
+    if (isExtended) max_filter_num = p_can->hfdcan.Init.ExtFiltersNbr;
+    else max_filter_num = p_can->hfdcan.Init.StdFiltersNbr;
 
     if (isExtended) {
         p_num_filters = &(p_can->fdcan_num_extended_filters);

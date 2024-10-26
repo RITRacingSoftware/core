@@ -8,12 +8,21 @@
 #include "queue.h"
 #include "semphr.h"
 
+
 typedef struct
 {
     int id;
     int dlc;
     uint64_t data;
 } CanMessage_s;
+
+typedef struct
+{
+    int id;
+    int dlc;
+    bool use_fd;
+    uint8_t data[64];
+} CanExtendedMessage_s;
 
 typedef struct core_CAN_module_s {
     FDCAN_HandleTypeDef hfdcan;
@@ -22,14 +31,18 @@ typedef struct core_CAN_module_s {
     SemaphoreHandle_t can_tx_semaphore;
     uint8_t fdcan_num_standard_filters;
     uint8_t fdcan_num_extended_filters;
+    uint8_t autort;
+    uint8_t use_fd;
 } core_CAN_module_t;
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 
 bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
+bool core_CAN_add_extended_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can);
 
 bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *received_message);
+bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedMessage_s *received_message);
 
 bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1, uint32_t id2);
 

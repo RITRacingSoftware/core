@@ -30,6 +30,7 @@ core_timeout_t can_timeout;
 char txbuf[128];
 char imubuf[512];
 uint32_t imubuflen;
+uint8_t counter = 0;
 
 void printdec(uint32_t num, uint8_t digits, uint8_t offset) {
     for (uint8_t x=0; x<digits; x++) {
@@ -91,7 +92,34 @@ void heartbeat_task(void *pvParameters) {
             printfloat(res.AccelZ, 12, 44);
             core_USART_transmit(USART1, txbuf, strlen(txbuf));
         }
+        for (int i=0; i < 32; i++) {
+            txbuf[2*i] = 0x55;
+            txbuf[2*i+1] = 0xaa;
+        }
+        //txbuf[0] = counter;
+        //counter++;
+        core_CAN_add_extended_message_to_tx_queue(FDCAN3, 2, 64, txbuf);
+        //core_CAN_add_message_to_tx_queue(FDCAN3, 3, 8, 0xaa55aa55aa55aa55);
         vTaskDelay(100 * portTICK_PERIOD_MS);
+    }
+}
+
+void can_tx_task(void *pvParameters) {
+    (void) pvParameters;
+    core_CAN_send_from_tx_queue_task(FDCAN3);
+    error_handler();
+}
+
+void can_rx_task(void *pvParameters) {
+    (void) pvParameters;
+    CanExtendedMessage_s msg;
+    while (1) {
+        if (core_CAN_receive_extended_from_queue(FDCAN2, &msg)) {
+            core_GPIO_toggle_heartbeat();
+            sprintf(txbuf, "received %d bytes\r\n", msg.dlc);
+            core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        }
+        vTaskDelay(10 * portTICK_PERIOD_MS);
     }
 }
 
@@ -105,6 +133,9 @@ int main(void) {
     if (!core_clock_init()) error_handler();
     if (!core_USART_init(USART1, 500000)) error_handler();
     if (!core_USART_init(USART3, 921600)) error_handler();
+    if (!core_CAN_init(FDCAN3)) error_handler();
+    if (!core_CAN_init(FDCAN2)) error_handler();
+    if (!core_CAN_add_filter(FDCAN2, 0, 2, 2)) error_handler();
     if (!core_USART_start_rx(USART3, imubuf, &imubuflen)) error_handler();
     imubuflen = 0;
 
@@ -118,6 +149,24 @@ int main(void) {
         1000,
         NULL,
         4,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+    err = xTaskCreate(can_tx_task,
+        "tx",
+        1000,
+        NULL,
+        3,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+    err = xTaskCreate(can_rx_task,
+        "rx",
+        1000,
+        NULL,
+        3,
         NULL);
     if (err != pdPASS) {
         error_handler();
