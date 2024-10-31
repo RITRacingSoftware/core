@@ -24,6 +24,8 @@
 #define TEST_CAN_ID1 3
 #define TEST_CAN_ID2 3
 
+#define CAN FDCAN1
+
 CanMessage_s canMessage;
 core_timeout_t can_timeout;
 
@@ -76,6 +78,7 @@ void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
     uint32_t tickstart;
     imu_result_t res;
+    TickType_t nextWakeTime = xTaskGetTickCount();
     while(true) {
         if (imubuflen) {
             tickstart = HAL_GetTick();
@@ -87,9 +90,9 @@ void heartbeat_task(void *pvParameters) {
             //sprintf(txbuf, "%08lx: accel %d, %d, %d\r\n", tickstart, (int16_t)(1000*res.AccelX), (int16_t)(1000*res.AccelY), (int16_t)(1000*res.AccelZ));
             strcpy(txbuf, "--------: accel ------------, ------------, ------------\r\n");
             printhex(tickstart, 8, 0);
-            printfloat(res.AccelX, 12, 16);
-            printfloat(res.AccelY, 12, 30);
-            printfloat(res.AccelZ, 12, 44);
+            printfloat(res.AngularRateX, 12, 16);
+            printfloat(res.AngularRateY, 12, 30);
+            printfloat(res.AngularRateZ, 12, 44);
             core_USART_transmit(USART1, txbuf, strlen(txbuf));
         }
         for (int i=0; i < 32; i++) {
@@ -98,15 +101,17 @@ void heartbeat_task(void *pvParameters) {
         }
         //txbuf[0] = counter;
         //counter++;
-        core_CAN_add_extended_message_to_tx_queue(FDCAN3, 2, 64, txbuf);
-        //core_CAN_add_message_to_tx_queue(FDCAN3, 3, 8, 0xaa55aa55aa55aa55);
+        core_GPIO_toggle_heartbeat();
+        //if (!core_CAN_add_extended_message_to_tx_queue(FDCAN1, 2, 64, txbuf)) error_handler();
+        core_CAN_add_message_to_tx_queue(CAN, 3, 8, 0xaa55aa55aa55aa55);
         vTaskDelay(100 * portTICK_PERIOD_MS);
+        //vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
 
 void can_tx_task(void *pvParameters) {
     (void) pvParameters;
-    core_CAN_send_from_tx_queue_task(FDCAN3);
+    core_CAN_send_from_tx_queue_task(CAN);
     error_handler();
 }
 
@@ -127,16 +132,18 @@ int main(void) {
     HAL_Init();
 
     // Drivers
-    core_heartbeat_init(GPIOA, GPIO_PIN_5);
+    core_heartbeat_init(GPIOB, GPIO_PIN_15);
+    //core_heartbeat_init(GPIOA, GPIO_PIN_5);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
+    //HAL_RCC_MCOConfig(RCC_MCO_PA8, RCC_MCO1SOURCE_HSI, RCC_MCODIV_2);
     if (!core_USART_init(USART1, 500000)) error_handler();
-    if (!core_USART_init(USART3, 921600)) error_handler();
-    if (!core_CAN_init(FDCAN3)) error_handler();
-    if (!core_CAN_init(FDCAN2)) error_handler();
-    if (!core_CAN_add_filter(FDCAN2, 0, 2, 2)) error_handler();
-    if (!core_USART_start_rx(USART3, imubuf, &imubuflen)) error_handler();
+    //if (!core_USART_init(USART3, 921600)) error_handler();
+    if (!core_CAN_init(CAN)) error_handler();
+    //if (!core_CAN_init(FDCAN2)) error_handler();
+    //if (!core_CAN_add_filter(FDCAN2, 0, 2, 2)) error_handler();
+    //if (!core_USART_start_rx(USART3, imubuf, &imubuflen)) error_handler();
     imubuflen = 0;
 
     strcpy(txbuf, "Reset\r\n");
@@ -162,7 +169,7 @@ int main(void) {
     if (err != pdPASS) {
         error_handler();
     }
-    err = xTaskCreate(can_rx_task,
+    /*err = xTaskCreate(can_rx_task,
         "rx",
         1000,
         NULL,
@@ -170,7 +177,7 @@ int main(void) {
         NULL);
     if (err != pdPASS) {
         error_handler();
-    }
+    }*/
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 

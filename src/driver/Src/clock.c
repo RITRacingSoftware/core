@@ -204,7 +204,7 @@ bool core_clock_init() {
 #ifdef CORE_CLOCK_USE_HSE
     ext_freq = CORE_CLOCK_HSE_FREQ;
 #else
-    ext_freq = HSI_FREQ;
+    ext_freq = CORE_CLOCK_HSI_FREQ;
 #endif
     uint32_t sysclk_freq = CORE_CLOCK_SYSCLK_FREQ;
     if (!core_clock_generate_params(ext_freq, sysclk_freq, &ndiv, &mdiv, &rdiv)) {
@@ -213,13 +213,14 @@ bool core_clock_init() {
 
     // Initialize the RCC Oscillators
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
 #ifdef CORE_CLOCK_USE_HSE
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 #else
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-    RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
+    //RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
 #endif
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;

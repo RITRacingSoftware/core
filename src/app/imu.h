@@ -31,6 +31,29 @@ typedef struct imu_result_s {
           LinAccelEcefX, LinAccelEcefY, LinAccelEcefZ,
           PosU,
           VelU;
+    // time data
+    uint64_t TimeStartup, TimeGps, GpsTow;
+    uint16_t GpsWeek;
+    uint64_t TimeSyncIn, TimeGpsPps;
+    int8_t TimeUtcYear;
+    uint8_t TimeUtcMonth, TimeUtcDay,
+            TimeUtcHour, TimeUtcMinute, TimeUtcSecond;
+    uint16_t TimeUtcFracSec;
+    uint32_t SyncInCnt, SyncOutCnt;
+    uint8_t TimeStatus;
+    // GNSS1 data
+    uint8_t NumSats1, Gnss1Fix;
+    double Gnss1PosLlaL, Gnss1PosLlaO, Gnss1PosLlaA,
+           Gnss1PosEcefX, Gnss1PosEcefY, Gnss1PosEcefZ;
+    float Gnss1VelNedN, Gnss1VelNedE, Gnss1VelNedD,
+          Gnss1VelEcefX, Gnss1VelEcefY, Gnss1VelEcefZ,
+          Gnss1PosUncertaintyN, Gnss1PosUncertaintyE, Gnss1PosUncertaintyD,
+          Gnss1VelUncertainty,
+          Gnss1TimeUncertainty;
+
+
+    // GNSS2 data
+    // attitude data
 } imu_result_t;
 
 bool imu_parse(uint8_t *buf, imu_result_t *data);

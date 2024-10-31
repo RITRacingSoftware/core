@@ -54,9 +54,12 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     if (can == FDCAN1)
     {
         p_can->hfdcan.Instance = FDCAN1;
-        gpio.Pin = CAN1_PINS;
-        gpio.Alternate = CORE_FDCAN1_AF;
-        HAL_GPIO_Init(CAN1_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN1_TX_PIN;
+        gpio.Alternate = CORE_FDCAN1_TX_AF;
+        HAL_GPIO_Init(CORE_FDCAN1_TX_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN1_RX_PIN;
+        gpio.Alternate = CORE_FDCAN1_RX_AF;
+        HAL_GPIO_Init(CORE_FDCAN1_RX_PORT, &gpio);
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN1_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
@@ -72,9 +75,12 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     else if (can == FDCAN2)
     {
         p_can->hfdcan.Instance = FDCAN2;
-        gpio.Pin = CAN2_PINS;
-        gpio.Alternate = CORE_FDCAN2_AF;
-        HAL_GPIO_Init(CAN2_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN2_TX_PIN;
+        gpio.Alternate = CORE_FDCAN2_TX_AF;
+        HAL_GPIO_Init(CORE_FDCAN2_TX_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN2_RX_PIN;
+        gpio.Alternate = CORE_FDCAN2_RX_AF;
+        HAL_GPIO_Init(CORE_FDCAN2_RX_PORT, &gpio);
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
@@ -90,9 +96,12 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     else if (can == FDCAN3)
     {
         p_can->hfdcan.Instance = FDCAN3;
-        gpio.Pin = CAN3_PINS;
-        gpio.Alternate = CORE_FDCAN3_AF;
-        HAL_GPIO_Init(CAN3_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN3_TX_PIN;
+        gpio.Alternate = CORE_FDCAN3_TX_AF;
+        HAL_GPIO_Init(CORE_FDCAN3_TX_PORT, &gpio);
+        gpio.Pin = CORE_FDCAN3_RX_PIN;
+        gpio.Alternate = CORE_FDCAN3_RX_AF;
+        HAL_GPIO_Init(CORE_FDCAN3_RX_PORT, &gpio);
 
         // Auto retransmission settings
         p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
