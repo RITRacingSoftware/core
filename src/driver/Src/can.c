@@ -387,7 +387,7 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
     FDCAN_FilterTypeDef filter;
     filter.IdType = isExtended ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID;
     filter.FilterIndex = *p_num_filters++;
-    filter.FilterType = FDCAN_FILTER_DUAL;
+    filter.FilterType = FDCAN_FILTER_RANGE;
     filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
     filter.FilterID1 = id1;
     filter.FilterID2 = id2;
