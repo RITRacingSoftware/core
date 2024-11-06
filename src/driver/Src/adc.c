@@ -211,6 +211,7 @@ bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
         GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_LOW;
         HAL_GPIO_Init(port, &GPIO_InitStructure);
     }
+    return true;
 }
 
 

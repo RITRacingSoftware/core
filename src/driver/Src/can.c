@@ -158,9 +158,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
 
     // Configure interrupts and set notifications for CAN bus
-    if (HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0 | FDCAN_IT_GROUP_SMSG, FDCAN_INTERRUPT_LINE0)) return false;
+    if (HAL_FDCAN_ConfigInterruptLines(&(p_can->hfdcan), FDCAN_IT_GROUP_RX_FIFO0 | FDCAN_IT_GROUP_SMSG | FDCAN_IT_GROUP_PROTOCOL_ERROR, FDCAN_INTERRUPT_LINE0)) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
+    if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_ARB_PROTOCOL_ERROR, 0) != HAL_OK) return false;
+    //if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_ABORT_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     // Create queue to put received messages in
     size_t msgsize = (p_can->use_fd ? sizeof(CanExtendedMessage_s) : sizeof(CanMessage_s));
@@ -222,7 +224,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
     if (p_can->use_fd) {
         uint64_t data;
         while ((xQueueReceive(p_can->can_queue_tx, &dequeuedExtendedMessage, portMAX_DELAY) == pdTRUE)) {
-            if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+            /*if (autort)*/ xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
             if (dequeuedExtendedMessage.use_fd) {
                 if (!CAN_send_fd_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, dequeuedExtendedMessage.data)) break;
             } else {
@@ -233,7 +235,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
         }
     } else {
         while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE)) {
-            if (autort) xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
+            /*if (autort)*/ xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
             if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
         }
     }
@@ -255,6 +257,7 @@ static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc,
     header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
     header.MessageMarker = 0;
 
+    while ((can->PSR & (0x3 << 3)) != (0x01 << 3));
     HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, (uint8_t*) &data);
     return err == HAL_OK;
 }
@@ -276,6 +279,7 @@ static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t d
     header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
     header.MessageMarker = 0;
 
+    while ((can->PSR & (0x3 << 3)) != (0x01 << 3));
     HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, data);
     return err == HAL_OK;
 }
@@ -307,6 +311,12 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag
         p_can->hfdcan.Instance->IR = FDCAN_IR_TC;
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+    else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PEA) {
+        p_can->hfdcan.Instance->IR = FDCAN_IR_PEA;
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
