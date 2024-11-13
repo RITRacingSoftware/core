@@ -1,3 +1,28 @@
+/**
+  * @file   usart.c
+  * @brief  Core UART library
+  *
+  * This core library component is used to initialize USARTs, transmit data 
+  * over USART, and asynchronously receive data over USART.
+  *
+  * ## Initialization
+  * To initialize a USART for transmitting, user code must call the function
+  * core_USART_init() and specify the desired baud rate. To initialize a USART
+  * for receiving, user code must call the function core_USART_start_rx().
+  *
+  * ## Enabling and disabling
+  * When the USART module is configured for receiving, and it has not received
+  * any bytes for a given time, the USART hardware triggers an interrupt, which
+  * will copy the data in the internal RX buffer to the buffer passed to 
+  * core_USART_start_rx(). If another function was processing the data in this
+  * buffer when the interrupt is triggered, then the data will be corrupted.
+  * Thus, the user code must call core_USART_update_disable() before processing
+  * received data and core_USART_update_enable() when it is done
+  *
+  * @note   Any data received while updating is disabled will be lost.
+  *
+  */
+
 #include "usart.h"
 #include "core_config.h"
 
@@ -12,32 +37,32 @@
 #include "gpio.h"
 #include "core_config.h"
 
-uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
-uint32_t core_USART1_rxbuflen_int;
-volatile uint8_t *core_USART1_rxbuf;
-volatile uint32_t *core_USART1_rxbuflen;
-uint8_t core_USART2_rxbuf_int[CORE_USART_RXBUFLEN];
-uint32_t core_USART2_rxbuflen_int;
-volatile uint8_t *core_USART2_rxbuf;
-volatile uint32_t *core_USART2_rxbuflen;
-uint8_t core_USART3_rxbuf_int[CORE_USART_RXBUFLEN];
-uint32_t core_USART3_rxbuflen_int;
-volatile uint8_t *core_USART3_rxbuf;
-volatile uint32_t *core_USART3_rxbuflen;
+static uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
+static uint32_t core_USART1_rxbuflen_int;
+static volatile uint8_t *core_USART1_rxbuf;
+static volatile uint32_t *core_USART1_rxbuflen;
+static uint8_t core_USART2_rxbuf_int[CORE_USART_RXBUFLEN];
+static uint32_t core_USART2_rxbuflen_int;
+static volatile uint8_t *core_USART2_rxbuf;
+static volatile uint32_t *core_USART2_rxbuflen;
+static uint8_t core_USART3_rxbuf_int[CORE_USART_RXBUFLEN];
+static uint32_t core_USART3_rxbuflen_int;
+static volatile uint8_t *core_USART3_rxbuf;
+static volatile uint32_t *core_USART3_rxbuflen;
 
-volatile uint8_t core_USART_flags;
+static volatile uint8_t core_USART_flags;
 
-USART_HandleTypeDef usart1;
-USART_HandleTypeDef usart2;
-USART_HandleTypeDef usart3;
+static USART_HandleTypeDef usart1;
+static USART_HandleTypeDef usart2;
+static USART_HandleTypeDef usart3;
 
 /**
   * @brief  Initialize a USART module in asynchronous mode with the given baud
   *         rate.
   * @param  usart The USART module to initialize
   * @param  baud Baud rate
-  * @param  0 if the given USART is not valid of if the initialization failed,
-  *         1 otherwise
+  * @retval 0 if the given USART is not valid of if the initialization failed
+  * @retval 1 otherwise
   */
 bool core_USART_init(USART_TypeDef *usart, uint32_t baud) {
     USART_HandleTypeDef *husart;
@@ -84,7 +109,8 @@ bool core_USART_init(USART_TypeDef *usart, uint32_t baud) {
   * @param  usart The USART module
   * @param  rxbuf Location where received data from the USART should be stored
   * @param  rxbuflen Location where the number of received bytes should be stored
-  * @retval 0 if the given USART is not valid, 1 otherwise
+  * @retval 0 if the given USART is not valid
+  * @retval 1 otherwise
   */
 bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile uint32_t *rxbuflen) {
     if (usart == USART1) {
@@ -197,6 +223,8 @@ void core_USART_update_enable(USART_TypeDef *usart) {
   * @param  usart The USART module
   * @param  txbuf Location where the data to be transmitted is read from
   * @param  txbuflen Number of bytes to transmit
+  * @retval 1 if transmission was successful
+  * @retval 0 otherwise
   */
 bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen) {
     USART_HandleTypeDef *husart;

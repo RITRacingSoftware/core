@@ -98,6 +98,7 @@ void core_timeout_reset_by_module_ref(void *module, uint32_t ref) {
   * @param  timeout Pointer to the timeout being reset
   */
 void core_timeout_reset(core_timeout_t *timeout) {
+    uint32_t t = HAL_GetTick();
     timeout->last_event = t;
     timeout->state &= ~CORE_TIMEOUT_STATE_TIMED_OUT;
 }

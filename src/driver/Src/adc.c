@@ -1,3 +1,31 @@
+/**
+  * @file   adc.c
+  * @brief  Core ADC library
+  *
+  * This core library component is used to initialize ADCs and read from analog
+  * inputs. 
+  *
+  * ## Initialization
+  * Before initializing any pins, the user code must initialize one or more ADC
+  * modules. 
+  * 
+  * To initialize a pin, the user code calls core_ADC_setup_pin(). This
+  * function takes the port and pin number as well as a third argument
+  * specifying whether the analog signal should be routed through an internal
+  * op amp follower circuit. This will improve the accuracy of the measurement
+  * when the analog input is fed from a high-impedance source
+  *
+  * If core_ADC_setup_pin() returns 0, then the desired pin cannot be connected
+  * to any of the ADCs that are currently initialized. It may be necessary to
+  * initialize an additional ADC module or change the pin the analog input is
+  * connected to.
+  *
+  * ## Reading
+  * To read from an analog input, the user code calls core_ADC_read_channel().
+  * The result is stored in a pointer passed as an argument, and the return
+  * value specifies whether the conversion was successful or not.
+  */
+
 #include "adc.h"
 #include "core_config.h"
 
@@ -31,12 +59,12 @@ static core_ADC_def_t adc_defs[] = {
 {GPIOA, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC5, {0, 0, 0, 0, 2}, 0, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP3, {15, 0, 12, 0, 0}, 8, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC3, {12, 0, 1, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOB, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC2, {0, 12, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_11, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP4, {14, 14, 0, 0, 0}, 128, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_12, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP6, {11, 0, 0, 3, 0}, 0, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_13, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP3 | CORE_ADC_ALLOWED_OPAMP4 | CORE_ADC_ALLOWED_OPAMP6, {0, 0, 5, 0, 0}, 2064, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP5, {5, 0, 0, 4, 0}, 4, NULL, NULL, 0, 0},
 {GPIOB, GPIO_PIN_15, CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_ADC4, {0, 15, 0, 5, 0}, 0, NULL, NULL, 0, 0},
-{GPIOB, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC2, {0, 12, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOC, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {6, 6, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOC, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {7, 7, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOC, GPIO_PIN_2, CORE_ADC_ALLOWED_ADC1 | CORE_ADC_ALLOWED_ADC2, {8, 8, 0, 0, 0}, 0, NULL, NULL, 0, 0},
@@ -50,15 +78,15 @@ static core_ADC_def_t adc_defs[] = {
 {GPIOD, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP2, {0, 0, 11, 11, 11}, 12, NULL, NULL, 0, 0},
 {GPIOD, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 0, 12, 12}, 0, NULL, NULL, 0, 0},
 {GPIOD, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP6, {0, 0, 0, 13, 13}, 1024, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_7, CORE_ADC_ALLOWED_ADC3, {0, 0, 4, 0, 0}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 6, 6, 6}, 0, NULL, NULL, 0, 0},
+{GPIOE, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC3, {0, 0, 2, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_10, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 14, 14, 14}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_11, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 15, 15, 15}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_12, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 16, 16, 16}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_13, CORE_ADC_ALLOWED_ADC3, {0, 0, 3, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_14, CORE_ADC_ALLOWED_ADC4, {0, 0, 0, 1, 0}, 0, NULL, NULL, 0, 0},
 {GPIOE, GPIO_PIN_15, CORE_ADC_ALLOWED_ADC4, {0, 0, 0, 2, 0}, 0, NULL, NULL, 0, 0},
-{GPIOE, GPIO_PIN_7, CORE_ADC_ALLOWED_ADC3, {0, 0, 4, 0, 0}, 0, NULL, NULL, 0, 0},
-{GPIOE, GPIO_PIN_8, CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_ADC5, {0, 0, 6, 6, 6}, 0, NULL, NULL, 0, 0},
-{GPIOE, GPIO_PIN_9, CORE_ADC_ALLOWED_ADC3, {0, 0, 2, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOF, GPIO_PIN_0, CORE_ADC_ALLOWED_ADC1, {10, 0, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 {GPIOF, GPIO_PIN_1, CORE_ADC_ALLOWED_ADC2, {0, 10, 0, 0, 0}, 0, NULL, NULL, 0, 0},
 };
@@ -77,7 +105,8 @@ static const uint32_t core_ADC_channel_lookup[19] = {
   *         calibration. GPIO ports are not initialized.
   * @param  adc The ADC module to initialize
   * @retval 0 if adc is not a valid ADC module or if the ADC fails to
-  *         initialize, 1 otherwise.
+  *         initialize
+  * @retval 1 otherwise.
   */
 bool core_ADC_init(ADC_TypeDef *adc) {
     // Enable clock for opamps
@@ -135,7 +164,7 @@ bool core_ADC_init(ADC_TypeDef *adc) {
   * @param  opamp 1 if the input should be routed through an opamp, 
   *         0 otherwise
   * @retval 1 if a configuration was found for the given pin
-  *         0 otherwise
+  * @retval 0 otherwise
   */
 bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
     core_ADC_def_t *adc_def_ptr = NULL;
@@ -222,7 +251,7 @@ bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
   * @param  result Location to which the result should be stored
   * @retval 0 if the given pin is not an analog input or if the corresponding
   *         ADC module is not initialized or if an error occurs while reading,
-  *         1 otherwise
+  * @retval 1 otherwise
   */
 bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result) {
     core_ADC_def_t *adc_def_ptr = NULL;

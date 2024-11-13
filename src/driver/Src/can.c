@@ -1,3 +1,42 @@
+/**
+  * @file   can.c
+  * @brief  Core FDCAN library
+  * 
+  * This core library component is used to interface with the FDCAN hardware.
+  *
+  * ## Initialization
+  * An FDCAN module is initialized by calling the core_CAN_init() function. The
+  * CAN bitrate is set to `CORE_CAN_BITRATE`, which is given in bits/second and
+  * defined in `core_config.h`. If `CORE_FDCANx_AUTO_RETRANSMISSION` is set to
+  * 1 in `core_config.h`, the FDCANx module will be cofigured to automatically 
+  * retransmit packets that were not acknowledged. If `CORE_FDCANx_USE_FD` is 
+  * set to 1 in `core_config.h`, the FDCANx module will be able to send and 
+  * receive FD CAN frames as well as standard CAN frames.
+  *
+  * ## Transmitting
+  * Transmission on the CAN bus is managed by a FreeRTOS queue and occurs in
+  * two parts. First, the user code adds a CAN frame to the queue with
+  * core_CAN_add_message_to_tx_queue() (classic and FD CAN) or with 
+  * core_CAN_add_extended_message_to_tx_queue() (FD CAN only). 
+  *
+  * The user code must also run core_CAN_send_from_tx_queue_task() in a
+  * dedicated FreeRTOS task. If core_CAN_send_from_tx_queue_task(), an error
+  * has occurred while transmitting.
+  *
+  * ## Receiving
+  * In order to enable receiving CAN frames, the user code must first set up
+  * one or more filters using the core_CAN_add_filter() function. When a frame
+  * matching any of the applied filters is received, the FDCAN hardware
+  * triggers an interrupt that inserts the contents of this frame into a
+  * receiving FreeRTOS queue.
+  *
+  * The user code must the define a task that repeatedly calls 
+  * core_CAN_receive_from_queue() (classic CAN) or 
+  * core_CAN_receive_extended_from_queue() (FD CAN only). These functions will
+  * return 1 if a frame has been loaded from the queue and 0 otherwise. It is 
+  * necessary to poll these functions, since they are non-blocking.
+  */
+
 #include "can.h"
 #include "core_config.h"
 
@@ -16,9 +55,9 @@
 #include "timeout.h"
 #include "error_handler.h"
 
-core_CAN_module_t can1;
-core_CAN_module_t can2;
-core_CAN_module_t can3;
+static core_CAN_module_t can1;
+static core_CAN_module_t can2;
+static core_CAN_module_t can3;
 
 static const uint8_t dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
@@ -36,6 +75,12 @@ core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
     return NULL;
 }
 
+/**
+  * @brief  Initialize an FDCAN module, the RX and TX queues, 
+  *         and the RX and TX pins.
+  * @retval 0 if the given FDCAN is not valid or the initialization failed
+  * @retval 1 otherwise
+  */
 bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 {
     // Init port clock based on which CAN bus
@@ -116,13 +161,13 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     }
     else return false;
 
-	// Initialize CAN interface
-	p_can->hfdcan.Init.ClockDivider = FDCAN_CLOCK_DIV1;
-	p_can->hfdcan.Init.FrameFormat = (p_can->use_fd ? FDCAN_FRAME_FD_NO_BRS : FDCAN_FRAME_CLASSIC);
-	p_can->hfdcan.Init.Mode = FDCAN_MODE_NORMAL;
-	p_can->hfdcan.Init.TransmitPause = DISABLE;
-	p_can->hfdcan.Init.ProtocolException = ENABLE;
-	p_can->hfdcan.Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
+    // Initialize CAN interface
+    p_can->hfdcan.Init.ClockDivider = FDCAN_CLOCK_DIV1;
+    p_can->hfdcan.Init.FrameFormat = (p_can->use_fd ? FDCAN_FRAME_FD_NO_BRS : FDCAN_FRAME_CLASSIC);
+    p_can->hfdcan.Init.Mode = FDCAN_MODE_NORMAL;
+    p_can->hfdcan.Init.TransmitPause = DISABLE;
+    p_can->hfdcan.Init.ProtocolException = ENABLE;
+    p_can->hfdcan.Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
     CAN_clock_set_params(&(p_can->hfdcan));
 
     // Init CAN interface
@@ -176,15 +221,24 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
     xSemaphoreGive(p_can->can_tx_semaphore);
 
-	// Start can interface
-	if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK)
+    // Start can interface
+    if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK)
     {
-		return false;
-	}
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
+/**
+  * @brief  Add a CAN frame to the TX queue
+  * @param  can FDCAN module for which the frame is being enqueued
+  * @param  id ID of the CAN frame
+  * @param  dlc Number of data bytes in the CAN frame
+  * @param  data Data bytes, encoded LSB-first as a uint64
+  * @retval 0 if the queue is full
+  * @retval 1 otherwise
+  */
 bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
@@ -201,6 +255,16 @@ bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uin
     }
 }
 
+/**
+  * @brief  Add a CAN frame to the TX queue
+  * @param  can FDCAN module for which the frame is being enqueued
+  * @param  id ID of the CAN frame
+  * @param  dlc Number of data bytes in the CAN frame
+  * @param  data Pointer to an array of data bytes
+  * @retval 0 if the queue is full, if the FDCAN is not configured for
+  *         FD operation, or if `dlc` > 64
+  * @retval 1 otherwise
+  */
 bool core_CAN_add_extended_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
@@ -215,6 +279,11 @@ bool core_CAN_add_extended_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_
     return xQueueSendToBack(p_can->can_queue_tx, &message, 0);
 }
 
+/**
+  * @brief  Loop for sending data in the TX queue over CAN. This function
+  *         must be run in its own task.
+  * @param  can FDCAN module
+  */
 bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 {
     CanExtendedMessage_s dequeuedExtendedMessage;
@@ -352,6 +421,14 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
     if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
+/**
+  * @brief  If a frame is waiting in the RX queue, copy it to the given location
+  * @param  can FDCAN module from which the frame is read
+  * @param  received_message Pointer to the location where the received frame
+  *         would be stored
+  * @retval 1 if a frame was copied from the queue into the given location
+  * @retval 0 otherwise
+  */
 bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedMessage_s *received_message)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
@@ -362,6 +439,14 @@ bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedM
     return (xQueueReceive(p_can->can_queue_rx, received_message, 0) == pdTRUE);
 }
 
+/**
+  * @brief  If a frame is waiting in the RX queue, copy it to the given location
+  * @param  can FDCAN module from which the frame is read
+  * @param  received_message Pointer to the location where the received frame
+  *         would be stored
+  * @retval 1 if a frame was copied from the queue into the given location
+  * @retval 0 otherwise
+  */
 bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *received_message)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
@@ -377,6 +462,18 @@ void FDCAN1_IT0_IRQHandler(void) {rx_handler(FDCAN1);}
 void FDCAN2_IT0_IRQHandler(void) {rx_handler(FDCAN2);}
 void FDCAN3_IT0_IRQHandler(void) {rx_handler(FDCAN3);}
 
+/**
+  * @brief  Add an RX filter for the given FDCAN module
+  *
+  * All frames with IDs greater than or equal to `id1` and less than or equal
+  * to `id2` will be placed in the RX queue
+  * @param  can FDCAN module for which the filter should be created
+  * @param  isExtended Specifies whether the IDs are extended CAN IDs
+  * @param  id1 Lower bound (inclusive)
+  * @param  id2 Upper bound (inclusive)
+  * @retval 1 if the filter was added successfully
+  * @retval 0 otherwise
+  */
 bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1, uint32_t id2)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
