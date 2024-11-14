@@ -110,6 +110,9 @@ bool core_clock_I2C_init(I2C_TypeDef *i2c) {
   * @retval 1
   */
 bool core_clock_RTC_init() {
+    __HAL_RCC_PWR_CLK_ENABLE();
+    HAL_PWR_EnableBkUpAccess();
+    __HAL_RCC_RTCAPB_CLK_ENABLE();
     __HAL_RCC_LSE_CONFIG(RCC_LSE_ON);
     __HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);
     __HAL_RCC_RTC_ENABLE();

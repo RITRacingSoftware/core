@@ -11,6 +11,7 @@
 #include "usart.h"
 #include "adc.h"
 #include "timeout.h"
+#include "rtc.h"
 #include "error_handler.h"
 
 #include "imu.h"
@@ -20,6 +21,8 @@
 #include "task.h"
 
 #include <stm32g4xx_hal.h>
+#include <stm32g4xx_hal_rtc.h>
+#include <stm32g4xx_hal_pwr.h>
 
 #define TEST_CAN_ID1 3
 #define TEST_CAN_ID2 3
@@ -80,32 +83,17 @@ void heartbeat_task(void *pvParameters) {
     imu_result_t res;
     TickType_t nextWakeTime = xTaskGetTickCount();
     while(true) {
-        if (imubuflen) {
-            tickstart = HAL_GetTick();
-            core_USART_update_disable(USART3);
-            //sprintf(txbuf, "%08lx: data: %ld bytes, %02x %02x\r\n", tickstart, imubuflen, imubuf[0], imubuf[1]);
-            imu_parse(imubuf, &res);
-            imubuflen = 0;
-            core_USART_update_enable(USART3);
-            //sprintf(txbuf, "%08lx: accel %d, %d, %d\r\n", tickstart, (int16_t)(1000*res.AccelX), (int16_t)(1000*res.AccelY), (int16_t)(1000*res.AccelZ));
-            strcpy(txbuf, "--------: accel ------------, ------------, ------------\r\n");
-            printhex(tickstart, 8, 0);
-            printfloat(res.AngularRateX, 12, 16);
-            printfloat(res.AngularRateY, 12, 30);
-            printfloat(res.AngularRateZ, 12, 44);
-            core_USART_transmit(USART1, txbuf, strlen(txbuf));
-        }
-        for (int i=0; i < 32; i++) {
-            txbuf[2*i] = 0x55;
-            txbuf[2*i+1] = 0xaa;
-        }
-        //txbuf[0] = counter;
-        //counter++;
         core_GPIO_toggle_heartbeat();
-        //if (!core_CAN_add_extended_message_to_tx_queue(FDCAN1, 2, 64, txbuf)) error_handler();
-        core_CAN_add_message_to_tx_queue(CAN, 3, 8, 0xaa55aa55aa55aa55);
-        vTaskDelay(100 * portTICK_PERIOD_MS);
-        //vTaskDelayUntil(&nextWakeTime, 100);
+        RTC->ICSR &= ~RTC_ICSR_RSF;
+        while (!(RTC->ICSR & RTC_ICSR_RSF));
+        struct tm time;
+        core_RTC_get_time(&time);
+        //sprintf(txbuf, "ssr: %08x, tr: %08x, dr: %08x\r\n", ssr, tr, dr);
+        strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
+        sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
+        core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        //vTaskDelay(100 * portTICK_PERIOD_MS);
+        vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
 
@@ -132,19 +120,20 @@ int main(void) {
     HAL_Init();
 
     // Drivers
-    core_heartbeat_init(GPIOB, GPIO_PIN_15);
-    //core_heartbeat_init(GPIOA, GPIO_PIN_5);
+    //core_heartbeat_init(GPIOB, GPIO_PIN_15);
+    core_heartbeat_init(GPIOA, GPIO_PIN_5);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
-    //HAL_RCC_MCOConfig(RCC_MCO_PA8, RCC_MCO1SOURCE_HSI, RCC_MCODIV_2);
     if (!core_USART_init(USART1, 500000)) error_handler();
-    //if (!core_USART_init(USART3, 921600)) error_handler();
-    if (!core_CAN_init(CAN)) error_handler();
-    //if (!core_CAN_init(FDCAN2)) error_handler();
-    //if (!core_CAN_add_filter(FDCAN2, 0, 2, 2)) error_handler();
-    //if (!core_USART_start_rx(USART3, imubuf, &imubuflen)) error_handler();
-    imubuflen = 0;
+    if (!core_RTC_init()) error_handler();
+
+    struct tm time;
+    memset(&time, 0, sizeof(time));
+    time.tm_year = 124;
+    time.tm_mon = 10;
+    time.tm_mday = 13;
+    core_RTC_set_time(&time);
 
     strcpy(txbuf, "Reset\r\n");
     core_USART_transmit(USART1, txbuf, 7);
@@ -160,7 +149,7 @@ int main(void) {
     if (err != pdPASS) {
         error_handler();
     }
-    err = xTaskCreate(can_tx_task,
+    /*err = xTaskCreate(can_tx_task,
         "tx",
         1000,
         NULL,
@@ -169,7 +158,7 @@ int main(void) {
     if (err != pdPASS) {
         error_handler();
     }
-    /*err = xTaskCreate(can_rx_task,
+    err = xTaskCreate(can_rx_task,
         "rx",
         1000,
         NULL,
