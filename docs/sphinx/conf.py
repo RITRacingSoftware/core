@@ -26,6 +26,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-html_extra_path = ['../doxy_build/html']
 html_theme = 'alabaster'
 html_static_path = ['_static']
+html_extra_path = ['../doxy_build/html']
