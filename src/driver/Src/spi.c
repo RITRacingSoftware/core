@@ -1,3 +1,9 @@
+/**
+  * @file   spi.c
+  * @brief  Core SPI library
+  *
+  * This core library component is used to interact with SPI devices.
+  */
 #include "spi.h"
 #include "core_config.h"
 
@@ -124,23 +130,6 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
   * @param  rxbuflen Number of bytes to write to the RX buffer
   */
 bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen) {
-    //spi->DR = value;
-    uint16_t cs_pin;
-    GPIO_TypeDef *cs_port;
-    if (spi == SPI1) {
-        cs_pin = core_SPI1_CS_pin;
-        cs_port = core_SPI1_CS_port;
-    } else if (spi == SPI2) {
-        cs_pin = core_SPI2_CS_pin;
-        cs_port = core_SPI2_CS_port;
-    } else if (spi == SPI3) {
-        cs_pin = core_SPI3_CS_pin;
-        cs_port = core_SPI3_CS_port;
-    } else if (spi == SPI4) {
-        cs_pin = core_SPI4_CS_pin;
-        cs_port = core_SPI4_CS_port;
-    } else return false;
-    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_RESET);
     uint32_t total = (txbuflen > rxbuflen ? txbuflen : rxbuflen);
     uint32_t n_tx = 0;
     uint32_t n_rx = 0;
@@ -157,6 +146,53 @@ bool core_SPI_read_write(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, ui
         }
     }
     while (spi->SR & SPI_SR_BSY);
+    return true;
+}
+
+/**
+  * @brief  Set the CS pin for an SPI bus low
+  * @param  spi The SPI module
+  */
+bool core_SPI_start(SPI_TypeDef *spi) {
+    uint16_t cs_pin;
+    GPIO_TypeDef *cs_port;
+    if (spi == SPI1) {
+        cs_pin = core_SPI1_CS_pin;
+        cs_port = core_SPI1_CS_port;
+    } else if (spi == SPI2) {
+        cs_pin = core_SPI2_CS_pin;
+        cs_port = core_SPI2_CS_port;
+    } else if (spi == SPI3) {
+        cs_pin = core_SPI3_CS_pin;
+        cs_port = core_SPI3_CS_port;
+    } else if (spi == SPI4) {
+        cs_pin = core_SPI4_CS_pin;
+        cs_port = core_SPI4_CS_port;
+    } else return false;
+    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_RESET);
+    return true;
+}
+
+/**
+  * @brief  Set the CS pin for an SPI bus high
+  * @param  spi The SPI module
+  */
+bool core_SPI_stop(SPI_TypeDef *spi) {
+    uint16_t cs_pin;
+    GPIO_TypeDef *cs_port;
+    if (spi == SPI1) {
+        cs_pin = core_SPI1_CS_pin;
+        cs_port = core_SPI1_CS_port;
+    } else if (spi == SPI2) {
+        cs_pin = core_SPI2_CS_pin;
+        cs_port = core_SPI2_CS_port;
+    } else if (spi == SPI3) {
+        cs_pin = core_SPI3_CS_pin;
+        cs_port = core_SPI3_CS_port;
+    } else if (spi == SPI4) {
+        cs_pin = core_SPI4_CS_pin;
+        cs_port = core_SPI4_CS_port;
+    } else return false;
     HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     return true;
 }

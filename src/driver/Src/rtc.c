@@ -15,7 +15,7 @@
 #include "core_config.h"
 #include <stm32g4xx_hal.h>
 
-static core_RTC_last_usec = 0;
+static uint32_t core_RTC_last_usec = 0;
 
 /**
   * @brief  Initialize the RTC module
