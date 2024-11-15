@@ -6,8 +6,8 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-import subprocess
-subprocess.call('cd ..; doxygen', shell = True)
+# import subprocess
+# subprocess.call('cd ..; doxygen', shell = True)
 
 project = 'Core'
 copyright = '2024, RIT-Formula'

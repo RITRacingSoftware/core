@@ -2,13 +2,16 @@ version: 2
 
 # Set the OS, Python version and other tools you might need
 build:
-  os: ubuntu-22.04
-  tools:
-    python: "3.12"
+  image: latest
+  apt_packages:
+    - doxygen
 
-# Build documentation in the "docs/" directory with Sphinx
+    # Build documentation in the "docs/" directory with Sphinx
 sphinx:
   configuration: docs/sphinx/conf.py
+
+python:
+  version: 3.7
 
 # Optionally build your docs in additional formats such as PDF and ePub
 # formats:
