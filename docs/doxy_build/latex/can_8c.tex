@@ -1,0 +1,229 @@
+\doxysection{/\+Users/solomonshulman/\+RITRacing/\+Core/src/driver/\+Src/can.c File Reference}
+\hypertarget{can_8c}{}\label{can_8c}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Src/can.c@{/Users/solomonshulman/RITRacing/Core/src/driver/Src/can.c}}
+
+
+Core FDCAN library.  
+
+
+{\ttfamily \#include "{}can.\+h"{}}\newline
+{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include "{}Free\+RTOS.\+h"{}}\newline
+{\ttfamily \#include "{}queue.\+h"{}}\newline
+{\ttfamily \#include "{}semphr.\+h"{}}\newline
+{\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}clock.\+h"{}}\newline
+{\ttfamily \#include "{}timeout.\+h"{}}\newline
+{\ttfamily \#include "{}error\+\_\+handler.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{can_8c_a278571ff8913fe491ebc6a8d6d2bf705}\label{can_8c_a278571ff8913fe491ebc6a8d6d2bf705} 
+\mbox{\hyperlink{structcore___c_a_n__module__s}{core\+\_\+\+CAN\+\_\+module\+\_\+t}} \texorpdfstring{$\ast$}{*} {\bfseries core\+\_\+\+CAN\+\_\+convert} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can)
+\item 
+bool \mbox{\hyperlink{can_8c_af5a65d61181a7d9e50f8f42df8a73cf7}{core\+\_\+\+CAN\+\_\+init}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can)
+\begin{DoxyCompactList}\small\item\em Initialize an FDCAN module, the RX and TX queues, and the RX and TX pins. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_ae0e18230790182107643e8c44d59646f}{core\+\_\+\+CAN\+\_\+add\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, uint32\+\_\+t id, uint8\+\_\+t dlc, uint64\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Add a CAN frame to the TX queue. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f}{core\+\_\+\+CAN\+\_\+add\+\_\+extended\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, uint32\+\_\+t id, uint8\+\_\+t dlc, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Add a CAN frame to the TX queue. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can)
+\begin{DoxyCompactList}\small\item\em Loop for sending data in the TX queue over CAN. This function must be run in its own task. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd}{core\+\_\+\+CAN\+\_\+receive\+\_\+extended\+\_\+from\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, \mbox{\hyperlink{struct_can_extended_message__s}{Can\+Extended\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}received\+\_\+message)
+\begin{DoxyCompactList}\small\item\em If a frame is waiting in the RX queue, copy it to the given location. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe}{core\+\_\+\+CAN\+\_\+receive\+\_\+from\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, \mbox{\hyperlink{struct_can_message__s}{Can\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}received\+\_\+message)
+\begin{DoxyCompactList}\small\item\em If a frame is waiting in the RX queue, copy it to the given location. \end{DoxyCompactList}\item 
+\Hypertarget{can_8c_a59ccd2a37918f52fc0b80607d37652c2}\label{can_8c_a59ccd2a37918f52fc0b80607d37652c2} 
+void {\bfseries FDCAN1\+\_\+\+IT0\+\_\+\+IRQHandler} (void)
+\item 
+\Hypertarget{can_8c_aa72d5b6ac0e81f1e37ffd59603964c50}\label{can_8c_aa72d5b6ac0e81f1e37ffd59603964c50} 
+void {\bfseries FDCAN2\+\_\+\+IT0\+\_\+\+IRQHandler} (void)
+\item 
+\Hypertarget{can_8c_afff79a9557e20879ea7846d1c927214a}\label{can_8c_afff79a9557e20879ea7846d1c927214a} 
+void {\bfseries FDCAN3\+\_\+\+IT0\+\_\+\+IRQHandler} (void)
+\item 
+bool \mbox{\hyperlink{can_8c_a2939ee64b45b67008f5769ba9d0f5f16}{core\+\_\+\+CAN\+\_\+add\+\_\+filter}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, bool is\+Extended, uint32\+\_\+t id1, uint32\+\_\+t id2)
+\begin{DoxyCompactList}\small\item\em Add an RX filter for the given FDCAN module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Core FDCAN library. 
+
+This core library component is used to interface with the FDCAN hardware.\hypertarget{can_8c_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{Initialization}{Initialization}}\label{can_8c_autotoc_md2}
+An FDCAN module is initialized by calling the \doxylink{can_8c_af5a65d61181a7d9e50f8f42df8a73cf7}{core\+\_\+\+CAN\+\_\+init()} function. The CAN bitrate is set to {\ttfamily CORE\+\_\+\+CAN\+\_\+\+BITRATE}, which is given in bits/second and defined in {\ttfamily core\+\_\+config.\+h}. If {\ttfamily CORE\+\_\+\+FDCANx\+\_\+\+AUTO\+\_\+\+RETRANSMISSION} is set to 1 in {\ttfamily core\+\_\+config.\+h}, the FDCANx module will be cofigured to automatically retransmit packets that were not acknowledged. If {\ttfamily CORE\+\_\+\+FDCANx\+\_\+\+USE\+\_\+\+FD} is set to 1 in {\ttfamily core\+\_\+config.\+h}, the FDCANx module will be able to send and receive FD CAN frames as well as standard CAN frames.\hypertarget{can_8c_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{Transmitting}{Transmitting}}\label{can_8c_autotoc_md3}
+Transmission on the CAN bus is managed by a Free\+RTOS queue and occurs in two parts. First, the user code adds a CAN frame to the queue with \doxylink{can_8c_ae0e18230790182107643e8c44d59646f}{core\+\_\+\+CAN\+\_\+add\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue()} (classic and FD CAN) or with \doxylink{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f}{core\+\_\+\+CAN\+\_\+add\+\_\+extended\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue()} (FD CAN only).
+
+The user code must also run \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()} in a dedicated Free\+RTOS task. If \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()}, an error has occurred while transmitting.\hypertarget{can_8c_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Receiving}{Receiving}}\label{can_8c_autotoc_md4}
+In order to enable receiving CAN frames, the user code must first set up one or more filters using the \doxylink{can_8c_a2939ee64b45b67008f5769ba9d0f5f16}{core\+\_\+\+CAN\+\_\+add\+\_\+filter()} function. When a frame matching any of the applied filters is received, the FDCAN hardware triggers an interrupt that inserts the contents of this frame into a receiving Free\+RTOS queue.
+
+The user code must the define a task that repeatedly calls \doxylink{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe}{core\+\_\+\+CAN\+\_\+receive\+\_\+from\+\_\+queue()} (classic CAN) or \doxylink{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd}{core\+\_\+\+CAN\+\_\+receive\+\_\+extended\+\_\+from\+\_\+queue()} (FD CAN only). These functions will return 1 if a frame has been loaded from the queue and 0 otherwise. It is necessary to poll these functions, since they are non-\/blocking. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f}\index{can.c@{can.c}!core\_CAN\_add\_extended\_message\_to\_tx\_queue@{core\_CAN\_add\_extended\_message\_to\_tx\_queue}}
+\index{core\_CAN\_add\_extended\_message\_to\_tx\_queue@{core\_CAN\_add\_extended\_message\_to\_tx\_queue}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_add\_extended\_message\_to\_tx\_queue()}{core\_CAN\_add\_extended\_message\_to\_tx\_queue()}}
+{\footnotesize\ttfamily \label{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f} 
+bool core\+\_\+\+CAN\+\_\+add\+\_\+extended\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{uint32\+\_\+t}]{id}{, }\item[{uint8\+\_\+t}]{dlc}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Add a CAN frame to the TX queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module for which the frame is being enqueued \\
+\hline
+{\em id} & ID of the CAN frame \\
+\hline
+{\em dlc} & Number of data bytes in the CAN frame \\
+\hline
+{\em data} & Pointer to an array of data bytes \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if the queue is full, if the FDCAN is not configured for FD operation, or if {\ttfamily dlc} \texorpdfstring{$>$}{>} 64 \\
+\hline
+{\em 1} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_a2939ee64b45b67008f5769ba9d0f5f16}\index{can.c@{can.c}!core\_CAN\_add\_filter@{core\_CAN\_add\_filter}}
+\index{core\_CAN\_add\_filter@{core\_CAN\_add\_filter}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_add\_filter()}{core\_CAN\_add\_filter()}}
+{\footnotesize\ttfamily \label{can_8c_a2939ee64b45b67008f5769ba9d0f5f16} 
+bool core\+\_\+\+CAN\+\_\+add\+\_\+filter (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{bool}]{is\+Extended}{, }\item[{uint32\+\_\+t}]{id1}{, }\item[{uint32\+\_\+t}]{id2}{}\end{DoxyParamCaption})}
+
+
+
+Add an RX filter for the given FDCAN module. 
+
+All frames with IDs greater than or equal to {\ttfamily id1} and less than or equal to {\ttfamily id2} will be placed in the RX queue 
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module for which the filter should be created \\
+\hline
+{\em is\+Extended} & Specifies whether the IDs are extended CAN IDs \\
+\hline
+{\em id1} & Lower bound (inclusive) \\
+\hline
+{\em id2} & Upper bound (inclusive) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & if the filter was added successfully \\
+\hline
+{\em 0} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_ae0e18230790182107643e8c44d59646f}\index{can.c@{can.c}!core\_CAN\_add\_message\_to\_tx\_queue@{core\_CAN\_add\_message\_to\_tx\_queue}}
+\index{core\_CAN\_add\_message\_to\_tx\_queue@{core\_CAN\_add\_message\_to\_tx\_queue}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_add\_message\_to\_tx\_queue()}{core\_CAN\_add\_message\_to\_tx\_queue()}}
+{\footnotesize\ttfamily \label{can_8c_ae0e18230790182107643e8c44d59646f} 
+bool core\+\_\+\+CAN\+\_\+add\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{uint32\+\_\+t}]{id}{, }\item[{uint8\+\_\+t}]{dlc}{, }\item[{uint64\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Add a CAN frame to the TX queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module for which the frame is being enqueued \\
+\hline
+{\em id} & ID of the CAN frame \\
+\hline
+{\em dlc} & Number of data bytes in the CAN frame \\
+\hline
+{\em data} & Data bytes, encoded LSB-\/first as a uint64 \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if the queue is full \\
+\hline
+{\em 1} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_af5a65d61181a7d9e50f8f42df8a73cf7}\index{can.c@{can.c}!core\_CAN\_init@{core\_CAN\_init}}
+\index{core\_CAN\_init@{core\_CAN\_init}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_init()}{core\_CAN\_init()}}
+{\footnotesize\ttfamily \label{can_8c_af5a65d61181a7d9e50f8f42df8a73cf7} 
+bool core\+\_\+\+CAN\+\_\+init (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{}\end{DoxyParamCaption})}
+
+
+
+Initialize an FDCAN module, the RX and TX queues, and the RX and TX pins. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if the given FDCAN is not valid or the initialization failed \\
+\hline
+{\em 1} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd}\index{can.c@{can.c}!core\_CAN\_receive\_extended\_from\_queue@{core\_CAN\_receive\_extended\_from\_queue}}
+\index{core\_CAN\_receive\_extended\_from\_queue@{core\_CAN\_receive\_extended\_from\_queue}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_receive\_extended\_from\_queue()}{core\_CAN\_receive\_extended\_from\_queue()}}
+{\footnotesize\ttfamily \label{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd} 
+bool core\+\_\+\+CAN\+\_\+receive\+\_\+extended\+\_\+from\+\_\+queue (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{\mbox{\hyperlink{struct_can_extended_message__s}{Can\+Extended\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}}]{received\+\_\+message}{}\end{DoxyParamCaption})}
+
+
+
+If a frame is waiting in the RX queue, copy it to the given location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module from which the frame is read \\
+\hline
+{\em received\+\_\+message} & Pointer to the location where the received frame would be stored \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & if a frame was copied from the queue into the given location \\
+\hline
+{\em 0} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe}\index{can.c@{can.c}!core\_CAN\_receive\_from\_queue@{core\_CAN\_receive\_from\_queue}}
+\index{core\_CAN\_receive\_from\_queue@{core\_CAN\_receive\_from\_queue}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_receive\_from\_queue()}{core\_CAN\_receive\_from\_queue()}}
+{\footnotesize\ttfamily \label{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe} 
+bool core\+\_\+\+CAN\+\_\+receive\+\_\+from\+\_\+queue (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{\mbox{\hyperlink{struct_can_message__s}{Can\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}}]{received\+\_\+message}{}\end{DoxyParamCaption})}
+
+
+
+If a frame is waiting in the RX queue, copy it to the given location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module from which the frame is read \\
+\hline
+{\em received\+\_\+message} & Pointer to the location where the received frame would be stored \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & if a frame was copied from the queue into the given location \\
+\hline
+{\em 0} & otherwise \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{can_8c_a5956fa458e011f58d514fcfa3f45b72a}\index{can.c@{can.c}!core\_CAN\_send\_from\_tx\_queue\_task@{core\_CAN\_send\_from\_tx\_queue\_task}}
+\index{core\_CAN\_send\_from\_tx\_queue\_task@{core\_CAN\_send\_from\_tx\_queue\_task}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_send\_from\_tx\_queue\_task()}{core\_CAN\_send\_from\_tx\_queue\_task()}}
+{\footnotesize\ttfamily \label{can_8c_a5956fa458e011f58d514fcfa3f45b72a} 
+bool core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{}\end{DoxyParamCaption})}
+
+
+
+Loop for sending data in the TX queue over CAN. This function must be run in its own task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module \\
+\hline
+\end{DoxyParams}

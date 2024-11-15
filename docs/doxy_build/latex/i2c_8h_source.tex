@@ -1,0 +1,19 @@
+\doxysection{i2c.\+h}
+\hypertarget{i2c_8h_source}{}\label{i2c_8h_source}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Inc/i2c.h@{/Users/solomonshulman/RITRacing/Core/src/driver/Inc/i2c.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}stdbool.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}stdint.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Initialize\ I2C}}
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{bool}\ I2C\_init();}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ Read\ I2C\ register}}
+\DoxyCodeLine{00010\ \textcolor{keywordtype}{bool}\ I2C\_register\_read(uint8\_t\ bus,\ uint8\_t\ devid,\ uint8\_t\ regid,\ uint8\_t*\ buf,\ uint8\_t\ buflen);}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ Write\ I2C\ register}}
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{bool}\ I2C\_register\_write(uint8\_t\ bus,\ uint8\_t\ devid,\ uint8\_t\ regid,\ uint8\_t*\ buf,\ uint8\_t\ buflen);}
+
+\end{DoxyCode}
