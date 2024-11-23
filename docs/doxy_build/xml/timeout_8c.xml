@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
+  <compounddef id="timeout_8c" kind="file" language="C++">
+    <compoundname>timeout.c</compoundname>
+    <includes refid="timeout_8h" local="yes">timeout.h</includes>
+    <includes local="yes">core_config.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">stm32g4xx_hal.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>timeout.h</label>
+        <link refid="timeout_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c</label>
+        <link refid="timeout_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>core_config.h</label>
+      </node>
+      <node id="5">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="6">
+        <label>stdlib.h</label>
+      </node>
+      <node id="7">
+        <label>stm32g4xx_hal.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="timeout_8c_1a72d8033c3861872c6f2fd1bb8c7cac99" prot="public" static="yes" mutable="no">
+        <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> **</type>
+        <definition>core_timeout_t** core_timeout_list</definition>
+        <argsstring></argsstring>
+        <name>core_timeout_list</name>
+        <initializer>= NULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="51" column="23" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="timeout_8c_1a8780806a8825871f97ab2f244d3d1f15" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int core_timeout_list_size</definition>
+        <argsstring></argsstring>
+        <name>core_timeout_list_size</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="52" column="12" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="timeout_8c_1aaf371ee5182ad11d7eda50e82f5bc831" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int n_core_timeouts</definition>
+        <argsstring></argsstring>
+        <name>n_core_timeouts</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="53" column="12" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_insert</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_insert</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Add a timeout to the internal list of timeouts to be monitored. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="59" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_start_all</definition>
+        <argsstring>()</argsstring>
+        <name>core_timeout_start_all</name>
+        <briefdescription>
+<para>Enable all timeouts currently in the internal timeout list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="71" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="71" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_reset_by_module_ref</definition>
+        <argsstring>(void *module, uint32_t ref)</argsstring>
+        <name>core_timeout_reset_by_module_ref</name>
+        <param>
+          <type>void *</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Reset a timeout given the module and the refernce number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module that is calling this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="84" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="84" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_reset</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_reset</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Reset a timeout given a pointer to the timeout struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout being reset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="100" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8c_1a20d256d89e7597b03051d8c5ceb1bdb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_check_all</definition>
+        <argsstring>()</argsstring>
+        <name>core_timeout_check_all</name>
+        <briefdescription>
+<para>Check all timeouts currently stored in the internal timeout list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" line="109" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c" bodystart="109" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Core timeout library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This core library component can be used to set timeouts for both software events and core library events. Timeouts are specified by a core_timeout_t struct.</para>
+<sect1 id="timeout_8c_1autotoc_md5_1s1"><sect2 id="timeout_8c_1autotoc_md5">
+<title>Typical initialization</title><para><orderedlist>
+<listitem><para>Initialize a core_timeout_t struct for each timeout<itemizedlist>
+<listitem><para>Set the <computeroutput>timeout</computeroutput> member to the desired timeout length in milliseconds</para>
+</listitem><listitem><para>Set the <computeroutput>callback</computeroutput> member to the timeout&apos;s callback function. When the function is called, a pointer to the struct defining the timeout that called the callback function is passed to it.</para>
+</listitem><listitem><para>Set the <computeroutput>module</computeroutput> and <computeroutput>ref</computeroutput> members. See below</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>Add the timeout structs to the internal list with <ref refid="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" kindref="member">core_timeout_insert()</ref></para>
+</listitem><listitem><para>Start all of the timeouts with <ref refid="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" kindref="member">core_timeout_start_all()</ref></para>
+</listitem><listitem><para>Call <computeroutput>core_timeout_check_all</computeroutput> at regular intervals. If a timeout has elapsed, the handler is called. Timeouts are checked in the order they are added.</para>
+</listitem><listitem><para>Reset timeouts as needed with the <ref refid="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" kindref="member">core_timeout_reset()</ref> function.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="timeout_8c_1autotoc_md6_1s1"><sect2 id="timeout_8c_1autotoc_md6">
+<title>module and ref</title><para>The <computeroutput>module</computeroutput> and <computeroutput>ref</computeroutput> members of the core_timeout_t struct can be used to define timeouts that are automatically reset by other core library components. To reset these timeouts, the <ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref()</ref> function is used. The <computeroutput>module</computeroutput> member is set to a register struct defined by the HAL (e.g. FDCAN1, SPI1, USART3, etc.). The meaning of <computeroutput>ref</computeroutput> depends on the selected module. Currently, the modules that support this feature are:<orderedlist>
+<listitem><para><computeroutput>FDCAN1</computeroutput>, <computeroutput>FDCAN2</computeroutput>, and <computeroutput>FDCAN3</computeroutput>: The timeout is reset when a frame with an ID equal to the value of <computeroutput>ref</computeroutput> is received</para>
+</listitem></orderedlist>
+</para>
+<para>Timeouts with a <computeroutput>module</computeroutput> not in the above list will never be reset by the core library. Thus, the user can define timeouts where <computeroutput>module</computeroutput> is NULL or equal to a custom value and reset them using the <ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref()</ref> function. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeout.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stm32g4xx_hal.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>**core_timeout_list<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>core_timeout_list_size<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n_core_timeouts<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" kindref="member">core_timeout_insert</ref>(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n_core_timeouts<sp/>==<sp/>core_timeout_list_size)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_timeout_list_size<sp/>+=<sp/>CORE_TIMEOUT_BLOCK_SIZE;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_timeout_list<sp/>=<sp/>realloc(core_timeout_list,<sp/>CORE_TIMEOUT_BLOCK_SIZE*</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref>*));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>core_timeout_list[n_core_timeouts]<sp/>=<sp/>timeout;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>n_core_timeouts++;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" kindref="member">core_timeout_start_all</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>t<sp/>=<sp/>HAL_GetTick();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;<sp/>i<sp/>&lt;<sp/>n_core_timeouts;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_timeout_list[i]-&gt;last_event<sp/>=<sp/>t;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_timeout_list[i]-&gt;state<sp/>|=<sp/>CORE_TIMEOUT_STATE_ENABLED;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*module,<sp/>uint32_t<sp/>ref)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*to;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>t<sp/>=<sp/>HAL_GetTick();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;<sp/>i<sp/>&lt;<sp/>n_core_timeouts;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>=<sp/>core_timeout_list[i];</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((to-&gt;module<sp/>==<sp/>module)<sp/>&amp;&amp;<sp/>(to-&gt;ref<sp/>==<sp/>ref))<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;last_event<sp/>=<sp/>t;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;state<sp/>&amp;=<sp/>~CORE_TIMEOUT_STATE_TIMED_OUT;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" kindref="member">core_timeout_reset</ref>(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>t<sp/>=<sp/>HAL_GetTick();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>timeout-&gt;last_event<sp/>=<sp/>t;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>timeout-&gt;state<sp/>&amp;=<sp/>~CORE_TIMEOUT_STATE_TIMED_OUT;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a20d256d89e7597b03051d8c5ceb1bdb2" kindref="member">core_timeout_check_all</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>t<sp/>=<sp/>HAL_GetTick();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*to;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>diff;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;<sp/>i<sp/>&lt;<sp/>n_core_timeouts;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>=<sp/>core_timeout_list[i];</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_ENABLED)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>diff<sp/>=<sp/>t<sp/>-<sp/>to-&gt;last_event;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_TIMED_OUT)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;callback(to);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(diff<sp/>&gt;=<sp/>to-&gt;timeout)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;callback(to);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;state<sp/>|=<sp/>CORE_TIMEOUT_STATE_TIMED_OUT;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/timeout.c"/>
+  </compounddef>
+</doxygen>

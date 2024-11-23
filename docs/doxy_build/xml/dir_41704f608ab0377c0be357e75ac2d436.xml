@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
+  <compounddef id="dir_41704f608ab0377c0be357e75ac2d436" kind="dir">
+    <compoundname>/Users/solomonshulman/RITRacing/Core/src/driver/Inc</compoundname>
+    <innerfile refid="adc_8h">adc.h</innerfile>
+    <innerfile refid="can_8h">can.h</innerfile>
+    <innerfile refid="clock_8h">clock.h</innerfile>
+    <innerfile refid="error__handler_8h">error_handler.h</innerfile>
+    <innerfile refid="gpio_8h">gpio.h</innerfile>
+    <innerfile refid="i2c_8h">i2c.h</innerfile>
+    <innerfile refid="rtc_8h">rtc.h</innerfile>
+    <innerfile refid="spi_8h">spi.h</innerfile>
+    <innerfile refid="timeout_8h">timeout.h</innerfile>
+    <innerfile refid="usart_8h">usart.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/"/>
+  </compounddef>
+</doxygen>

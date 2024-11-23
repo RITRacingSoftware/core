@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
+  <compounddef id="spi_8c" kind="file" language="C++">
+    <compoundname>spi.c</compoundname>
+    <includes refid="spi_8h" local="yes">spi.h</includes>
+    <includes local="yes">core_config.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stm32g4xx_hal.h</includes>
+    <includes local="no">stm32g4xx_hal_spi.h</includes>
+    <includes refid="clock_8h" local="yes">clock.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>clock.h</label>
+        <link refid="clock_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>spi.h</label>
+        <link refid="spi_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c</label>
+        <link refid="spi_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>core_config.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>stm32g4xx_hal.h</label>
+      </node>
+      <node id="7">
+        <label>stm32g4xx_hal_spi.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="spi_8c_1aa500f64db163bc69a2e419b1f0a4ec85" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t core_SPI1_CS_pin</definition>
+        <argsstring></argsstring>
+        <name>core_SPI1_CS_pin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="17" column="10" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a57b088aa12e60c60c8d9064c9c1006d4" prot="public" static="no" mutable="no">
+        <type>GPIO_TypeDef *</type>
+        <definition>GPIO_TypeDef* core_SPI1_CS_port</definition>
+        <argsstring></argsstring>
+        <name>core_SPI1_CS_port</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="18" column="14" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a68d29d5d51798f58e0b261ec6d081a1e" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t core_SPI2_CS_pin</definition>
+        <argsstring></argsstring>
+        <name>core_SPI2_CS_pin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="19" column="10" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a194ffa85178586435614cfbfec7ce775" prot="public" static="no" mutable="no">
+        <type>GPIO_TypeDef *</type>
+        <definition>GPIO_TypeDef* core_SPI2_CS_port</definition>
+        <argsstring></argsstring>
+        <name>core_SPI2_CS_port</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="20" column="14" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1ae285b4f7eb5c5ef5601010e88336f8df" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t core_SPI3_CS_pin</definition>
+        <argsstring></argsstring>
+        <name>core_SPI3_CS_pin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="21" column="10" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a928f1fa95dc13ebbd430640051abdbc5" prot="public" static="no" mutable="no">
+        <type>GPIO_TypeDef *</type>
+        <definition>GPIO_TypeDef* core_SPI3_CS_port</definition>
+        <argsstring></argsstring>
+        <name>core_SPI3_CS_port</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="22" column="14" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a95bc34ac822dde09e6b8d6b3b4b4b603" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t core_SPI4_CS_pin</definition>
+        <argsstring></argsstring>
+        <name>core_SPI4_CS_pin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="23" column="10" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="spi_8c_1a8001825d3e57dbaee5bf29a762f72e77" prot="public" static="no" mutable="no">
+        <type>GPIO_TypeDef *</type>
+        <definition>GPIO_TypeDef* core_SPI4_CS_port</definition>
+        <argsstring></argsstring>
+        <name>core_SPI4_CS_port</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="24" column="14" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="spi_8c_1a36c101bcb5e471be58d32274026d2a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_SPI_init</definition>
+        <argsstring>(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin)</argsstring>
+        <name>core_SPI_init</name>
+        <param>
+          <type>SPI_TypeDef *</type>
+          <declname>spi</declname>
+        </param>
+        <param>
+          <type>GPIO_TypeDef *</type>
+          <declname>cs_port</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>cs_pin</declname>
+        </param>
+        <briefdescription>
+<para>Initialize an SPI module and set up a CS pin for it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>spi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The SPI module to be initialized </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cs_port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port the CS pin is located on (GPIOx) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cs_pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin (GPIO_PIN_x) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="32" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="32" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="spi_8c_1a2f15441739467f9d411486019e3dd869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_SPI_read_write</definition>
+        <argsstring>(SPI_TypeDef *spi, uint8_t *txbuf, uint32_t txbuflen, uint8_t *rxbuf, uint32_t rxbuflen)</argsstring>
+        <name>core_SPI_read_write</name>
+        <param>
+          <type>SPI_TypeDef *</type>
+          <declname>spi</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>txbuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>txbuflen</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>rxbuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rxbuflen</declname>
+        </param>
+        <briefdescription>
+<para>Transmit data from a buffer on the given SPI bus and store the incoming data in a separate buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>The number of bytes transmitted or received on the SPI bus is the greater of txbuflen and rxbuflen. Only the number of bytes given by each parameter will be read/stored respectively. </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>spi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The SPI module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txbuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer from which data to be transmitted is read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txbuflen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to read from the TX buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rxbuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to which received data is to be stored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rxbuflen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to write to the RX buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="132" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="132" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="spi_8c_1a031148ca9fc6ef73a13d90bb0f0fa818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_SPI_start</definition>
+        <argsstring>(SPI_TypeDef *spi)</argsstring>
+        <name>core_SPI_start</name>
+        <param>
+          <type>SPI_TypeDef *</type>
+          <declname>spi</declname>
+        </param>
+        <briefdescription>
+<para>Set the CS pin for an SPI bus low. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>spi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The SPI module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="156" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="156" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="spi_8c_1a6eb357bc6e05cdb51276f4ca289ac34a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_SPI_stop</definition>
+        <argsstring>(SPI_TypeDef *spi)</argsstring>
+        <name>core_SPI_stop</name>
+        <param>
+          <type>SPI_TypeDef *</type>
+          <declname>spi</declname>
+        </param>
+        <briefdescription>
+<para>Set the CS pin for an SPI bus high. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>spi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The SPI module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" line="180" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c" bodystart="180" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Core SPI library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This core library component is used to interact with SPI devices. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;spi.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stm32g4xx_hal.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stm32g4xx_hal_spi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;clock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">uint16_t<sp/>core_SPI1_CS_pin;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">GPIO_TypeDef<sp/>*core_SPI1_CS_port;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">uint16_t<sp/>core_SPI2_CS_pin;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">GPIO_TypeDef<sp/>*core_SPI2_CS_port;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">uint16_t<sp/>core_SPI3_CS_pin;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">GPIO_TypeDef<sp/>*core_SPI3_CS_port;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">uint16_t<sp/>core_SPI4_CS_pin;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">GPIO_TypeDef<sp/>*core_SPI4_CS_port;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a36c101bcb5e471be58d32274026d2a14" kindref="member">core_SPI_init</ref>(SPI_TypeDef<sp/>*spi,<sp/>GPIO_TypeDef<sp/>*cs_port,<sp/>uint16_t<sp/>cs_pin)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>cs_init<sp/>=<sp/>{cs_pin,<sp/>GPIO_MODE_OUTPUT_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>0};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_GPIO_Init(cs_port,<sp/>&amp;cs_init);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_GPIO_WritePin(cs_port,<sp/>cs_pin,<sp/>GPIO_PIN_SET);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI1)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI1_CS_port<sp/>=<sp/>cs_port;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI1_CS_pin<sp/>=<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_GPIOA_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI1_SCK_PORT);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit2<sp/>=<sp/>{CORE_SPI1_SCK_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI1_SCK_AF};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI1_SCK_PORT,<sp/>&amp;spiGPIOinit2);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI1_MISO_PORT);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit3<sp/>=<sp/>{CORE_SPI1_MISO_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI1_MISO_AF};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI1_MISO_PORT,<sp/>&amp;spiGPIOinit3);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI1_MOSI_PORT);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit4<sp/>=<sp/>{CORE_SPI1_MOSI_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI1_MOSI_AF};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI1_MOSI_PORT,<sp/>&amp;spiGPIOinit4);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_SPI1_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI2)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI2_CS_port<sp/>=<sp/>cs_port;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI2_CS_pin<sp/>=<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI2_SCK_PORT);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit2<sp/>=<sp/>{CORE_SPI2_SCK_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI2_SCK_AF};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI2_SCK_PORT,<sp/>&amp;spiGPIOinit2);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI2_MISO_PORT);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit3<sp/>=<sp/>{CORE_SPI2_MISO_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI2_MISO_AF};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI2_MISO_PORT,<sp/>&amp;spiGPIOinit3);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI2_MOSI_PORT);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit4<sp/>=<sp/>{CORE_SPI2_MOSI_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI2_MOSI_AF};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI2_MOSI_PORT,<sp/>&amp;spiGPIOinit4);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_SPI2_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI3)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI3_CS_port<sp/>=<sp/>cs_port;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI3_CS_pin<sp/>=<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI3_SCK_PORT);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit2<sp/>=<sp/>{CORE_SPI3_SCK_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI3_SCK_AF};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI3_SCK_PORT,<sp/>&amp;spiGPIOinit2);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI3_MISO_PORT);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit3<sp/>=<sp/>{CORE_SPI3_MISO_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI3_MISO_AF};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI3_MISO_PORT,<sp/>&amp;spiGPIOinit3);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI3_MOSI_PORT);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit4<sp/>=<sp/>{CORE_SPI3_MOSI_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI3_MOSI_AF};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI3_MOSI_PORT,<sp/>&amp;spiGPIOinit4);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_SPI3_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI4)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI4_CS_port<sp/>=<sp/>cs_port;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_SPI4_CS_pin<sp/>=<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI4_SCK_PORT);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit2<sp/>=<sp/>{CORE_SPI4_SCK_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI4_SCK_AF};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI4_SCK_PORT,<sp/>&amp;spiGPIOinit2);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI4_MISO_PORT);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit3<sp/>=<sp/>{CORE_SPI4_MISO_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI4_MISO_AF};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI4_MISO_PORT,<sp/>&amp;spiGPIOinit3);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_port_init(CORE_SPI4_MOSI_PORT);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GPIO_InitTypeDef<sp/>spiGPIOinit4<sp/>=<sp/>{CORE_SPI4_MOSI_PIN,<sp/>GPIO_MODE_AF_PP,<sp/>GPIO_NOPULL,<sp/>GPIO_SPEED_FREQ_LOW,<sp/>CORE_SPI4_MOSI_AF};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HAL_GPIO_Init(CORE_SPI4_MOSI_PORT,<sp/>&amp;spiGPIOinit4);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_SPI4_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SPI<sp/>master,<sp/>/256<sp/>prescaler,<sp/>CPOL=0,<sp/>CPHA=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>spi-&gt;I2SCFGR<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>spi-&gt;CR1<sp/>=<sp/>(7<sp/>&lt;&lt;<sp/>SPI_CR1_BR_Pos)<sp/>|<sp/>SPI_CR1_MSTR<sp/>|<sp/>SPI_CR1_SSI<sp/>|<sp/>SPI_CR1_SSM;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>spi-&gt;CR2<sp/>=<sp/>SPI_CR2_SSOE<sp/>|<sp/>(7<sp/>&lt;&lt;<sp/>SPI_CR2_DS_Pos)<sp/>|<sp/>SPI_CR2_FRXTH;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>spi-&gt;CR1<sp/>|=<sp/>SPI_CR1_SPE;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*SPI_InitTypeDef<sp/>spiInit;</highlight></codeline>
+<codeline lineno="102"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.Direction<sp/>=<sp/>SPI_DIRECTION_2LINES;</highlight></codeline>
+<codeline lineno="103"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.Mode<sp/>=<sp/>SPI_MODE_MASTER;</highlight></codeline>
+<codeline lineno="104"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.DataSize<sp/>=<sp/>SPI_DATASIZE_8BIT;</highlight></codeline>
+<codeline lineno="105"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.CPOL<sp/>=<sp/>SPI_POLARITY_HIGH;</highlight></codeline>
+<codeline lineno="106"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.CPHA<sp/>=<sp/>SPI_PHASE_2EDGE;</highlight></codeline>
+<codeline lineno="107"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.NSS<sp/>=<sp/>SPI_NSS_SOFT;</highlight></codeline>
+<codeline lineno="108"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.BaudRatePrescaler<sp/>=<sp/>SPI_BAUDRATEPRESCALER_128;</highlight></codeline>
+<codeline lineno="109"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.FirstBit<sp/>=<sp/>SPI_FIRSTBIT_MSB;</highlight></codeline>
+<codeline lineno="110"><highlight class="comment"><sp/><sp/><sp/><sp/>spiInit.CRCPolynomial<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="comment"><sp/><sp/><sp/><sp/>HAL_SPI_I2S_DeInit(spi);</highlight></codeline>
+<codeline lineno="112"><highlight class="comment"></highlight></codeline>
+<codeline lineno="113"><highlight class="comment"><sp/><sp/><sp/><sp/>HAL_SPI_Init(spi,<sp/>&amp;spiInit);</highlight></codeline>
+<codeline lineno="114"><highlight class="comment"><sp/><sp/><sp/><sp/>//HAL_SPI_RxFIFOThresholdConfig(SPI1,<sp/>SPI_RXFIFO_THRESHOLD_HF);<sp/>//Don&apos;t<sp/>know<sp/>if<sp/>should<sp/>be<sp/>HF<sp/>or<sp/>QF</highlight></codeline>
+<codeline lineno="115"><highlight class="comment"><sp/><sp/><sp/><sp/>//HAL_SPI_Cmd(SPI1,<sp/>ENABLE);</highlight></codeline>
+<codeline lineno="116"><highlight class="comment"><sp/><sp/><sp/><sp/>spi-&gt;CR1<sp/>|=<sp/>SPI_CR1_SPE;*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a2f15441739467f9d411486019e3dd869" kindref="member">core_SPI_read_write</ref>(SPI_TypeDef<sp/>*spi,<sp/>uint8_t<sp/>*txbuf,<sp/>uint32_t<sp/>txbuflen,<sp/>uint8_t<sp/>*rxbuf,<sp/>uint32_t<sp/>rxbuflen)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>total<sp/>=<sp/>(txbuflen<sp/>&gt;<sp/>rxbuflen<sp/>?<sp/>txbuflen<sp/>:<sp/>rxbuflen);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>n_tx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>n_rx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>temp;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(spi-&gt;SR<sp/>&amp;<sp/>SPI_SR_RXNE)<sp/>temp<sp/>=<sp/>*(__IO<sp/>uint8_t<sp/>*)&amp;(spi-&gt;DR);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>((n_tx<sp/>&lt;<sp/>total)<sp/>||<sp/>(n_rx<sp/>&lt;<sp/>total))<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((spi-&gt;SR<sp/>&amp;<sp/>SPI_SR_TXE)<sp/>&amp;&amp;<sp/>(n_tx<sp/>&lt;<sp/>total))<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*(__IO<sp/>uint8_t<sp/>*)&amp;(spi-&gt;DR)<sp/>=<sp/>(n_tx<sp/>&lt;<sp/>txbuflen<sp/>?<sp/>txbuf[n_tx]<sp/>:<sp/>0x00);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>n_tx++;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi-&gt;SR<sp/>&amp;<sp/>SPI_SR_RXNE)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n_rx<sp/>&lt;<sp/>rxbuflen)<sp/>rxbuf[n_rx]<sp/>=<sp/>*(__IO<sp/>uint8_t<sp/>*)&amp;(spi-&gt;DR);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>n_rx++;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(spi-&gt;SR<sp/>&amp;<sp/>SPI_SR_BSY);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a031148ca9fc6ef73a13d90bb0f0fa818" kindref="member">core_SPI_start</ref>(SPI_TypeDef<sp/>*spi)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>GPIO_TypeDef<sp/>*cs_port;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI1)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI1_CS_pin;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI1_CS_port;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI2)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI2_CS_pin;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI2_CS_port;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI3)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI3_CS_pin;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI3_CS_port;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI4)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI4_CS_pin;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI4_CS_port;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_GPIO_WritePin(cs_port,<sp/>cs_pin,<sp/>GPIO_PIN_RESET);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a6eb357bc6e05cdb51276f4ca289ac34a" kindref="member">core_SPI_stop</ref>(SPI_TypeDef<sp/>*spi)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cs_pin;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>GPIO_TypeDef<sp/>*cs_port;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI1)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI1_CS_pin;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI1_CS_port;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI2)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI2_CS_pin;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI2_CS_port;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI3)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI3_CS_pin;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI3_CS_port;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(spi<sp/>==<sp/>SPI4)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_pin<sp/>=<sp/>core_SPI4_CS_pin;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cs_port<sp/>=<sp/>core_SPI4_CS_port;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_GPIO_WritePin(cs_port,<sp/>cs_pin,<sp/>GPIO_PIN_SET);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c"/>
+  </compounddef>
+</doxygen>
