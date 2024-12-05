@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/error_handler.h" line="3" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/error_handler.c" bodystart="6" bodyend="13" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/error_handler.h" declline="3" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/error_handler.h" line="3" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/error_handler.c" bodystart="6" bodyend="15" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/error_handler.h" declline="3" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
