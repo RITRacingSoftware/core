@@ -7,7 +7,9 @@ void error_handler()
 {
     while(1)
     {
-        core_GPIO_toggle_heartbeat();
-        for (unsigned long long  i = 0; i < 200000; i++);
+        core_GPIO_set_heartbeat(true);
+        for (unsigned long long  i = 0; i < 2000000; i++);
+        core_GPIO_set_heartbeat(false);
+        for (unsigned long long  i = 0; i < 1000000; i++);
     }
 }
