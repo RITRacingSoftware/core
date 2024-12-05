@@ -27,4 +27,4 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 html_extra_path = ['../doxy_build/html']
 
-os.replace('././doxy_build/html/index.html', './_build/html/index.html')
+os.replace('../doxy_build/html/index.html', './_build/html/index.html')
