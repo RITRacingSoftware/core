@@ -16,4 +16,8 @@ void core_USART_update_enable(USART_TypeDef *usart);
 bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen);
 void core_USART_RX_callback(USART_HandleTypeDef *husart);
 
+#ifdef CORE_USART_UPRINTF
+int uprintf(USART_TypeDef *usart, const char *format, ...);
+#endif
+
 #endif

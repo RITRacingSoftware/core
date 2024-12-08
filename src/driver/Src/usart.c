@@ -28,6 +28,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <stm32g4xx_hal.h>
 #include <stm32g4xx_hal_usart.h>
@@ -55,6 +57,10 @@ static volatile uint8_t core_USART_flags;
 static USART_HandleTypeDef usart1;
 static USART_HandleTypeDef usart2;
 static USART_HandleTypeDef usart3;
+
+#ifdef CORE_USART_UPRINTF
+uint8_t core_USART_usartbuf[CORE_USART_TXBUFLEN];
+#endif
 
 /**
   * @brief  Initialize a USART module in asynchronous mode with the given baud
@@ -234,4 +240,25 @@ bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen)
     else return false;
     return HAL_USART_Transmit(husart, txbuf, txbuflen, 0xffffffff) == HAL_OK;
 }
+
+#ifdef CORE_USART_UPRINTF
+/**
+  * @brief  Print a formatted string to a USART
+  * @note   This function is blocking and will not return until all data has
+  *         been transmitted.
+  * @param  usart The USART module
+  * @param  format Format string
+  * @param  txbuflen Number of bytes to transmit
+  * @return Returns -1 if the transmission failed. Otherwise, returns the
+  *         number of transmitted bytes.
+  */
+int uprintf(USART_TypeDef *usart, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int n = vsprintf(core_USART_usartbuf, format, args);
+    va_end(args);
+    if (core_USART_transmit(usart, core_USART_usartbuf, n)) return n;
+    else return -1;
+}
+#endif
 
