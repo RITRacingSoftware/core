@@ -42,8 +42,16 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
 {
     // Initialize peripheral clocks
     __HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);
-    if (can == FDCAN1) __HAL_RCC_GPIOA_CLK_ENABLE();
-    else __HAL_RCC_GPIOB_CLK_ENABLE();
+    if (can == FDCAN1) {
+        core_clock_port_init(CORE_FDCAN1_RX_PORT);
+        core_clock_port_init(CORE_FDCAN1_TX_PORT);
+    } else if (can == FDCAN2) {
+        core_clock_port_init(CORE_FDCAN2_RX_PORT);
+        core_clock_port_init(CORE_FDCAN2_TX_PORT);
+    } else if (can == FDCAN3) {
+        core_clock_port_init(CORE_FDCAN3_RX_PORT);
+        core_clock_port_init(CORE_FDCAN3_TX_PORT);
+    }
     __HAL_RCC_FDCAN_CLK_ENABLE();
 }
 
