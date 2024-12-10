@@ -10,6 +10,6 @@ void error_handler()
         core_GPIO_set_heartbeat(true);
         for (unsigned long long  i = 0; i < 2000000; i++);
         core_GPIO_set_heartbeat(false);
-        for (unsigned long long  i = 0; i < 1000000; i++);
+        for (unsigned long long  i = 0; i < 500000; i++);
     }
 }

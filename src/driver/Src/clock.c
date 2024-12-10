@@ -45,6 +45,7 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
     if (can == FDCAN1) __HAL_RCC_GPIOA_CLK_ENABLE();
     else __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_FDCAN_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 }
 
 /**

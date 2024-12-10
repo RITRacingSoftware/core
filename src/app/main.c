@@ -27,23 +27,24 @@
 #define TEST_CAN_ID1 3
 #define TEST_CAN_ID2 3
 
-#define CAN FDCAN2
+#define CAN FDCAN3
 
 CanMessage_s canMessage;
 
-void heartbeat_task(void *pvParameters) {
+void heartbeat_task(void *pvParameters)
+{
     (void) pvParameters;
-//    uint32_t tickstart;
-//    imu_result_t res;
     TickType_t nextWakeTime = xTaskGetTickCount();
-    while(true) {
-//        core_GPIO_toggle_heartbeat();
+    while(true)
+    {
         if (!core_CAN_add_message_to_tx_queue(CAN, 3, 2, 0xfa55)) error_handler();
+        core_GPIO_toggle_heartbeat();
         vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
 
-void can_tx_task(void *pvParameters) {
+void can_tx_task(void *pvParameters)
+{
     (void) pvParameters;
     if (core_CAN_send_from_tx_queue_task(CAN)) core_GPIO_toggle_heartbeat();
     error_handler();
@@ -69,40 +70,41 @@ int main(void) {
     // Drivers
     //core_heartbeat_init(GPIOB, GPIO_PIN_15);
     core_heartbeat_init(GPIOC, GPIO_PIN_7);
-    core_GPIO_set_heartbeat(GPIO_PIN_RESET);
+    core_GPIO_set_heartbeat(false);
 
     if (!core_clock_init()) error_handler();
     if (!core_CAN_init(CAN)) error_handler();
+//    error_handler();
 
     int err;
-//    err = xTaskCreate(heartbeat_task,
-//        "heartbeat",
-//        1000,
-//        NULL,
-//        4,
-//        NULL);
-//    if (err != pdPASS) {
-//        error_handler();
-//    }
-//
-//    err = xTaskCreate(can_tx_task,
-//        "tx",
-//        1000,
-//        NULL,
-//        4,
-//        NULL);
-//    if (err != pdPASS) {
-//        error_handler();
-//    }
-    err = xTaskCreate(can_rx_task,
-        "rx",
+    err = xTaskCreate(heartbeat_task,
+        "heartbeat",
         1000,
         NULL,
-        3,
+        4,
         NULL);
     if (err != pdPASS) {
         error_handler();
     }
+
+    err = xTaskCreate(can_tx_task,
+        "tx",
+        1000,
+        NULL,
+        2,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+//    err = xTaskCreate(can_rx_task,
+//        "rx",
+//        1000,
+//        NULL,
+//        3,
+//        NULL);
+//    if (err != pdPASS) {
+//        error_handler();
+//    }
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
