@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "boot.h"
 #include "can.h"
 #include "clock.h"
 #include "gpio.h"
@@ -84,14 +85,14 @@ void heartbeat_task(void *pvParameters) {
     TickType_t nextWakeTime = xTaskGetTickCount();
     while(true) {
         core_GPIO_toggle_heartbeat();
-        RTC->ICSR &= ~RTC_ICSR_RSF;
-        while (!(RTC->ICSR & RTC_ICSR_RSF));
-        struct tm time;
-        core_RTC_get_time(&time);
+        //RTC->ICSR &= ~RTC_ICSR_RSF;
+        //while (!(RTC->ICSR & RTC_ICSR_RSF));
+        //struct tm time;
+        //core_RTC_get_time(&time);
         //sprintf(txbuf, "ssr: %08x, tr: %08x, dr: %08x\r\n", ssr, tr, dr);
-        strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
-        sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
-        core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        //strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
+        //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
+        //core_USART_transmit(USART1, txbuf, strlen(txbuf));
         //vTaskDelay(100 * portTICK_PERIOD_MS);
         vTaskDelayUntil(&nextWakeTime, 100);
     }
@@ -125,8 +126,9 @@ int main(void) {
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
+    core_boot_init();
     if (!core_USART_init(USART1, 500000)) error_handler();
-    if (!core_RTC_init()) error_handler();
+    /*if (!core_RTC_init()) error_handler();
 
     struct tm time;
     memset(&time, 0, sizeof(time));
@@ -136,7 +138,7 @@ int main(void) {
     core_RTC_set_time(&time);
 
     strcpy(txbuf, "Reset\r\n");
-    core_USART_transmit(USART1, txbuf, 7);
+    core_USART_transmit(USART1, txbuf, 7);*/
     
 
     int err;

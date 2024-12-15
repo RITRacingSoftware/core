@@ -102,6 +102,7 @@ SECTIONS
     . = ALIGN(4);
   } >FLASH
 
+
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
   .ARM (READONLY) : {
     __exidx_start = .;
@@ -129,6 +130,7 @@ SECTIONS
     KEEP (*(.fini_array*))
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
+  
 
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
@@ -172,6 +174,13 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
+
+  /* Bootloader */
+  .bootmain 0x0807c000 (READONLY) :
+  {
+    . = ALIGN(4);
+    *(.bootmain)
+  } >FLASH
 
   
 
