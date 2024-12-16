@@ -4,16 +4,19 @@
 #include "core_config.h"
 #include "stm32g4xx_hal.h"
 
-#define BOOTSECTION __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
+#define BOOTMAIN __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
+#define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
 
-static uint32_t base_address = 0x00000000;
+static uint32_t page_erased[8];
+static uint32_t base_address;
 static uint32_t address;
-static uint8_t rxbuf[64];
+static uint8_t rxbuf[100];
 static uint8_t rxbuflen;
 static uint8_t *databuf;
-static uint8_t checksum = 0;
+static uint8_t checksum;
 
-static void BOOTSECTION boot_blink() {
+
+static void BOOTMAIN boot_blink() {
     while (1) {
         GPIOA->BSRR = (1<<5);
         for (int i=0; i < 2000000; i++);
@@ -22,7 +25,7 @@ static void BOOTSECTION boot_blink() {
     }
 }
 
-static void BOOTSECTION boot_printhex(uint8_t data) {
+static void BOOTMAIN boot_printhex(uint8_t data) {
     checksum += data;
     uint8_t nibble = data>>4;
     if (nibble >= 10) nibble += 'A' - 10;
@@ -36,13 +39,13 @@ static void BOOTSECTION boot_printhex(uint8_t data) {
     USART2->TDR = nibble;
 }
 
-static void BOOTSECTION boot_reset() {
+static void BOOTMAIN boot_reset() {
     //SCB->AIRCR  = (NVIC_AIRCR_VECTKEY | (SCB->AIRCR & (0x700)) | (1<<NVIC_SYSRESETREQ)); /* Keep priority group unchanged */
     SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
     __DSB();
 }
 
-static uint8_t BOOTSECTION boot_await_data() {
+static uint8_t BOOTMAIN boot_await_data() {
     uint8_t state = 0;
     uint8_t nibble = 0;
     char recv;
@@ -62,7 +65,12 @@ static uint8_t BOOTSECTION boot_await_data() {
                 // End of a HEX record. Return the length for data records,
                 // and 0 for control records
                 state = 0;
-                if (rxbuf[3] == 0) return rxbuf[0];
+                if (rxbuf[3] == 0) {
+                    // Note that the address here is the doubleword address, not
+                    // the byte address
+                    address = base_address + (rxbuf[1] << 11) + (rxbuf[2] << 3);
+                    return rxbuf[0];
+                }
                 else if (rxbuf[3] == 2) {
                     base_address = (rxbuf[4] << 12) | (rxbuf[5] << 4);
                 } else if (rxbuf[3] == 4) {
@@ -85,18 +93,67 @@ static uint8_t BOOTSECTION boot_await_data() {
     }
 }
 
-static void BOOTSECTION boot_echo_data(uint8_t length) {
+static void BOOTMAIN boot_echo_data(uint8_t length) {
     while (!(USART2->ISR & USART_ISR_TXE));
     USART2->TDR = ':';
     checksum = 0;
     boot_printhex(length);
-    boot_printhex((address & 0x0000ff00) >> 8);
-    boot_printhex((address & 0x000000ff));
+    boot_printhex((address >> 11) & 0xff);
+    boot_printhex((address >> 3) & 0xff);
     boot_printhex(0);
     for (uint8_t i=0; i < length; i++) boot_printhex(databuf[i]);
     boot_printhex((-checksum) & 0xff);
     while (!(USART2->ISR & USART_ISR_TXE));
     USART2->TDR = '\n';
+}
+
+static uint8_t BOOTMAIN boot_program_and_verify(uint8_t length) {
+    // If the length is not doubleword-aligned, return 0 (error).
+    if (length & 0x07) return 0;
+    // If the address is not doubleword-aligned, return 0 (error).
+    if (address & 0x07) return 0;
+    // In case the target section overlaps with bootloader code, return 0.
+    // An empty echo frame will be transmitted, indicating an error.
+    if (address + length > 0x7c000) return 0;
+    //return length;
+    // Unlock the flash
+    FLASH->KEYR = 0x45670123;
+    FLASH->KEYR = 0xCDEF89AB;
+    uint8_t page;
+    if (FLASH->OPTR & FLASH_OPTR_DBANK) page = address >> 11;
+    else page = (address >> 12) & 0x7f;
+    while (FLASH->SR & FLASH_SR_BSY);
+    if (!((page_erased[page>>5]>>(page & 0x1f)) & 1)) {
+        // Page has not been erased, so erase it
+        // Clear error flags
+        FLASH->SR = FLASH->SR & 0xffff;
+        // Erase page
+        FLASH->CR = ((page & 0x7f) << FLASH_CR_PNB_Pos) | FLASH_CR_PER | (page >= 0x80 ? FLASH_CR_BKER : 0);
+        FLASH->CR |= FLASH_CR_STRT;
+        page_erased[page>>5] |= 1<<(page & 0x1f);
+        while (FLASH->SR & FLASH_SR_BSY);
+        // Error while erasing
+        if (FLASH->SR & 0xfffe) return 0;
+    }
+    FLASH->CR = FLASH_CR_PG;
+    uint64_t temp;
+    for (uint8_t i=0; i < length; i += 8) {
+        // Clear error flags
+        FLASH->SR = FLASH->SR & 0xffff;
+        temp = ((uint64_t*)(databuf+i))[0];
+        // Program the doubleword
+        *(uint32_t*)(FLASH_BASE + address+i) = (uint32_t)temp;
+        __ISB();
+        *(uint32_t*)(FLASH_BASE + address+i+4) = (uint32_t)(temp >> 32);
+        while (FLASH->SR & FLASH_SR_BSY);
+        // Return 0 if an error occurred
+        if (FLASH->SR & 0xfffe) return 0;
+    }
+    FLASH->CR = FLASH_CR_LOCK;
+    for (uint8_t i=0; i < length; i++) {
+        databuf[i] = *(uint8_t*)(FLASH_BASE + address+i);
+    }
+    return length;
 }
 
 /**
@@ -105,7 +162,7 @@ static void BOOTSECTION boot_echo_data(uint8_t length) {
   * This code may not call any other functions unless they are located in the
   * .bootmain section
   */
-static void BOOTSECTION boot() {
+static void BOOTMAIN boot() {
     __disable_irq();
     // Point databuf to the first data byte in a HEX record
     databuf = rxbuf+4;
@@ -136,8 +193,11 @@ static void BOOTSECTION boot() {
         __enable_irq();
         return;
     }
+    for (uint8_t i=0; i < 8; i++) page_erased[i] = 0;
     // Main programming loop
     uint8_t ndata = 0;
+    base_address = 0;
+    address = 0;
     while (1) {
         ndata = boot_await_data();
         if (rxbuf[3] == 6) {
@@ -146,12 +206,17 @@ static void BOOTSECTION boot() {
             GPIOA->BSRR = (1<<21);
         }
         if (ndata) {
+            ndata = boot_program_and_verify(ndata);
             boot_echo_data(ndata);
         }
 
     }
 
     __enable_irq();
+}
+
+static void BOOTSTART boot_start() {
+    boot();
 }
 
 
@@ -179,5 +244,5 @@ void core_boot_init() {
     SysTick->VAL = 0;
     SysTick->CTRL = 0x00000005;
     uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
-    boot();
+    boot_start();
 }

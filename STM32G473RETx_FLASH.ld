@@ -176,7 +176,12 @@ SECTIONS
   } >RAM
 
   /* Bootloader */
-  .bootmain 0x0807c000 (READONLY) :
+  .bootstart 0x0807c000 (READONLY) :
+  {
+    . = ALIGN(4);
+    *(.bootstart)
+  } >FLASH
+  .bootmain 0x0807c010 (READONLY) :
   {
     . = ALIGN(4);
     *(.bootmain)
