@@ -4,14 +4,112 @@
 #include "core_config.h"
 #include "stm32g4xx_hal.h"
 
+#define BOOTSECTION __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
+
+static uint32_t base_address = 0x00000000;
+static uint32_t address;
+static uint8_t rxbuf[64];
+static uint8_t rxbuflen;
+static uint8_t *databuf;
+static uint8_t checksum = 0;
+
+static void BOOTSECTION boot_blink() {
+    while (1) {
+        GPIOA->BSRR = (1<<5);
+        for (int i=0; i < 2000000; i++);
+        GPIOA->BSRR = (1<<21);
+        for (int i=0; i < 5000000; i++);
+    }
+}
+
+static void BOOTSECTION boot_printhex(uint8_t data) {
+    checksum += data;
+    uint8_t nibble = data>>4;
+    if (nibble >= 10) nibble += 'A' - 10;
+    else nibble += '0';
+    while (!(USART2->ISR & USART_ISR_TXE));
+    USART2->TDR = nibble;
+    nibble = data & 0x0f;
+    if (nibble >= 10) nibble += 'A' - 10;
+    else nibble += '0';
+    while (!(USART2->ISR & USART_ISR_TXE));
+    USART2->TDR = nibble;
+}
+
+static void BOOTSECTION boot_reset() {
+    //SCB->AIRCR  = (NVIC_AIRCR_VECTKEY | (SCB->AIRCR & (0x700)) | (1<<NVIC_SYSRESETREQ)); /* Keep priority group unchanged */
+    SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
+    __DSB();
+}
+
+static uint8_t BOOTSECTION boot_await_data() {
+    uint8_t state = 0;
+    uint8_t nibble = 0;
+    char recv;
+    rxbuflen = 0;
+    // Wait for data to arrive
+    while (1) {
+        while (!(USART2->ISR & USART_ISR_RXNE));
+        recv = USART2->RDR;
+        if (recv & 0x80) {
+            // Control data received
+            if (recv == 0xc0) boot_reset();
+        } else if (state == 0) {
+            if (recv == ':') state = 1;
+        } else if (state == 1) {
+            // Receive HEX data
+            if (recv == '\n') {
+                // End of a HEX record. Return the length for data records,
+                // and 0 for control records
+                state = 0;
+                if (rxbuf[3] == 0) return rxbuf[0];
+                else if (rxbuf[3] == 2) {
+                    base_address = (rxbuf[4] << 12) | (rxbuf[5] << 4);
+                } else if (rxbuf[3] == 4) {
+                    base_address = (rxbuf[4] << 24) | (rxbuf[5] << 16);
+                }
+                return 0;
+            }
+            else if (('0' <= recv) && ('9' >= recv)) {
+                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - '0');
+            }
+            else if (('a' <= recv) && ('f' >= recv)) {
+                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - 'a' + 10);
+            }
+            else if (('A' <= recv) && ('F' >= recv)) {
+                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - 'A' + 10);
+            } else continue;
+            if (nibble) rxbuflen++;
+            nibble = 1 - nibble;
+        }
+    }
+}
+
+static void BOOTSECTION boot_echo_data(uint8_t length) {
+    while (!(USART2->ISR & USART_ISR_TXE));
+    USART2->TDR = ':';
+    checksum = 0;
+    boot_printhex(length);
+    boot_printhex((address & 0x0000ff00) >> 8);
+    boot_printhex((address & 0x000000ff));
+    boot_printhex(0);
+    for (uint8_t i=0; i < length; i++) boot_printhex(databuf[i]);
+    boot_printhex((-checksum) & 0xff);
+    while (!(USART2->ISR & USART_ISR_TXE));
+    USART2->TDR = '\n';
+}
+
 /**
   * @brief  Main code for the bootloader
   *
   * This code may not call any other functions unless they are located in the
   * .bootmain section
   */
-static void __attribute__ ((section (".bootmain"))) __attribute__ ((__used__)) boot() {
+static void BOOTSECTION boot() {
     __disable_irq();
+    // Point databuf to the first data byte in a HEX record
+    databuf = rxbuf+4;
+    // Wait for the USART start signal
     uint16_t timeout = CORE_BOOT_USART_TIMEOUT;
     SysTick->VAL = SysTick->LOAD;
     while (timeout > 0) {
@@ -25,18 +123,34 @@ static void __attribute__ ((section (".bootmain"))) __attribute__ ((__used__)) b
     }
     USART2->ICR = USART_ICR_RTOCF;
     uint16_t data = USART2->RDR;
-    for (int i=0; i < 10000; i++)
+    uint8_t address_nrecv = 0;
     while (!(USART2->ISR & USART_ISR_RTOF)) {
         if (USART2->ISR & USART_ISR_RXNE) {
-            while (1) {
-                GPIOA->BSRR = (1<<5);
-                for (int i=0; i < 2000000; i++);
-                GPIOA->BSRR = (1<<21);
-                for (int i=0; i < 5000000; i++);
-            }
+            if (USART2->RDR == (0x80 | CORE_BOOT_ADDRESS)) address_nrecv++;
+            else address_nrecv = 0;
+            if (address_nrecv == CORE_BOOT_NRECV) break;
         }
     }
-    GPIOA->BSRR = (1<<5);
+    if (address_nrecv < CORE_BOOT_NRECV) {
+        // Address not detected, leave boot mode
+        __enable_irq();
+        return;
+    }
+    // Main programming loop
+    uint8_t ndata = 0;
+    while (1) {
+        ndata = boot_await_data();
+        if (rxbuf[3] == 6) {
+            GPIOA->BSRR = (1<<5);
+            for (int i=0; i < 2000000; i++);
+            GPIOA->BSRR = (1<<21);
+        }
+        if (ndata) {
+            boot_echo_data(ndata);
+        }
+
+    }
+
     __enable_irq();
 }
 
@@ -50,8 +164,10 @@ void core_boot_init() {
     core_clock_port_init(GPIOB);
     GPIO_InitTypeDef usartGPIO = {CORE_BOOT_PIN, GPIO_MODE_AF_PP, GPIO_PULLUP, GPIO_SPEED_FREQ_LOW, CORE_BOOT_AF};
     HAL_GPIO_Init(CORE_BOOT_PORT, &usartGPIO);
+    usartGPIO.Pin = GPIO_PIN_3;
+    HAL_GPIO_Init(GPIOB, &usartGPIO);
 
-    USART2->CR1 = USART_CR1_FIFOEN | USART_CR1_RE;
+    USART2->CR1 = USART_CR1_FIFOEN | USART_CR1_RE | USART_CR1_TE;
     USART2->CR2 = USART_CR2_RTOEN;
     USART2->CR3 = 0;
     USART2->BRR = 1000 * CORE_CLOCK_SYSCLK_FREQ / CORE_BOOT_USART_BAUD;
