@@ -7,7 +7,9 @@
 #define BOOTMAIN __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
 #define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
 
-static uint32_t page_erased[8];
+#define ALTBANK_BASE 0x08040000
+
+static uint32_t page_erased[4];
 static uint32_t base_address;
 static uint32_t address;
 static uint8_t rxbuf[100];
@@ -16,7 +18,7 @@ static uint8_t *databuf;
 static uint8_t checksum;
 
 
-static void BOOTMAIN boot_blink() {
+static void boot_blink() {
     while (1) {
         GPIOA->BSRR = (1<<5);
         for (int i=0; i < 2000000; i++);
@@ -25,7 +27,7 @@ static void BOOTMAIN boot_blink() {
     }
 }
 
-static void BOOTMAIN boot_printhex(uint8_t data) {
+static void boot_printhex(uint8_t data) {
     checksum += data;
     uint8_t nibble = data>>4;
     if (nibble >= 10) nibble += 'A' - 10;
@@ -39,13 +41,25 @@ static void BOOTMAIN boot_printhex(uint8_t data) {
     USART2->TDR = nibble;
 }
 
-static void BOOTMAIN boot_reset() {
+static void boot_reset() {
     //SCB->AIRCR  = (NVIC_AIRCR_VECTKEY | (SCB->AIRCR & (0x700)) | (1<<NVIC_SYSRESETREQ)); /* Keep priority group unchanged */
-    SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
-    __DSB();
+    //SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
+    //__DSB();
+
+    // Unlock the flash
+    FLASH->KEYR = 0x45670123;
+    FLASH->KEYR = 0xCDEF89AB;
+    // Unlock the option bytes
+    FLASH->OPTKEYR = 0x08192A3B;
+    FLASH->OPTKEYR = 0x4C5D6E7F;
+    while (FLASH->SR & FLASH_SR_BSY);
+    FLASH->OPTR ^= FLASH_OPTR_BFB2;
+    FLASH->CR = FLASH_CR_OPTSTRT;
+    while (FLASH->SR & FLASH_SR_BSY);
+    FLASH->CR = FLASH_CR_OBL_LAUNCH;
 }
 
-static uint8_t BOOTMAIN boot_await_data() {
+static uint8_t boot_await_data() {
     uint8_t state = 0;
     uint8_t nibble = 0;
     char recv;
@@ -93,7 +107,7 @@ static uint8_t BOOTMAIN boot_await_data() {
     }
 }
 
-static void BOOTMAIN boot_echo_data(uint8_t length) {
+static void boot_echo_data(uint8_t length) {
     while (!(USART2->ISR & USART_ISR_TXE));
     USART2->TDR = ':';
     checksum = 0;
@@ -107,14 +121,14 @@ static void BOOTMAIN boot_echo_data(uint8_t length) {
     USART2->TDR = '\n';
 }
 
-static uint8_t BOOTMAIN boot_program_and_verify(uint8_t length) {
+static uint8_t boot_program_and_verify(uint8_t length) {
     // If the length is not doubleword-aligned, return 0 (error).
     if (length & 0x07) return 0;
     // If the address is not doubleword-aligned, return 0 (error).
     if (address & 0x07) return 0;
     // In case the target section overlaps with bootloader code, return 0.
     // An empty echo frame will be transmitted, indicating an error.
-    if (address + length > 0x7c000) return 0;
+    if (address + length > 0x40000) return 0;
     //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
@@ -128,7 +142,7 @@ static uint8_t BOOTMAIN boot_program_and_verify(uint8_t length) {
         // Clear error flags
         FLASH->SR = FLASH->SR & 0xffff;
         // Erase page
-        FLASH->CR = ((page & 0x7f) << FLASH_CR_PNB_Pos) | FLASH_CR_PER | (page >= 0x80 ? FLASH_CR_BKER : 0);
+        FLASH->CR = ((page & 0x7f) << FLASH_CR_PNB_Pos) | FLASH_CR_PER | ((SYSCFG->MEMRMP & (1<<8)) ? 0 : FLASH_CR_BKER);
         FLASH->CR |= FLASH_CR_STRT;
         page_erased[page>>5] |= 1<<(page & 0x1f);
         while (FLASH->SR & FLASH_SR_BSY);
@@ -142,9 +156,9 @@ static uint8_t BOOTMAIN boot_program_and_verify(uint8_t length) {
         FLASH->SR = FLASH->SR & 0xffff;
         temp = ((uint64_t*)(databuf+i))[0];
         // Program the doubleword
-        *(uint32_t*)(FLASH_BASE + address+i) = (uint32_t)temp;
+        *(uint32_t*)(ALTBANK_BASE + address+i) = (uint32_t)temp;
         __ISB();
-        *(uint32_t*)(FLASH_BASE + address+i+4) = (uint32_t)(temp >> 32);
+        *(uint32_t*)(ALTBANK_BASE + address+i+4) = (uint32_t)(temp >> 32);
         while (FLASH->SR & FLASH_SR_BSY);
         // Return 0 if an error occurred
         if (FLASH->SR & 0xfffe) return 0;
@@ -162,7 +176,7 @@ static uint8_t BOOTMAIN boot_program_and_verify(uint8_t length) {
   * This code may not call any other functions unless they are located in the
   * .bootmain section
   */
-static void BOOTMAIN boot() {
+static void boot() {
     __disable_irq();
     // Point databuf to the first data byte in a HEX record
     databuf = rxbuf+4;
@@ -215,7 +229,7 @@ static void BOOTMAIN boot() {
     __enable_irq();
 }
 
-static void BOOTSTART boot_start() {
+static void boot_start() {
     boot();
 }
 
@@ -224,6 +238,7 @@ void core_boot_init() {
     core_USART_init(USART1, 500000);
     __HAL_RCC_USART2_CONFIG(RCC_USART2CLKSOURCE_PCLK1);
     __HAL_RCC_USART2_CLK_ENABLE();
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
 
     core_clock_port_init(CORE_BOOT_PORT);
     core_clock_port_init(GPIOB);

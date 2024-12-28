@@ -61,7 +61,7 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
+RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 96K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 512K
 }
 
@@ -174,18 +174,6 @@ SECTIONS
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM
-
-  /* Bootloader */
-  .bootstart 0x0807c000 (READONLY) :
-  {
-    . = ALIGN(4);
-    *(.bootstart)
-  } >FLASH
-  .bootmain 0x0807c010 (READONLY) :
-  {
-    . = ALIGN(4);
-    *(.bootmain)
-  } >FLASH
 
   
 

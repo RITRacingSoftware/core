@@ -32,7 +32,7 @@ def write_record(t, addr, data):
     s.write(d.encode())
     if t == 0:
         echo = s.readline().decode()
-        if echo.upper() != d.upper(): print("ERROR wrote {}, received {}".format(d.strip(), echo.strip()))
+        if echo.upper() != d.upper(): print("ERROR \n      wrote {}\n   received {}".format(d.strip(), echo.strip()))
 
 base_address = 0
 with open(fname) as f:
