@@ -6,8 +6,13 @@
 
 #define BOOTMAIN __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
 #define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
+#define NOINIT __attribute__ ((section (".noinit")))
 
 #define ALTBANK_BASE 0x08040000
+
+uint32_t boot_state NOINIT;
+uint32_t boot_toggle NOINIT;
+uint32_t boot_reset_state NOINIT;
 
 static uint32_t page_erased[4];
 static uint32_t base_address;
@@ -17,6 +22,51 @@ static uint8_t rxbuflen;
 static uint8_t *databuf;
 static uint8_t checksum;
 
+void boot_reset() {
+    // Clear reset flags from previous reset
+    RCC->CSR |= 0x00800000;
+    SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
+    __DSB();
+}
+
+#define BOOT_KEY 0xABCDEF00
+#define BOOT_STATE_NORMAL 0x00
+#define BOOT_STATE_VERIFY 0x01
+extern void boot_soft_toggle();
+void boot_state_machine() {
+    uint32_t rst = RCC->CSR;
+    boot_reset_state = rst;
+    RCC->CSR = rst | 0x00800000;
+    // If all reset flags are cleared, then a software reset has
+    // occurred but has already been handled
+    if (!(rst & 0xfe000000)) rst |= RCC_CSR_SFTRSTF;
+    if (rst & (RCC_CSR_SFTRSTF | RCC_CSR_OBLRSTF)) {
+        // Internal reset or option byte reload
+        // bankmode = 0 if booting bank mapped at address 0
+        //            1 if non-booting bank is mapped at address 0
+        uint32_t bankmode = ((FLASH->OPTR >> 20) ^ (SYSCFG->MEMRMP >> 8)) & 1;
+        switch (boot_state & 0xff) {
+            case BOOT_STATE_NORMAL:
+                return;
+            case BOOT_STATE_VERIFY:
+                if (bankmode) {
+                    // Non-booting bank
+                    boot_state = BOOT_KEY | 0x04;
+                    return;
+                } else {
+                    // Immediately after reset, the reset handler in the
+                    // booting bank runs. From there, jump to the other bank
+                    boot_state = BOOT_KEY | 0x02;
+                    boot_soft_toggle();
+                }
+            default:
+                return;
+        }
+    } else {
+        // External reset
+        boot_state = 0xABCDEF00;
+    }
+}
 
 static void boot_blink() {
     while (1) {
@@ -41,7 +91,7 @@ static void boot_printhex(uint8_t data) {
     USART2->TDR = nibble;
 }
 
-static void boot_reset() {
+static void boot_bankswap() {
     //SCB->AIRCR  = (NVIC_AIRCR_VECTKEY | (SCB->AIRCR & (0x700)) | (1<<NVIC_SYSRESETREQ)); /* Keep priority group unchanged */
     //SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
     //__DSB();
@@ -70,7 +120,10 @@ static uint8_t boot_await_data() {
         recv = USART2->RDR;
         if (recv & 0x80) {
             // Control data received
-            if (recv == 0xc0) boot_reset();
+            if (recv == 0xc0) {
+                boot_state = BOOT_KEY | BOOT_STATE_VERIFY;
+                boot_reset();
+            }
         } else if (state == 0) {
             if (recv == ':') state = 1;
         } else if (state == 1) {
@@ -165,7 +218,7 @@ static uint8_t boot_program_and_verify(uint8_t length) {
     }
     FLASH->CR = FLASH_CR_LOCK;
     for (uint8_t i=0; i < length; i++) {
-        databuf[i] = *(uint8_t*)(FLASH_BASE + address+i);
+        databuf[i] = *(uint8_t*)(ALTBANK_BASE + address+i);
     }
     return length;
 }
@@ -258,6 +311,8 @@ void core_boot_init() {
     SysTick->LOAD = CORE_CLOCK_SYSCLK_FREQ;
     SysTick->VAL = 0;
     SysTick->CTRL = 0x00000005;
-    uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
+    //uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
+    uint32_t temp = (boot_state & 0xffff) | ((SYSCFG->MEMRMP << 8) & 0x10000) | (FLASH->OPTR & (1<<20)) | (boot_reset_state & 0xff000000);
+    core_USART_transmit(USART1, &temp, 4);
     boot_start();
 }

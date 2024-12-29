@@ -131,6 +131,13 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
   
+  .noinit :
+  {
+    . = ALIGN(4);
+    _snoinit = .;
+    *(.noinit)
+    _enoinit = .;
+  } >RAM
 
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
