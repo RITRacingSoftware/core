@@ -15,6 +15,12 @@ def boot(addr, timeout=2):
 def reset():
     s.write(b"\xC0")
 
+def failsafe_swap():
+    s.write(b"\xC1")
+
+def finalize_swap():
+    s.write(b"\xC2")
+
 print("Booting {}".format(addr))
 boot(addr)
 print("Writing...")
@@ -30,9 +36,12 @@ def write_record(t, addr, data):
     d += "{:02x}\n".format(cs)
     #print(d, end="")
     s.write(d.encode())
-    if t == 0:
+    if t == 0 or t == 7:
         echo = s.readline().decode()
-        if echo.upper() != d.upper(): print("ERROR \n      wrote {}\n   received {}".format(d.strip(), echo.strip()))
+        if echo.upper() != d.upper(): 
+            print("ERROR \n      wrote {}\n   received {}".format(d.strip(), echo.strip()))
+            return False
+    return True
 
 base_address = 0
 with open(fname) as f:
@@ -74,5 +83,10 @@ with open(fname) as f:
     if buf:
         write_record(0, (start_address - 0x08000000)>>3, buf)
 print("\nResetting")
-reset()
+failsafe_swap()
+boot(addr, timeout=0.5)
+if write_record(7, 0, b""):
+    print("Finalizing swap")
+    finalize_swap()
+
 

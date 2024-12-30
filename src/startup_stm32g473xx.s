@@ -123,16 +123,40 @@ boot_soft_toggle:
     eor r0, r0, #256        /* r0 = r0 ^ SYSCFG_MEMRMP_FB_MODE */
     ldr r2, =0x08040004
     ldr r2, [r2, #0]        /* r2 = *((uint32_t*)(0x08040004)) */
+
+    /* Load the code to RAM */
     ldr r4, =boot_soft_toggle_r
+    ldr r5, =boot_soft_toggle_end
+    ldr r6, =boot_toggle
+    b boot_soft_toggle_ram_loop
+boot_soft_toggle_ram_copy:
     ldr r3, [r4, #0]        /* r3 = opcodes stored at boot_soft_toggle_r */
+    str r3, [r6, #0]        /* boot_toggle = r3 */
+    add r6, r6, #4
+    add r4, r4, #4
+boot_soft_toggle_ram_loop:
+    cmp r4, r5
+    bcc boot_soft_toggle_ram_copy
+
+
+    ldr r6, =0x40022000     /* FLASH ACR */
+    ldr r7, [r6, #0]        /* Store old FLASH ACR configuration to r7 */
+    bic r5, r7, 0x00000600  /* Clear cache enable bits in r5 */
+    
     ldr r4, =boot_toggle
-    str r3, [r4, #0]        /* boot_toggle = r3 */
     add r4, r4, #1
     bx r4                   /* execute the opcodes stored in RAM at boot_toggle */
 
 boot_soft_toggle_r:
+    str r5, [r6, #0]        /* Disable caches */
+    orr r5, 0x00001800
+    str r5, [r6, #0]        /* Reset caches */
+    bic r5, 0x00001800
+    str r5, [r6, #0]        /* Stop resetting caches */
     str r0, [r1, #0]        /* *r1 = r0 (bank swap) */
+    str r7, [r6, #0]        /* Re-enable caches */
     bx r2                   /* goto Reset_Handler (in other bank) */
+boot_soft_toggle_end:
     nop
 
 .size	boot_soft_toggle, .-boot_soft_toggle

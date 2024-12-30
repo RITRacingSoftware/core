@@ -52,8 +52,9 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-/* Highest address of the user mode stack */
-_estack = ORIGIN(RAM) + LENGTH(RAM);    /* end of RAM */
+/* Highest address of the user mode stack (highest address reserved for the 
+ * boot state */
+_estack = ORIGIN(RAM) + LENGTH(RAM) - 4;
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
 _Min_Stack_Size = 0x400; /* required amount of stack */
@@ -131,13 +132,6 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
   
-  .noinit :
-  {
-    . = ALIGN(4);
-    _snoinit = .;
-    *(.noinit)
-    _enoinit = .;
-  } >RAM
 
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
@@ -180,6 +174,12 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
+  } >RAM
+  
+  .bootstate 0x20017ffc (NOLOAD):
+  {
+    . = ALIGN(4);
+    *(.bootstate)
   } >RAM
 
   

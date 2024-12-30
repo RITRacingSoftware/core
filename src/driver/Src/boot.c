@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 #include "usart.h"
 #include "clock.h"
 #include "core_config.h"
@@ -6,13 +7,16 @@
 
 #define BOOTMAIN __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
 #define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
-#define NOINIT __attribute__ ((section (".noinit")))
+#define BOOTSTATE __attribute__ ((section (".bootstate")))
 
 #define ALTBANK_BASE 0x08040000
 
-uint32_t boot_state NOINIT;
-uint32_t boot_toggle NOINIT;
-uint32_t boot_reset_state NOINIT;
+uint32_t boot_state BOOTSTATE;
+// Stores the opcodes used for soft bank switching. Soft bank switching must be
+// performed from RAM, since the code in the other bank may continue from a
+// different address.
+uint32_t boot_toggle[8];
+uint32_t boot_reset_state;
 
 static uint32_t page_erased[4];
 static uint32_t base_address;
@@ -29,42 +33,93 @@ void boot_reset() {
     __DSB();
 }
 
-#define BOOT_KEY 0xABCDEF00
+#define BOOT_STATE_KEY 0xABCDEF00
 #define BOOT_STATE_NORMAL 0x00
 #define BOOT_STATE_VERIFY 0x01
+#define BOOT_STATE_VERIFY_SOFT_SWITCH 0x02
+#define BOOT_STATE_SOFT_SWITCHED 0x04
+#define BOOT_STATE_VERIFIED 0x08
+#define BOOT_STATE_ERROR 0x80
+
+/**
+  * @brief  Soft bank swap
+  *
+  * This function is defined in startup_stm32g473xx.s
+  */
 extern void boot_soft_toggle();
+
+uint32_t check_nonbooting() {
+    return ((FLASH->OPTR >> 20) ^ (SYSCFG->MEMRMP >> 8)) & 1;
+}
+
+/**
+  * @brief  Process the current boot state and swap banks if needed
+  *
+  * This function is called from startup_stm32g473xx.s and is called before the
+  * HAL is initialized and before the RAM is initialized. The boot state is
+  * preserved in a special section (.noinit) at the beginning of RAM that is
+  * not initialized, so its contents are preserved between resets.
+  */
 void boot_state_machine() {
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
     uint32_t rst = RCC->CSR;
+    SCB->VTOR = 0x08000000;
     boot_reset_state = rst;
     RCC->CSR = rst | 0x00800000;
     // If all reset flags are cleared, then a software reset has
     // occurred but has already been handled
     if (!(rst & 0xfe000000)) rst |= RCC_CSR_SFTRSTF;
+    if (rst & RCC_CSR_BORRSTF) {
+        // Power-on reset detected
+        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+    }
     if (rst & (RCC_CSR_SFTRSTF | RCC_CSR_OBLRSTF)) {
         // Internal reset or option byte reload
         // bankmode = 0 if booting bank mapped at address 0
         //            1 if non-booting bank is mapped at address 0
-        uint32_t bankmode = ((FLASH->OPTR >> 20) ^ (SYSCFG->MEMRMP >> 8)) & 1;
-        switch (boot_state & 0xff) {
-            case BOOT_STATE_NORMAL:
+        if (check_nonbooting()) {
+            // Non-booting bank
+            if ((boot_state & 0xffffff00) != BOOT_STATE_KEY) {
+                // Boot state register probably does not contain the boot
+                // state (address mismatch?), reset to indicate soft 
+                // switch failure
+                boot_reset();
+            }
+            if ((boot_state & 0xff) == BOOT_STATE_VERIFY_SOFT_SWITCH) {
+                // Expected state, continue to code for verification
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED;
                 return;
-            case BOOT_STATE_VERIFY:
-                if (bankmode) {
-                    // Non-booting bank
-                    boot_state = BOOT_KEY | 0x04;
+            } else {
+                // Bad state, raise error and reset
+                boot_state |= BOOT_STATE_ERROR;
+                boot_reset();
+            }
+        } else {
+            // Booting bank
+            if ((boot_state & 0xffffff00) != BOOT_STATE_KEY) {
+                // Boot state has not been initialized or has changed location.
+                // Continue to main code and the bootloader will produce an
+                // error message and change the boot state to NORMAL.
+                return;
+            }
+            switch (boot_state & 0xff) {
+                case BOOT_STATE_NORMAL:
                     return;
-                } else {
-                    // Immediately after reset, the reset handler in the
-                    // booting bank runs. From there, jump to the other bank
-                    boot_state = BOOT_KEY | 0x02;
+                case BOOT_STATE_VERIFY:
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY_SOFT_SWITCH;
                     boot_soft_toggle();
-                }
-            default:
-                return;
+                default:
+                    // If the boot state is not in one of the expected states,
+                    // set the error flag and continue to main code. The
+                    // bootloader will transmit an error message and reset the
+                    // boot state to NORMAL
+                    boot_state |= BOOT_STATE_ERROR | 0x40;
+                    return;
+            }
         }
     } else {
         // External reset
-        boot_state = 0xABCDEF00;
+        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }
 }
 
@@ -121,8 +176,21 @@ static uint8_t boot_await_data() {
         if (recv & 0x80) {
             // Control data received
             if (recv == 0xc0) {
-                boot_state = BOOT_KEY | BOOT_STATE_VERIFY;
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
                 boot_reset();
+            }
+            if (recv == 0xc1) {
+                // Failsafe bank swap
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+                boot_reset();
+            }
+            if (recv == 0xc2) {
+                // If the program is verified, swap the banks, set state to
+                // NORMAL, and reset
+                if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                    boot_bankswap();
+                }
             }
         } else if (state == 0) {
             if (recv == ':') state = 1;
@@ -167,7 +235,7 @@ static void boot_echo_data(uint8_t length) {
     boot_printhex(length);
     boot_printhex((address >> 11) & 0xff);
     boot_printhex((address >> 3) & 0xff);
-    boot_printhex(0);
+    boot_printhex(rxbuf[3]);
     for (uint8_t i=0; i < length; i++) boot_printhex(databuf[i]);
     boot_printhex((-checksum) & 0xff);
     while (!(USART2->ISR & USART_ISR_TXE));
@@ -226,8 +294,6 @@ static uint8_t boot_program_and_verify(uint8_t length) {
 /**
   * @brief  Main code for the bootloader
   *
-  * This code may not call any other functions unless they are located in the
-  * .bootmain section
   */
 static void boot() {
     __disable_irq();
@@ -271,6 +337,14 @@ static void boot() {
             GPIOA->BSRR = (1<<5);
             for (int i=0; i < 2000000; i++);
             GPIOA->BSRR = (1<<21);
+        } else if (rxbuf[3] == 7) {
+            // Verification command
+            if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+            } else {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
+            }
+            boot_echo_data(0);
         }
         if (ndata) {
             ndata = boot_program_and_verify(ndata);
@@ -282,16 +356,11 @@ static void boot() {
     __enable_irq();
 }
 
-static void boot_start() {
-    boot();
-}
-
-
 void core_boot_init() {
     core_USART_init(USART1, 500000);
     __HAL_RCC_USART2_CONFIG(RCC_USART2CLKSOURCE_PCLK1);
     __HAL_RCC_USART2_CLK_ENABLE();
-    __HAL_RCC_SYSCFG_CLK_ENABLE();
+
 
     core_clock_port_init(CORE_BOOT_PORT);
     core_clock_port_init(GPIOB);
@@ -314,5 +383,8 @@ void core_boot_init() {
     //uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
     uint32_t temp = (boot_state & 0xffff) | ((SYSCFG->MEMRMP << 8) & 0x10000) | (FLASH->OPTR & (1<<20)) | (boot_reset_state & 0xff000000);
     core_USART_transmit(USART1, &temp, 4);
-    boot_start();
+    if (!check_nonbooting()) {
+        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+    }
+    boot();
 }
