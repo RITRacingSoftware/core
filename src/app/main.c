@@ -94,7 +94,7 @@ void heartbeat_task(void *pvParameters) {
         //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
         //core_USART_transmit(USART1, txbuf, strlen(txbuf));
         //vTaskDelay(100 * portTICK_PERIOD_MS);
-        vTaskDelayUntil(&nextWakeTime, 100);
+        vTaskDelayUntil(&nextWakeTime, 500);
     }
 }
 
@@ -118,6 +118,7 @@ void can_rx_task(void *pvParameters) {
 }
 
 int main(void) {
+    uint32_t rst = RCC->CSR;
     HAL_Init();
 
     // Drivers
@@ -127,7 +128,7 @@ int main(void) {
 
     if (!core_clock_init()) error_handler();
     core_boot_init();
-    if (!core_USART_init(USART1, 500000)) error_handler();
+    //if (!core_USART_init(USART1, 500000)) error_handler();
     /*if (!core_RTC_init()) error_handler();
 
     struct tm time;

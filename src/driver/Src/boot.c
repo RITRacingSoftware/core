@@ -1,7 +1,9 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include "usart.h"
 #include "clock.h"
+#include "can.h"
 #include "core_config.h"
 #include "stm32g4xx_hal.h"
 
@@ -18,13 +20,15 @@ uint32_t boot_state BOOTSTATE;
 uint32_t boot_toggle[8];
 uint32_t boot_reset_state;
 
+static const uint8_t boot_dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+
 static uint32_t page_erased[4];
 static uint32_t base_address;
 static uint32_t address;
-static uint8_t rxbuf[100];
-static uint8_t rxbuflen;
-static uint8_t *databuf;
+static uint8_t databuf[100];
 static uint8_t checksum;
+
+static FDCAN_HandleTypeDef *hfdcan;
 
 void boot_reset() {
     // Clear reset flags from previous reset
@@ -164,7 +168,7 @@ static void boot_bankswap() {
     FLASH->CR = FLASH_CR_OBL_LAUNCH;
 }
 
-static uint8_t boot_await_data() {
+/*static uint8_t boot_await_data() {
     uint8_t state = 0;
     uint8_t nibble = 0;
     char recv;
@@ -226,9 +230,62 @@ static uint8_t boot_await_data() {
             nibble = 1 - nibble;
         }
     }
+}*/
+
+static uint8_t boot_await_data() {
+    uint8_t recv;
+    while (!(hfdcan->Instance->RXF0S & FDCAN_RXF0S_F0FL) && !(USART2->ISR & USART_ISR_RXNE));
+    if (USART2->ISR & USART_ISR_RXNE) {
+        // Data received on control UART
+        recv = USART2->RDR;
+        if (recv == 0xc0) {
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+            boot_reset();
+        }
+        if (recv == 0xc1) {
+            // Failsafe bank swap
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+            boot_reset();
+        }
+        if (recv == 0xc2) {
+            // If the program is verified, swap the banks, set state to
+            // NORMAL, and reset
+            if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_bankswap();
+            }
+        }
+        return 0;
+    }
+    if (hfdcan->Instance->RXF0S & FDCAN_RXF0S_F0FL) {
+        // Data received over CAN
+        FDCAN_RxHeaderTypeDef head;
+        HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
+        uint32_t id = head.Identifier;
+        uint32_t length = boot_dlc_lookup[head.DataLength];
+        if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
+        if (id & (1<<17)) {
+            // Data frame
+            if (id & (1<<15)) length -= 8;
+            address = (id & 0x7fff) << 3;
+            return length;
+        } else {
+            // Control frame
+            if (databuf[0] == 0x01) {
+                // Verification command
+                if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+                } else {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
+                }
+                //boot_echo_data(0);
+                return 0;
+            }
+        }
+    }
 }
 
-static void boot_echo_data(uint8_t length) {
+/*static void boot_echo_data(uint8_t length) {
     while (!(USART2->ISR & USART_ISR_TXE));
     USART2->TDR = ':';
     checksum = 0;
@@ -240,6 +297,30 @@ static void boot_echo_data(uint8_t length) {
     boot_printhex((-checksum) & 0xff);
     while (!(USART2->ISR & USART_ISR_TXE));
     USART2->TDR = '\n';
+}*/
+
+bool boot_transmit_can(uint8_t length, bool is_data) {
+    uint8_t dlc=0, pad=0;
+    if (length > 64) length = 64;
+    if ((length >= 32) && (length & 8)) {
+        length += 8;
+        pad = 1;
+    }
+    while (boot_dlc_lookup[dlc] < length) dlc++;
+    FDCAN_TxHeaderTypeDef header = {0};
+    header.Identifier = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (is_data << 17) | (pad << 15) | ((address >> 3) & 0x7fff);
+    header.IdType = FDCAN_EXTENDED_ID;
+    header.TxFrameType = FDCAN_DATA_FRAME;
+    header.DataLength = dlc;
+    header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    header.BitRateSwitch = FDCAN_BRS_OFF;
+    header.FDFormat = FDCAN_FD_CAN;
+    header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
+    header.MessageMarker = 0;
+
+    while ((CORE_BOOT_FDCAN->PSR & (0x3 << 3)) != (0x01 << 3));
+    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(hfdcan, &header, databuf);
+    return err == HAL_OK;
 }
 
 static uint8_t boot_program_and_verify(uint8_t length) {
@@ -296,9 +377,6 @@ static uint8_t boot_program_and_verify(uint8_t length) {
   *
   */
 static void boot() {
-    __disable_irq();
-    // Point databuf to the first data byte in a HEX record
-    databuf = rxbuf+4;
     // Wait for the USART start signal
     uint16_t timeout = CORE_BOOT_USART_TIMEOUT;
     SysTick->VAL = SysTick->LOAD;
@@ -308,7 +386,6 @@ static void boot() {
     }
     if (timeout == 0) {
         // No start signal detected, leave boot mode
-        __enable_irq();
         return;
     }
     USART2->ICR = USART_ICR_RTOCF;
@@ -323,9 +400,17 @@ static void boot() {
     }
     if (address_nrecv < CORE_BOOT_NRECV) {
         // Address not detected, leave boot mode
-        __enable_irq();
         return;
     }
+
+    core_CAN_init(CORE_BOOT_FDCAN);
+    core_CAN_module_t *p_can = core_CAN_convert(FDCAN1);
+    hfdcan = &(p_can->hfdcan);
+    core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
+    strcpy(databuf, "Entered bootloader successfully");
+    address = 0;
+    boot_transmit_can(64, 0);
+
     for (uint8_t i=0; i < 8; i++) page_erased[i] = 0;
     // Main programming loop
     uint8_t ndata = 0;
@@ -333,27 +418,11 @@ static void boot() {
     address = 0;
     while (1) {
         ndata = boot_await_data();
-        if (rxbuf[3] == 6) {
-            GPIOA->BSRR = (1<<5);
-            for (int i=0; i < 2000000; i++);
-            GPIOA->BSRR = (1<<21);
-        } else if (rxbuf[3] == 7) {
-            // Verification command
-            if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
-            } else {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
-            }
-            boot_echo_data(0);
-        }
         if (ndata) {
             ndata = boot_program_and_verify(ndata);
-            boot_echo_data(ndata);
+            if (ndata) boot_transmit_can(ndata, 1);
         }
-
     }
-
-    __enable_irq();
 }
 
 void core_boot_init() {
@@ -386,5 +455,7 @@ void core_boot_init() {
     if (!check_nonbooting()) {
         boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }
+    __disable_irq();
     boot();
+    __enable_irq();
 }
