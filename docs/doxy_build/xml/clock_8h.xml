@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="9" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="41" bodyend="48" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="9" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="9" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="41" bodyend="49" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="9" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a4dfc43b43b5975284563a397da6a3d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -190,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="10" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="56" bodyend="79" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="10" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="10" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="57" bodyend="80" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="10" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -235,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="11" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="87" bodyend="106" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="11" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="11" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="88" bodyend="107" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="11" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a909c55093b5c9d09f4edf03948a0642d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -259,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="12" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="112" bodyend="120" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="12" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="12" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="113" bodyend="121" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="12" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a8ac22b37088c49b5f266d0a00dcafb28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -287,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="13" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="126" bodyend="133" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="13" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="13" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="127" bodyend="134" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="13" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a7e1523e05d1928674f334740d0e4ae03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint8_t</type>
@@ -382,7 +382,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="14" column="9" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="149" bodyend="210" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="14" declcolumn="9"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="14" column="9" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="150" bodyend="211" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="14" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1afdfa75b3a589ff7de55fa846dc848d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -415,7 +415,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="15" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="222" bodyend="281" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="15" declcolumn="6"/>
+        <location file="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" line="15" column="6" bodyfile="/Users/solomonshulman/RITRacing/Core/src/driver/Src/clock.c" bodystart="223" bodyend="282" declfile="/Users/solomonshulman/RITRacing/Core/src/driver/Inc/clock.h" declline="15" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

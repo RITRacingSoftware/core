@@ -47,7 +47,7 @@ FREERTOS_OBJS := $(FREERTOS_SRCS:$(FREERTOS_DIR)/%=$(STM32_BUILD_DIR)/obj/freert
 
 # Compilation targets
 .PHONY: all
-all: core
+all: check-target core
 
 .PHONY: core
 core: $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).elf $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).bin
