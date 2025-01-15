@@ -20,6 +20,9 @@
 // Number of CAN messages that can be stored in the CAN FreeRTOS queue
 #define CORE_CAN_QUEUE_LENGTH 15
 
+// Timeout for waiting on RX queue
+#define CORE_CAN_RX_TIMEOUT 0
+
 // Ports and pins for CAN communication
 #define CORE_FDCAN1_TX_PORT GPIOA
 #define CORE_FDCAN1_TX_PIN  GPIO_PIN_12
