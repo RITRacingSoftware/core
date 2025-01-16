@@ -23,6 +23,18 @@
   * dedicated FreeRTOS task. If core_CAN_send_from_tx_queue_task(), an error
   * has occurred while transmitting.
   *
+  * Internally, a FreeRTOS semaphore is used to ensure only one message sits
+  * in the hardware CAN queue at a time. The semaphore is given whenever a
+  * transmission completes (or fails) and is taken whenever a message is
+  * added to the hardware queue.
+  *
+  * Alternatively, the user can disable the FreeRTOS queue by defining
+  * `CORE_CAN_DISABLE_TX_QUEUE` in `core_config.h`. This is useful if the user
+  * needs finer control over the transmission, wants to synchronize CAN
+  * transmissions between FDCAN modules, or would like to save SRAM space.
+  * The RX queue is not affected and the user can access the semaphore using
+  * core_CAN_convert(), but will be responsible for taking the semaphore.
+  *
   * ## Receiving
   * In order to enable receiving CAN frames, the user code must first set up
   * one or more filters using the core_CAN_add_filter() function. When a frame
@@ -61,8 +73,6 @@ static core_CAN_module_t can3;
 
 static const uint8_t dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
-static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
-static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
@@ -214,9 +224,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
 
+#ifndef CORE_CAN_DISABLE_TX_QUEUE
     // Create queue to put outgoing messages in
     p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_tx == 0) error_handler();
+#endif
 
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
     xSemaphoreGive(p_can->can_tx_semaphore);
@@ -230,6 +242,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     return true;
 }
 
+#ifndef CORE_CAN_DISABLE_TX_QUEUE
 /**
   * @brief  Add a CAN frame to the TX queue
   * @param  can FDCAN module for which the frame is being enqueued
@@ -310,14 +323,27 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
     }
     return false;
 }
+#endif
 
-static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
+/**
+  * @brief  Add a CAN message to the hardware FIFO
+  * @param  can FDCAN module
+  * @param  id ID of the message to be transmitted. If this value is greater
+  *         than 2047, then an extended ID is automatically selected. Only the
+  *         lowest 29 bits are kept, so setting the MSB will force an extended
+  *         ID even if the ID is less than or equal to 2047
+  * @param  dlc Length of the packet (0-8)
+  * @param  data Data encoded as a uint64_t
+  * @retval 0 if an error occurred while adding the message to the queue
+  * @retval 1 otherwise
+  */
+bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
     FDCAN_TxHeaderTypeDef header = {0};
-    header.Identifier = id;
-    header.IdType = FDCAN_STANDARD_ID;
+    header.Identifier = (id & 0x1fffffff);
+    header.IdType = (id >= 2048 ? FDCAN_STANDARD_ID : FDCAN_EXTENDED_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = dlc;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
@@ -331,15 +357,28 @@ static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc,
     return err == HAL_OK;
 }
 
-static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
+/**
+  * @brief  Add an FDCAN message to the hardware FIFO
+  * @param  can FDCAN module
+  * @param  id ID of the message to be transmitted. If this value is greater
+  *         than 2047, then an extended ID is automatically selected. Only the
+  *         lowest 29 bits are kept, so setting the MSB will force an extended
+  *         ID even if the ID is less than or equal to 2047
+  * @param  dlc Length of the packet. If the length does not correspond to a
+  *         valid FDCAN packet length, 
+  * @param  data Pointer to the data to be transmitted
+  * @retval 0 if an error occurred while adding the message to the queue
+  * @retval 1 otherwise
+  */
+bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
     uint8_t i=0;
     while (dlc_lookup[i] < dlc) i++;
     FDCAN_TxHeaderTypeDef header = {0};
-    header.Identifier = id;
-    header.IdType = FDCAN_STANDARD_ID;
+    header.Identifier = (id & 0x1fffffff);
+    header.IdType = (id >= 2048 ? FDCAN_STANDARD_ID : FDCAN_EXTENDED_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = i;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
