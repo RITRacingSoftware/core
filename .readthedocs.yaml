@@ -5,8 +5,14 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.12"
-  commands:
-    - cp ./docs/doxy_build/html/index.html ./docs/sphinx/_build/html/index.html
+  jobs:
+    install:
+      - echo "Installing dependencies blah"
+    build:
+      html:
+        - echo "Building html"
+        - mkdir -p $READTHEDOCS_OUTPUT/html/
+        - cp -r ./docs/doxy_build/html $READTHEDOCS_OUTPUT/html
 
     # Build documentation in the "docs/" directory with Sphinx
 sphinx:
