@@ -10,7 +10,7 @@
 #include <stm32g4xx_hal.h>
 
 #define CAN_ID 3
-#define CAN FDCAN1
+#define CAN FDCAN3
 
 void hard_error_handler();
 
