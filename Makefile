@@ -23,7 +23,12 @@ STM32_LD_FLAGS := $(STM32_COMMON_FLAGS) -static -Wl,--gc-sections -T $(STM32_LD_
 
 
 # Sources
-APP_DIR := src/app
+ifdef TARGET
+	APP_DIR := Examples/$(TARGET)
+else
+	APP_DIR := src/app
+endif
+
 APP_SRCS := $(shell find $(APP_DIR) -type f -name "*.c")
 APP_INCLUDE := -I $(APP_DIR)
 STM32_APP_OBJS := $(APP_SRCS:$(APP_DIR)/%=$(STM32_BUILD_DIR)/obj/app/%.o)
@@ -96,3 +101,9 @@ $(STM32_BUILD_DIR)/obj/freertos/%.c.o: $(FREERTOS_DIR)/%.c
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+
+.PHONY: check-target
+check-target:
+	ifndef TARGET
+		$(error Specify target as TARGET=[module/name])
+	endif

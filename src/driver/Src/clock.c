@@ -53,6 +53,7 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
         core_clock_port_init(CORE_FDCAN3_TX_PORT);
     }
     __HAL_RCC_FDCAN_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 }
 
 /**
