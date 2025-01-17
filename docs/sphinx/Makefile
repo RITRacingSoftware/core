@@ -19,6 +19,4 @@ help:
 
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-html:
-	cp ../doxy_build/html/index.html ./_build/html/
+	echo This is the line
