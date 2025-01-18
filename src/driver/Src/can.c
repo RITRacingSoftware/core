@@ -436,7 +436,7 @@ bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedM
 
     // Receive CAN message from queue, copy it to buffer "received_message"
     // Return true if it read a value from the queue, false if not
-    return (xQueueReceive(p_can->can_queue_rx, received_message, CORE_CAN_RX_TIMEOUT) == pdTRUE);
+    return (xQueueReceive(p_can->can_queue_rx, received_message, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT)) == pdTRUE);
 }
 
 /**
@@ -454,7 +454,7 @@ bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *receive
 
     // Receive CAN message from queue, copy it to buffer "received_message"
     // Return true if it read a value from the queue, false if not
-    return (xQueueReceive(p_can->can_queue_rx, received_message, CORE_CAN_RX_TIMEOUT) == pdTRUE);
+    return (xQueueReceive(p_can->can_queue_rx, received_message, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT)) == pdTRUE);
 }
 
 // Call RX interrupt handlers

@@ -8,18 +8,23 @@
 \DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stm32g4xx\_hal.h>}}
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stm32g4xx\_hal\_usart.h>}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ CORE\_USART1\_UPDATE\ 0x01}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ CORE\_USART2\_UPDATE\ 0x02}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ CORE\_USART3\_UPDATE\ 0x04}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keywordtype}{bool}\ core\_USART\_init(USART\_TypeDef\ *usart,\ uint32\_t\ baud);}
-\DoxyCodeLine{00013\ \textcolor{keywordtype}{bool}\ core\_USART\_start\_rx(USART\_TypeDef\ *usart,\ \textcolor{keyword}{volatile}\ uint8\_t\ *rxbuf,\ \textcolor{keyword}{volatile}\ uint32\_t\ *rxbuflen);}
-\DoxyCodeLine{00014\ \textcolor{keywordtype}{void}\ core\_USART\_update\_disable(USART\_TypeDef\ *usart);}
-\DoxyCodeLine{00015\ \textcolor{keywordtype}{void}\ core\_USART\_update\_enable(USART\_TypeDef\ *usart);}
-\DoxyCodeLine{00016\ \textcolor{keywordtype}{bool}\ core\_USART\_transmit(USART\_TypeDef\ *usart,\ uint8\_t\ *txbuf,\ uint8\_t\ txbuflen);}
-\DoxyCodeLine{00017\ \textcolor{keywordtype}{void}\ core\_USART\_RX\_callback(USART\_HandleTypeDef\ *husart);}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}core\_config.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ CORE\_USART1\_UPDATE\ 0x01}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ CORE\_USART2\_UPDATE\ 0x02}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ CORE\_USART3\_UPDATE\ 0x04}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keywordtype}{bool}\ core\_USART\_init(USART\_TypeDef\ *usart,\ uint32\_t\ baud);}
+\DoxyCodeLine{00014\ \textcolor{keywordtype}{bool}\ core\_USART\_start\_rx(USART\_TypeDef\ *usart,\ \textcolor{keyword}{volatile}\ uint8\_t\ *rxbuf,\ \textcolor{keyword}{volatile}\ uint32\_t\ *rxbuflen);}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{void}\ core\_USART\_update\_disable(USART\_TypeDef\ *usart);}
+\DoxyCodeLine{00016\ \textcolor{keywordtype}{void}\ core\_USART\_update\_enable(USART\_TypeDef\ *usart);}
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{bool}\ core\_USART\_transmit(USART\_TypeDef\ *usart,\ uint8\_t\ *txbuf,\ uint8\_t\ txbuflen);}
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ core\_USART\_RX\_callback(USART\_HandleTypeDef\ *husart);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ CORE\_USART\_UPRINTF}}
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ uprintf(USART\_TypeDef\ *usart,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...);}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}
