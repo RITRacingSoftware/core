@@ -94,7 +94,7 @@ void heartbeat_task(void *pvParameters) {
         //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
         //core_USART_transmit(USART1, txbuf, strlen(txbuf));
         //vTaskDelay(100 * portTICK_PERIOD_MS);
-        vTaskDelayUntil(&nextWakeTime, 500);
+        vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
 
@@ -123,10 +123,11 @@ int main(void) {
 
     // Drivers
     //core_heartbeat_init(GPIOB, GPIO_PIN_15);
-    core_heartbeat_init(GPIOA, GPIO_PIN_5);
+    core_heartbeat_init(GPIOC, GPIO_PIN_9);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
+    if (!core_CAN_init(FDCAN2)) error_handler();
     core_boot_init();
     //if (!core_USART_init(USART1, 500000)) error_handler();
     /*if (!core_RTC_init()) error_handler();

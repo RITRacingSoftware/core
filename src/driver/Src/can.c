@@ -66,6 +66,7 @@
 #include "clock.h"
 #include "timeout.h"
 #include "error_handler.h"
+#include "boot.h"
 
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
@@ -343,7 +344,7 @@ bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, u
 
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = (id & 0x1fffffff);
-    header.IdType = (id >= 2048 ? FDCAN_STANDARD_ID : FDCAN_EXTENDED_ID);
+    header.IdType = (id >= 2048 ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = dlc;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
@@ -378,7 +379,7 @@ bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc
     while (dlc_lookup[i] < dlc) i++;
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = (id & 0x1fffffff);
-    header.IdType = (id >= 2048 ? FDCAN_STANDARD_ID : FDCAN_EXTENDED_ID);
+    header.IdType = (id >= 2048 ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = i;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
@@ -409,6 +410,10 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         if (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) != HAL_OK)
         {
             error_handler();
+        }
+        if ((header.IdType == FDCAN_EXTENDED_ID) && (header.Identifier == (CORE_BOOT_FDCAN_ID << 18))) {
+            //core_GPIO_toggle_heartbeat();
+            core_boot_reset_and_enter();
         }
         // Reset the timeout
         core_timeout_reset_by_module_ref(can, header.Identifier);
