@@ -38,8 +38,8 @@ typedef struct core_CAN_module_s {
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
 
-bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
-bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
+bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
+bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 bool core_CAN_add_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
 bool core_CAN_add_extended_message_to_tx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can);
