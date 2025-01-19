@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "usart.h"
+#include "gpio.h"
 #include "clock.h"
 #include "can.h"
 #include "error_handler.h"
@@ -235,56 +236,80 @@ static void boot_bankswap() {
     }
 }*/
 
+void boot_transmit_can(uint8_t length, bool is_data) {
+    uint8_t dlc=0, pad=0;
+    uint32_t id;
+    id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
+    if (is_data) id |= (1<<16);
+    if (length > 64) length = 64;
+    if ((length >= 32) && (length & 8)) {
+        length += 8;
+        id |= (1<<15);
+    }
+    core_CAN_send_fd_message(CORE_BOOT_FDCAN, id, length, databuf);
+}
+
+void boot_transmit_status(uint8_t code) {
+    address = 0;
+    databuf[0] = code;
+    databuf[1] = ((FLASH->OPTR >> 19) & 2) | ((SYSCFG->MEMRMP >> 8) & 1);
+    databuf[2] = (FLASH->SR) & 0xff;
+    databuf[3] = (FLASH->SR >> 8) & 0xff;
+    memcpy(databuf+4, &boot_state, 4);
+    boot_transmit_can(8, 0);
+}
+
 static uint8_t boot_await_data() {
     uint8_t recv;
     while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
-    if (CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL) {
-        // Data received over CAN
-        FDCAN_RxHeaderTypeDef head;
-        HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
-        uint32_t id = head.Identifier;
-        uint32_t length = boot_dlc_lookup[head.DataLength];
-        if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
-        if (id & (1<<17)) {
-            // Data frame
-            if (id & (1<<15)) length -= 8;
-            address = (id & 0x7fff) << 3;
-            return length;
-        } else {
-            // Control frame
-            if (databuf[0] == 0x01) {
-                // Verification command
-                if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
-                } else {
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
-                }
-                //boot_echo_data(0);
-                return 0;
+    // Data received over CAN
+    FDCAN_RxHeaderTypeDef head;
+    HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
+    uint32_t id = head.Identifier;
+    uint32_t length = boot_dlc_lookup[head.DataLength];
+    if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
+    if (id & (1<<17)) {
+        // Data frame
+        if (id & (1<<15)) length -= 8;
+        address = (id & 0x7fff) << 3;
+        return length;
+    } else {
+        // Control frame
+        if (databuf[0] == 0x00) {
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+            boot_reset();
+        } else if (databuf[0] == 0x01) {
+            // Failsafe bank swap
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+            boot_reset();
+        } else if (databuf[0] == 0x02) {
+            // Verification command
+            if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+            } else {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
+            }
+            boot_transmit_status(0);
+            return 0;
+        } else if (databuf[0] == 0x03) {
+            // If the program is verified, swap the banks, set state to
+            // NORMAL, and reset
+            if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_bankswap();
             }
         }
     }
 }
 
-bool boot_transmit_can(uint8_t length, bool is_data) {
-    uint8_t dlc=0, pad=0;
-    uint32_t id;
-    if (length > 64) length = 64;
-    if ((length >= 32) && (length & 8)) {
-        length += 8;
-        pad = 1;
-    }
-    core_CAN_send_fd_message(CORE_BOOT_FDCAN, id, length, databuf);
-}
-
-static uint8_t boot_program_and_verify(uint8_t length) {
+static int8_t boot_program_and_verify(uint8_t length) {
     // If the length is not doubleword-aligned, return 0 (error).
-    if (length & 0x07) return 0;
+    if (length & 0x07) return -1;
     // If the address is not doubleword-aligned, return 0 (error).
-    if (address & 0x07) return 0;
+    if (address & 0x07) return -1;
     // In case the target section overlaps with bootloader code, return 0.
     // An empty echo frame will be transmitted, indicating an error.
-    if (address + length > 0x40000) return 0;
+    if (address + length > 0x40000) return -1;
     //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
@@ -303,7 +328,7 @@ static uint8_t boot_program_and_verify(uint8_t length) {
         page_erased[page>>5] |= 1<<(page & 0x1f);
         while (FLASH->SR & FLASH_SR_BSY);
         // Error while erasing
-        if (FLASH->SR & 0xfffe) return 0;
+        if (FLASH->SR & 0xfffe) return -1;
     }
     FLASH->CR = FLASH_CR_PG;
     uint64_t temp;
@@ -317,7 +342,7 @@ static uint8_t boot_program_and_verify(uint8_t length) {
         *(uint32_t*)(ALTBANK_BASE + address+i+4) = (uint32_t)(temp >> 32);
         while (FLASH->SR & FLASH_SR_BSY);
         // Return 0 if an error occurred
-        if (FLASH->SR & 0xfffe) return 0;
+        if (FLASH->SR & 0xfffe) return -2;
     }
     FLASH->CR = FLASH_CR_LOCK;
     for (uint8_t i=0; i < length; i++) {
@@ -333,10 +358,8 @@ static uint8_t boot_program_and_verify(uint8_t length) {
 static void boot() {
     core_CAN_module_t *p_can = core_CAN_convert(CORE_BOOT_FDCAN);
     hfdcan = &(p_can->hfdcan);
-    core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
-    strcpy(databuf, "Entered bootloader successfully");
-    address = 0;
-    boot_transmit_can(64, 0);
+    //core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
+    boot_transmit_status(0);
 
     for (uint8_t i=0; i < 8; i++) page_erased[i] = 0;
     // Main programming loop
@@ -347,7 +370,16 @@ static void boot() {
         ndata = boot_await_data();
         if (ndata) {
             ndata = boot_program_and_verify(ndata);
-            if (ndata) boot_transmit_can(ndata, 1);
+            if (ndata >= 0) {
+                boot_transmit_can(ndata, 1);
+                core_GPIO_toggle_heartbeat();
+            }
+            //else if (ndata == -1) boot_transmit_status(1);
+            //else if (ndata == -2) boot_transmit_status(2);
+            //else if (ndata == -3) boot_transmit_status(3);
+            else boot_transmit_status(-ndata);
+        } else {
+            boot_transmit_status(13);
         }
     }
 }
@@ -367,8 +399,7 @@ void core_boot_reset_and_enter() {
   */
 void core_boot_init() {
     // Make sure the device listens for its boot address
-    //core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
-    if (!core_CAN_add_filter(CORE_BOOT_FDCAN, 1, 0, 0x1fffffff)) error_handler();
+    core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
     if (check_nonbooting()) {
         if ((boot_state & 0xffffff00) != BOOT_STATE_KEY) {
             // Boot state key is invalid
@@ -384,11 +415,11 @@ void core_boot_init() {
             // Debugging UART
             //core_USART_init(USART1, 500000);
             // Configure the systick timer for a 1ms period
-            SysTick->LOAD = CORE_CLOCK_SYSCLK_FREQ;
-            SysTick->VAL = 0;
-            SysTick->CTRL = 0x00000005;
+            //SysTick->LOAD = CORE_CLOCK_SYSCLK_FREQ;
+            //SysTick->VAL = 0;
+            //SysTick->CTRL = 0x00000005;
             //uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
-            uint32_t temp = (boot_state & 0xffff) | ((SYSCFG->MEMRMP << 8) & 0x10000) | (FLASH->OPTR & (1<<20)) | (boot_reset_state & 0xff000000);
+            //uint32_t temp = (boot_state & 0xffff) | ((SYSCFG->MEMRMP << 8) & 0x10000) | (FLASH->OPTR & (1<<20)) | (boot_reset_state & 0xff000000);
             //core_USART_transmit(USART1, &temp, 4);
             __disable_irq();
             boot();
