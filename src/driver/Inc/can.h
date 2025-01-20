@@ -35,6 +35,8 @@ typedef struct core_CAN_module_s {
     uint8_t use_fd;
 } core_CAN_module_t;
 
+extern const uint8_t core_CAN_dlc_lookup[16];
+
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
 

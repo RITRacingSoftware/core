@@ -22,13 +22,10 @@ uint32_t boot_state BOOTSTATE;
 uint32_t boot_toggle[8];
 uint32_t boot_reset_state;
 
-static const uint8_t boot_dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
-
 static uint32_t page_erased[4];
 static uint32_t base_address;
 static uint32_t address;
 static uint8_t databuf[100];
-static uint8_t checksum;
 
 static FDCAN_HandleTypeDef *hfdcan;
 
@@ -39,14 +36,22 @@ void boot_reset() {
     __DSB();
 }
 
-#define BOOT_STATE_KEY 0xABCDEF00
-#define BOOT_STATE_NORMAL 0x00
-#define BOOT_STATE_VERIFY 0x01
+#define BOOT_STATE_KEY          0xABCDEF00
+#define BOOT_STATE_NORMAL       0x00
+#define BOOT_STATE_VERIFY       0x01
 #define BOOT_STATE_VERIFY_SOFT_SWITCH 0x02
 #define BOOT_STATE_SOFT_SWITCHED 0x04
-#define BOOT_STATE_VERIFIED 0x08
-#define BOOT_STATE_ENTER 0x10
-#define BOOT_STATE_ERROR 0x80
+#define BOOT_STATE_VERIFIED     0x08
+#define BOOT_STATE_ENTER        0x10
+#define BOOT_STATE_ERROR        0x80
+#define BOOT_STATE_NB_ERROR     0x40
+
+#define BOOT_STATUS_OK          0x00
+#define BOOT_STATUS_INVALID_ADDRESS 0x01
+#define BOOT_STATUS_ERASE_ERROR 0x02
+#define BOOT_STATUS_PROG_ERROR  0x03
+#define BOOT_STATUS_STATE_ERROR 0x04
+#define BOOT_STATUS_NB_ERROR    0x05
 
 /**
   * @brief  Soft bank swap
@@ -64,7 +69,7 @@ uint32_t check_nonbooting() {
   *
   * This function is called from startup_stm32g473xx.s and is called before the
   * HAL is initialized and before the RAM is initialized. The boot state is
-  * preserved in a special section (.noinit) at the beginning of RAM that is
+  * preserved in a special section (.bootstate) at the end of the RAM that is
   * not initialized, so its contents are preserved between resets.
   */
 void boot_state_machine() {
@@ -92,13 +97,14 @@ void boot_state_machine() {
                 // switch failure
                 boot_reset();
             }
-            if ((boot_state & 0xff) == BOOT_STATE_VERIFY_SOFT_SWITCH) {
-                // Expected state, continue to code for verification
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED;
+            // If the ENTER bit is set, it must be preserved
+            if ((boot_state & 0xff & (~BOOT_STATE_ENTER)) == BOOT_STATE_VERIFY_SOFT_SWITCH) {
+                // Expected state and no errors, continue to code for verification
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED | (boot_state & BOOT_STATE_ENTER);
                 return;
             } else {
                 // Bad state, raise error and reset
-                boot_state |= BOOT_STATE_ERROR;
+                boot_state |= BOOT_STATE_NB_ERROR;
                 boot_reset();
             }
         } else {
@@ -109,11 +115,18 @@ void boot_state_machine() {
                 // error message and change the boot state to NORMAL.
                 return;
             }
-            switch (boot_state & 0xff) {
+            if (boot_state & (BOOT_STATE_NB_ERROR | BOOT_STATE_ERROR)) {
+                // An error was reported, continue to main code and the
+                // bootloader will produce an error message and change the boot
+                // state to NORMAL.
+                return;
+            }
+            switch (boot_state & 0x0f) {
                 case BOOT_STATE_NORMAL:
                 case BOOT_STATE_ENTER:
                     return;
                 case BOOT_STATE_VERIFY:
+                    // Soft bank switching can only occur when there are no errors.
                     boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY_SOFT_SWITCH;
                     boot_soft_toggle();
                 default:
@@ -121,7 +134,7 @@ void boot_state_machine() {
                     // set the error flag and continue to main code. The
                     // bootloader will transmit an error message and reset the
                     // boot state to NORMAL
-                    boot_state |= BOOT_STATE_ERROR | 0x40;
+                    boot_state |= BOOT_STATE_ERROR;
                     return;
             }
         }
@@ -129,29 +142,6 @@ void boot_state_machine() {
         // External reset
         boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }
-}
-
-static void boot_blink() {
-    while (1) {
-        GPIOA->BSRR = (1<<5);
-        for (int i=0; i < 2000000; i++);
-        GPIOA->BSRR = (1<<21);
-        for (int i=0; i < 5000000; i++);
-    }
-}
-
-static void boot_printhex(uint8_t data) {
-    checksum += data;
-    uint8_t nibble = data>>4;
-    if (nibble >= 10) nibble += 'A' - 10;
-    else nibble += '0';
-    while (!(USART2->ISR & USART_ISR_TXE));
-    USART2->TDR = nibble;
-    nibble = data & 0x0f;
-    if (nibble >= 10) nibble += 'A' - 10;
-    else nibble += '0';
-    while (!(USART2->ISR & USART_ISR_TXE));
-    USART2->TDR = nibble;
 }
 
 static void boot_bankswap() {
@@ -170,74 +160,10 @@ static void boot_bankswap() {
     FLASH->CR = FLASH_CR_OPTSTRT;
     while (FLASH->SR & FLASH_SR_BSY);
     FLASH->CR = FLASH_CR_OBL_LAUNCH;
+    __DSB();
 }
 
-/*static uint8_t boot_await_data() {
-    uint8_t state = 0;
-    uint8_t nibble = 0;
-    char recv;
-    rxbuflen = 0;
-    // Wait for data to arrive
-    while (1) {
-        while (!(USART2->ISR & USART_ISR_RXNE));
-        recv = USART2->RDR;
-        if (recv & 0x80) {
-            // Control data received
-            if (recv == 0xc0) {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-                boot_reset();
-            }
-            if (recv == 0xc1) {
-                // Failsafe bank swap
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
-                boot_reset();
-            }
-            if (recv == 0xc2) {
-                // If the program is verified, swap the banks, set state to
-                // NORMAL, and reset
-                if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-                    boot_bankswap();
-                }
-            }
-        } else if (state == 0) {
-            if (recv == ':') state = 1;
-        } else if (state == 1) {
-            // Receive HEX data
-            if (recv == '\n') {
-                // End of a HEX record. Return the length for data records,
-                // and 0 for control records
-                state = 0;
-                if (rxbuf[3] == 0) {
-                    // Note that the address here is the doubleword address, not
-                    // the byte address
-                    address = base_address + (rxbuf[1] << 11) + (rxbuf[2] << 3);
-                    return rxbuf[0];
-                }
-                else if (rxbuf[3] == 2) {
-                    base_address = (rxbuf[4] << 12) | (rxbuf[5] << 4);
-                } else if (rxbuf[3] == 4) {
-                    base_address = (rxbuf[4] << 24) | (rxbuf[5] << 16);
-                }
-                return 0;
-            }
-            else if (('0' <= recv) && ('9' >= recv)) {
-                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - '0');
-            }
-            else if (('a' <= recv) && ('f' >= recv)) {
-                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - 'a' + 10);
-            }
-            else if (('A' <= recv) && ('F' >= recv)) {
-                rxbuf[rxbuflen] = (rxbuf[rxbuflen]<<4) | (recv - 'A' + 10);
-            } else continue;
-            if (nibble) rxbuflen++;
-            nibble = 1 - nibble;
-        }
-    }
-}*/
-
 void boot_transmit_can(uint8_t length, bool is_data) {
-    uint8_t dlc=0, pad=0;
     uint32_t id;
     id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
     if (is_data) id |= (1<<16);
@@ -260,13 +186,12 @@ void boot_transmit_status(uint8_t code) {
 }
 
 static uint8_t boot_await_data() {
-    uint8_t recv;
     while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
     // Data received over CAN
     FDCAN_RxHeaderTypeDef head;
     HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
     uint32_t id = head.Identifier;
-    uint32_t length = boot_dlc_lookup[head.DataLength];
+    uint32_t length = core_CAN_dlc_lookup[head.DataLength];
     if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
     if (id & (1<<17)) {
         // Data frame
@@ -287,7 +212,7 @@ static uint8_t boot_await_data() {
             if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
             } else {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_ERROR;
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
             }
             boot_transmit_status(0);
             return 0;
@@ -300,16 +225,17 @@ static uint8_t boot_await_data() {
             }
         }
     }
+    return 0;
 }
 
 static int8_t boot_program_and_verify(uint8_t length) {
     // If the length is not doubleword-aligned, return 0 (error).
-    if (length & 0x07) return -1;
+    if (length & 0x07) return -BOOT_STATUS_INVALID_ADDRESS;
     // If the address is not doubleword-aligned, return 0 (error).
-    if (address & 0x07) return -1;
+    if (address & 0x07) return -BOOT_STATUS_INVALID_ADDRESS;
     // In case the target section overlaps with bootloader code, return 0.
     // An empty echo frame will be transmitted, indicating an error.
-    if (address + length > 0x40000) return -1;
+    if (address + length > 0x40000) return -BOOT_STATUS_INVALID_ADDRESS;
     //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
@@ -328,7 +254,7 @@ static int8_t boot_program_and_verify(uint8_t length) {
         page_erased[page>>5] |= 1<<(page & 0x1f);
         while (FLASH->SR & FLASH_SR_BSY);
         // Error while erasing
-        if (FLASH->SR & 0xfffe) return -1;
+        if (FLASH->SR & 0xfffe) return -BOOT_STATUS_ERASE_ERROR;
     }
     FLASH->CR = FLASH_CR_PG;
     uint64_t temp;
@@ -342,7 +268,7 @@ static int8_t boot_program_and_verify(uint8_t length) {
         *(uint32_t*)(ALTBANK_BASE + address+i+4) = (uint32_t)(temp >> 32);
         while (FLASH->SR & FLASH_SR_BSY);
         // Return 0 if an error occurred
-        if (FLASH->SR & 0xfffe) return -2;
+        if (FLASH->SR & 0xfffe) return -BOOT_STATUS_PROG_ERROR;
     }
     FLASH->CR = FLASH_CR_LOCK;
     for (uint8_t i=0; i < length; i++) {
@@ -363,21 +289,22 @@ static void boot() {
 
     for (uint8_t i=0; i < 8; i++) page_erased[i] = 0;
     // Main programming loop
-    uint8_t ndata = 0;
+    int8_t ndata = 0;
     base_address = 0;
     address = 0;
+    uint8_t bankmode = check_nonbooting();
     while (1) {
         ndata = boot_await_data();
         if (ndata) {
-            ndata = boot_program_and_verify(ndata);
-            if (ndata >= 0) {
-                boot_transmit_can(ndata, 1);
-                core_GPIO_toggle_heartbeat();
+            if (bankmode) boot_transmit_status(BOOT_STATUS_NB_ERROR);
+            else {
+                ndata = boot_program_and_verify(ndata);
+                if (ndata >= 0) {
+                    boot_transmit_can(ndata, 1);
+                    core_GPIO_toggle_heartbeat();
+                }
+                else boot_transmit_status(-ndata);
             }
-            //else if (ndata == -1) boot_transmit_status(1);
-            //else if (ndata == -2) boot_transmit_status(2);
-            //else if (ndata == -3) boot_transmit_status(3);
-            else boot_transmit_status(-ndata);
         } else {
             boot_transmit_status(13);
         }
@@ -388,7 +315,19 @@ static void boot() {
   * @brief  Reset the chip and enter the bootloader
   */
 void core_boot_reset_and_enter() {
-    boot_state = BOOT_STATE_KEY | BOOT_STATE_ENTER;
+    if (check_nonbooting()) {
+        if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_ENTER | BOOT_STATE_VERIFY;
+        } else if ((boot_state & 0xffffff00) == BOOT_STATE_KEY) boot_state |= BOOT_STATE_NB_ERROR;
+        // If the boot state key is not valid, then the boot state machine did
+        // not run and the boot_state variable points to the wrong location. 
+        // Return to the booting bank, which will see that the state is 
+        // VERIFY_SOFT_SWITCH and raise an error.
+    } else {
+        if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_NORMAL)) {
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_ENTER;
+        } else boot_state |= BOOT_STATE_ERROR;
+    }
     boot_reset();
 }
 
@@ -402,29 +341,47 @@ void core_boot_init() {
     core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
     if (check_nonbooting()) {
         if ((boot_state & 0xffffff00) != BOOT_STATE_KEY) {
-            // Boot state key is invalid
+            // Boot state key is invalid. This will only happen if the boot 
+            // state machine does not run and if the boot_state variable points
+            // to the wrong location. Return to the booting bank, which will 
+            // see that the state is VERIFY_SOFT_SWITCH and raise an error.
+            boot_reset();
+        } else if ((boot_state & 0x0000000f) != BOOT_STATE_SOFT_SWITCHED) {
+            // Invalid state, likely because the boot state machine was not
+            // run. Set the NB_ERROR flag and reset.
+            boot_state |= BOOT_STATE_NB_ERROR;
+            boot_reset();
         }
+        // Soft switching can only occur if there are no errors. If the boot
+        // state machine in the non-booting bank sees an error, a reset will be
+        // triggered.
     } else {
-        if (boot_state & BOOT_STATE_ERROR) {
-            // An error was reported
-
+        if (((boot_state & 0xffffff00) != BOOT_STATE_KEY) || (boot_state & BOOT_STATE_ERROR)) {
+            // An error was reported or the boot state key is not valid, 
+            // transmit an error message on CAN.
+            boot_transmit_status(BOOT_STATUS_STATE_ERROR);
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
         } else if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_ENTER)) {
             // If the bootloader crashes or the board is reset, then the chip will
             // continue to work normally
             boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            // Debugging UART
-            //core_USART_init(USART1, 500000);
-            // Configure the systick timer for a 1ms period
-            //SysTick->LOAD = CORE_CLOCK_SYSCLK_FREQ;
-            //SysTick->VAL = 0;
-            //SysTick->CTRL = 0x00000005;
-            //uprintf(USART1, "divider: %08x\n", SysTick->LOAD);
-            //uint32_t temp = (boot_state & 0xffff) | ((SYSCFG->MEMRMP << 8) & 0x10000) | (FLASH->OPTR & (1<<20)) | (boot_reset_state & 0xff000000);
-            //core_USART_transmit(USART1, &temp, 4);
             __disable_irq();
             boot();
             __enable_irq();
         }
+        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+    }
+
+    if ((boot_state & 0xffffff00) == BOOT_STATE_KEY) {
+        if (boot_state & BOOT_STATE_ENTER) {
+            boot_state &= ~BOOT_STATE_ENTER;
+            __disable_irq();
+            boot();
+            __enable_irq();
+        }
+
+    }
+    if (!check_nonbooting()) {
         boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }
 }

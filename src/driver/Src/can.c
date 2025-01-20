@@ -72,7 +72,7 @@ static core_CAN_module_t can1;
 static core_CAN_module_t can2;
 static core_CAN_module_t can3;
 
-static const uint8_t dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+const uint8_t core_CAN_dlc_lookup[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
@@ -376,7 +376,7 @@ bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
     uint8_t i=0;
-    while (dlc_lookup[i] < dlc) i++;
+    while (core_CAN_dlc_lookup[i] < dlc) i++;
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = (id & 0x1fffffff);
     header.IdType = (id >= 2048 ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID);
@@ -418,8 +418,8 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Reset the timeout
         core_timeout_reset_by_module_ref(can, header.Identifier);
         // Add the message to the RX queue
-        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
-        else add_CAN_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data);
+        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
+        else add_CAN_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data);
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag

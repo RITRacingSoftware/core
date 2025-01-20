@@ -93,6 +93,10 @@ with open(fname) as f:
         send_data(1, 4, (start_address - 0x08000000)>>3, buf);
 print("\nResetting")
 send_command(1, 4, bytearray([0x01]))
+time.sleep(0.1)
+#send_command(1, 4, b"\x55"*8)
+#print_response()
+#send_command(1, 4, bytearray([0x02]))
 #boot(addr, timeout=0.5)
 #if write_record(7, 0, b""):
 #    print("Finalizing swap")
