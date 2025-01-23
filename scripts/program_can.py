@@ -21,6 +21,7 @@ def print_response():
                 else:
                     stat = struct.unpack("<BBHI", frame[i+8:i+16])
                     print("    Status {:02x}, bank status {:02x}, FLASH status {:04x}, boot state {:08x}".format(*stat))
+                    if stat[0] == 21: print_response()
             i += (length & 0x7f)+4
 
 
@@ -38,6 +39,8 @@ def send_data(bus, id, address, data):
     echo = s.recv(1500)
     if echo[8:] != frame[8:]:
         print("ERROR")
+        print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in frame[8:]))
+        print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in echo[8:]))
 
 
 t = time.time()
@@ -93,13 +96,13 @@ with open(fname) as f:
         send_data(1, 4, (start_address - 0x08000000)>>3, buf);
 print("\nResetting")
 send_command(1, 4, bytearray([0x01]))
-time.sleep(0.1)
-#send_command(1, 4, b"\x55"*8)
-#print_response()
-#send_command(1, 4, bytearray([0x02]))
-#boot(addr, timeout=0.5)
-#if write_record(7, 0, b""):
-#    print("Finalizing swap")
-#    finalize_swap()
-
+time.sleep(1)
+# Enter the bootloader
+print("Entering bootloader")
+send_command(1, 4, b"\x55"*8)
+print_response()
+send_command(1, 4, b"\x02")
+print_response()
+send_command(1, 4, b"\x03")
+print_response()
 s.close()

@@ -411,6 +411,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         {
             error_handler();
         }
+        core_GPIO_toggle_heartbeat();
         if ((header.IdType == FDCAN_EXTENDED_ID) && (header.Identifier == (CORE_BOOT_FDCAN_ID << 18))) {
             //core_GPIO_toggle_heartbeat();
             core_boot_reset_and_enter();

@@ -127,7 +127,7 @@ void boot_state_machine() {
                     return;
                 case BOOT_STATE_VERIFY:
                     // Soft bank switching can only occur when there are no errors.
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY_SOFT_SWITCH;
+                    boot_state = (boot_state & 0xfffffff0) | BOOT_STATE_VERIFY_SOFT_SWITCH;
                     boot_soft_toggle();
                 default:
                     // If the boot state is not in one of the expected states,
@@ -178,6 +178,8 @@ void boot_transmit_can(uint8_t length, bool is_data) {
 void boot_transmit_status(uint8_t code) {
     address = 0;
     databuf[0] = code;
+    // bit 0: remap status (which bank the code runs on)
+    // bit 1: BFB2 (which bank the chip boots from)
     databuf[1] = ((FLASH->OPTR >> 19) & 2) | ((SYSCFG->MEMRMP >> 8) & 1);
     databuf[2] = (FLASH->SR) & 0xff;
     databuf[3] = (FLASH->SR >> 8) & 0xff;
@@ -339,6 +341,8 @@ void core_boot_reset_and_enter() {
 void core_boot_init() {
     // Make sure the device listens for its boot address
     core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
+    //boot_transmit_status(21);
+    //for (int i=0; i < 200000; i++);
     if (check_nonbooting()) {
         if ((boot_state & 0xffffff00) != BOOT_STATE_KEY) {
             // Boot state key is invalid. This will only happen if the boot 
@@ -361,15 +365,7 @@ void core_boot_init() {
             // transmit an error message on CAN.
             boot_transmit_status(BOOT_STATUS_STATE_ERROR);
             boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-        } else if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_ENTER)) {
-            // If the bootloader crashes or the board is reset, then the chip will
-            // continue to work normally
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            __disable_irq();
-            boot();
-            __enable_irq();
         }
-        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }
 
     if ((boot_state & 0xffffff00) == BOOT_STATE_KEY) {
@@ -377,10 +373,10 @@ void core_boot_init() {
             boot_state &= ~BOOT_STATE_ENTER;
             __disable_irq();
             boot();
-            __enable_irq();
         }
-
     }
+    __enable_irq();
+
     if (!check_nonbooting()) {
         boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
     }

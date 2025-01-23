@@ -94,7 +94,8 @@ void heartbeat_task(void *pvParameters) {
         //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
         //core_USART_transmit(USART1, txbuf, strlen(txbuf));
         //vTaskDelay(100 * portTICK_PERIOD_MS);
-        vTaskDelayUntil(&nextWakeTime, 100);
+        vTaskDelayUntil(&nextWakeTime, 500);
+        if (CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL) error_handler();
     }
 }
 
