@@ -6,7 +6,6 @@ import sys
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(("192.168.72.1", 40000))
 
-fname = sys.argv[1]
 
 def print_response():
     frame = s.recv(1500)
@@ -51,58 +50,61 @@ t = time.time()
 send_command(1, 4, b"\x55"*8)
 print_response()
 
-base_address = 0
-dwords = {}
-buf = bytearray([])
-with open(fname) as f:
-    nrec = 0
-    for record in f:
-        nrec += 1
-        length = int(record[1:3], 16)
-        if record[7:9] == "02":
-            base_address = 16*int(record[9:13], 16)
-        elif record[7:9] == "04":
-            base_address = int(record[9:13], 16)<<16
-        elif record[7:9] == "00":
-            address = base_address + int(record[3:7], 16)
-            for i in range(length):
-                if (address & 0xfffffff8) not in dwords:
-                    dwords[(address & 0xfffffff8)] = bytearray([255]*8)
-                dwords[(address & 0xfffffff8)][address & 0x07] = int(record[9+2*i:11+2*i], 16)
-                address += 1
-    dword_addresses = [x for x in sorted(dwords.keys())]
+if len(sys.argv) > 1:
+    fname = sys.argv[1]
     base_address = 0
-    start_address = 0
-    for i, a in enumerate(dword_addresses):
-        if len(buf) == 0:
-            start_address = a
-            buf = dwords[a]
-        elif a + 8 - start_address <= 64:
-            buf += bytearray([255]*(a - start_address - len(buf)))
-            buf += dwords[a]
-        else:
-            #write_record(0, (start_address - 0x08000000)>>3, buf);
-            send_data(1, 4, (start_address - 0x08000000)>>3, buf);
-            start_address = a
-            buf = dwords[a]
+    dwords = {}
+    buf = bytearray([])
+    with open(fname) as f:
+        nrec = 0
+        for record in f:
+            nrec += 1
+            length = int(record[1:3], 16)
+            if record[7:9] == "02":
+                base_address = 16*int(record[9:13], 16)
+            elif record[7:9] == "04":
+                base_address = int(record[9:13], 16)<<16
+            elif record[7:9] == "00":
+                address = base_address + int(record[3:7], 16)
+                for i in range(length):
+                    if (address & 0xfffffff8) not in dwords:
+                        dwords[(address & 0xfffffff8)] = bytearray([255]*8)
+                    dwords[(address & 0xfffffff8)][address & 0x07] = int(record[9+2*i:11+2*i], 16)
+                    address += 1
+        dword_addresses = [x for x in sorted(dwords.keys())]
+        base_address = 0
+        start_address = 0
+        for i, a in enumerate(dword_addresses):
+            if len(buf) == 0:
+                start_address = a
+                buf = dwords[a]
+            elif a + 8 - start_address <= 64:
+                buf += bytearray([255]*(a - start_address - len(buf)))
+                buf += dwords[a]
+            else:
+                #write_record(0, (start_address - 0x08000000)>>3, buf);
+                send_data(1, 4, (start_address - 0x08000000)>>3, buf);
+                start_address = a
+                buf = dwords[a]
 
-        if len(buf) == 64:
-            #write_record(0, (start_address - 0x08000000)>>3, buf);
+            if len(buf) == 64:
+                #write_record(0, (start_address - 0x08000000)>>3, buf);
+                send_data(1, 4, (start_address - 0x08000000)>>3, buf);
+                buf = bytearray([])
+            print("\rWritten {}/{} doublewords".format(i+1, len(dword_addresses)), end="")
+        if buf:
+            #write_record(0, (start_address - 0x08000000)>>3, buf)
             send_data(1, 4, (start_address - 0x08000000)>>3, buf);
-            buf = bytearray([])
-        print("\rWritten {}/{} doublewords".format(i+1, len(dword_addresses)), end="")
-    if buf:
-        #write_record(0, (start_address - 0x08000000)>>3, buf)
-        send_data(1, 4, (start_address - 0x08000000)>>3, buf);
-print("\nResetting")
-send_command(1, 4, bytearray([0x01]))
-time.sleep(1)
-# Enter the bootloader
-print("Entering bootloader")
-send_command(1, 4, b"\x55"*8)
-print_response()
-send_command(1, 4, b"\x02")
-print_response()
-send_command(1, 4, b"\x03")
-print_response()
+    print("\nResetting")
+    send_command(1, 4, bytearray([0x01]))
+    time.sleep(1)
+    # Enter the bootloader
+    print("Entering bootloader")
+    send_command(1, 4, b"\x55"*8)
+    print_response()
+    send_command(1, 4, b"\x02")
+    print_response()
+    send_command(1, 4, b"\x03")
+    print_response()
 s.close()
+

@@ -52,6 +52,7 @@ void boot_reset() {
 #define BOOT_STATUS_PROG_ERROR  0x03
 #define BOOT_STATUS_STATE_ERROR 0x04
 #define BOOT_STATUS_NB_ERROR    0x05
+#define BOOT_STATUS_NONBOOTING_PROGRAM 0x06
 
 /**
   * @brief  Soft bank swap
@@ -238,6 +239,7 @@ static int8_t boot_program_and_verify(uint8_t length) {
     // In case the target section overlaps with bootloader code, return 0.
     // An empty echo frame will be transmitted, indicating an error.
     if (address + length > 0x40000) return -BOOT_STATUS_INVALID_ADDRESS;
+    if (check_nonbooting()) return -BOOT_STATUS_NONBOOTING_PROGRAM;
     //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
