@@ -30,7 +30,7 @@ GPIO_TypeDef *core_SPI4_CS_port;
   * @param  cs_pin CS pin (GPIO_PIN_x)
   */
 bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
-    GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, 0};
+    GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, 0};
     HAL_GPIO_Init(cs_port, &cs_init);
     HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     if (spi == SPI1) {
@@ -38,13 +38,13 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         core_SPI1_CS_pin = cs_pin;
         __HAL_RCC_GPIOA_CLK_ENABLE();
         core_clock_port_init(CORE_SPI1_SCK_PORT);
-        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI1_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI1_SCK_AF};
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI1_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI1_SCK_AF};
         HAL_GPIO_Init(CORE_SPI1_SCK_PORT, &spiGPIOinit2);
         core_clock_port_init(CORE_SPI1_MISO_PORT);
-        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI1_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI1_MISO_AF};
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI1_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI1_MISO_AF};
         HAL_GPIO_Init(CORE_SPI1_MISO_PORT, &spiGPIOinit3);
         core_clock_port_init(CORE_SPI1_MOSI_PORT);
-        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI1_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI1_MOSI_AF};
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI1_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI1_MOSI_AF};
         HAL_GPIO_Init(CORE_SPI1_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI1_CLK_ENABLE();
     }
@@ -52,13 +52,13 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         core_SPI2_CS_port = cs_port;
         core_SPI2_CS_pin = cs_pin;
         core_clock_port_init(CORE_SPI2_SCK_PORT);
-        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI2_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI2_SCK_AF};
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI2_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI2_SCK_AF};
         HAL_GPIO_Init(CORE_SPI2_SCK_PORT, &spiGPIOinit2);
         core_clock_port_init(CORE_SPI2_MISO_PORT);
-        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI2_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI2_MISO_AF};
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI2_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI2_MISO_AF};
         HAL_GPIO_Init(CORE_SPI2_MISO_PORT, &spiGPIOinit3);
         core_clock_port_init(CORE_SPI2_MOSI_PORT);
-        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI2_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI2_MOSI_AF};
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI2_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI2_MOSI_AF};
         HAL_GPIO_Init(CORE_SPI2_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI2_CLK_ENABLE();
     }
@@ -66,13 +66,13 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         core_SPI3_CS_port = cs_port;
         core_SPI3_CS_pin = cs_pin;
         core_clock_port_init(CORE_SPI3_SCK_PORT);
-        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI3_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI3_SCK_AF};
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI3_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI3_SCK_AF};
         HAL_GPIO_Init(CORE_SPI3_SCK_PORT, &spiGPIOinit2);
         core_clock_port_init(CORE_SPI3_MISO_PORT);
-        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI3_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI3_MISO_AF};
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI3_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI3_MISO_AF};
         HAL_GPIO_Init(CORE_SPI3_MISO_PORT, &spiGPIOinit3);
         core_clock_port_init(CORE_SPI3_MOSI_PORT);
-        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI3_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI3_MOSI_AF};
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI3_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI3_MOSI_AF};
         HAL_GPIO_Init(CORE_SPI3_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI3_CLK_ENABLE();
     }
@@ -80,13 +80,13 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         core_SPI4_CS_port = cs_port;
         core_SPI4_CS_pin = cs_pin;
         core_clock_port_init(CORE_SPI4_SCK_PORT);
-        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI4_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI4_SCK_AF};
+        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI4_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_SCK_AF};
         HAL_GPIO_Init(CORE_SPI4_SCK_PORT, &spiGPIOinit2);
         core_clock_port_init(CORE_SPI4_MISO_PORT);
-        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI4_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI4_MISO_AF};
+        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI4_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_MISO_AF};
         HAL_GPIO_Init(CORE_SPI4_MISO_PORT, &spiGPIOinit3);
         core_clock_port_init(CORE_SPI4_MOSI_PORT);
-        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI4_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_LOW, CORE_SPI4_MOSI_AF};
+        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI4_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_MOSI_AF};
         HAL_GPIO_Init(CORE_SPI4_MOSI_PORT, &spiGPIOinit4);
         __HAL_RCC_SPI4_CLK_ENABLE();
     }
