@@ -148,6 +148,12 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >RAM AT> FLASH
 
+  .progname 0x0803ffe0 (READONLY) :
+  {
+    . = ALIGN(4);
+    KEEP(*(.progname))
+  } >FLASH
+
   
   /* Uninitialized data section */
   . = ALIGN(4);

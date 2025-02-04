@@ -412,7 +412,8 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
             error_handler();
         }
         core_GPIO_toggle_heartbeat();
-        if ((header.IdType == FDCAN_EXTENDED_ID) && (header.Identifier == (CORE_BOOT_FDCAN_ID << 18))) {
+        // Enter the bootloader if the the boot ID or the broadcast ID is received
+        if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18)))) {
             //core_GPIO_toggle_heartbeat();
             core_boot_reset_and_enter();
         }
@@ -538,11 +539,12 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
     if (*p_num_filters + 1 >  max_filter_num) return false;
     FDCAN_FilterTypeDef filter;
     filter.IdType = isExtended ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID;
-    filter.FilterIndex = *p_num_filters++;
+    filter.FilterIndex = *p_num_filters;
     filter.FilterType = FDCAN_FILTER_RANGE;
     filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
     filter.FilterID1 = id1;
     filter.FilterID2 = id2;
+    *p_num_filters = *p_num_filters + 1;
 
     return HAL_FDCAN_ConfigFilter(&(p_can->hfdcan), &filter) == HAL_OK;
 

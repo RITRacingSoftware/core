@@ -15,6 +15,8 @@
 
 #define ALTBANK_BASE 0x08040000
 
+const char progname[32] __attribute__ ((section (".progname"))) __attribute__ ((__used__)) = PROGRAM_NAME_STRING;
+
 uint32_t boot_state BOOTSTATE;
 // Stores the opcodes used for soft bank switching. Soft bank switching must be
 // performed from RAM, since the code in the other bank may continue from a
@@ -23,8 +25,8 @@ uint32_t boot_toggle[8];
 uint32_t boot_reset_state;
 
 static uint32_t page_erased[4];
-static uint32_t base_address;
 static uint32_t address;
+static uint32_t id;
 static uint8_t databuf[100];
 
 static FDCAN_HandleTypeDef *hfdcan;
@@ -52,7 +54,11 @@ void boot_reset() {
 #define BOOT_STATUS_PROG_ERROR  0x03
 #define BOOT_STATUS_STATE_ERROR 0x04
 #define BOOT_STATUS_NB_ERROR    0x05
-#define BOOT_STATUS_NONBOOTING_PROGRAM 0x06
+
+#define BOOT_OPCODE_RESET       0x00
+#define BOOT_OPCODE_SOFTSWAP    0x01
+#define BOOT_OPCODE_VERIFY      0x02
+#define BOOT_OPCODE_HARDSWAP    0x03
 
 /**
   * @brief  Soft bank swap
@@ -165,15 +171,16 @@ static void boot_bankswap() {
 }
 
 void boot_transmit_can(uint8_t length, bool is_data) {
-    uint32_t id;
-    id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
-    if (is_data) id |= (1<<16);
+    uint32_t tx_id;
+    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
+    if (is_data) tx_id |= (1<<16);
     if (length > 64) length = 64;
     if ((length >= 32) && (length & 8)) {
         length += 8;
-        id |= (1<<15);
+        tx_id |= (1<<15);
     }
-    core_CAN_send_fd_message(CORE_BOOT_FDCAN, id, length, databuf);
+    core_CAN_send_fd_message(CORE_BOOT_FDCAN, tx_id, length, databuf);
+    while ((CORE_BOOT_FDCAN->PSR & 0x18) == 0x18);
 }
 
 void boot_transmit_status(uint8_t code) {
@@ -193,8 +200,13 @@ static uint8_t boot_await_data() {
     // Data received over CAN
     FDCAN_RxHeaderTypeDef head;
     HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
-    uint32_t id = head.Identifier;
+    id = head.Identifier;
     uint32_t length = core_CAN_dlc_lookup[head.DataLength];
+    // Reset is the only opcode that can be executed using the broadcast address
+    if ((!(id & (1<<17))) && (databuf[0] == BOOT_OPCODE_RESET) && (((id >> 18) == CORE_BOOT_FDCAN_ID) || ((id >> 18) == CORE_BOOT_FDCAN_BROADCAST_ID))) {
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+            boot_reset();
+    }
     if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
     if (id & (1<<17)) {
         // Data frame
@@ -203,14 +215,14 @@ static uint8_t boot_await_data() {
         return length;
     } else {
         // Control frame
-        if (databuf[0] == 0x00) {
+        if (databuf[0] == BOOT_OPCODE_RESET) {
             boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
             boot_reset();
-        } else if (databuf[0] == 0x01) {
+        } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
             // Failsafe bank swap
             boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
             boot_reset();
-        } else if (databuf[0] == 0x02) {
+        } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
             // Verification command
             if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
@@ -219,12 +231,16 @@ static uint8_t boot_await_data() {
             }
             boot_transmit_status(0);
             return 0;
-        } else if (databuf[0] == 0x03) {
+        } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
             // If the program is verified, swap the banks, set state to
             // NORMAL, and reset
             if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_transmit_status(0);
                 boot_bankswap();
+            } else {
+                boot_transmit_status(4);
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
             }
         }
     }
@@ -239,7 +255,6 @@ static int8_t boot_program_and_verify(uint8_t length) {
     // In case the target section overlaps with bootloader code, return 0.
     // An empty echo frame will be transmitted, indicating an error.
     if (address + length > 0x40000) return -BOOT_STATUS_INVALID_ADDRESS;
-    if (check_nonbooting()) return -BOOT_STATUS_NONBOOTING_PROGRAM;
     //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
@@ -294,12 +309,22 @@ static void boot() {
     for (uint8_t i=0; i < 8; i++) page_erased[i] = 0;
     // Main programming loop
     int8_t ndata = 0;
-    base_address = 0;
     address = 0;
     uint8_t bankmode = check_nonbooting();
     while (1) {
         ndata = boot_await_data();
-        if (ndata) {
+        // Read data
+        if (id & (1<<16)) {
+            ndata = databuf[0];
+            uint8_t bank = databuf[1];
+            for (uint8_t i=0; i < ndata; i++) {
+                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0) + address+i);
+            }
+            boot_transmit_can(ndata, 1);
+        } 
+        // Write data only if the ID is equal to the boot ID (rather than the
+        // broadcast ID)
+        else if (ndata && (((id >> 18) & 0x7ff) == CORE_BOOT_FDCAN_ID)) {
             if (bankmode) boot_transmit_status(BOOT_STATUS_NB_ERROR);
             else {
                 ndata = boot_program_and_verify(ndata);
@@ -309,8 +334,6 @@ static void boot() {
                 }
                 else boot_transmit_status(-ndata);
             }
-        } else {
-            boot_transmit_status(13);
         }
     }
 }
@@ -343,6 +366,7 @@ void core_boot_reset_and_enter() {
 void core_boot_init() {
     // Make sure the device listens for its boot address
     core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (CORE_BOOT_FDCAN_ID << 18), ((CORE_BOOT_FDCAN_ID+1) << 18)-1);
+    core_CAN_add_filter(CORE_BOOT_FDCAN, 1, (0x7ff << 18), 0x1fffffff);
     //boot_transmit_status(21);
     //for (int i=0; i < 200000; i++);
     if (check_nonbooting()) {
