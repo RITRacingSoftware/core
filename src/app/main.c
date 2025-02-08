@@ -29,6 +29,11 @@
 
 #define CAN FDCAN3
 
+#define APPS_A_PORT GPIOA
+#define APPS_A_PIN GPIO_PIN_3
+#define APPS_B_PORT GPIOA
+#define APPS_B_PIN GPIO_PIN_4
+
 CanMessage_s canMessage;
 
 void heartbeat_task(void *pvParameters)
@@ -37,8 +42,12 @@ void heartbeat_task(void *pvParameters)
     TickType_t nextWakeTime = xTaskGetTickCount();
     while(true)
     {
-        if (!core_CAN_add_message_to_tx_queue(CAN, 3, 2, 0xfa55)) error_handler();
-        core_GPIO_toggle_heartbeat();
+        uint16_t appsAVal = 0;
+        uint16_t appsBVal = 0;
+
+        core_ADC_read_channel(APPS_A_PORT, APPS_A_PIN, &appsAVal);
+        core_ADC_read_channel(APPS_B_PORT, APPS_B_PIN, &appsBVal);
+//        uprintf(USART3, "A: %d, B: %d\n", appsAVal, appsBVal);
         vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
@@ -46,7 +55,6 @@ void heartbeat_task(void *pvParameters)
 void can_tx_task(void *pvParameters)
 {
     (void) pvParameters;
-    if (core_CAN_send_from_tx_queue_task(CAN)) core_GPIO_toggle_heartbeat();
     error_handler();
 }
 
@@ -68,13 +76,13 @@ int main(void) {
     HAL_Init();
 
     // Drivers
-    //core_heartbeat_init(GPIOB, GPIO_PIN_15);
-    core_heartbeat_init(GPIOC, GPIO_PIN_7);
-    core_GPIO_set_heartbeat(false);
-
     if (!core_clock_init()) error_handler();
-    if (!core_CAN_init(CAN)) error_handler();
-//    error_handler();
+    if (!core_USART_init(USART3, 500000)) error_handler();
+    if (!core_ADC_init(ADC1)) error_handler();
+    if (!core_ADC_init(ADC2)) error_handler();
+    if (!core_ADC_setup_pin(APPS_A_PORT, APPS_A_PIN, 0)) error_handler();
+    if (!core_ADC_setup_pin(APPS_B_PORT, APPS_B_PIN, 0)) error_handler();
+
 
     int err;
     err = xTaskCreate(heartbeat_task,
@@ -87,15 +95,15 @@ int main(void) {
         error_handler();
     }
 
-    err = xTaskCreate(can_tx_task,
-        "tx",
-        1000,
-        NULL,
-        2,
-        NULL);
-    if (err != pdPASS) {
-        error_handler();
-    }
+//    err = xTaskCreate(can_tx_task,
+//        "tx",
+//        1000,
+//        NULL,
+//        2,
+//        NULL);
+//    if (err != pdPASS) {
+//        error_handler();
+//    }
 //    err = xTaskCreate(can_rx_task,
 //        "rx",
 //        1000,
