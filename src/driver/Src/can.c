@@ -568,7 +568,7 @@ static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan)
     if (floor(ns_sum) != ns_sum) return false;
 
     // Make NominalTimeSeg1 ~75% of the sum of it and NominalTimeSeg2.
-    uint8_t seg1 = round(ns_sum * 0.75);
+    uint8_t seg1 = round(ns_sum * 0.85);
     uint8_t seg2 = ns_sum - seg1;
 
     hfdcan->Init.NominalTimeSeg1 = seg1;
