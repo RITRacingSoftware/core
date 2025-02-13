@@ -420,6 +420,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Reset the timeout
         core_timeout_reset_by_module_ref(can, header.Identifier);
         // Add the message to the RX queue
+        if (header.IdType == FDCAN_EXTENDED_ID) header.Identifier |= (1<<30);
         if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
         else add_CAN_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data);
     }
