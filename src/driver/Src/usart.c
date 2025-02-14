@@ -43,14 +43,17 @@ static uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
 static uint32_t core_USART1_rxbuflen_int;
 static volatile uint8_t *core_USART1_rxbuf;
 static volatile uint32_t *core_USART1_rxbuflen;
+static void (*core_USART1_callback)(uint8_t *, uint32_t);
 static uint8_t core_USART2_rxbuf_int[CORE_USART_RXBUFLEN];
 static uint32_t core_USART2_rxbuflen_int;
 static volatile uint8_t *core_USART2_rxbuf;
 static volatile uint32_t *core_USART2_rxbuflen;
+static void (*core_USART2_callback)(uint8_t *, uint32_t);
 static uint8_t core_USART3_rxbuf_int[CORE_USART_RXBUFLEN];
 static uint32_t core_USART3_rxbuflen_int;
 static volatile uint8_t *core_USART3_rxbuf;
 static volatile uint32_t *core_USART3_rxbuflen;
+static void (*core_USART3_callback)(uint8_t *, uint32_t);
 
 static volatile uint8_t core_USART_flags;
 
@@ -146,6 +149,30 @@ bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile
     return true;
 }
 
+bool core_USART_register_callback(USART_TypeDef *usart, void (*callback)(uint8_t *, uint32_t)) {
+    if (usart == USART1) {
+        core_USART1_callback = callback;
+        HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ(USART1_IRQn);
+        __HAL_USART_ENABLE_IT(&usart1, USART_IT_RXNE);
+    } else if (usart == USART2) {
+        core_USART2_callback = callback;
+        HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ(USART2_IRQn);
+        __HAL_USART_ENABLE_IT(&usart2, USART_IT_RXNE);
+    } else if (usart == USART3) {
+        core_USART3_callback = callback;
+        HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ(USART3_IRQn);
+        __HAL_USART_ENABLE_IT(&usart3, USART_IT_RXNE);
+    } else return false;
+    // Enable the receiver timeout
+    usart->RTOR = (usart->RTOR & 0xff000000) | CORE_USART_RX_TIMEOUT;
+    usart->CR1 |= USART_CR1_RTOIE;
+    usart->CR2 |= USART_CR2_RTOEN;
+    return true;
+}
+
 void USART1_IRQHandler() {
     uint32_t flags = USART1->ISR;
     if (flags & USART_ISR_RXNE) {
@@ -157,6 +184,9 @@ void USART1_IRQHandler() {
         if (core_USART1_rxbuf && core_USART1_rxbuflen && (core_USART_flags & CORE_USART1_UPDATE)) {
             for (uint32_t i=0; i < core_USART1_rxbuflen_int; i++) core_USART1_rxbuf[i] = core_USART1_rxbuf_int[i];
             *core_USART1_rxbuflen = core_USART1_rxbuflen_int;
+        }
+        if (core_USART1_callback) {
+            core_USART1_callback(core_USART1_rxbuf_int, core_USART1_rxbuflen_int);
         }
         core_USART1_rxbuflen_int = 0;
         USART1->ICR = USART_ICR_RTOCF;
@@ -175,6 +205,9 @@ void USART2_IRQHandler() {
             for (uint32_t i=0; i < core_USART2_rxbuflen_int; i++) core_USART2_rxbuf[i] = core_USART2_rxbuf_int[i];
             *core_USART2_rxbuflen = core_USART2_rxbuflen_int;
         }
+        if (core_USART2_callback) {
+            core_USART2_callback(core_USART2_rxbuf_int, core_USART2_rxbuflen_int);
+        }
         core_USART2_rxbuflen_int = 0;
         USART2->ICR = USART_ICR_RTOCF;
     }
@@ -191,6 +224,9 @@ void USART3_IRQHandler() {
         if (core_USART3_rxbuf && core_USART3_rxbuflen && (core_USART_flags & CORE_USART3_UPDATE)) {
             for (uint32_t i=0; i < core_USART3_rxbuflen_int; i++) core_USART3_rxbuf[i] = core_USART3_rxbuf_int[i];
             *core_USART3_rxbuflen = core_USART3_rxbuflen_int;
+        }
+        if (core_USART3_callback) {
+            core_USART3_callback(core_USART3_rxbuf_int, core_USART3_rxbuflen_int);
         }
         core_USART3_rxbuflen_int = 0;
         USART3->ICR = USART_ICR_RTOCF;

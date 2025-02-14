@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "boot.h"
 #include "can.h"
 #include "clock.h"
 #include "gpio.h"
@@ -27,62 +28,121 @@
 #define TEST_CAN_ID1 3
 #define TEST_CAN_ID2 3
 
-#define CAN FDCAN3
-
-#define APPS_A_PORT GPIOA
-#define APPS_A_PIN GPIO_PIN_3
-#define APPS_B_PORT GPIOA
-#define APPS_B_PIN GPIO_PIN_4
+#define CAN FDCAN1
 
 CanMessage_s canMessage;
+core_timeout_t can_timeout;
 
-void heartbeat_task(void *pvParameters)
-{
-    (void) pvParameters;
-    TickType_t nextWakeTime = xTaskGetTickCount();
-    while(true)
-    {
-        uint16_t appsAVal = 0;
-        uint16_t appsBVal = 0;
+char txbuf[128];
+char imubuf[512];
+uint32_t imubuflen;
+uint8_t counter = 0;
 
-        core_ADC_read_channel(APPS_A_PORT, APPS_A_PIN, &appsAVal);
-        core_ADC_read_channel(APPS_B_PORT, APPS_B_PIN, &appsBVal);
-//        uprintf(USART3, "A: %d, B: %d\n", appsAVal, appsBVal);
-        vTaskDelayUntil(&nextWakeTime, 100);
+void printdec(uint32_t num, uint8_t digits, uint8_t offset) {
+    for (uint8_t x=0; x<digits; x++) {
+        txbuf[offset+digits-1-x] = '0' + (num % 10);
+        num = num / 10;
     }
 }
 
-void can_tx_task(void *pvParameters)
-{
+void printhex(uint32_t num, uint8_t digits, uint8_t offset) {
+    for (uint8_t x=0; x<digits; x++) {
+        txbuf[offset+digits-1-x] = ((num & 0xf) >= 10 ? 'A' + (num&0xf) - 10 : '0' + (num&0xf));
+        num = num >> 4;
+    }
+}
+
+void printfloat(float f, uint8_t chars, uint8_t offset) {
+    if (f < 0) {
+        f = -f;
+        txbuf[offset] = '-';
+    } else txbuf[offset] = '+';
+    // -x.xxxe+yy --> lower 10000
+    float lower_limit = 1;
+    for (uint8_t i=7; i < chars; i++) lower_limit *= 10;
+    int8_t exponent = chars - 7;
+    while (f < lower_limit) {
+        f *= 10;
+        exponent -= 1;
+    }
+    lower_limit *= 10;
+    while (f >= lower_limit) {
+        f /= 10;
+        exponent += 1;
+    }
+    printdec(round(f), chars-6, offset+2);
+    txbuf[offset+1] = txbuf[offset+2];
+    txbuf[offset+2] = '.';
+    txbuf[offset+chars-4] = (exponent < 0 ? '-' : '+');
+    txbuf[offset+chars-3] = 'e';
+    printdec((exponent < 0 ? -exponent : exponent), 2, offset+chars-2);
+}
+
+void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
+    uint32_t tickstart;
+    imu_result_t res;
+    TickType_t nextWakeTime = xTaskGetTickCount();
+    while(true) {
+        core_GPIO_toggle_heartbeat();
+        //RTC->ICSR &= ~RTC_ICSR_RSF;
+        //while (!(RTC->ICSR & RTC_ICSR_RSF));
+        //struct tm time;
+        //core_RTC_get_time(&time);
+        //sprintf(txbuf, "ssr: %08x, tr: %08x, dr: %08x\r\n", ssr, tr, dr);
+        //strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
+        //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
+        //core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        //vTaskDelay(100 * portTICK_PERIOD_MS);
+        vTaskDelayUntil(&nextWakeTime, 500);
+        if (CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL) error_handler();
+    }
+}
+
+void can_tx_task(void *pvParameters) {
+    (void) pvParameters;
+    core_CAN_send_from_tx_queue_task(CAN);
     error_handler();
 }
 
 void can_rx_task(void *pvParameters) {
     (void) pvParameters;
-    CanMessage_s msg;
+    CanExtendedMessage_s msg;
     while (1) {
-        if (core_CAN_receive_extended_from_queue(CAN, &msg))
-        {
-            /*if (msg.data == 0xfa55) */core_GPIO_toggle_heartbeat();
-//            sprintf(txbuf, "received %d bytes\r\n", msg.dlc);
-//            core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        if (core_CAN_receive_extended_from_queue(FDCAN2, &msg)) {
+            core_GPIO_toggle_heartbeat();
+            sprintf(txbuf, "received %d bytes\r\n", msg.dlc);
+            core_USART_transmit(USART1, txbuf, strlen(txbuf));
         }
-        vTaskDelay(100 * portTICK_PERIOD_MS);
+        vTaskDelay(10 * portTICK_PERIOD_MS);
     }
 }
 
 int main(void) {
+    uint32_t rst = RCC->CSR;
     HAL_Init();
 
     // Drivers
-    if (!core_clock_init()) error_handler();
-    if (!core_USART_init(USART3, 500000)) error_handler();
-    if (!core_ADC_init(ADC1)) error_handler();
-    if (!core_ADC_init(ADC2)) error_handler();
-    if (!core_ADC_setup_pin(APPS_A_PORT, APPS_A_PIN, 0)) error_handler();
-    if (!core_ADC_setup_pin(APPS_B_PORT, APPS_B_PIN, 0)) error_handler();
+    //core_heartbeat_init(GPIOB, GPIO_PIN_15);
+    core_heartbeat_init(GPIOC, GPIO_PIN_9);
+    core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
+    if (!core_clock_init()) error_handler();
+    if (!core_CAN_init(FDCAN2)) error_handler();
+    core_boot_init();
+    //if (!core_USART_init(USART1, 500000)) error_handler();
+    /*if (!core_RTC_init()) error_handler();
+
+    struct tm time;
+    memset(&time, 0, sizeof(time));
+    time.tm_year = 124;
+    time.tm_mon = 10;
+    time.tm_mday = 13;
+    core_RTC_set_time(&time);
+
+    strcpy(txbuf, "Reset\r\n");
+    core_USART_transmit(USART1, txbuf, 7);*/
+    
 
     int err;
     err = xTaskCreate(heartbeat_task,
@@ -94,25 +154,24 @@ int main(void) {
     if (err != pdPASS) {
         error_handler();
     }
-
-//    err = xTaskCreate(can_tx_task,
-//        "tx",
-//        1000,
-//        NULL,
-//        2,
-//        NULL);
-//    if (err != pdPASS) {
-//        error_handler();
-//    }
-//    err = xTaskCreate(can_rx_task,
-//        "rx",
-//        1000,
-//        NULL,
-//        3,
-//        NULL);
-//    if (err != pdPASS) {
-//        error_handler();
-//    }
+    /*err = xTaskCreate(can_tx_task,
+        "tx",
+        1000,
+        NULL,
+        3,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }
+    err = xTaskCreate(can_rx_task,
+        "rx",
+        1000,
+        NULL,
+        3,
+        NULL);
+    if (err != pdPASS) {
+        error_handler();
+    }*/
 
     NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
