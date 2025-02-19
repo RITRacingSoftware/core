@@ -23,6 +23,18 @@
   * dedicated FreeRTOS task. If core_CAN_send_from_tx_queue_task(), an error
   * has occurred while transmitting.
   *
+  * Internally, a FreeRTOS semaphore is used to ensure only one message sits
+  * in the hardware CAN queue at a time. The semaphore is given whenever a
+  * transmission completes (or fails) and is taken whenever a message is
+  * added to the hardware queue.
+  *
+  * Alternatively, the user can disable the FreeRTOS queue by defining
+  * `CORE_CAN_DISABLE_TX_QUEUE` in `core_config.h`. This is useful if the user
+  * needs finer control over the transmission, wants to synchronize CAN
+  * transmissions between FDCAN modules, or would like to save SRAM space.
+  * The RX queue is not affected and the user can access the semaphore using
+  * core_CAN_convert(), but will be responsible for taking the semaphore.
+  *
   * ## Receiving
   * In order to enable receiving CAN frames, the user code must first set up
   * one or more filters using the core_CAN_add_filter() function. When a frame
@@ -54,15 +66,14 @@
 #include "clock.h"
 #include "timeout.h"
 #include "error_handler.h"
+#include "boot.h"
 
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
 static core_CAN_module_t can3;
 
-static const uint8_t dlc_lookup[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+const uint8_t core_CAN_dlc_lookup[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
 
-static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
-static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
@@ -214,9 +225,11 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
 
+#ifndef CORE_CAN_DISABLE_TX_QUEUE
     // Create queue to put outgoing messages in
     p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_tx == 0) error_handler();
+#endif
 
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
     xSemaphoreGive(p_can->can_tx_semaphore);
@@ -230,6 +243,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     return true;
 }
 
+#ifndef CORE_CAN_DISABLE_TX_QUEUE
 /**
   * @brief  Add a CAN frame to the TX queue
   * @param  can FDCAN module for which the frame is being enqueued
@@ -295,29 +309,42 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
         while ((xQueueReceive(p_can->can_queue_tx, &dequeuedExtendedMessage, portMAX_DELAY) == pdTRUE)) {
             /*if (autort)*/ xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
             if (dequeuedExtendedMessage.use_fd) {
-                if (!CAN_send_fd_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, dequeuedExtendedMessage.data)) break;
+                if (!core_CAN_send_fd_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, dequeuedExtendedMessage.data)) break;
             } else {
                 memcpy(&data, dequeuedExtendedMessage.data, 8);
                 //uint8_t dlc = dequeuedExtendedMessage.dlc;
-                if (!CAN_send_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, data)) break;
+                if (!core_CAN_send_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, data)) break;
             }
         }
     } else {
         while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE)) {
             /*if (autort)*/ xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
-            if (!CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
+            if (!core_CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
         }
     }
     return false;
 }
+#endif
 
-static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
+/**
+  * @brief  Add a CAN message to the hardware FIFO
+  * @param  can FDCAN module
+  * @param  id ID of the message to be transmitted. If this value is greater
+  *         than 2047, then an extended ID is automatically selected. Only the
+  *         lowest 29 bits are kept, so setting the MSB will force an extended
+  *         ID even if the ID is less than or equal to 2047
+  * @param  dlc Length of the packet (0-8)
+  * @param  data Data encoded as a uint64_t
+  * @retval 0 if an error occurred while adding the message to the queue
+  * @retval 1 otherwise
+  */
+bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
     FDCAN_TxHeaderTypeDef header = {0};
-    header.Identifier = id;
-    header.IdType = FDCAN_STANDARD_ID;
+    header.Identifier = (id & 0x1fffffff);
+    header.IdType = (id >= 2048 ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = dlc;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
@@ -331,15 +358,28 @@ static bool CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc,
     return err == HAL_OK;
 }
 
-static bool CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
+/**
+  * @brief  Add an FDCAN message to the hardware FIFO
+  * @param  can FDCAN module
+  * @param  id ID of the message to be transmitted. If this value is greater
+  *         than 2047, then an extended ID is automatically selected. Only the
+  *         lowest 29 bits are kept, so setting the MSB will force an extended
+  *         ID even if the ID is less than or equal to 2047
+  * @param  dlc Length of the packet. If the length does not correspond to a
+  *         valid FDCAN packet length, 
+  * @param  data Pointer to the data to be transmitted
+  * @retval 0 if an error occurred while adding the message to the queue
+  * @retval 1 otherwise
+  */
+bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
     uint8_t i=0;
-    while (dlc_lookup[i] < dlc) i++;
+    while (core_CAN_dlc_lookup[i] < dlc) i++;
     FDCAN_TxHeaderTypeDef header = {0};
-    header.Identifier = id;
-    header.IdType = FDCAN_STANDARD_ID;
+    header.Identifier = (id & 0x1fffffff);
+    header.IdType = (id >= 2048 ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID);
     header.TxFrameType = FDCAN_DATA_FRAME;
     header.DataLength = i;
     header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
@@ -371,11 +411,18 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         {
             error_handler();
         }
+        core_GPIO_toggle_heartbeat();
+        // Enter the bootloader if the the boot ID or the broadcast ID is received
+        if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18)))) {
+            //core_GPIO_toggle_heartbeat();
+            core_boot_reset_and_enter();
+        }
         // Reset the timeout
         core_timeout_reset_by_module_ref(can, header.Identifier);
         // Add the message to the RX queue
-        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
-        else add_CAN_message_to_rx_queue(can, header.Identifier, dlc_lookup[header.DataLength], data);
+        if (header.IdType == FDCAN_EXTENDED_ID) header.Identifier |= (1<<30);
+        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
+        else add_CAN_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data);
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag
@@ -493,11 +540,12 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
     if (*p_num_filters + 1 >  max_filter_num) return false;
     FDCAN_FilterTypeDef filter;
     filter.IdType = isExtended ? FDCAN_EXTENDED_ID : FDCAN_STANDARD_ID;
-    filter.FilterIndex = *p_num_filters++;
+    filter.FilterIndex = *p_num_filters;
     filter.FilterType = FDCAN_FILTER_RANGE;
     filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
     filter.FilterID1 = id1;
     filter.FilterID2 = id2;
+    *p_num_filters = *p_num_filters + 1;
 
     return HAL_FDCAN_ConfigFilter(&(p_can->hfdcan), &filter) == HAL_OK;
 

@@ -44,10 +44,12 @@ STM32CUBE_HAL_DIR := $(STM32CUBE_DIR)/Drivers/STM32G4xx_HAL_Driver
 STM32CUBE_CMSIS_DIR := $(STM32CUBE_DIR)/Drivers/CMSIS/Device/ST/STM32G4xx
 STM32CUBE_SRC_DIRS := $(STM32CUBE_HAL_DIR)/Src
 STM32CUBE_SRCS := $(shell find $(STM32CUBE_SRC_DIRS) -maxdepth 1 -type f -name "*.c") $(STM32CUBE_CMSIS_DIR)/Source/Templates/system_stm32g4xx.c
-STM32CUBE_ASMS := $(STM32CUBE_CMSIS_DIR)/Source/Templates/gcc/startup_stm32g473xx.s
+#STM32CUBE_ASMS := $(STM32CUBE_CMSIS_DIR)/Source/Templates/gcc/startup_stm32g473xx.s
+STM32CUBE_ASMS := src/startup_stm32g473xx.s
 STM32CUBE_INCLUDES := $(STM32CUBE_HAL_DIR)/Inc $(STM32CUBE_DIR)/Drivers/CMSIS/Include $(STM32CUBE_CMSIS_DIR)/Include
 STM32CUBE_INCLUDES := $(foreach d, $(STM32CUBE_INCLUDES),-I $d)
-STM32CUBE_OBJS := $(STM32CUBE_SRCS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o) $(STM32CUBE_ASMS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o)
+#STM32CUBE_OBJS := $(STM32CUBE_SRCS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o) $(STM32CUBE_ASMS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o)
+STM32CUBE_OBJS := $(STM32CUBE_SRCS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o) $(STM32_BUILD_DIR)/obj/stm32cube/startup_stm32g473xx.s.o
 
 FREERTOS_DIR := lib/FreeRTOS-Kernel
 FREERTOS_SRC_DIRS := $(FREERTOS_DIR) $(FREERTOS_DIR)/portable/GCC/ARM_CM4F
@@ -56,20 +58,25 @@ FREERTOS_INCLUDES := $(FREERTOS_DIR)/include $(FREERTOS_DIR)/portable/GCC/ARM_CM
 FREERTOS_INCLUDES := $(foreach d, $(FREERTOS_INCLUDES),-I $d)
 FREERTOS_OBJS := $(FREERTOS_SRCS:$(FREERTOS_DIR)/%=$(STM32_BUILD_DIR)/obj/freertos/%.o)
 
+OUTNAME := $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION)
 
 # Compilation targets
 .PHONY: all
 all: core
 
 .PHONY: core
-core: $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).elf $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).bin
+core: $(OUTNAME).elf $(OUTNAME).bin $(OUTNAME).ihex
 
 # Main executable
-$(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).bin: $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).elf
+$(OUTNAME).bin: $(OUTNAME).elf
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_OBJCOPY) -O binary $< $@
 
-$(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS)
+$(OUTNAME).ihex: $(OUTNAME).elf
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	$(STM32_OBJCOPY) -O ihex $< $@
+
+$(OUTNAME).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS)
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_LD) $(STM32_LD_FLAGS) $^ -o $@
 
@@ -88,7 +95,7 @@ $(STM32_BUILD_DIR)/obj/stm32cube/%.c.o: $(STM32CUBE_DIR)/%.c
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(STM32CUBE_INCLUDES) -c $< -o $@
 
-$(STM32_BUILD_DIR)/obj/stm32cube/%.s.o: $(STM32CUBE_DIR)/%.s
+$(STM32_BUILD_DIR)/obj/stm32cube/startup_stm32g473xx.s.o: src/startup_stm32g473xx.s
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_CC) $(STM32_ASM_FLAGS) -c $< -o $@
 
