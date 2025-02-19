@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structcore__RTC__tm" kind="struct" language="C++" prot="public">
+    <compoundname>core_RTC_tm</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcore__RTC__tm_1aaa0292a6099ec08c4bfdf1600a8ba8a8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t core_RTC_tm::tm_usec</definition>
+        <argsstring></argsstring>
+        <name>tm_usec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="8" column="14" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a772c38a14aad22b030728fe32e949d4b" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_sec</definition>
+        <argsstring></argsstring>
+        <name>tm_sec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="9" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a83f4c874e8d790959afcd087a7628628" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_min</definition>
+        <argsstring></argsstring>
+        <name>tm_min</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="10" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a631da1c00d4b9fdb8c1455a8d5512b5e" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_hour</definition>
+        <argsstring></argsstring>
+        <name>tm_hour</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="11" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a82a93583911ac2dbddd51dc10de4fc2e" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_mday</definition>
+        <argsstring></argsstring>
+        <name>tm_mday</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="12" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1af8fefba0b489099a8ff8aa158a59c2fd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_mon</definition>
+        <argsstring></argsstring>
+        <name>tm_mon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="13" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a2c588cd2d096aa23ad5bbc6725ecb7bb" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t core_RTC_tm::tm_year</definition>
+        <argsstring></argsstring>
+        <name>tm_year</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="14" column="14" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1a1faf2c94a892a76885bb5da5fd87277b" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_yday</definition>
+        <argsstring></argsstring>
+        <name>tm_yday</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="15" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__RTC__tm_1ab8bf63b5b80b83b50de3e3eaf1728df8" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_RTC_tm::tm_format</definition>
+        <argsstring></argsstring>
+        <name>tm_format</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="16" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/matthias/racing/core/src/driver/Inc/rtc.h" line="7" column="1" bodyfile="/home/matthias/racing/core/src/driver/Inc/rtc.h" bodystart="7" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structcore__RTC__tm_1ab8bf63b5b80b83b50de3e3eaf1728df8" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_format</name></member>
+      <member refid="structcore__RTC__tm_1a631da1c00d4b9fdb8c1455a8d5512b5e" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_hour</name></member>
+      <member refid="structcore__RTC__tm_1a82a93583911ac2dbddd51dc10de4fc2e" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_mday</name></member>
+      <member refid="structcore__RTC__tm_1a83f4c874e8d790959afcd087a7628628" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_min</name></member>
+      <member refid="structcore__RTC__tm_1af8fefba0b489099a8ff8aa158a59c2fd" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_mon</name></member>
+      <member refid="structcore__RTC__tm_1a772c38a14aad22b030728fe32e949d4b" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_sec</name></member>
+      <member refid="structcore__RTC__tm_1aaa0292a6099ec08c4bfdf1600a8ba8a8" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_usec</name></member>
+      <member refid="structcore__RTC__tm_1a1faf2c94a892a76885bb5da5fd87277b" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_yday</name></member>
+      <member refid="structcore__RTC__tm_1a2c588cd2d096aa23ad5bbc6725ecb7bb" prot="public" virt="non-virtual"><scope>core_RTC_tm</scope><name>tm_year</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

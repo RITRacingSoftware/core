@@ -1,0 +1,608 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="clock_8c" kind="file" language="C++">
+    <compoundname>clock.c</compoundname>
+    <includes refid="clock_8h" local="yes">clock.h</includes>
+    <includes local="yes">core_config.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="yes">stm32g4xx_hal.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="5">
+        <label>stdint.h</label>
+      </node>
+      <node id="2">
+        <label>clock.h</label>
+        <link refid="clock_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>core_config.h</label>
+      </node>
+      <node id="1">
+        <label>/home/matthias/racing/core/src/driver/Src/clock.c</label>
+        <link refid="clock_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stm32g4xx_hal.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_clock_ADC12_init</definition>
+        <argsstring>()</argsstring>
+        <name>core_clock_ADC12_init</name>
+        <briefdescription>
+<para>Set the clocks for ADC1 and ADC2 to SYSCLK and enable them. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="22" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a7601bbc868be45032c30a01c421aee79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_clock_ADC345_init</definition>
+        <argsstring>()</argsstring>
+        <name>core_clock_ADC345_init</name>
+        <briefdescription>
+<para>Set the clocks for ADC3, ADC4, and ADC5 to SYSCLK and enable them. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="30" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_clock_FDCAN_init</definition>
+        <argsstring>(FDCAN_GlobalTypeDef *can)</argsstring>
+        <name>core_clock_FDCAN_init</name>
+        <param>
+          <type>FDCAN_GlobalTypeDef *</type>
+          <declname>can</declname>
+        </param>
+        <briefdescription>
+<para>Set FDCAN clock to PCLK1 and enable it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize GPIO port clocks corresponding to CAN bus selected <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>can</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FDCAN module to initialize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="41" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="41" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a4dfc43b43b5975284563a397da6a3d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_clock_USART_init</definition>
+        <argsstring>(USART_TypeDef *usart)</argsstring>
+        <name>core_clock_USART_init</name>
+        <param>
+          <type>USART_TypeDef *</type>
+          <declname>usart</declname>
+        </param>
+        <briefdescription>
+<para>Set a USART clock to PCLK1 and enable it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>usart</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USART module to initialize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if usart_num is a valid USART module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="65" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="65" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_clock_I2C_init</definition>
+        <argsstring>(I2C_TypeDef *i2c)</argsstring>
+        <name>core_clock_I2C_init</name>
+        <param>
+          <type>I2C_TypeDef *</type>
+          <declname>i2c</declname>
+        </param>
+        <briefdescription>
+<para>Set an I2C clock to PCLK1 and enable it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i2c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C module to initialize </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if i2c_num is a valid I2C module </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="96" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="96" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_clock_RTC_init</definition>
+        <argsstring>()</argsstring>
+        <name>core_clock_RTC_init</name>
+        <briefdescription>
+<para>Enable the external 32.768kHz oscillator and set the RTC clock to it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="121" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_clock_port_init</definition>
+        <argsstring>(GPIO_TypeDef *port)</argsstring>
+        <name>core_clock_port_init</name>
+        <param>
+          <type>GPIO_TypeDef *</type>
+          <declname>port</declname>
+        </param>
+        <briefdescription>
+<para>Initializes port clock for selected port. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>port</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Port to initialize clock for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="135" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="135" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t core_clock_generate_params</definition>
+        <argsstring>(uint32_t src_freq, uint32_t target_freq, uint8_t *n, uint8_t *m, uint8_t *r)</argsstring>
+        <name>core_clock_generate_params</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>src_freq</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>target_freq</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Generate the settings for the N, M, and R dividers from the clock source frequency and the desired output frequency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frequency of the clock source of the PLL, in kilohertz </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_freq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired frequency of the R output of the PLL, in kilohertz </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Location where the setting of the N divider is stored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Location where the setting of the M divider is stored </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Location where the setting of the R divider is stored </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>The algorithm used here will try to maximize the frequency of the VCO output. Thus, in certain cases, the algorithm will not find an exact setting, even if one exists. </para>
+</simplesect>
+<parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the desired setting is outside of the frequency range of the VCO </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="158" column="9" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="158" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_clock_init</definition>
+        <argsstring>()</argsstring>
+        <name>core_clock_init</name>
+        <briefdescription>
+<para>Initialize the STM32G4&apos;s core clocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The SYSCLK frequency will be set to CORE_CLOCK_SYSCLK_FREQ, which is given in kilohertz and defined in <computeroutput>core_config.h</computeroutput>. This function is generally called immediately after HAL_Init() in the user code.</para>
+<para><parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on success </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="231" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="231" bodyend="290"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Core clock library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This core library component is used to initialize peripheral clocks. Generally, it is only necessary to call <ref refid="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" kindref="member">core_clock_init()</ref> from user code. Other clock initialization functions are called by the respective core module init function. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;clock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;stm32g4xx_hal.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" kindref="member">core_clock_ADC12_init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_ADC12_CONFIG(RCC_ADC12CLKSOURCE_SYSCLK);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_ADC12_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kindref="member">core_clock_ADC345_init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_ADC345_CONFIG(RCC_ADC345CLKSOURCE_SYSCLK);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_ADC12_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" kindref="member">core_clock_FDCAN_init</ref>(FDCAN_GlobalTypeDef<sp/>*can)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>peripheral<sp/>clocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_FDCAN_CONFIG(RCC_FDCANCLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN1)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN1_RX_PORT);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN1_TX_PORT);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN2)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN2_RX_PORT);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN2_TX_PORT);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN3)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN3_RX_PORT);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(CORE_FDCAN3_TX_PORT);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_FDCAN_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_GPIOA_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a4dfc43b43b5975284563a397da6a3d56" kindref="member">core_clock_USART_init</ref>(USART_TypeDef<sp/>*usart)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usart<sp/>==<sp/>USART1)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART1_CONFIG(RCC_USART1CLKSOURCE_PCLK2);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART1_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usart<sp/>==<sp/>USART2)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART2_CONFIG(RCC_USART2CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART2_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usart<sp/>==<sp/>USART3)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART3_CONFIG(RCC_USART3CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_USART3_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usart<sp/>==<sp/>UART4)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_UART4_CONFIG(RCC_UART4CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_UART4_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usart<sp/>==<sp/>UART5)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_UART5_CONFIG(RCC_UART5CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_UART5_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" kindref="member">core_clock_I2C_init</ref>(I2C_TypeDef<sp/>*i2c)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i2c<sp/>==<sp/>I2C1)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C1_CONFIG(RCC_I2C1CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C1_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i2c<sp/>==<sp/>I2C2)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C2_CONFIG(RCC_I2C2CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C2_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i2c<sp/>==<sp/>I2C3)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C3_CONFIG(RCC_I2C3CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C3_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i2c<sp/>==<sp/>I2C4)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C4_CONFIG(RCC_I2C4CLKSOURCE_PCLK1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__HAL_RCC_I2C4_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" kindref="member">core_clock_RTC_init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_PWR_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_PWR_EnableBkUpAccess();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_RTCAPB_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_LSE_CONFIG(RCC_LSE_ON);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_RTC_CONFIG(RCC_RTCCLKSOURCE_LSE);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>__HAL_RCC_RTC_ENABLE();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(GPIO_TypeDef<sp/>*port)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOA)<sp/>__HAL_RCC_GPIOA_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOB)<sp/>__HAL_RCC_GPIOB_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOC)<sp/>__HAL_RCC_GPIOC_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOD)<sp/>__HAL_RCC_GPIOD_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOF)<sp/>__HAL_RCC_GPIOF_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(port<sp/>==<sp/>GPIOG)<sp/>__HAL_RCC_GPIOG_CLK_ENABLE();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">uint8_t<sp/><ref refid="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" kindref="member">core_clock_generate_params</ref>(uint32_t<sp/>src_freq,<sp/>uint32_t<sp/>target_freq,<sp/>uint8_t<sp/>*n,<sp/>uint8_t<sp/>*m,<sp/>uint8_t<sp/>*r)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Determine<sp/>the<sp/>largest<sp/>possible<sp/>R<sp/>divider<sp/>setting<sp/>for<sp/>which<sp/>the<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VCO<sp/>output<sp/>frequency<sp/>would<sp/>still<sp/>be<sp/>in<sp/>range.<sp/>If<sp/>this<sp/>is<sp/>not<sp/>possible,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>return<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target_freq<sp/>&gt;<sp/>170000)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>target_freq<sp/>=<sp/>target_freq<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>*r<sp/>=<sp/>344000<sp/>/<sp/>target_freq;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(*r<sp/>&gt;<sp/>4)<sp/>*r<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>target_freq<sp/>with<sp/>the<sp/>frequency<sp/>that<sp/>would<sp/>be<sp/>found<sp/>before<sp/>the<sp/>R</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>divider,<sp/>that<sp/>is,<sp/>the<sp/>desired<sp/>frequency<sp/>on<sp/>the<sp/>output<sp/>of<sp/>the<sp/>VCO.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>target_freq<sp/>*=<sp/>*r;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>*r<sp/>=<sp/>*r<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target_freq<sp/>&lt;<sp/>96000)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>a<sp/>binary<sp/>search<sp/>on<sp/>the<sp/>Stern-Brocot<sp/>tree<sp/>to<sp/>find<sp/>the<sp/>fraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>closest<sp/>to<sp/>the<sp/>ratio<sp/>target_freq/src_freq.<sp/>Initially,<sp/>target_freq/src_freq</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>guaranteed<sp/>to<sp/>be<sp/>between<sp/>lnum/lden<sp/>and<sp/>hnum/hden.<sp/>Also,<sp/>all<sp/>of<sp/>the<sp/>fractions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>generated<sp/>by<sp/>the<sp/>algorithm<sp/>are<sp/>guaranteed<sp/>to<sp/>be<sp/>in<sp/>lowest<sp/>form</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lnum<sp/>=<sp/>target_freq<sp/>/<sp/>src_freq,<sp/>lden<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>hnum<sp/>=<sp/>lnum<sp/>+<sp/>1,<sp/>hden<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>cnum,<sp/>cden;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>s,<sp/>t;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>i=0;<sp/>i<sp/>&lt;<sp/>30;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cnum<sp/>=<sp/>lnum<sp/>+<sp/>hnum;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cden<sp/>=<sp/>lden<sp/>+<sp/>hden;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>fraction<sp/>cnum/cden<sp/>is<sp/>guaranteed<sp/>to<sp/>be<sp/>between<sp/>lnum/lden<sp/>and<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hnum/hden.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>=<sp/>cnum<sp/>*<sp/>src_freq;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t<sp/>=<sp/>cden<sp/>*<sp/>target_freq;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>cnum<sp/>exceeds<sp/>the<sp/>maximum<sp/>possible<sp/>value<sp/>for<sp/>the<sp/>N<sp/>divider,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>cden<sp/>exceeds<sp/>the<sp/>maximum<sp/>possible<sp/>value<sp/>for<sp/>the<sp/>M<sp/>divider,<sp/>stop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>iterating<sp/>and<sp/>pick<sp/>the<sp/>pair<sp/>(that<sp/>is,<sp/>either<sp/>hnum<sp/>and<sp/>hden,<sp/>or<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>lnum<sp/>and<sp/>lden)<sp/>that<sp/>would<sp/>produce<sp/>a<sp/>frequency<sp/>closer<sp/>to<sp/>the<sp/>desired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>frequency.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cnum<sp/>&gt;<sp/>127)<sp/>||<sp/>(cden<sp/>&gt;<sp/>16))<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(2*target_freq*lden*hden<sp/>&gt;=<sp/>target_freq*(hnum*lden<sp/>+<sp/>hden*lnum))<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*n<sp/>=<sp/>hnum;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*m<sp/>=<sp/>hden;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*n<sp/>=<sp/>lnum;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*m<sp/>=<sp/>lden;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>cnum/cden<sp/>==<sp/>target_freq/src_freq,<sp/>then<sp/>use<sp/>N=cnum<sp/>and<sp/>M=cden</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*n<sp/>=<sp/>cnum;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*m<sp/>=<sp/>cden;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>&gt;<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>cnum/cden<sp/>&gt;<sp/>target_freq/src_freq,<sp/>then<sp/>repeat,<sp/>this<sp/>time<sp/>using</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cnum/cden<sp/>as<sp/>the<sp/>upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hnum<sp/>=<sp/>cnum;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hden<sp/>=<sp/>cden;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>&lt;<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>cnum/cden<sp/>&lt;<sp/>target_freq/src_freq,<sp/>then<sp/>repeat,<sp/>this<sp/>time<sp/>using</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cnum/cden<sp/>as<sp/>the<sp/>lower<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lnum<sp/>=<sp/>cnum;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lden<sp/>=<sp/>cden;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" kindref="member">core_clock_init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_Init();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>main<sp/>internal<sp/>regulator<sp/>output<sp/>voltage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>the<sp/>values<sp/>of<sp/>the<sp/>N,<sp/>M,<sp/>and<sp/>R<sp/>dividers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>ndiv,<sp/>mdiv,<sp/>rdiv;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ext_freq;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_USE_HSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>ext_freq<sp/>=<sp/>CORE_CLOCK_HSE_FREQ;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ext_freq<sp/>=<sp/>CORE_CLOCK_HSI_FREQ;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>sysclk_freq<sp/>=<sp/>CORE_CLOCK_SYSCLK_FREQ;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" kindref="member">core_clock_generate_params</ref>(ext_freq,<sp/>sysclk_freq,<sp/>&amp;ndiv,<sp/>&amp;mdiv,<sp/>&amp;rdiv))<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>RCC<sp/>Oscillators</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitTypeDef<sp/>RCC_OscInitStruct<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.HSIState<sp/>=<sp/>RCC_HSI_ON;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.HSEState<sp/>=<sp/>RCC_HSE_ON;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_USE_HSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.OscillatorType<sp/>=<sp/>RCC_OSCILLATORTYPE_HSE;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLSource<sp/>=<sp/>RCC_PLLSOURCE_HSE;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.OscillatorType<sp/>=<sp/>RCC_OSCILLATORTYPE_HSI;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//RCC_OscInitStruct.HSEState<sp/>=<sp/>RCC_HSE_OFF;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLSource<sp/>=<sp/>RCC_PLLSOURCE_HSI;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLState<sp/>=<sp/>RCC_PLL_ON;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLM<sp/>=<sp/>mdiv;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLN<sp/>=<sp/>ndiv;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLP<sp/>=<sp/>RCC_PLLP_DIV2;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLQ<sp/>=<sp/>RCC_PLLQ_DIV2;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLR<sp/>=<sp/>rdiv;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_OscConfig(&amp;RCC_OscInitStruct)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>CPU,<sp/>AHB<sp/>and<sp/>APB<sp/>buses<sp/>clocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitTypeDef<sp/>RCC_ClkInitStruct<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.ClockType<sp/>=<sp/>RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_USE_HSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSE<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSI<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.AHBCLKDivider<sp/>=<sp/>RCC_SYSCLK_DIV1;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB1CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB2CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_ClockConfig(&amp;RCC_ClkInitStruct,<sp/>FLASH_LATENCY_4)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/matthias/racing/core/src/driver/Src/clock.c"/>
+  </compounddef>
+</doxygen>

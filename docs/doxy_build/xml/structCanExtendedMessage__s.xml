@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structCanExtendedMessage__s" kind="struct" language="C++" prot="public">
+    <compoundname>CanExtendedMessage_s</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCanExtendedMessage__s_1ae96150b3c02c8a631efaf10d4bcdc270" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CanExtendedMessage_s::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="21" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCanExtendedMessage__s_1a000450064eb5e649b5ea1d80db4061e1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CanExtendedMessage_s::dlc</definition>
+        <argsstring></argsstring>
+        <name>dlc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="22" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCanExtendedMessage__s_1a5454f13c8abd103c1ef3947092eb6b54" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CanExtendedMessage_s::use_fd</definition>
+        <argsstring></argsstring>
+        <name>use_fd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="23" column="10" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCanExtendedMessage__s_1a19f9ac2a939d09531db848072a58f5d2" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t CanExtendedMessage_s::data[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="24" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="19" column="1" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="20" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structCanExtendedMessage__s_1a19f9ac2a939d09531db848072a58f5d2" prot="public" virt="non-virtual"><scope>CanExtendedMessage_s</scope><name>data</name></member>
+      <member refid="structCanExtendedMessage__s_1a000450064eb5e649b5ea1d80db4061e1" prot="public" virt="non-virtual"><scope>CanExtendedMessage_s</scope><name>dlc</name></member>
+      <member refid="structCanExtendedMessage__s_1ae96150b3c02c8a631efaf10d4bcdc270" prot="public" virt="non-virtual"><scope>CanExtendedMessage_s</scope><name>id</name></member>
+      <member refid="structCanExtendedMessage__s_1a5454f13c8abd103c1ef3947092eb6b54" prot="public" virt="non-virtual"><scope>CanExtendedMessage_s</scope><name>use_fd</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

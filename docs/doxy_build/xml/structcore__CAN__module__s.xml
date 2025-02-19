@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structcore__CAN__module__s" kind="struct" language="C++" prot="public">
+    <compoundname>core_CAN_module_s</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a2ade6d687ec48493114cf187af9e3f7c" prot="public" static="no" mutable="no">
+        <type>FDCAN_HandleTypeDef</type>
+        <definition>FDCAN_HandleTypeDef core_CAN_module_s::hfdcan</definition>
+        <argsstring></argsstring>
+        <name>hfdcan</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="28" column="25" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a349245fc3eb40f15cd1f8f9cde139fc2" prot="public" static="no" mutable="no">
+        <type>QueueHandle_t</type>
+        <definition>QueueHandle_t core_CAN_module_s::can_queue_rx</definition>
+        <argsstring></argsstring>
+        <name>can_queue_rx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="29" column="19" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a66ba5d89b9f512a66db36891f26e107d" prot="public" static="no" mutable="no">
+        <type>QueueHandle_t</type>
+        <definition>QueueHandle_t core_CAN_module_s::can_queue_tx</definition>
+        <argsstring></argsstring>
+        <name>can_queue_tx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="30" column="19" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a01bd695d114ab0f12d5cf345fef5bae2" prot="public" static="no" mutable="no">
+        <type>SemaphoreHandle_t</type>
+        <definition>SemaphoreHandle_t core_CAN_module_s::can_tx_semaphore</definition>
+        <argsstring></argsstring>
+        <name>can_tx_semaphore</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="31" column="23" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a3253b87dabe5cdbd6a65abb6073b0788" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_CAN_module_s::fdcan_num_standard_filters</definition>
+        <argsstring></argsstring>
+        <name>fdcan_num_standard_filters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="32" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1ae34f510c87153ab401a32f40917df0df" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_CAN_module_s::fdcan_num_extended_filters</definition>
+        <argsstring></argsstring>
+        <name>fdcan_num_extended_filters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="33" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1aaabd747faec311b80f5abef1cff46075" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_CAN_module_s::autort</definition>
+        <argsstring></argsstring>
+        <name>autort</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="34" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structcore__CAN__module__s_1a9ef8fe2993479ec98cdbcd5b7f64b066" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t core_CAN_module_s::use_fd</definition>
+        <argsstring></argsstring>
+        <name>use_fd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="35" column="13" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="27" column="1" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="27" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structcore__CAN__module__s_1aaabd747faec311b80f5abef1cff46075" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>autort</name></member>
+      <member refid="structcore__CAN__module__s_1a349245fc3eb40f15cd1f8f9cde139fc2" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>can_queue_rx</name></member>
+      <member refid="structcore__CAN__module__s_1a66ba5d89b9f512a66db36891f26e107d" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>can_queue_tx</name></member>
+      <member refid="structcore__CAN__module__s_1a01bd695d114ab0f12d5cf345fef5bae2" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>can_tx_semaphore</name></member>
+      <member refid="structcore__CAN__module__s_1ae34f510c87153ab401a32f40917df0df" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>fdcan_num_extended_filters</name></member>
+      <member refid="structcore__CAN__module__s_1a3253b87dabe5cdbd6a65abb6073b0788" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>fdcan_num_standard_filters</name></member>
+      <member refid="structcore__CAN__module__s_1a2ade6d687ec48493114cf187af9e3f7c" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>hfdcan</name></member>
+      <member refid="structcore__CAN__module__s_1a9ef8fe2993479ec98cdbcd5b7f64b066" prot="public" virt="non-virtual"><scope>core_CAN_module_s</scope><name>use_fd</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
