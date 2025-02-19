@@ -112,7 +112,7 @@ void core_timeout_check_all() {
     uint32_t diff;
     for (int i=0; i < n_core_timeouts; i++) {
         to = core_timeout_list[i];
-        if (to->state & CORE_TIMEOUT_STATE_ENABLED) {
+        if ((to->state & CORE_TIMEOUT_STATE_ENABLED) && !(to->state & CORE_TIMEOUT_STATE_SUSPENDED)) {
             diff = t - to->last_event;
             if (to->state & CORE_TIMEOUT_STATE_TIMED_OUT) {
                 to->callback(to);
@@ -124,3 +124,21 @@ void core_timeout_check_all() {
     }
 }
 
+/**
+ * @brief Suspend timeout
+ * @param timeout Pointer to the timeout being suspended
+ */
+void core_timeout_suspend(core_timeout_t *timeout)
+{
+    timeout->state |= CORE_TIMEOUT_STATE_SUSPENDED;
+}
+
+/**
+ * @brief Resume suspended timeout
+ * @param timeout Pointer to the timeout being resumed
+ */
+void core_timeout_resume(core_timeout_t *timeout)
+{
+    timeout->state &= ~CORE_TIMEOUT_STATE_SUSPENDED;
+    core_timeout_reset(timeout);
+}
