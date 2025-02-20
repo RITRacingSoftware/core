@@ -6,7 +6,7 @@
   * be programmed over CAN.
   *
   * ## Theory of operation
-  * The STM32G473 cas 512k of FLASH, which is split into two banks of 256k
+  * The STM32G473 has 512k of FLASH, which is split into two banks of 256k
   * each. The chip can be configured to boot either from the first or the
   * second bank by configuring the non-volatile `BFB2` bit in the option byte
   * registers. When the `BFB2` bit is set in the FLASH option byte register,
@@ -175,6 +175,7 @@
   *    bank is currently running
   *  - Next two bytes contain the lowest two bytes of `FLASH_SR`
   *  - Next three bytes contain the boot key, which should be 0xABCDEF
+  *  - Bits 7 through 0 contain the boot state.
   *  - `ERROR`: Indicates a state error occurred in the booting bank
   *  - `NB_ERROR`: Indicates a state error occurred in the non-booting bank
   *  - `ENTER`: Indicates that the program should enter the bootloader after
@@ -223,7 +224,7 @@
   * clocks, GPIO, and FDCAN modules needed for the bootloader have been
   * initialized. This function initializes the RX filter for the board's
   * bootloader ID. The function also checks the boot state and enters the
-  * bootloader is necessary. See the state diagram above for details.
+  * bootloader if necessary. See the state diagram above for details.
   *
   * ### Entry point
   * The software enters the bootloader by calling core_boot_reset_and_enter().
@@ -242,14 +243,14 @@
 #include "core_config.h"
 #include "stm32g4xx_hal.h"
 
-#define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
 #define BOOTSTATE __attribute__ ((section (".bootstate")))
+#define BOOTPROGNAME __attribute__ ((section (".progname"))) __attribute__ ((__used__))
 
 #define ALTBANK_BASE 0x08040000
 
-const char progname[32] __attribute__ ((section (".progname"))) __attribute__ ((__used__)) = PROGRAM_NAME_STRING;
+const char BOOTPROGNAME progname[32] = PROGRAM_NAME_STRING;
 
-uint32_t boot_state BOOTSTATE;
+uint32_t BOOTSTATE boot_state;
 // Stores the opcodes used for soft bank switching. Soft bank switching must be
 // performed from RAM, since the code in the other bank may continue from a
 // different address.
