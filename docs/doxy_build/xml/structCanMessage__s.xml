@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="structCanMessage__s" kind="struct" language="C++" prot="public">
+    <compoundname>CanMessage_s</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structCanMessage__s_1a1b2f473ef2af10e8fed466814ea53694" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CanMessage_s::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="14" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCanMessage__s_1ab19fcef27f5e96ad32596dc6319ab52d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CanMessage_s::dlc</definition>
+        <argsstring></argsstring>
+        <name>dlc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="15" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structCanMessage__s_1a54c6ceb623608f962c7f58322d90cec4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t CanMessage_s::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="16" column="14" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/matthias/racing/core/src/driver/Inc/can.h" line="12" column="1" bodyfile="/home/matthias/racing/core/src/driver/Inc/can.h" bodystart="13" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structCanMessage__s_1a54c6ceb623608f962c7f58322d90cec4" prot="public" virt="non-virtual"><scope>CanMessage_s</scope><name>data</name></member>
+      <member refid="structCanMessage__s_1ab19fcef27f5e96ad32596dc6319ab52d" prot="public" virt="non-virtual"><scope>CanMessage_s</scope><name>dlc</name></member>
+      <member refid="structCanMessage__s_1a1b2f473ef2af10e8fed466814ea53694" prot="public" virt="non-virtual"><scope>CanMessage_s</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

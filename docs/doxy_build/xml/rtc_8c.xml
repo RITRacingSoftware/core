@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="rtc_8c" kind="file" language="C++">
+    <compoundname>rtc.c</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">time.h</includes>
+    <includes refid="rtc_8h" local="yes">rtc.h</includes>
+    <includes refid="clock_8h" local="yes">clock.h</includes>
+    <includes local="yes">core_config.h</includes>
+    <includes local="no">stm32g4xx_hal.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>rtc.h</label>
+        <link refid="rtc_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>clock.h</label>
+        <link refid="clock_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>core_config.h</label>
+      </node>
+      <node id="1">
+        <label>/home/matthias/racing/core/src/driver/Src/rtc.c</label>
+        <link refid="rtc_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>time.h</label>
+      </node>
+      <node id="7">
+        <label>stm32g4xx_hal.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="rtc_8c_1ac8180a15d1db93e4f9f3c6cada686625" prot="public" static="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t core_RTC_last_usec</definition>
+        <argsstring></argsstring>
+        <name>core_RTC_last_usec</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="18" column="17" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="rtc_8c_1a2371259b42ee8ea799141e9c4a379089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool core_RTC_init</definition>
+        <argsstring>()</argsstring>
+        <name>core_RTC_init</name>
+        <briefdescription>
+<para>Initialize the RTC module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="retval"><parameteritem>
+<parameternamelist>
+<parametername>1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the initialization is successful </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>otherwise </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="25" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="rtc_8c_1afab458d2de9c1086c59e84dc64fd8151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_RTC_get_time</definition>
+        <argsstring>(struct tm *tm)</argsstring>
+        <name>core_RTC_get_time</name>
+        <param>
+          <type>struct tm *</type>
+          <declname>tm</declname>
+        </param>
+        <briefdescription>
+<para>Get the current RTC time as a <computeroutput>tm</computeroutput> struct (as defined in time.h) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When this function is called, the microsecond value is calculated but is not stored in the struct. This value can be retrieved with a subsequent call to <ref refid="rtc_8c_1ace4e2903ea297867eb2017ee89984122" kindref="member">core_RTC_get_usec()</ref>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <computeroutput>tm</computeroutput> struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="44" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="44" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="rtc_8c_1afb5cec548c668dddaa1e8bfec75d85f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_RTC_set_time</definition>
+        <argsstring>(struct tm *tm)</argsstring>
+        <name>core_RTC_set_time</name>
+        <param>
+          <type>struct tm *</type>
+          <declname>tm</declname>
+        </param>
+        <briefdescription>
+<para>Set the current RTC time from a <computeroutput>tm</computeroutput> struct (as defined in time.h) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a <computeroutput>tm</computeroutput> struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="65" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="65" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="rtc_8c_1ace4e2903ea297867eb2017ee89984122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t core_RTC_get_usec</definition>
+        <argsstring>()</argsstring>
+        <name>core_RTC_get_usec</name>
+        <briefdescription>
+<para>Get the microsecond value associated with the most recent <ref refid="rtc_8c_1afab458d2de9c1086c59e84dc64fd8151" kindref="member">core_RTC_get_time()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The microsecond value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="93" column="10" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="93" bodyend="95"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Core RTC library. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The core library component is used to set and get the current time using the internal RTC module. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rtc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;clock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stm32g4xx_hal.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>core_RTC_last_usec<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="rtc_8c_1a2371259b42ee8ea799141e9c4a379089" kindref="member">core_RTC_init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" kindref="member">core_clock_RTC_init</ref>())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC_HandleTypeDef<sp/>hrtc;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>hrtc.Init.HourFormat<sp/>=<sp/>RTC_HOURFORMAT_24;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>hrtc.Init.AsynchPrediv<sp/>=<sp/>127;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>hrtc.Init.SynchPrediv<sp/>=<sp/>255;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>hrtc.Init.OutPut<sp/>=<sp/>RTC_OUTPUT_DISABLE;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(HAL_RTC_Init(&amp;hrtc)<sp/>==<sp/>HAL_OK);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="rtc_8c_1afab458d2de9c1086c59e84dc64fd8151" kindref="member">core_RTC_get_time</ref>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*tm)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>pre<sp/>=<sp/>(RTC-&gt;PRER<sp/>&amp;<sp/>0x00007fff);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ssr<sp/>=<sp/>RTC-&gt;SSR;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>tr<sp/>=<sp/>RTC-&gt;TR;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>dr<sp/>=<sp/>RTC-&gt;DR;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>core_RTC_last_usec<sp/>=<sp/>((pre<sp/>-<sp/>ssr)<sp/>*<sp/>1000000ULL)<sp/>/<sp/>(pre<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_sec<sp/>=<sp/>(tr<sp/>&amp;<sp/>0x0000000f)<sp/>+<sp/>((tr<sp/>&amp;<sp/>0x00000070)<sp/>&gt;&gt;<sp/>4)*10;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_min<sp/>=<sp/>((tr<sp/>&amp;<sp/>0x00000f00)<sp/>&gt;&gt;<sp/>8)<sp/>+<sp/>((tr<sp/>&amp;<sp/>0x00007000)<sp/>&gt;&gt;<sp/>12)*10;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_hour<sp/>=<sp/>((tr<sp/>&amp;<sp/>0x000f0000)<sp/>&gt;&gt;<sp/>16)<sp/>+<sp/>((tr<sp/>&amp;<sp/>0x00300000)<sp/>&gt;&gt;<sp/>20)*10;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_mday<sp/>=<sp/>(dr<sp/>&amp;<sp/>0x0000000f)<sp/>+<sp/>((dr<sp/>&amp;<sp/>0x00000030)<sp/>&gt;&gt;<sp/>4)*10;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_mon<sp/>=<sp/>((dr<sp/>&amp;<sp/>0x00000f00)<sp/>&gt;&gt;<sp/>8)<sp/>+<sp/>((dr<sp/>&amp;<sp/>0x00001000)<sp/>&gt;&gt;<sp/>12)*10<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_year<sp/>=<sp/>CORE_RTC_CENTURY<sp/>+<sp/>((dr<sp/>&amp;<sp/>0x000f0000)&gt;&gt;16)<sp/>+<sp/>((dr<sp/>&amp;<sp/>0x00f00000)<sp/>&gt;&gt;<sp/>20)*10<sp/>-<sp/>1900;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>tm-&gt;tm_wday<sp/>=<sp/>(dr<sp/>&amp;<sp/>0x0000e000)<sp/>&gt;&gt;<sp/>13;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tm-&gt;tm_wday<sp/>==<sp/>7)<sp/>tm-&gt;tm_wday<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//tm-&gt;tm_format<sp/>=<sp/>CORE_RTC_FORMAT_BCD;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="rtc_8c_1afb5cec548c668dddaa1e8bfec75d85f3" kindref="member">core_RTC_set_time</ref>(</highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/>tm<sp/>*tm)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;WPR<sp/>=<sp/>0xCA;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;WPR<sp/>=<sp/>0x53;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;ICSR<sp/>|=<sp/>RTC_ICSR_INIT;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>tr<sp/>=<sp/>0,<sp/>dr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>tr<sp/>|=<sp/>((tm-&gt;tm_sec<sp/>/<sp/>10)<sp/>&lt;&lt;<sp/>4)<sp/>|<sp/>((tm-&gt;tm_sec<sp/>%<sp/>10));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>tr<sp/>|=<sp/>((tm-&gt;tm_min<sp/>/<sp/>10)<sp/>&lt;&lt;<sp/>12)<sp/>|<sp/>((tm-&gt;tm_min<sp/>%<sp/>10)<sp/>&lt;&lt;<sp/>8);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>tr<sp/>|=<sp/>((tm-&gt;tm_hour<sp/>/<sp/>10)<sp/>&lt;&lt;<sp/>20)<sp/>|<sp/>((tm-&gt;tm_hour<sp/>%<sp/>10)<sp/>&lt;&lt;<sp/>16);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>dr<sp/>|=<sp/>((tm-&gt;tm_mday<sp/>/<sp/>10)<sp/>&lt;&lt;<sp/>4)<sp/>|<sp/>((tm-&gt;tm_mday<sp/>%<sp/>10));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>mon<sp/>=<sp/>tm-&gt;tm_mon<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>dr<sp/>|=<sp/>((mon<sp/>/<sp/>10)<sp/>&lt;&lt;<sp/>12)<sp/>|<sp/>((mon<sp/>%<sp/>10)<sp/>&lt;&lt;<sp/>8);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>wday<sp/>=<sp/>tm-&gt;tm_wday;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(wday<sp/>==<sp/>0)<sp/>wday<sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>dr<sp/>|=<sp/>(wday<sp/>&lt;&lt;<sp/>13);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>year<sp/>=<sp/>tm-&gt;tm_year<sp/>+<sp/>1900<sp/>-<sp/>CORE_RTC_CENTURY;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>dr<sp/>|=<sp/>(((year<sp/>/<sp/>10)<sp/>&amp;<sp/>0xf)<sp/>&lt;&lt;<sp/>20)<sp/>|<sp/>(((year<sp/>%<sp/>10)<sp/>&amp;<sp/>0xf)<sp/>&lt;&lt;<sp/>16);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!(RTC-&gt;ICSR<sp/>&amp;<sp/>RTC_ICSR_INITF));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;TR<sp/>=<sp/>tr;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;DR<sp/>=<sp/>dr;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;ICSR<sp/>&amp;=<sp/>~RTC_ICSR_INIT;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC-&gt;WPR<sp/>=<sp/>0xff;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">uint32_t<sp/><ref refid="rtc_8c_1ace4e2903ea297867eb2017ee89984122" kindref="member">core_RTC_get_usec</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>core_RTC_last_usec;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/matthias/racing/core/src/driver/Src/rtc.c"/>
+  </compounddef>
+</doxygen>

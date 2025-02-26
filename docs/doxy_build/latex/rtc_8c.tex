@@ -1,5 +1,5 @@
-\doxysection{/\+Users/solomonshulman/\+RITRacing/\+Core/src/driver/\+Src/rtc.c File Reference}
-\hypertarget{rtc_8c}{}\label{rtc_8c}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Src/rtc.c@{/Users/solomonshulman/RITRacing/Core/src/driver/Src/rtc.c}}
+\hypertarget{rtc_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/rtc.c File Reference}
+\label{rtc_8c}\index{/home/matthias/racing/core/src/driver/Src/rtc.c@{/home/matthias/racing/core/src/driver/Src/rtc.c}}
 
 
 Core RTC library.  
@@ -8,21 +8,21 @@ Core RTC library.
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$time.\+h$>$}\newline
-{\ttfamily \#include "{}rtc.\+h"{}}\newline
-{\ttfamily \#include "{}clock.\+h"{}}\newline
-{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include \char`\"{}rtc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
-\doxysubsubsection*{Functions}
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 bool \mbox{\hyperlink{rtc_8c_a2371259b42ee8ea799141e9c4a379089}{core\+\_\+\+RTC\+\_\+init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize the RTC module. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time}} (struct tm \texorpdfstring{$\ast$}{*}tm)
+void \mbox{\hyperlink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time}} (struct tm $\ast$tm)
 \begin{DoxyCompactList}\small\item\em Get the current RTC time as a {\ttfamily tm} struct (as defined in time.\+h) \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3}{core\+\_\+\+RTC\+\_\+set\+\_\+time}} (struct tm \texorpdfstring{$\ast$}{*}tm)
+void \mbox{\hyperlink{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3}{core\+\_\+\+RTC\+\_\+set\+\_\+time}} (struct tm $\ast$tm)
 \begin{DoxyCompactList}\small\item\em Set the current RTC time from a {\ttfamily tm} struct (as defined in time.\+h) \end{DoxyCompactList}\item 
 uint32\+\_\+t \mbox{\hyperlink{rtc_8c_ace4e2903ea297867eb2017ee89984122}{core\+\_\+\+RTC\+\_\+get\+\_\+usec}} ()
-\begin{DoxyCompactList}\small\item\em Get the microsecond value associated with the most recent \doxylink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time()} call. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Get the microsecond value associated with the most recent \mbox{\hyperlink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time()}} call. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -31,39 +31,39 @@ Core RTC library.
 The core library component is used to set and get the current time using the internal RTC module. 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}\index{rtc.c@{rtc.c}!core\_RTC\_get\_time@{core\_RTC\_get\_time}}
+\mbox{\Hypertarget{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}\label{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}} 
+\index{rtc.c@{rtc.c}!core\_RTC\_get\_time@{core\_RTC\_get\_time}}
 \index{core\_RTC\_get\_time@{core\_RTC\_get\_time}!rtc.c@{rtc.c}}
 \doxysubsubsection{\texorpdfstring{core\_RTC\_get\_time()}{core\_RTC\_get\_time()}}
-{\footnotesize\ttfamily \label{rtc_8c_afab458d2de9c1086c59e84dc64fd8151} 
-void core\+\_\+\+RTC\+\_\+get\+\_\+time (\begin{DoxyParamCaption}\item[{struct tm \texorpdfstring{$\ast$}{*}}]{tm}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+RTC\+\_\+get\+\_\+time (\begin{DoxyParamCaption}\item[{struct tm $\ast$}]{tm }\end{DoxyParamCaption})}
 
 
 
 Get the current RTC time as a {\ttfamily tm} struct (as defined in time.\+h) 
 
-When this function is called, the microsecond value is calculated but is not stored in the struct. This value can be retrieved with a subsequent call to \doxylink{rtc_8c_ace4e2903ea297867eb2017ee89984122}{core\+\_\+\+RTC\+\_\+get\+\_\+usec()}. 
+When this function is called, the microsecond value is calculated but is not stored in the struct. This value can be retrieved with a subsequent call to \mbox{\hyperlink{rtc_8c_ace4e2903ea297867eb2017ee89984122}{core\+\_\+\+RTC\+\_\+get\+\_\+usec()}}. 
 \begin{DoxyParams}{Parameters}
 {\em tm} & Pointer to a {\ttfamily tm} struct \\
 \hline
 \end{DoxyParams}
-\Hypertarget{rtc_8c_ace4e2903ea297867eb2017ee89984122}\index{rtc.c@{rtc.c}!core\_RTC\_get\_usec@{core\_RTC\_get\_usec}}
+\mbox{\Hypertarget{rtc_8c_ace4e2903ea297867eb2017ee89984122}\label{rtc_8c_ace4e2903ea297867eb2017ee89984122}} 
+\index{rtc.c@{rtc.c}!core\_RTC\_get\_usec@{core\_RTC\_get\_usec}}
 \index{core\_RTC\_get\_usec@{core\_RTC\_get\_usec}!rtc.c@{rtc.c}}
 \doxysubsubsection{\texorpdfstring{core\_RTC\_get\_usec()}{core\_RTC\_get\_usec()}}
-{\footnotesize\ttfamily \label{rtc_8c_ace4e2903ea297867eb2017ee89984122} 
-uint32\+\_\+t core\+\_\+\+RTC\+\_\+get\+\_\+usec (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily uint32\+\_\+t core\+\_\+\+RTC\+\_\+get\+\_\+usec (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
-Get the microsecond value associated with the most recent \doxylink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time()} call. 
+Get the microsecond value associated with the most recent \mbox{\hyperlink{rtc_8c_afab458d2de9c1086c59e84dc64fd8151}{core\+\_\+\+RTC\+\_\+get\+\_\+time()}} call. 
 
 \begin{DoxyReturn}{Returns}
 The microsecond value 
 \end{DoxyReturn}
-\Hypertarget{rtc_8c_a2371259b42ee8ea799141e9c4a379089}\index{rtc.c@{rtc.c}!core\_RTC\_init@{core\_RTC\_init}}
+\mbox{\Hypertarget{rtc_8c_a2371259b42ee8ea799141e9c4a379089}\label{rtc_8c_a2371259b42ee8ea799141e9c4a379089}} 
+\index{rtc.c@{rtc.c}!core\_RTC\_init@{core\_RTC\_init}}
 \index{core\_RTC\_init@{core\_RTC\_init}!rtc.c@{rtc.c}}
 \doxysubsubsection{\texorpdfstring{core\_RTC\_init()}{core\_RTC\_init()}}
-{\footnotesize\ttfamily \label{rtc_8c_a2371259b42ee8ea799141e9c4a379089} 
-bool core\+\_\+\+RTC\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+RTC\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
@@ -76,11 +76,11 @@ Initialize the RTC module.
 {\em 0} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\Hypertarget{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3}\index{rtc.c@{rtc.c}!core\_RTC\_set\_time@{core\_RTC\_set\_time}}
+\mbox{\Hypertarget{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3}\label{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3}} 
+\index{rtc.c@{rtc.c}!core\_RTC\_set\_time@{core\_RTC\_set\_time}}
 \index{core\_RTC\_set\_time@{core\_RTC\_set\_time}!rtc.c@{rtc.c}}
 \doxysubsubsection{\texorpdfstring{core\_RTC\_set\_time()}{core\_RTC\_set\_time()}}
-{\footnotesize\ttfamily \label{rtc_8c_afb5cec548c668dddaa1e8bfec75d85f3} 
-void core\+\_\+\+RTC\+\_\+set\+\_\+time (\begin{DoxyParamCaption}\item[{struct tm \texorpdfstring{$\ast$}{*}}]{tm}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+RTC\+\_\+set\+\_\+time (\begin{DoxyParamCaption}\item[{struct tm $\ast$}]{tm }\end{DoxyParamCaption})}
 
 
 

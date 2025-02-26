@@ -1,27 +1,27 @@
-\doxysection{/\+Users/solomonshulman/\+RITRacing/\+Core/src/driver/\+Src/gpio.c File Reference}
-\hypertarget{gpio_8c}{}\label{gpio_8c}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Src/gpio.c@{/Users/solomonshulman/RITRacing/Core/src/driver/Src/gpio.c}}
+\hypertarget{gpio_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/gpio.c File Reference}
+\label{gpio_8c}\index{/home/matthias/racing/core/src/driver/Src/gpio.c@{/home/matthias/racing/core/src/driver/Src/gpio.c}}
 
 
 Core GPIO library.  
 
 
-{\ttfamily \#include "{}gpio.\+h"{}}\newline
-{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
-{\ttfamily \#include "{}clock.\+h"{}}\newline
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
-\doxysubsubsection*{Functions}
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d}{core\+\_\+\+GPIO\+\_\+init}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint16\+\_\+t pin, uint16\+\_\+t dir, uint32\+\_\+t pull)
+void \mbox{\hyperlink{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d}{core\+\_\+\+GPIO\+\_\+init}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint16\+\_\+t pin, uint16\+\_\+t dir, uint32\+\_\+t pull)
 \begin{DoxyCompactList}\small\item\em Initialize a GPIO pin. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{gpio_8c_a0da6c33f69a1025da40463041523375a}{core\+\_\+\+GPIO\+\_\+digital\+\_\+write}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint16\+\_\+t pin, bool state)
+void \mbox{\hyperlink{gpio_8c_a0da6c33f69a1025da40463041523375a}{core\+\_\+\+GPIO\+\_\+digital\+\_\+write}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint16\+\_\+t pin, bool state)
 \begin{DoxyCompactList}\small\item\em Set a digital output. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10}{core\+\_\+\+GPIO\+\_\+digital\+\_\+read}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint16\+\_\+t pin)
+bool \mbox{\hyperlink{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10}{core\+\_\+\+GPIO\+\_\+digital\+\_\+read}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint16\+\_\+t pin)
 \begin{DoxyCompactList}\small\item\em Read a digital input. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17}{core\+\_\+heartbeat\+\_\+init}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint16\+\_\+t pin)
+void \mbox{\hyperlink{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17}{core\+\_\+heartbeat\+\_\+init}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint16\+\_\+t pin)
 \begin{DoxyCompactList}\small\item\em Set a particular pin as the heartbeat LED output. \end{DoxyCompactList}\item 
-\Hypertarget{gpio_8c_a5e894851f0d0aa9792d8407a40e811a1}\label{gpio_8c_a5e894851f0d0aa9792d8407a40e811a1} 
-void {\bfseries core\+\_\+\+GPIO\+\_\+toggle\+\_\+heartbeat} ()
+\mbox{\Hypertarget{gpio_8c_a5e894851f0d0aa9792d8407a40e811a1}\label{gpio_8c_a5e894851f0d0aa9792d8407a40e811a1}} 
+void \mbox{\hyperlink{gpio_8c_a5e894851f0d0aa9792d8407a40e811a1}{core\+\_\+\+GPIO\+\_\+toggle\+\_\+heartbeat}} ()
 \begin{DoxyCompactList}\small\item\em Toggle the heartbeat LED output. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{gpio_8c_af91019da72ff073dc204bebfee5e152e}{core\+\_\+\+GPIO\+\_\+set\+\_\+heartbeat}} (bool state)
 \begin{DoxyCompactList}\small\item\em Set the state of the heartbeat LED. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -33,11 +33,11 @@ Core GPIO library.
 This core library component is used to initialize and control GPIO pins. 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10}\index{gpio.c@{gpio.c}!core\_GPIO\_digital\_read@{core\_GPIO\_digital\_read}}
+\mbox{\Hypertarget{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10}\label{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10}} 
+\index{gpio.c@{gpio.c}!core\_GPIO\_digital\_read@{core\_GPIO\_digital\_read}}
 \index{core\_GPIO\_digital\_read@{core\_GPIO\_digital\_read}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{core\_GPIO\_digital\_read()}{core\_GPIO\_digital\_read()}}
-{\footnotesize\ttfamily \label{gpio_8c_a36b1217f23f1b9fe28a5ceb7dc302e10} 
-bool core\+\_\+\+GPIO\+\_\+digital\+\_\+read (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint16\+\_\+t}]{pin}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+GPIO\+\_\+digital\+\_\+read (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint16\+\_\+t}]{pin }\end{DoxyParamCaption})}
 
 
 
@@ -53,11 +53,11 @@ Read a digital input.
 \begin{DoxyReturn}{Returns}
 The state of the pin 
 \end{DoxyReturn}
-\Hypertarget{gpio_8c_a0da6c33f69a1025da40463041523375a}\index{gpio.c@{gpio.c}!core\_GPIO\_digital\_write@{core\_GPIO\_digital\_write}}
+\mbox{\Hypertarget{gpio_8c_a0da6c33f69a1025da40463041523375a}\label{gpio_8c_a0da6c33f69a1025da40463041523375a}} 
+\index{gpio.c@{gpio.c}!core\_GPIO\_digital\_write@{core\_GPIO\_digital\_write}}
 \index{core\_GPIO\_digital\_write@{core\_GPIO\_digital\_write}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{core\_GPIO\_digital\_write()}{core\_GPIO\_digital\_write()}}
-{\footnotesize\ttfamily \label{gpio_8c_a0da6c33f69a1025da40463041523375a} 
-void core\+\_\+\+GPIO\+\_\+digital\+\_\+write (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint16\+\_\+t}]{pin}{, }\item[{bool}]{state}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+GPIO\+\_\+digital\+\_\+write (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint16\+\_\+t}]{pin,  }\item[{bool}]{state }\end{DoxyParamCaption})}
 
 
 
@@ -72,11 +72,11 @@ Set a digital output.
 {\em state} & The desired setting of the output \\
 \hline
 \end{DoxyParams}
-\Hypertarget{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d}\index{gpio.c@{gpio.c}!core\_GPIO\_init@{core\_GPIO\_init}}
+\mbox{\Hypertarget{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d}\label{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d}} 
+\index{gpio.c@{gpio.c}!core\_GPIO\_init@{core\_GPIO\_init}}
 \index{core\_GPIO\_init@{core\_GPIO\_init}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{core\_GPIO\_init()}{core\_GPIO\_init()}}
-{\footnotesize\ttfamily \label{gpio_8c_a35c1597c1afe99715c5ce4f07eb1225d} 
-void core\+\_\+\+GPIO\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint16\+\_\+t}]{pin}{, }\item[{uint16\+\_\+t}]{dir}{, }\item[{uint32\+\_\+t}]{pull}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+GPIO\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint16\+\_\+t}]{pin,  }\item[{uint16\+\_\+t}]{dir,  }\item[{uint32\+\_\+t}]{pull }\end{DoxyParamCaption})}
 
 
 
@@ -93,11 +93,11 @@ Initialize a GPIO pin.
 {\em pull} & Pullup/pulldown resistor configuration (GPIO\+\_\+\+NOPULL, GPIO\+\_\+\+PULLUP, GPIO\+\_\+\+PULLDOWN) \\
 \hline
 \end{DoxyParams}
-\Hypertarget{gpio_8c_af91019da72ff073dc204bebfee5e152e}\index{gpio.c@{gpio.c}!core\_GPIO\_set\_heartbeat@{core\_GPIO\_set\_heartbeat}}
+\mbox{\Hypertarget{gpio_8c_af91019da72ff073dc204bebfee5e152e}\label{gpio_8c_af91019da72ff073dc204bebfee5e152e}} 
+\index{gpio.c@{gpio.c}!core\_GPIO\_set\_heartbeat@{core\_GPIO\_set\_heartbeat}}
 \index{core\_GPIO\_set\_heartbeat@{core\_GPIO\_set\_heartbeat}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{core\_GPIO\_set\_heartbeat()}{core\_GPIO\_set\_heartbeat()}}
-{\footnotesize\ttfamily \label{gpio_8c_af91019da72ff073dc204bebfee5e152e} 
-void core\+\_\+\+GPIO\+\_\+set\+\_\+heartbeat (\begin{DoxyParamCaption}\item[{bool}]{state}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+GPIO\+\_\+set\+\_\+heartbeat (\begin{DoxyParamCaption}\item[{bool}]{state }\end{DoxyParamCaption})}
 
 
 
@@ -108,11 +108,11 @@ Set the state of the heartbeat LED.
 {\em state} & The desired setting of the output \\
 \hline
 \end{DoxyParams}
-\Hypertarget{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17}\index{gpio.c@{gpio.c}!core\_heartbeat\_init@{core\_heartbeat\_init}}
+\mbox{\Hypertarget{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17}\label{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17}} 
+\index{gpio.c@{gpio.c}!core\_heartbeat\_init@{core\_heartbeat\_init}}
 \index{core\_heartbeat\_init@{core\_heartbeat\_init}!gpio.c@{gpio.c}}
 \doxysubsubsection{\texorpdfstring{core\_heartbeat\_init()}{core\_heartbeat\_init()}}
-{\footnotesize\ttfamily \label{gpio_8c_a5e91bf3f87bff4c2db429a737824ae17} 
-void core\+\_\+heartbeat\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint16\+\_\+t}]{pin}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+heartbeat\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint16\+\_\+t}]{pin }\end{DoxyParamCaption})}
 
 
 

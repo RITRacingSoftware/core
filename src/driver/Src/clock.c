@@ -36,7 +36,7 @@ void core_clock_ADC345_init() {
   * @brief  Set FDCAN clock to PCLK1 and enable it.
   *
   * Initialize GPIO port clocks corresponding to CAN bus selected
-  * @param  canNum CAN bus to init
+  * @param  can FDCAN module to initialize
   */
 void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
 {
@@ -58,7 +58,7 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
 
 /**
   * @brief  Set a USART clock to PCLK1 and enable it
-  * @param  usart_num  USART module number
+  * @param  usart USART module to initialize
   * @retval 1 if usart_num is a valid USART module
   * @retval 0 otherwise
   */
@@ -89,7 +89,7 @@ bool core_clock_USART_init(USART_TypeDef *usart) {
 
 /**
   * @brief  Set an I2C clock to PCLK1 and enable it
-  * @param  i2c_num  I2C module number
+  * @param  i2c  I2C module to initialize
   * @retval 1 if i2c_num is a valid I2C module
   * @retval 0 otherwise
   */
@@ -262,7 +262,11 @@ bool core_clock_init() {
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLM = mdiv;
     RCC_OscInitStruct.PLL.PLLN = ndiv;
+#ifdef CORE_CLOCK_PLLP_DIV
+    RCC_OscInitStruct.PLL.PLLP = CORE_CLOCK_PLLP_DIV;
+#else
     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+#endif
     RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
     RCC_OscInitStruct.PLL.PLLR = rdiv;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {

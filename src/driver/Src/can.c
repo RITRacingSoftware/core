@@ -407,22 +407,20 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         uint8_t data[64];
 
         // Retrieve Rx messages from RX FIFO0
-        if (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) != HAL_OK)
-        {
-            error_handler();
+        while (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) == HAL_OK) {
+            core_GPIO_toggle_heartbeat();
+            // Enter the bootloader if the the boot ID or the broadcast ID is received
+            if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18)))) {
+                //core_GPIO_toggle_heartbeat();
+                core_boot_reset_and_enter();
+            }
+            // Reset the timeout
+            core_timeout_reset_by_module_ref(can, header.Identifier);
+            // Add the message to the RX queue
+            if (header.IdType == FDCAN_EXTENDED_ID) header.Identifier |= (1<<30);
+            if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
+            else add_CAN_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data);
         }
-        core_GPIO_toggle_heartbeat();
-        // Enter the bootloader if the the boot ID or the broadcast ID is received
-        if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18)))) {
-            //core_GPIO_toggle_heartbeat();
-            core_boot_reset_and_enter();
-        }
-        // Reset the timeout
-        core_timeout_reset_by_module_ref(can, header.Identifier);
-        // Add the message to the RX queue
-        if (header.IdType == FDCAN_EXTENDED_ID) header.Identifier |= (1<<30);
-        if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data, header.FDFormat == FDCAN_FD_CAN);
-        else add_CAN_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], data);
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag

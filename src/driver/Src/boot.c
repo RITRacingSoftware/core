@@ -1,3 +1,237 @@
+/**
+  * @file   boot.c
+  * @brief  Core bootloader
+  * 
+  * This core library component implements a bootloader that allows boards to
+  * be programmed over CAN.
+  *
+  * ## Theory of operation
+  * The STM32G473 has 512k of FLASH, which is split into two banks of 256k
+  * each. The chip can be configured to boot either from the first or the
+  * second bank by configuring the non-volatile `BFB2` bit in the option byte
+  * registers. When the `BFB2` bit is set in the FLASH option byte register,
+  * the boots from the second bank, otherwise, it boots from the first bank.
+  * However, there is also an option to temporarily swap the banks and run
+  * the code in the second bank even when booting from the first bank. This
+  * allows the code in the non-booting bank to be verified before finalizing
+  * the swap. If the verification fails, then the chip will fall back to the
+  * working code in the booting bank.
+  *
+  * Programming a board takes place according to the following process:
+  *  1. The programmer sends a command to the target board to enter the bootloader
+  *  2. The programmer sends program data to the target board. The target board
+  *     writes the program data to the non-booting bank
+  *  3. After each block of data is written, the target board reads the block
+  *     back so the programmer can verify it
+  *  4. Once all of the data has been written, the programmer commands the
+  *     target board to switch to the non-booting bank
+  *  5. The target board board resets and performs a soft bank swap
+  *  6. The programmer commands the target board to enter the bootloader in
+  *     the non-booting bank
+  *  7. The programmer sends a command to the bootloader in the non-booting
+  *     bank to verify that FDCAN communication is working
+  *  8. The programmer commands the target board to binalize the bank swap
+  *  9. The target board updates the option byte, resets, and runs the new code
+  *
+  * The bootloader keeps track of its state across resets and between banks
+  * using the `boot_state` variable, which is stored at the highest RAM
+  * address (above the stack). This variable is not initialized when the chip
+  * is reset, so its value is always preserved unless the chip is power cycled.
+  * The highest 24 bits of `boot_state` are known as the boot key and must
+  * always be set to `0xABCDEF`. If the boot key is incorrect, an error is
+  * raised. This might occur if the `boot_state` variable is not correctly
+  * configured.
+  *
+  * ## FDCAN format
+  * The bootloader communicates with the programmer board using FDCAN with
+  * extended IDs. The extra bits in the ID are used to communicate they type of
+  * message and the address to be programmed (if required), so all 64 bytes in
+  * the body of the message can be used for data.
+  *
+  * Each board has a unique board ID and master ID, so the master will respond
+  * to several IDs, one for each device that can be programmed. The 29-bit 
+  * extended board IDs have the following format:
+  * <table class="doxtable RegisterTable">
+  * <tr class="RegisterBitNumber">
+  *   <td>31</td><td>30</td><td>29</td><td>28</td><td>27</td><td>26</td><td>25</td><td>24</td>
+  *   <td>23</td><td>22</td><td>21</td><td>20</td><td>19</td><td>18</td><td>17</td><td>16</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td colspan=3></td>
+  *   <td colspan=11>`ID[10:0]`</td>
+  *   <td><span class=overlined>CTRL</span></td>
+  *   <td>`RD/`<span class=overlined>WR</span></td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>15</td><td>14</td><td>13</td><td>12</td><td>11</td><td>10</td><td>9</td><td>8</td>
+  *   <td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td>`PAD`</td>
+  *   <td colspan=15>`ADDR[14:0]`</td>
+  * </tr>
+  * </table>
+  *
+  *  - `ID[10:0]`: slave ID, used for arbitration
+  *  - <span class="overlined">CTRL</span>: 0 for a control frame, 1 for a data frame
+  *  - `RD/`<span class="overlined">WR</span>: 1 to read from the slave, 0 to write to the slave
+  *  - `PAD`: Set if the last doubleword in the frame is a padding doubleword
+  *  - `ADDR[14:0]`: Doubleword address
+  *
+  * The master IDs have the following format:
+  * <table class="doxtable RegisterTable">
+  * <tr class="RegisterBitNumber">
+  *   <td>31</td><td>30</td><td>29</td><td>28</td><td>27</td><td>26</td><td>25</td><td>24</td>
+  *   <td>23</td><td>22</td><td>21</td><td>20</td><td>19</td><td>18</td><td>17</td><td>16</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td colspan=3></td>
+  *   <td colspan=11>`ID[10:0]`</td>
+  *   <td>1</td>
+  *   <td>`DATA/`<span class=overlined>STAT</span></td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>15</td><td>14</td><td>13</td><td>12</td><td>11</td><td>10</td><td>9</td><td>8</td>
+  *   <td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td>`PAD`</td>
+  *   <td colspan=15>`ADDR[14:0]`</td>
+  * </tr>
+  * </table>
+  *  - `ID[10:0]`: master ID, used for arbitration
+  *  - `DATA/`<span class="overlined">STAT</span>: 1 if the frame contains data
+  *    (echo or read), 0 if the frame contains a status message
+  *  - `PAD`: Set if the last doubleword in the frame is a padding doubleword
+  *  - `ADDR[15:0]`: Doubleword address
+  *
+  * Status messages transmitted from a board to the programmer are 64 bits long
+  * and have the following format:
+  * <table class="doxtable RegisterTable">
+  * <tr class="RegisterBitNumber">
+  *   <td>63</td><td>62</td><td>61</td><td>60</td><td>59</td><td>58</td><td>57</td><td>56</td>
+  *   <td>55</td><td>54</td><td>53</td><td>52</td><td>51</td><td>50</td><td>49</td><td>48</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *  <td colspan=8>`STATUS[7:0]`</td>
+  *  <td colspan=6></td>
+  *  <td>`BFB2`</td>
+  *  <td>`MEMRMP`</td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>47</td><td>46</td><td>45</td><td>44</td><td>43</td><td>42</td><td>41</td><td>40</td>
+  *   <td>39</td><td>38</td><td>37</td><td>36</td><td>35</td><td>34</td><td>33</td><td>32</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td>`OPTVERR`</td>
+  *   <td>`RDERR`</td>
+  *   <td colspan=4></td>
+  *   <td>`FASTERR`</td>
+  *   <td>`MISSERR`</td>
+  *   <td>`PGSERR`</td>
+  *   <td>`SIZERR`</td>
+  *   <td>`PGAERR`</td>
+  *   <td>`WRPERR`</td>
+  *   <td>`PROGERR`</td>
+  *   <td></td>
+  *   <td>`OPERR`</td>
+  *   <td>`EOP`</td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>31</td><td>30</td><td>29</td><td>28</td><td>27</td><td>26</td><td>25</td><td>24</td>
+  *   <td>23</td><td>22</td><td>21</td><td>20</td><td>19</td><td>18</td><td>17</td><td>16</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td colspan=16>`BOOT_STATE_KEY[23:8]`</td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>15</td><td>14</td><td>13</td><td>12</td><td>11</td><td>10</td><td>9</td><td>8</td>
+  *   <td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
+  *   <td>`ERROR`</td>
+  *   <td>`NB_ERROR`</td>
+  *   <td></td>
+  *   <td>`ENTER`</td>
+  *   <td>`VERIFIED`</td>
+  *   <td>`SOFT_SWITCHED`</td>
+  *   <td>`VERIFY_SOFT_SWITCH`</td>
+  *   <td>`VERIFY`</td>
+  * </tr>
+  * </table>
+  *  - `STATUS[7:0]`: Status code
+  *    <table>
+  *    <tr><td>0</td><td>No error</td></tr>
+  *    <tr><td>1</td><td>Address out of range</td></tr>
+  *    <tr><td>2</td><td>Error while erasing</td></tr>
+  *    <tr><td>3</td><td>Error while programming</td></tr>
+  *    <tr><td>4</td><td>Boot state error</td></tr>
+  *    <tr><td>5</td><td>Write from non-booting bank</td></tr>
+  *    </table>
+  *  - `BFB2`: `BFB2` bit from the option byte register. Indicates which bank
+  *    the chip will boot from
+  *  - `MEMRMP`: `MEMRMP` bit from the memory remap register. Indicates which
+  *    bank is currently running
+  *  - Next two bytes contain the lowest two bytes of `FLASH_SR`
+  *  - Next three bytes contain the boot key, which should be 0xABCDEF
+  *  - Bits 7 through 0 contain the boot state.
+  *  - `ERROR`: Indicates a state error occurred in the booting bank
+  *  - `NB_ERROR`: Indicates a state error occurred in the non-booting bank
+  *  - `ENTER`: Indicates that the program should enter the bootloader after
+  *    the next reset
+  *  - `VERIFIED`: Indicates that the program in the non-booting bank has been
+  *    verified. If this bit is set, the banks can be swapped
+  *  - `SOFT_SWITCHED`: Indicates that the soft switching succeeded
+  *  - `VERIFY_SOFT_SWITCH`: Indicates that the signal to soft switch has been
+  *    processed by the boot state machine in the booting bank
+  *  - `VERIFY`: Indicates that the chip should soft switch after the next reset
+  *
+  *
+  * ## Components
+  * The bootloader consists of four main components: the startup script, the
+  * boot state machine, the core_boot_init() function, and an entry point.
+  *
+  * ### Startup script
+  * For the bootloader to work, the default startup script must be replaced by
+  * the startup script startup_stm32g473xx.s. The startup script defines the
+  * interrupt handlers for the program, including the reset handler. By
+  * default, the reset handler initializes the stack and jumps to the
+  * application code. The modified startup script required for the bootloader
+  * also runs the boot state machine before performing any additional
+  * initialization. 
+  *
+  * ### Boot state machine
+  * The boot state machine runs before any other code and updates the boot
+  * state or soft swaps as necessary. The BSM first checks the nature of the
+  * reset. If the reset was caused externally (by pulling the nRST pin low),
+  * then the state is reset to NORMAL and the BSM continues to the application
+  * code. 
+  *
+  * The behavior of the BSM depends on whether it is running in the booting or
+  * non-booting banks. In the booting bank, the BSM will change the state to 
+  * VERIFY_SOFT_SWAP and soft-swap if the state is VERIFY and continue to 
+  * application code otherwise.
+  *
+  * In the non-booting bank, the BSM will change the state to SOFT_SWITCHED
+  * if the state is VERIFY_SOFT_SWAP. Otherwise, the BSM will set the NB_ERROR
+  * bit and reset. This causes the chip to return to the booting bank.
+  *
+  * \image html boot_state_machine.svg
+  *
+  * ### core_boot_init()
+  * The core_boot_init() function is called by application code after the
+  * clocks, GPIO, and FDCAN modules needed for the bootloader have been
+  * initialized. This function initializes the RX filter for the board's
+  * bootloader ID. The function also checks the boot state and enters the
+  * bootloader if necessary. See the state diagram above for details.
+  *
+  * ### Entry point
+  * The software enters the bootloader by calling core_boot_reset_and_enter().
+  * The FDCAN RX interrupt hander in can.c will automatically call this
+  * function if it receives a packet addressed to its bootloader FDCAN ID
+  * containing the command to enter the bootloader
+  */
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -9,15 +243,14 @@
 #include "core_config.h"
 #include "stm32g4xx_hal.h"
 
-#define BOOTMAIN __attribute__ ((section (".bootmain"))) __attribute__ ((__used__))
-#define BOOTSTART __attribute__ ((section (".bootstart"))) __attribute__ ((__used__))
 #define BOOTSTATE __attribute__ ((section (".bootstate")))
+#define BOOTPROGNAME __attribute__ ((section (".progname"))) __attribute__ ((__used__))
 
 #define ALTBANK_BASE 0x08040000
 
-const char progname[32] __attribute__ ((section (".progname"))) __attribute__ ((__used__)) = PROGRAM_NAME_STRING;
+const char BOOTPROGNAME progname[32] = PROGRAM_NAME_STRING;
 
-uint32_t boot_state BOOTSTATE;
+uint32_t BOOTSTATE boot_state;
 // Stores the opcodes used for soft bank switching. Soft bank switching must be
 // performed from RAM, since the code in the other bank may continue from a
 // different address.
@@ -31,12 +264,6 @@ static uint8_t databuf[100];
 
 static FDCAN_HandleTypeDef *hfdcan;
 
-void boot_reset() {
-    // Clear reset flags from previous reset
-    RCC->CSR |= 0x00800000;
-    SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
-    __DSB();
-}
 
 #define BOOT_STATE_KEY          0xABCDEF00
 #define BOOT_STATE_NORMAL       0x00
@@ -67,6 +294,22 @@ void boot_reset() {
   */
 extern void boot_soft_toggle();
 
+/**
+  * @brief  Reset the chip
+  */
+void boot_reset() {
+    // Clear reset flags from previous reset
+    RCC->CSR |= 0x00800000;
+    SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
+    __DSB();
+}
+
+/**
+  * @brief  Check if the program currently running is running from the
+  *         non-booting bank
+  * @retval 0 The program currently running is in the booting bank
+  * @retval 1 The program currently running is in the non-booting bank
+  */
 uint32_t check_nonbooting() {
     return ((FLASH->OPTR >> 20) ^ (SYSCFG->MEMRMP >> 8)) & 1;
 }
@@ -151,11 +394,10 @@ void boot_state_machine() {
     }
 }
 
+/**
+  * @brief  Change the BFB2 bit in the option bytes
+  */
 static void boot_bankswap() {
-    //SCB->AIRCR  = (NVIC_AIRCR_VECTKEY | (SCB->AIRCR & (0x700)) | (1<<NVIC_SYSRESETREQ)); /* Keep priority group unchanged */
-    //SCB->AIRCR  = (SCB->AIRCR & (0x700)) | 0x05fa0004;
-    //__DSB();
-
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
     FLASH->KEYR = 0xCDEF89AB;
@@ -170,7 +412,12 @@ static void boot_bankswap() {
     __DSB();
 }
 
-void boot_transmit_can(uint8_t length, bool is_data) {
+/**
+  * @brief  Transmit an FDCAN message in the bootloader FDCAN format
+  * @param  length Length of the data to be transmitted
+  * @param  is_data 1 for data, 0 for status messages
+  */
+static void boot_transmit_can(uint8_t length, bool is_data) {
     uint32_t tx_id;
     tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
     if (is_data) tx_id |= (1<<16);
@@ -183,7 +430,11 @@ void boot_transmit_can(uint8_t length, bool is_data) {
     while ((CORE_BOOT_FDCAN->PSR & 0x18) == 0x18);
 }
 
-void boot_transmit_status(uint8_t code) {
+/**
+  * @brief  Transmit a bootloader status message over FDCAN
+  * @param  code Bootloader status code
+  */
+static void boot_transmit_status(uint8_t code) {
     address = 0;
     databuf[0] = code;
     // bit 0: remap status (which bank the code runs on)
@@ -195,6 +446,10 @@ void boot_transmit_status(uint8_t code) {
     boot_transmit_can(8, 0);
 }
 
+/**
+  * @brief  Wait for data to come in over FDCAN
+  * @return Length of the data received, or 0 if the message is a control message
+  */
 static uint8_t boot_await_data() {
     while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
     // Data received over CAN
@@ -359,7 +614,9 @@ void core_boot_reset_and_enter() {
 }
 
 /**
-  * @brief  Check the boot state and enter the bootloader if necessary
+  * @brief  Initialize the FDCAN filters, check the boot state, and enter
+  *         the bootloader if necessary. If the state is not valid, an error
+  *         message will be transmitted
   * @note   This function should be called after the FDCAN module is
   *         initialized.
   */

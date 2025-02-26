@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD
   ['core_5fadc_5finit_0',['core_ADC_init',['../adc_8c.html#a621a15aeabffa62cc698e79224fb5985',1,'adc.c']]],
   ['core_5fadc_5fread_5fchannel_1',['core_ADC_read_channel',['../adc_8c.html#a3334b39ee94f9f9c300ac81b88848a2e',1,'adc.c']]],
   ['core_5fadc_5fsetup_5fpin_2',['core_ADC_setup_pin',['../adc_8c.html#ae013346221e7d8ad7c08230899a8b09a',1,'adc.c']]],
@@ -47,4 +48,7 @@ var searchData=
   ['core_5fusart_5ftransmit_44',['core_USART_transmit',['../usart_8c.html#a823dd639b55929d621d419b43450a150',1,'usart.c']]],
   ['core_5fusart_5fupdate_5fdisable_45',['core_USART_update_disable',['../usart_8c.html#aa6d598f617dc2068c62544b474bc5960',1,'usart.c']]],
   ['core_5fusart_5fupdate_5fenable_46',['core_USART_update_enable',['../usart_8c.html#a1c56db6aae9393622a2d93a74ec0b1d5',1,'usart.c']]]
+=======
+  ['_5f_5fattribute_5f_5f_80',['__attribute__',['../boot_8c.html#afd4a6162138d796e34cee4d8a2442596',1,'boot.c']]]
+>>>>>>> 83cc3f7fa6b8a556493a72ee6dddea2c4d3425a7
 ];

@@ -1,54 +1,54 @@
-\doxysection{/\+Users/solomonshulman/\+RITRacing/\+Core/src/driver/\+Src/spi.c File Reference}
-\hypertarget{spi_8c}{}\label{spi_8c}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c@{/Users/solomonshulman/RITRacing/Core/src/driver/Src/spi.c}}
+\hypertarget{spi_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/spi.c File Reference}
+\label{spi_8c}\index{/home/matthias/racing/core/src/driver/Src/spi.c@{/home/matthias/racing/core/src/driver/Src/spi.c}}
 
 
 Core SPI library.  
 
 
-{\ttfamily \#include "{}spi.\+h"{}}\newline
-{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include \char`\"{}spi.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal\+\_\+spi.\+h$>$}\newline
-{\ttfamily \#include "{}clock.\+h"{}}\newline
-\doxysubsubsection*{Functions}
+{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{spi_8c_a36c101bcb5e471be58d32274026d2a14}{core\+\_\+\+SPI\+\_\+init}} (SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}spi, GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}cs\+\_\+port, uint16\+\_\+t cs\+\_\+pin)
+bool \mbox{\hyperlink{spi_8c_a36c101bcb5e471be58d32274026d2a14}{core\+\_\+\+SPI\+\_\+init}} (SPI\+\_\+\+Type\+Def $\ast$spi, GPIO\+\_\+\+Type\+Def $\ast$cs\+\_\+port, uint16\+\_\+t cs\+\_\+pin)
 \begin{DoxyCompactList}\small\item\em Initialize an SPI module and set up a CS pin for it. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{spi_8c_a2f15441739467f9d411486019e3dd869}{core\+\_\+\+SPI\+\_\+read\+\_\+write}} (SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}spi, uint8\+\_\+t \texorpdfstring{$\ast$}{*}txbuf, uint32\+\_\+t txbuflen, uint8\+\_\+t \texorpdfstring{$\ast$}{*}rxbuf, uint32\+\_\+t rxbuflen)
+bool \mbox{\hyperlink{spi_8c_a2f15441739467f9d411486019e3dd869}{core\+\_\+\+SPI\+\_\+read\+\_\+write}} (SPI\+\_\+\+Type\+Def $\ast$spi, uint8\+\_\+t $\ast$txbuf, uint32\+\_\+t txbuflen, uint8\+\_\+t $\ast$rxbuf, uint32\+\_\+t rxbuflen)
 \begin{DoxyCompactList}\small\item\em Transmit data from a buffer on the given SPI bus and store the incoming data in a separate buffer. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818}{core\+\_\+\+SPI\+\_\+start}} (SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}spi)
+bool \mbox{\hyperlink{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818}{core\+\_\+\+SPI\+\_\+start}} (SPI\+\_\+\+Type\+Def $\ast$spi)
 \begin{DoxyCompactList}\small\item\em Set the CS pin for an SPI bus low. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a}{core\+\_\+\+SPI\+\_\+stop}} (SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}spi)
+bool \mbox{\hyperlink{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a}{core\+\_\+\+SPI\+\_\+stop}} (SPI\+\_\+\+Type\+Def $\ast$spi)
 \begin{DoxyCompactList}\small\item\em Set the CS pin for an SPI bus high. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
+\doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{spi_8c_aa500f64db163bc69a2e419b1f0a4ec85}\label{spi_8c_aa500f64db163bc69a2e419b1f0a4ec85} 
+\mbox{\Hypertarget{spi_8c_aa500f64db163bc69a2e419b1f0a4ec85}\label{spi_8c_aa500f64db163bc69a2e419b1f0a4ec85}} 
 uint16\+\_\+t {\bfseries core\+\_\+\+SPI1\+\_\+\+CS\+\_\+pin}
 \item 
-\Hypertarget{spi_8c_a57b088aa12e60c60c8d9064c9c1006d4}\label{spi_8c_a57b088aa12e60c60c8d9064c9c1006d4} 
-GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*} {\bfseries core\+\_\+\+SPI1\+\_\+\+CS\+\_\+port}
+\mbox{\Hypertarget{spi_8c_a57b088aa12e60c60c8d9064c9c1006d4}\label{spi_8c_a57b088aa12e60c60c8d9064c9c1006d4}} 
+GPIO\+\_\+\+Type\+Def $\ast$ {\bfseries core\+\_\+\+SPI1\+\_\+\+CS\+\_\+port}
 \item 
-\Hypertarget{spi_8c_a68d29d5d51798f58e0b261ec6d081a1e}\label{spi_8c_a68d29d5d51798f58e0b261ec6d081a1e} 
+\mbox{\Hypertarget{spi_8c_a68d29d5d51798f58e0b261ec6d081a1e}\label{spi_8c_a68d29d5d51798f58e0b261ec6d081a1e}} 
 uint16\+\_\+t {\bfseries core\+\_\+\+SPI2\+\_\+\+CS\+\_\+pin}
 \item 
-\Hypertarget{spi_8c_a194ffa85178586435614cfbfec7ce775}\label{spi_8c_a194ffa85178586435614cfbfec7ce775} 
-GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*} {\bfseries core\+\_\+\+SPI2\+\_\+\+CS\+\_\+port}
+\mbox{\Hypertarget{spi_8c_a194ffa85178586435614cfbfec7ce775}\label{spi_8c_a194ffa85178586435614cfbfec7ce775}} 
+GPIO\+\_\+\+Type\+Def $\ast$ {\bfseries core\+\_\+\+SPI2\+\_\+\+CS\+\_\+port}
 \item 
-\Hypertarget{spi_8c_ae285b4f7eb5c5ef5601010e88336f8df}\label{spi_8c_ae285b4f7eb5c5ef5601010e88336f8df} 
+\mbox{\Hypertarget{spi_8c_ae285b4f7eb5c5ef5601010e88336f8df}\label{spi_8c_ae285b4f7eb5c5ef5601010e88336f8df}} 
 uint16\+\_\+t {\bfseries core\+\_\+\+SPI3\+\_\+\+CS\+\_\+pin}
 \item 
-\Hypertarget{spi_8c_a928f1fa95dc13ebbd430640051abdbc5}\label{spi_8c_a928f1fa95dc13ebbd430640051abdbc5} 
-GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*} {\bfseries core\+\_\+\+SPI3\+\_\+\+CS\+\_\+port}
+\mbox{\Hypertarget{spi_8c_a928f1fa95dc13ebbd430640051abdbc5}\label{spi_8c_a928f1fa95dc13ebbd430640051abdbc5}} 
+GPIO\+\_\+\+Type\+Def $\ast$ {\bfseries core\+\_\+\+SPI3\+\_\+\+CS\+\_\+port}
 \item 
-\Hypertarget{spi_8c_a95bc34ac822dde09e6b8d6b3b4b4b603}\label{spi_8c_a95bc34ac822dde09e6b8d6b3b4b4b603} 
+\mbox{\Hypertarget{spi_8c_a95bc34ac822dde09e6b8d6b3b4b4b603}\label{spi_8c_a95bc34ac822dde09e6b8d6b3b4b4b603}} 
 uint16\+\_\+t {\bfseries core\+\_\+\+SPI4\+\_\+\+CS\+\_\+pin}
 \item 
-\Hypertarget{spi_8c_a8001825d3e57dbaee5bf29a762f72e77}\label{spi_8c_a8001825d3e57dbaee5bf29a762f72e77} 
-GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*} {\bfseries core\+\_\+\+SPI4\+\_\+\+CS\+\_\+port}
+\mbox{\Hypertarget{spi_8c_a8001825d3e57dbaee5bf29a762f72e77}\label{spi_8c_a8001825d3e57dbaee5bf29a762f72e77}} 
+GPIO\+\_\+\+Type\+Def $\ast$ {\bfseries core\+\_\+\+SPI4\+\_\+\+CS\+\_\+port}
 \end{DoxyCompactItemize}
 
 
@@ -58,11 +58,11 @@ Core SPI library.
 This core library component is used to interact with SPI devices. 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{spi_8c_a36c101bcb5e471be58d32274026d2a14}\index{spi.c@{spi.c}!core\_SPI\_init@{core\_SPI\_init}}
+\mbox{\Hypertarget{spi_8c_a36c101bcb5e471be58d32274026d2a14}\label{spi_8c_a36c101bcb5e471be58d32274026d2a14}} 
+\index{spi.c@{spi.c}!core\_SPI\_init@{core\_SPI\_init}}
 \index{core\_SPI\_init@{core\_SPI\_init}!spi.c@{spi.c}}
 \doxysubsubsection{\texorpdfstring{core\_SPI\_init()}{core\_SPI\_init()}}
-{\footnotesize\ttfamily \label{spi_8c_a36c101bcb5e471be58d32274026d2a14} 
-bool core\+\_\+\+SPI\+\_\+init (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{spi}{, }\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{cs\+\_\+port}{, }\item[{uint16\+\_\+t}]{cs\+\_\+pin}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+SPI\+\_\+init (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def $\ast$}]{spi,  }\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{cs\+\_\+port,  }\item[{uint16\+\_\+t}]{cs\+\_\+pin }\end{DoxyParamCaption})}
 
 
 
@@ -77,11 +77,11 @@ Initialize an SPI module and set up a CS pin for it.
 {\em cs\+\_\+pin} & CS pin (GPIO\+\_\+\+PIN\+\_\+x) \\
 \hline
 \end{DoxyParams}
-\Hypertarget{spi_8c_a2f15441739467f9d411486019e3dd869}\index{spi.c@{spi.c}!core\_SPI\_read\_write@{core\_SPI\_read\_write}}
+\mbox{\Hypertarget{spi_8c_a2f15441739467f9d411486019e3dd869}\label{spi_8c_a2f15441739467f9d411486019e3dd869}} 
+\index{spi.c@{spi.c}!core\_SPI\_read\_write@{core\_SPI\_read\_write}}
 \index{core\_SPI\_read\_write@{core\_SPI\_read\_write}!spi.c@{spi.c}}
 \doxysubsubsection{\texorpdfstring{core\_SPI\_read\_write()}{core\_SPI\_read\_write()}}
-{\footnotesize\ttfamily \label{spi_8c_a2f15441739467f9d411486019e3dd869} 
-bool core\+\_\+\+SPI\+\_\+read\+\_\+write (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{spi}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{txbuf}{, }\item[{uint32\+\_\+t}]{txbuflen}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{rxbuf}{, }\item[{uint32\+\_\+t}]{rxbuflen}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+SPI\+\_\+read\+\_\+write (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def $\ast$}]{spi,  }\item[{uint8\+\_\+t $\ast$}]{txbuf,  }\item[{uint32\+\_\+t}]{txbuflen,  }\item[{uint8\+\_\+t $\ast$}]{rxbuf,  }\item[{uint32\+\_\+t}]{rxbuflen }\end{DoxyParamCaption})}
 
 
 
@@ -103,11 +103,11 @@ The number of bytes transmitted or received on the SPI bus is the greater of txb
 {\em rxbuflen} & Number of bytes to write to the RX buffer \\
 \hline
 \end{DoxyParams}
-\Hypertarget{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818}\index{spi.c@{spi.c}!core\_SPI\_start@{core\_SPI\_start}}
+\mbox{\Hypertarget{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818}\label{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818}} 
+\index{spi.c@{spi.c}!core\_SPI\_start@{core\_SPI\_start}}
 \index{core\_SPI\_start@{core\_SPI\_start}!spi.c@{spi.c}}
 \doxysubsubsection{\texorpdfstring{core\_SPI\_start()}{core\_SPI\_start()}}
-{\footnotesize\ttfamily \label{spi_8c_a031148ca9fc6ef73a13d90bb0f0fa818} 
-bool core\+\_\+\+SPI\+\_\+start (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{spi}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+SPI\+\_\+start (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def $\ast$}]{spi }\end{DoxyParamCaption})}
 
 
 
@@ -118,11 +118,11 @@ Set the CS pin for an SPI bus low.
 {\em spi} & The SPI module \\
 \hline
 \end{DoxyParams}
-\Hypertarget{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a}\index{spi.c@{spi.c}!core\_SPI\_stop@{core\_SPI\_stop}}
+\mbox{\Hypertarget{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a}\label{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a}} 
+\index{spi.c@{spi.c}!core\_SPI\_stop@{core\_SPI\_stop}}
 \index{core\_SPI\_stop@{core\_SPI\_stop}!spi.c@{spi.c}}
 \doxysubsubsection{\texorpdfstring{core\_SPI\_stop()}{core\_SPI\_stop()}}
-{\footnotesize\ttfamily \label{spi_8c_a6eb357bc6e05cdb51276f4ca289ac34a} 
-bool core\+\_\+\+SPI\+\_\+stop (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{spi}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+SPI\+\_\+stop (\begin{DoxyParamCaption}\item[{SPI\+\_\+\+Type\+Def $\ast$}]{spi }\end{DoxyParamCaption})}
 
 
 

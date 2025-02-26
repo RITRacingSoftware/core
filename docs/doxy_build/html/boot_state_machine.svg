@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="340"
+   viewBox="0 0 211.66666 89.958336"
+   version="1.1"
+   id="svg4514"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="boot_state_machine.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4516"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="1.2043221"
+     inkscape:cx="388.1852"
+     inkscape:cy="171.46576"
+     inkscape:window-width="1366"
+     inkscape:window-height="720"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="CB0-0-3-9-5-6"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="false"
+     width="800px" />
+  <defs
+     id="defs4511">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-5"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-5"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-7"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-5-6"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-5-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-5-6-7"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-5-9-4"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-3-0-7-79287"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-3-0-7-79287-9-2">
+      <path
+         inkscape:connector-curvature="0"
+         id="path14289-7-5"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#00c800;fill-opacity:1;fill-rule:evenodd;stroke:#00c800;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-4-91508-22479"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-4-91508-22479-4">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10355-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#0000c8;fill-opacity:1;fill-rule:evenodd;stroke:#0000c8;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-3-0-7-79287-93401"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-3-0-7-79287-93401">
+      <path
+         inkscape:connector-curvature="0"
+         id="path37899"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#c80000;fill-opacity:1;fill-rule:evenodd;stroke:#c80000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-3-0-7-79287-93401"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-3-0-7-79287-93401-4">
+      <path
+         inkscape:connector-curvature="0"
+         id="path37899-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#c80000;fill-opacity:1;fill-rule:evenodd;stroke:#c80000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-3-0-7-79287-9-2-026925656"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-3-0-7-79287-9-2-026925656">
+      <path
+         inkscape:connector-curvature="0"
+         id="path38848"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#00c800;fill-opacity:1;fill-rule:evenodd;stroke:#00c800;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-68"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-3-0-7-79287"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-3-0-7-79287-9-2-1">
+      <path
+         inkscape:connector-curvature="0"
+         id="path14289-7-5-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#00c800;fill-opacity:1;fill-rule:evenodd;stroke:#00c800;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-4-91508-22479"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-4-91508-22479-4-2">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10355-3-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#0000c8;fill-opacity:1;fill-rule:evenodd;stroke:#0000c8;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       id="marker76747-63-3-0-7-5-7"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid">
+      <path
+         inkscape:connector-curvature="0"
+         id="path76745-84-1-3-8-5-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-4-91508-22479"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-4-91508-22479-4-1">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10355-3-5"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#0000c8;fill-opacity:1;fill-rule:evenodd;stroke:#0000c8;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-4-91508-22479"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-4-91508-22479-4-2-7">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10355-3-6-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#0000c8;fill-opacity:1;fill-rule:evenodd;stroke:#0000c8;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="marker76747-63-4-91508-22479"
+       orient="auto-start-reverse"
+       refY="0"
+       refX="0"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       markerWidth="8.8869267"
+       markerHeight="5.0782437"
+       viewBox="0 0 8.886927 5.078244"
+       preserveAspectRatio="xMidYMid"
+       id="marker76747-63-4-91508-22479-4-2-7-9">
+      <path
+         inkscape:connector-curvature="0"
+         id="path10355-3-6-3-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#0000c8;fill-opacity:1;fill-rule:evenodd;stroke:#0000c8;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4)"
+       d="M 116.41672,14.552083 H 106.36256"
+       id="path76577-7-3-0-4-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4-1)"
+       d="M 10.583333,63.5 H 5.2916667 V 5.2916667 H 74.083334 v 4.7625003"
+       id="path76577-7-3-0-4-1-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 10.583333,47.625 H 5.2916669"
+       id="path76577-7-3-0-4-1-9-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 10.583333,31.75 H 5.2916664"
+       id="path76577-7-3-0-4-1-9-9-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 174.62499,5.2916665 h -5.29166"
+       id="path76577-7-3-0-4-1-9-9-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#c80000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 174.62499,10.583333 h -5.29166"
+       id="path76577-7-3-0-4-1-9-9-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#00c800;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 174.62499,15.875 h -5.29166"
+       id="path76577-7-3-0-4-1-9-9-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4-2)"
+       d="M 116.28443,66.145865 H 106.23026"
+       id="path76577-7-3-0-4-1-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4-2-7)"
+       d="M 63.500056,46.302083 H 53.445833"
+       id="path76577-7-3-0-4-1-1-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4-2-7-9)"
+       d="M 63.500056,63.5 H 53.445833"
+       id="path76577-7-3-0-4-1-1-6-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-0)"
+       d="M 95.250087,5.2916667 V 10.054167"
+       id="path76577-7-4-0-5-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-5)"
+       d="M 84.666722,31.75 V 41.804167"
+       id="path76577-7-4-0-5-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-5-7)"
+       d="M 63.500056,43.656282 H 58.208333 V 31.75 h -4.7625"
+       id="path76577-7-4-0-5-4-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-5-6)"
+       d="M 84.666722,47.625 V 57.679167"
+       id="path76577-7-4-0-5-4-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-5-6-7)"
+       d="m 137.58339,52.916666 v 4.762501"
+       id="path76577-7-4-0-5-4-3-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#c80000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-79287-93401)"
+       d="m 105.83339,60.854167 h 5.29167 v -31.75 h 4.7625"
+       id="path76577-7-4-0-5-20-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#c80000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-79287-93401-4)"
+       d="m 105.83339,11.906281 h 10.05417"
+       id="path76577-7-4-0-5-20-3-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#00c800;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-79287-9-2)"
+       d="m 84.666722,68.791666 v 4.762501"
+       id="path76577-7-4-0-5-20-3-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#00c800;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-79287-9-2-1)"
+       d="M 84.666722,15.875 V 25.929167"
+       id="path76577-7-4-0-5-20-3-4-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#00c800;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:0.529166, 0.264583;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-79287-9-2-026925656)"
+       d="M 63.500056,76.729167 H 60.854167 V 7.9375 h 7.9375 v 2.116667"
+       id="path76577-7-4-0-5-20-3-4-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <g
+       id="CB0-0"
+       transform="translate(2.6458885)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.999664"
+         y="13.889565"
+         id="text15895-8-6-3-8"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="13.889565"
+           id="tspan83098-3-5">STATE_NORMAL</tspan></text>
+    </g>
+    <g
+       id="CB0-0-3"
+       transform="translate(55.562556)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.999664"
+         y="13.889565"
+         id="text15895-8-6-3-8-7"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="13.889565"
+           id="tspan83098-3-5-5">STATE_ENTER</tspan></text>
+    </g>
+    <g
+       id="CB0-0-3-9"
+       transform="translate(-50.270835,15.875)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-0"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="82.006721"
+         y="13.713354"
+         id="text15895-8-6-3-8-7-9"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="13.713354"
+           id="tspan83098-3-5-5-1">STATE_ERROR | </tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="16.62571"
+           id="tspan55170">STATE_VERIFY_SOFT_SWITCH</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="19.538065"
+           id="tspan57777">(Soft switch failed)</tspan></text>
+    </g>
+    <g
+       id="CB0-0-3-9-5"
+       transform="translate(-50.270835,31.75)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-0-6"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="82.006721"
+         y="13.713354"
+         id="text15895-8-6-3-8-7-9-3"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="13.713354"
+           id="tspan83098-3-5-5-1-9">STATE_NB_ERROR | </tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="16.62571"
+           id="tspan55170-4">STATE_VERIFY_SOFT_SWITCH</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="19.538065"
+           id="tspan57777-8">(BSM did not run)</tspan></text>
+    </g>
+    <g
+       id="CB0-0-3-9-5-6"
+       transform="translate(-50.270835,47.625)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-0-6-9"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.999664"
+         y="13.713354"
+         id="text15895-8-6-3-8-7-9-3-8"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="13.713354"
+           id="tspan83098-3-5-5-1-9-7">STATE_NB_ERROR | </tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="16.62571"
+           id="tspan55170-4-2">STATE_SOFT_SWITCHED</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="19.538065"
+           id="tspan57777-8-8">(Unexpected reset)</tspan></text>
+    </g>
+    <g
+       id="STATE_ENTER_STATE_VERIFY"
+       transform="translate(55.562556,15.875)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-2"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.960152"
+         y="13.982699"
+         id="text15895-8-6-3-8-7-2"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.960152"
+           y="13.982699"
+           id="tspan15979">STATE_ENTER | STATE_VERIFY</tspan></text>
+    </g>
+    <g
+       id="STATE_ENTER_STATE_VERIFY_SOFT_SWITCH"
+       transform="translate(55.562556,31.75)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-2-8"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="82.006721"
+         y="15.172355"
+         id="text15895-8-6-3-8-7-2-4"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="15.172355"
+           id="tspan15979-5">STATE_ENTER | </tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="18.084711"
+           id="tspan30841">STATE_VERIFY_SOFT_SWITCH</tspan></text>
+    </g>
+    <g
+       id="STATE_ENTER_STATE_VERIFY_SOFT_SWITCH-3"
+       transform="translate(55.562555,47.625)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-2-8-2"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.999664"
+         y="15.172355"
+         id="text15895-8-6-3-8-7-2-4-0"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="15.172355"
+           id="tspan15979-5-6">STATE_ENTER | </tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="18.084711"
+           id="tspan30841-1">STATE_SOFT_SWITCHED</tspan></text>
+    </g>
+    <g
+       id="STATE_VERIFY"
+       transform="translate(2.6458885,15.875)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-5"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.960152"
+         y="13.889565"
+         id="text15895-8-6-3-8-7-6"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.960152"
+           y="13.889565"
+           id="tspan83098-3-5-5-2">STATE_VERIFY</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="85.746429"
+       y="72.222725"
+       id="text21587"><tspan
+         sodipodi:role="line"
+         id="tspan21585"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="85.746429"
+         y="72.222725">Command 0x02</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="66.551971"
+       y="21.951889"
+       id="text21587-7"><tspan
+         sodipodi:role="line"
+         id="tspan21585-2"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="66.551971"
+         y="21.951889">Command 0x01</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="40.343304"
+       y="15.738457"
+       id="text21587-68"><tspan
+         sodipodi:role="line"
+         id="tspan21585-8"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="40.343304"
+         y="15.738457">Command 0x03</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="40.343304"
+         y="18.384295"
+         id="tspan36915">Finalize bank swap</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="111.03281"
+       y="17.560671"
+       id="text21587-6-6-0"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="111.03281"
+         y="17.560671"
+         id="tspan41512-1">Enter</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="111.03281"
+         y="20.206509"
+         id="tspan48171">bootloader</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="175.21101"
+       y="6.0807667"
+       id="text21587-6-6-0-8"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="175.21101"
+         y="6.0807667"
+         id="tspan48171-0">Boot state machine</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="175.2999"
+       y="11.167277"
+       id="text21587-6-6-0-8-9"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="175.2999"
+         y="11.167277"
+         id="tspan48171-0-6">CAN boot signal</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="175.21101"
+       y="16.664101"
+       id="text21587-6-6-0-8-9-3"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="175.21101"
+         y="16.664101"
+         id="tspan48171-0-6-8">Bootloader</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;stroke-width:0.264583"
+       x="175.31503"
+       y="21.731817"
+       id="text21587-6-6-0-8-9-3-5"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.11667px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="175.31503"
+         y="21.731817"
+         id="tspan48171-0-6-8-6">core_boot_init()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="110.90053"
+       y="69.154419"
+       id="text21587-6-6-0-5"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="110.90053"
+         y="69.154419"
+         id="tspan41512-1-9">Enter</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="110.90053"
+         y="71.800255"
+         id="tspan48171-4">bootloader</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="79.091843"
+       y="4.7252922"
+       id="text21587-6-2"><tspan
+         sodipodi:role="line"
+         id="tspan21585-1-6"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="79.091843"
+         y="4.7252922">Power on or</tspan><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="79.091843"
+         y="7.3711295"
+         id="tspan40093">external reset</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.11667px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="13.061701"
+       y="3.9253938"
+       id="text21587-6-2-7"><tspan
+         sodipodi:role="line"
+         style="font-size:2.11667px;stroke-width:0.264583"
+         x="13.061701"
+         y="3.9253938"
+         id="tspan40093-6">CAN message is transmitted before resetting state</tspan></text>
+    <g
+       id="STATE_SOFT_SWITCHED"
+       transform="translate(2.6458885,47.625)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-5-1-9"
+         width="42.333332"
+         height="10.583333"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.961563"
+         y="13.61881"
+         id="text15895-8-6-3-8-7-6-2-3"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.961563"
+           y="13.61881"
+           id="tspan83098-3-5-5-2-7-6">STATE_SOFT_SWITCHED</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.961563"
+           y="16.531166"
+           id="tspan46579">(Main code in non-booting</tspan><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.961563"
+           y="19.443521"
+           id="tspan46581">bank is running)</tspan></text>
+    </g>
+    <g
+       id="STATE_VERIFY_SOFT_SWITCH"
+       transform="translate(2.6458885,31.75)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-5-1-9-31"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="82.006721"
+         y="13.889565"
+         id="text15895-8-6-3-8-7-6-2-3-9"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="82.006721"
+           y="13.889565"
+           id="tspan83098-3-5-5-2-7-6-4">STATE_VERIFY_SOFT_SWITCH</tspan></text>
+    </g>
+    <g
+       id="CB0-0-3-3-9-0-2"
+       transform="translate(2.6458885,63.5)">
+      <rect
+         style="fill:#b6d7a8;fill-opacity:1;stroke:#000001;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8008-1-0-8-09-6-5-1-9-3"
+         width="42.333332"
+         height="5.2916665"
+         x="60.854168"
+         y="10.583333" />
+      <text
+         xml:space="preserve"
+         style="font-weight:bold;font-size:2.82222px;line-height:1;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#cfe2f3;fill-opacity:1;stroke:#000001;stroke-width:0.254;stroke-dasharray:none;stroke-opacity:1"
+         x="81.999664"
+         y="13.889565"
+         id="text15895-8-6-3-8-7-6-2-3-7"><tspan
+           sodipodi:role="line"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82222px;font-family:'Ubuntu Mono';-inkscape-font-specification:'Ubuntu Mono';text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.254"
+           x="81.999664"
+           y="13.889565"
+           id="tspan83098-3-5-5-2-7-6-5">STATE_VERIFIED</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker76747-63-3-0-7-7)"
+       d="M 137.58339,31.75 V 41.804167"
+       id="path76577-7-4-0-5-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 174.62499,21.166667 h -5.29166"
+       id="path76577-7-3-0-4-1-9-9-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>

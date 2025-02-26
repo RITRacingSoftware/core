@@ -8,18 +8,34 @@
   * ## Initialization
   * To initialize a USART for transmitting, user code must call the function
   * core_USART_init() and specify the desired baud rate. To initialize a USART
-  * for receiving, user code must call the function core_USART_start_rx().
+  * for receiving, user code can use either the core_USART_start_rx() or the
+  * core_USART_register_callback() functions.
   *
-  * ## Enabling and disabling
-  * When the USART module is configured for receiving, and it has not received
-  * any bytes for a given time, the USART hardware triggers an interrupt, which
-  * will copy the data in the internal RX buffer to the buffer passed to 
-  * core_USART_start_rx(). If another function was processing the data in this
-  * buffer when the interrupt is triggered, then the data will be corrupted.
-  * Thus, the user code must call core_USART_update_disable() before processing
-  * received data and core_USART_update_enable() when it is done
+  * ## Receiving
+  * And data received over the USART will be stored to an internal buffer. The
+  * USART is configured to raise an interrupt if no data has been received for
+  * a certain time. What happens with the received data depends on which
+  * function was used to start the receiver.
   *
-  * @note   Any data received while updating is disabled will be lost.
+  * If the receiver was started with core_USART_start_rx(), then the contents
+  * of the internal buffer and the number of bytes read will be copied into the
+  * buffers provided to core_USART_start_rx(). In this configuration, the user
+  * code will generally initialize its buffer length variable to zero and wait
+  * for its value to change. Before processing the data, it should call
+  * core_USART_update_disable() to prevent the interrupt handler from
+  * overwriting the receive buffer while its contents are being buffered. After
+  * processing the data in the receive buffer, the user code should set the
+  * buffer length variable back to zero and call core_USART_update_enable().
+  *
+  * If the receiver was started with core_USART_register_callback(), then
+  * the callback passed to core_USART_register_callback() will be called
+  * after a receiver timeout. A pointer to the internal buffer and the number
+  * of bytes received will be passed to the callback function. Note that the
+  * callback will be called from an ISR, so FreeRTOS operations may not work.
+  *
+  *
+  * @note   If a receive timeout occurs while updating is disabled, then the
+  *         data in the internal receive buffer will be lost.
   *
   */
 
@@ -149,6 +165,15 @@ bool core_USART_start_rx(USART_TypeDef *usart, volatile uint8_t *rxbuf, volatile
     return true;
 }
 
+/**
+  * @brief  Set the RX callback and start the receiver for the given USART module
+  * @param  usart The USART module
+  * @param  callback Function to be called after data is received (the RX
+  *         timeout elapses). The function must take a pointer to a byte array
+  *         as the first argument and a uint32_t length as the second argument
+  * @retval 0 if the given USART is not valid
+  * @retval 1 otherwise
+  */
 bool core_USART_register_callback(USART_TypeDef *usart, void (*callback)(uint8_t *, uint32_t)) {
     if (usart == USART1) {
         core_USART1_callback = callback;

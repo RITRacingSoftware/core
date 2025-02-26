@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="i2c_8h" kind="file" language="C++">
+    <compoundname>i2c.h</compoundname>
+    <includes local="yes">stdbool.h</includes>
+    <includes local="yes">stdint.h</includes>
+    <includedby refid="i2c_8c" local="yes">/home/matthias/racing/core/src/driver/Src/i2c.c</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="1">
+        <label>/home/matthias/racing/core/src/driver/Inc/i2c.h</label>
+        <link refid="i2c_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="i2c_8h_1a19b0693b6c10aab1e6fbb403213dc880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool I2C_init</definition>
+        <argsstring>()</argsstring>
+        <name>I2C_init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/i2c.h" line="7" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/i2c.c" bodystart="13" bodyend="29" declfile="/home/matthias/racing/core/src/driver/Inc/i2c.h" declline="7" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="i2c_8h_1ae2a24b23633cd4beb3fa9a060c3550fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool I2C_register_read</definition>
+        <argsstring>(uint8_t bus, uint8_t devid, uint8_t regid, uint8_t *buf, uint8_t buflen)</argsstring>
+        <name>I2C_register_read</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>bus</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>devid</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>regid</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>buflen</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/i2c.h" line="10" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/i2c.c" bodystart="31" bodyend="33" declfile="/home/matthias/racing/core/src/driver/Inc/i2c.h" declline="10" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="i2c_8h_1a40e61b6faa25d0203476a75a2d66ea08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool I2C_register_write</definition>
+        <argsstring>(uint8_t bus, uint8_t devid, uint8_t regid, uint8_t *buf, uint8_t buflen)</argsstring>
+        <name>I2C_register_write</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>bus</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>devid</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>regid</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>buflen</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/matthias/racing/core/src/driver/Inc/i2c.h" line="13" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/i2c.c" bodystart="35" bodyend="37" declfile="/home/matthias/racing/core/src/driver/Inc/i2c.h" declline="13" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;stdbool.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;stdint.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initialize<sp/>I2C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>I2C_init();</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Read<sp/>I2C<sp/>register</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>I2C_register_read(uint8_t<sp/>bus,<sp/>uint8_t<sp/>devid,<sp/>uint8_t<sp/>regid,<sp/>uint8_t*<sp/>buf,<sp/>uint8_t<sp/>buflen);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Write<sp/>I2C<sp/>register</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>I2C_register_write(uint8_t<sp/>bus,<sp/>uint8_t<sp/>devid,<sp/>uint8_t<sp/>regid,<sp/>uint8_t*<sp/>buf,<sp/>uint8_t<sp/>buflen);</highlight></codeline>
+    </programlisting>
+    <location file="/home/matthias/racing/core/src/driver/Inc/i2c.h"/>
+  </compounddef>
+</doxygen>

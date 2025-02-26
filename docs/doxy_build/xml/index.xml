@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="structCanExtendedMessage__s" kind="struct"><name>CanExtendedMessage_s</name>
+    <member refid="structCanExtendedMessage__s_1ae96150b3c02c8a631efaf10d4bcdc270" kind="variable"><name>id</name></member>
+    <member refid="structCanExtendedMessage__s_1a000450064eb5e649b5ea1d80db4061e1" kind="variable"><name>dlc</name></member>
+    <member refid="structCanExtendedMessage__s_1a5454f13c8abd103c1ef3947092eb6b54" kind="variable"><name>use_fd</name></member>
+    <member refid="structCanExtendedMessage__s_1a19f9ac2a939d09531db848072a58f5d2" kind="variable"><name>data</name></member>
+  </compound>
+  <compound refid="structCanMessage__s" kind="struct"><name>CanMessage_s</name>
+    <member refid="structCanMessage__s_1a1b2f473ef2af10e8fed466814ea53694" kind="variable"><name>id</name></member>
+    <member refid="structCanMessage__s_1ab19fcef27f5e96ad32596dc6319ab52d" kind="variable"><name>dlc</name></member>
+    <member refid="structCanMessage__s_1a54c6ceb623608f962c7f58322d90cec4" kind="variable"><name>data</name></member>
+  </compound>
+  <compound refid="structcore__ADC__def__s" kind="struct"><name>core_ADC_def_s</name>
+    <member refid="structcore__ADC__def__s_1ab161a2f54823d4d6c2f1c44e1db51902" kind="variable"><name>port</name></member>
+    <member refid="structcore__ADC__def__s_1a7f63b7595d8bacee6282b78b4ca2ad98" kind="variable"><name>pin</name></member>
+    <member refid="structcore__ADC__def__s_1ad66b3ec8fddcc656147b75091f6aa3d8" kind="variable"><name>allowed_connections</name></member>
+    <member refid="structcore__ADC__def__s_1a763a8191ca82e0db8c5b7591a332fb46" kind="variable"><name>chan</name></member>
+    <member refid="structcore__ADC__def__s_1a531eb64531a1fe5df19cc8e46570517a" kind="variable"><name>opamp_chan</name></member>
+    <member refid="structcore__ADC__def__s_1ab2f298130a340c134d569ef2cae6a6e0" kind="variable"><name>adc</name></member>
+    <member refid="structcore__ADC__def__s_1a21fd55486e6798e75b9cadeaf0cf5089" kind="variable"><name>opamp</name></member>
+    <member refid="structcore__ADC__def__s_1a933ab5c2d27f8b6b66371540b1edaa0f" kind="variable"><name>adc_chan_sel</name></member>
+    <member refid="structcore__ADC__def__s_1ad51f6ce75935db8f3afbb27a81e84fbf" kind="variable"><name>opamp_chan_sel</name></member>
+  </compound>
+  <compound refid="structcore__CAN__module__s" kind="struct"><name>core_CAN_module_s</name>
+    <member refid="structcore__CAN__module__s_1a2ade6d687ec48493114cf187af9e3f7c" kind="variable"><name>hfdcan</name></member>
+    <member refid="structcore__CAN__module__s_1a349245fc3eb40f15cd1f8f9cde139fc2" kind="variable"><name>can_queue_rx</name></member>
+    <member refid="structcore__CAN__module__s_1a66ba5d89b9f512a66db36891f26e107d" kind="variable"><name>can_queue_tx</name></member>
+    <member refid="structcore__CAN__module__s_1a01bd695d114ab0f12d5cf345fef5bae2" kind="variable"><name>can_tx_semaphore</name></member>
+    <member refid="structcore__CAN__module__s_1a3253b87dabe5cdbd6a65abb6073b0788" kind="variable"><name>fdcan_num_standard_filters</name></member>
+    <member refid="structcore__CAN__module__s_1ae34f510c87153ab401a32f40917df0df" kind="variable"><name>fdcan_num_extended_filters</name></member>
+    <member refid="structcore__CAN__module__s_1aaabd747faec311b80f5abef1cff46075" kind="variable"><name>autort</name></member>
+    <member refid="structcore__CAN__module__s_1a9ef8fe2993479ec98cdbcd5b7f64b066" kind="variable"><name>use_fd</name></member>
+  </compound>
+  <compound refid="structcore__RTC__tm" kind="struct"><name>core_RTC_tm</name>
+    <member refid="structcore__RTC__tm_1aaa0292a6099ec08c4bfdf1600a8ba8a8" kind="variable"><name>tm_usec</name></member>
+    <member refid="structcore__RTC__tm_1a772c38a14aad22b030728fe32e949d4b" kind="variable"><name>tm_sec</name></member>
+    <member refid="structcore__RTC__tm_1a83f4c874e8d790959afcd087a7628628" kind="variable"><name>tm_min</name></member>
+    <member refid="structcore__RTC__tm_1a631da1c00d4b9fdb8c1455a8d5512b5e" kind="variable"><name>tm_hour</name></member>
+    <member refid="structcore__RTC__tm_1a82a93583911ac2dbddd51dc10de4fc2e" kind="variable"><name>tm_mday</name></member>
+    <member refid="structcore__RTC__tm_1af8fefba0b489099a8ff8aa158a59c2fd" kind="variable"><name>tm_mon</name></member>
+    <member refid="structcore__RTC__tm_1a2c588cd2d096aa23ad5bbc6725ecb7bb" kind="variable"><name>tm_year</name></member>
+    <member refid="structcore__RTC__tm_1a1faf2c94a892a76885bb5da5fd87277b" kind="variable"><name>tm_yday</name></member>
+    <member refid="structcore__RTC__tm_1ab8bf63b5b80b83b50de3e3eaf1728df8" kind="variable"><name>tm_format</name></member>
+  </compound>
+  <compound refid="structcore__timeout__s" kind="struct"><name>core_timeout_s</name>
+    <member refid="structcore__timeout__s_1ab663450c7b3acd5874b7f222369fa0a6" kind="variable"><name>module</name></member>
+    <member refid="structcore__timeout__s_1a7b14ad8093b940df492036dffd20a087" kind="variable"><name>ref</name></member>
+    <member refid="structcore__timeout__s_1ae58048b4d793eb2e3933b7e140674196" kind="variable"><name>last_event</name></member>
+    <member refid="structcore__timeout__s_1a1bb38d18f7ba955b3867a1df7747a183" kind="variable"><name>timeout</name></member>
+    <member refid="structcore__timeout__s_1abf900964681557c25aad9cd2b3a7981b" kind="variable"><name>state</name></member>
+    <member refid="structcore__timeout__s_1a626a787cfa44d13696ecf65a40ed217c" kind="variable"><name>callback</name></member>
+  </compound>
+  <compound refid="adc_8h" kind="file"><name>adc.h</name>
+    <member refid="adc_8h_1a15f55bf82498302083c8b5b563561fe9" kind="define"><name>CORE_ADC_ALLOWED_ADC1</name></member>
+    <member refid="adc_8h_1ae8b9c0d0d77f533515d4a2f822ba13a4" kind="define"><name>CORE_ADC_ALLOWED_ADC2</name></member>
+    <member refid="adc_8h_1a385884e01dff26cc784fae4ac904fc67" kind="define"><name>CORE_ADC_ALLOWED_ADC3</name></member>
+    <member refid="adc_8h_1a5c860f2992801f249d931040bcaaad35" kind="define"><name>CORE_ADC_ALLOWED_ADC4</name></member>
+    <member refid="adc_8h_1a42aef05756b6f61468e30388a016dc62" kind="define"><name>CORE_ADC_ALLOWED_ADC5</name></member>
+    <member refid="adc_8h_1a3313d4f65748ba2b16151a32dd4ebed4" kind="define"><name>CORE_ADC_ALLOWED_OPAMP1</name></member>
+    <member refid="adc_8h_1a47a56c5b3e15deeca6a3f029c1389f04" kind="define"><name>CORE_ADC_ALLOWED_OPAMP2</name></member>
+    <member refid="adc_8h_1a38e52bab82c22c202fc148765dd34c79" kind="define"><name>CORE_ADC_ALLOWED_OPAMP3</name></member>
+    <member refid="adc_8h_1a0e8ca2d6d0e3f4bd5e28a1c8b5dc3c71" kind="define"><name>CORE_ADC_ALLOWED_OPAMP4</name></member>
+    <member refid="adc_8h_1ae0d845a9060d8f77bfa7342c81b9dd10" kind="define"><name>CORE_ADC_ALLOWED_OPAMP5</name></member>
+    <member refid="adc_8h_1a6e4d80613601ffac00d5e8b4ae88d387" kind="define"><name>CORE_ADC_ALLOWED_OPAMP6</name></member>
+    <member refid="adc_8h_1a25201461991f6df96e4b3ac1c9b3e0e8" kind="define"><name>CORE_ADC_ALLOWED_ADC_MASK</name></member>
+    <member refid="adc_8h_1ab2a53e3782036362fdc97dc4daeec83f" kind="define"><name>CORE_ADC_ALLOWED_OPAMP_MASK</name></member>
+    <member refid="adc_8h_1a19f6aaecf3583c23cdd5b00a12353825" kind="typedef"><name>core_ADC_def_t</name></member>
+    <member refid="adc_8h_1a621a15aeabffa62cc698e79224fb5985" kind="function"><name>core_ADC_init</name></member>
+    <member refid="adc_8h_1ae013346221e7d8ad7c08230899a8b09a" kind="function"><name>core_ADC_setup_pin</name></member>
+    <member refid="adc_8h_1a3334b39ee94f9f9c300ac81b88848a2e" kind="function"><name>core_ADC_read_channel</name></member>
+  </compound>
+  <compound refid="boot_8h" kind="file"><name>boot.h</name>
+    <member refid="boot_8h_1a17df2565b3ec70a6a540f71a38bc4cdc" kind="function"><name>core_boot_init</name></member>
+    <member refid="boot_8h_1ab2be0dfac3cabc71734c82636d313d87" kind="function"><name>core_boot_reset_and_enter</name></member>
+  </compound>
+  <compound refid="can_8h" kind="file"><name>can.h</name>
+    <member refid="can_8h_1a420eece586ab021fe24f9d5c7e4993c0" kind="typedef"><name>core_CAN_module_t</name></member>
+    <member refid="can_8h_1aa7200028243560e4cf59759da4d2e07d" kind="variable"><name>core_CAN_dlc_lookup</name></member>
+    <member refid="can_8h_1a437d464dc3674db8e5de6c14761815d4" kind="function"><name>core_CAN_init</name></member>
+    <member refid="can_8h_1a9d930430affaebbd1fa5f9ac7e4d12f3" kind="function"><name>core_CAN_convert</name></member>
+    <member refid="can_8h_1a84ba21a70b0eaa5a94ebfa9d80ce0834" kind="function"><name>core_CAN_send_message</name></member>
+    <member refid="can_8h_1aec814b501cd9c108a515bcbb0e3bf4a4" kind="function"><name>core_CAN_send_fd_message</name></member>
+    <member refid="can_8h_1ae0e18230790182107643e8c44d59646f" kind="function"><name>core_CAN_add_message_to_tx_queue</name></member>
+    <member refid="can_8h_1a78c43d4e3c5280d09a1bca37f9ba986f" kind="function"><name>core_CAN_add_extended_message_to_tx_queue</name></member>
+    <member refid="can_8h_1a5956fa458e011f58d514fcfa3f45b72a" kind="function"><name>core_CAN_send_from_tx_queue_task</name></member>
+    <member refid="can_8h_1a5633bcdabb91aa4268b2b135a8ef21fe" kind="function"><name>core_CAN_receive_from_queue</name></member>
+    <member refid="can_8h_1a5abf7049ba56ae95525c7ef6b043c3fd" kind="function"><name>core_CAN_receive_extended_from_queue</name></member>
+    <member refid="can_8h_1a2939ee64b45b67008f5769ba9d0f5f16" kind="function"><name>core_CAN_add_filter</name></member>
+  </compound>
+  <compound refid="clock_8h" kind="file"><name>clock.h</name>
+    <member refid="clock_8h_1ad7f06124aad3399d2cae6790ea608cef" kind="function"><name>core_clock_ADC12_init</name></member>
+    <member refid="clock_8h_1a7601bbc868be45032c30a01c421aee79" kind="function"><name>core_clock_ADC345_init</name></member>
+    <member refid="clock_8h_1a2b585a218aa24b5c50a5e92538e65615" kind="function"><name>core_clock_FDCAN_init</name></member>
+    <member refid="clock_8h_1a4dfc43b43b5975284563a397da6a3d56" kind="function"><name>core_clock_USART_init</name></member>
+    <member refid="clock_8h_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" kind="function"><name>core_clock_I2C_init</name></member>
+    <member refid="clock_8h_1a909c55093b5c9d09f4edf03948a0642d" kind="function"><name>core_clock_RTC_init</name></member>
+    <member refid="clock_8h_1a8ac22b37088c49b5f266d0a00dcafb28" kind="function"><name>core_clock_port_init</name></member>
+    <member refid="clock_8h_1a7e1523e05d1928674f334740d0e4ae03" kind="function"><name>core_clock_generate_params</name></member>
+    <member refid="clock_8h_1afdfa75b3a589ff7de55fa846dc848d27" kind="function"><name>core_clock_init</name></member>
+  </compound>
+  <compound refid="error__handler_8h" kind="file"><name>error_handler.h</name>
+    <member refid="error__handler_8h_1a67265100d2c510d5d79beaec9a28a61e" kind="function"><name>error_handler</name></member>
+  </compound>
+  <compound refid="gpio_8h" kind="file"><name>gpio.h</name>
+    <member refid="gpio_8h_1a35c1597c1afe99715c5ce4f07eb1225d" kind="function"><name>core_GPIO_init</name></member>
+    <member refid="gpio_8h_1a0da6c33f69a1025da40463041523375a" kind="function"><name>core_GPIO_digital_write</name></member>
+    <member refid="gpio_8h_1a36b1217f23f1b9fe28a5ceb7dc302e10" kind="function"><name>core_GPIO_digital_read</name></member>
+    <member refid="gpio_8h_1a5e91bf3f87bff4c2db429a737824ae17" kind="function"><name>core_heartbeat_init</name></member>
+    <member refid="gpio_8h_1a5e894851f0d0aa9792d8407a40e811a1" kind="function"><name>core_GPIO_toggle_heartbeat</name></member>
+    <member refid="gpio_8h_1af91019da72ff073dc204bebfee5e152e" kind="function"><name>core_GPIO_set_heartbeat</name></member>
+  </compound>
+  <compound refid="i2c_8h" kind="file"><name>i2c.h</name>
+    <member refid="i2c_8h_1a19b0693b6c10aab1e6fbb403213dc880" kind="function"><name>I2C_init</name></member>
+    <member refid="i2c_8h_1ae2a24b23633cd4beb3fa9a060c3550fd" kind="function"><name>I2C_register_read</name></member>
+    <member refid="i2c_8h_1a40e61b6faa25d0203476a75a2d66ea08" kind="function"><name>I2C_register_write</name></member>
+  </compound>
+  <compound refid="rtc_8h" kind="file"><name>rtc.h</name>
+    <member refid="rtc_8h_1aee4c5a11974771a25539cd6233e4a6b7" kind="define"><name>CORE_RTC_FORMAT_BIN</name></member>
+    <member refid="rtc_8h_1acaae8a277b05188c83df17b26f012a4f" kind="define"><name>CORE_RTC_FORMAT_BCD</name></member>
+    <member refid="rtc_8h_1a7d84ce64c5ccc08de8117ca118596be5" kind="typedef"><name>core_RTC_tm_t</name></member>
+    <member refid="rtc_8h_1a2371259b42ee8ea799141e9c4a379089" kind="function"><name>core_RTC_init</name></member>
+    <member refid="rtc_8h_1afab458d2de9c1086c59e84dc64fd8151" kind="function"><name>core_RTC_get_time</name></member>
+    <member refid="rtc_8h_1afb5cec548c668dddaa1e8bfec75d85f3" kind="function"><name>core_RTC_set_time</name></member>
+    <member refid="rtc_8h_1ace4e2903ea297867eb2017ee89984122" kind="function"><name>core_RTC_get_usec</name></member>
+  </compound>
+  <compound refid="spi_8h" kind="file"><name>spi.h</name>
+    <member refid="spi_8h_1a36c101bcb5e471be58d32274026d2a14" kind="function"><name>core_SPI_init</name></member>
+    <member refid="spi_8h_1a2f15441739467f9d411486019e3dd869" kind="function"><name>core_SPI_read_write</name></member>
+    <member refid="spi_8h_1a031148ca9fc6ef73a13d90bb0f0fa818" kind="function"><name>core_SPI_start</name></member>
+    <member refid="spi_8h_1a6eb357bc6e05cdb51276f4ca289ac34a" kind="function"><name>core_SPI_stop</name></member>
+  </compound>
+  <compound refid="timeout_8h" kind="file"><name>timeout.h</name>
+    <member refid="timeout_8h_1aa3949d37e043e7003c1a09531f26b490" kind="define"><name>CORE_TIMEOUT_BLOCK_SIZE</name></member>
+    <member refid="timeout_8h_1a495b871383b0e2b7ffe8bab2854ee572" kind="define"><name>CORE_TIMEOUT_STATE_ENABLED</name></member>
+    <member refid="timeout_8h_1afab132b7cba1f9b9202bc97bd6b8ffcc" kind="define"><name>CORE_TIMEOUT_STATE_TIMED_OUT</name></member>
+    <member refid="timeout_8h_1a2269c28b6b30d2481e3496dd4585d1cc" kind="typedef"><name>core_timeout_t</name></member>
+    <member refid="timeout_8h_1ac6773f5872b12a63f6962ff3ad77e293" kind="function"><name>core_timeout_insert</name></member>
+    <member refid="timeout_8h_1a4b2c1a1fb196b899718eb0ec450b87ab" kind="function"><name>core_timeout_start_all</name></member>
+    <member refid="timeout_8h_1a4fdb5d680ce585ff6d985fdac54b773e" kind="function"><name>core_timeout_reset_by_module_ref</name></member>
+    <member refid="timeout_8h_1a20d256d89e7597b03051d8c5ceb1bdb2" kind="function"><name>core_timeout_check_all</name></member>
+  </compound>
+  <compound refid="usart_8h" kind="file"><name>usart.h</name>
+    <member refid="usart_8h_1ad2f67cf7bf401c97bdf910648ddff884" kind="define"><name>CORE_USART1_UPDATE</name></member>
+    <member refid="usart_8h_1a29a136f43f83b07c1ff19f71da7d4b8b" kind="define"><name>CORE_USART2_UPDATE</name></member>
+    <member refid="usart_8h_1a229b7acf00b9cb323c3fea38412639e4" kind="define"><name>CORE_USART3_UPDATE</name></member>
+    <member refid="usart_8h_1a35dc06127bee8b23c08e4ec63aab66d3" kind="function"><name>core_USART_init</name></member>
+    <member refid="usart_8h_1a080787d9baeec30dbb2639ab958893bd" kind="function"><name>core_USART_start_rx</name></member>
+    <member refid="usart_8h_1aa6d598f617dc2068c62544b474bc5960" kind="function"><name>core_USART_update_disable</name></member>
+    <member refid="usart_8h_1a1c56db6aae9393622a2d93a74ec0b1d5" kind="function"><name>core_USART_update_enable</name></member>
+    <member refid="usart_8h_1a823dd639b55929d621d419b43450a150" kind="function"><name>core_USART_transmit</name></member>
+    <member refid="usart_8h_1a3e7cc6f1cb3cee5edc74aee5c00e5428" kind="function"><name>core_USART_RX_callback</name></member>
+    <member refid="usart_8h_1a98eee6d24e7130a4a1c8527c207843a3" kind="function"><name>core_USART_register_callback</name></member>
+  </compound>
+  <compound refid="adc_8c" kind="file"><name>adc.c</name>
+    <member refid="adc_8c_1a3af22b46d4a4cf16b26273d6a9054179" kind="variable"><name>adc1</name></member>
+    <member refid="adc_8c_1a3a5d52490a8c5b0cf0d9d08515719476" kind="variable"><name>adc2</name></member>
+    <member refid="adc_8c_1a74627bb1eb14733d5d1c1dc7c609569d" kind="variable"><name>adc3</name></member>
+    <member refid="adc_8c_1ab631171a6ab1305a6afa56b2fcf84516" kind="variable"><name>adc4</name></member>
+    <member refid="adc_8c_1ac2a13d9a01f7398883e64dcfd685c3c8" kind="variable"><name>adc5</name></member>
+    <member refid="adc_8c_1a6da2f195cdf25256078167f02868a5b2" kind="variable"><name>adc_defs</name></member>
+    <member refid="adc_8c_1aa3f924e56234c0d53db62abd5ce39560" kind="variable"><name>core_ADC_initialized</name></member>
+    <member refid="adc_8c_1acc7710217e13774ae2341e484213b722" kind="variable"><name>core_ADC_channel_lookup</name></member>
+    <member refid="adc_8c_1a621a15aeabffa62cc698e79224fb5985" kind="function"><name>core_ADC_init</name></member>
+    <member refid="adc_8c_1ae013346221e7d8ad7c08230899a8b09a" kind="function"><name>core_ADC_setup_pin</name></member>
+    <member refid="adc_8c_1a3334b39ee94f9f9c300ac81b88848a2e" kind="function"><name>core_ADC_read_channel</name></member>
+  </compound>
+  <compound refid="boot_8c" kind="file"><name>boot.c</name>
+    <member refid="boot_8c_1a493d540465c602715c436346fee5448d" kind="define"><name>BOOTSTART</name></member>
+    <member refid="boot_8c_1a7c90e3d19ed94dfa33b60685c7428c77" kind="define"><name>BOOTSTATE</name></member>
+    <member refid="boot_8c_1a29693d620c6ad33c3355b5a50551c3e6" kind="define"><name>ALTBANK_BASE</name></member>
+    <member refid="boot_8c_1a04f24a8a30c822a9eba74b5f85891682" kind="define"><name>BOOT_STATE_KEY</name></member>
+    <member refid="boot_8c_1a130489ae854e12b78d240992ae15f796" kind="define"><name>BOOT_STATE_NORMAL</name></member>
+    <member refid="boot_8c_1a19d1df504d3cd4ea0573d7345547a186" kind="define"><name>BOOT_STATE_VERIFY</name></member>
+    <member refid="boot_8c_1a374ddab2f5e387e175db32effcab51da" kind="define"><name>BOOT_STATE_VERIFY_SOFT_SWITCH</name></member>
+    <member refid="boot_8c_1a9b7c831ec055ef3ff25889b6a656dca6" kind="define"><name>BOOT_STATE_SOFT_SWITCHED</name></member>
+    <member refid="boot_8c_1a6467331ede146fbd11dcb1005501762d" kind="define"><name>BOOT_STATE_VERIFIED</name></member>
+    <member refid="boot_8c_1a62f0b8e9500ecaf044593412c6271b58" kind="define"><name>BOOT_STATE_ENTER</name></member>
+    <member refid="boot_8c_1a17c50cd2d01c2a92908b5820ae9d9720" kind="define"><name>BOOT_STATE_ERROR</name></member>
+    <member refid="boot_8c_1aaad4d0d5a96038d882593eac56794f70" kind="define"><name>BOOT_STATE_NB_ERROR</name></member>
+    <member refid="boot_8c_1a2922095e24d0bcdbe14f36875a7fdc2c" kind="define"><name>BOOT_STATUS_OK</name></member>
+    <member refid="boot_8c_1a434868841c8c53b1e0826be614186469" kind="define"><name>BOOT_STATUS_INVALID_ADDRESS</name></member>
+    <member refid="boot_8c_1aed2fde3cc10c8e86ea494c7b9425c667" kind="define"><name>BOOT_STATUS_ERASE_ERROR</name></member>
+    <member refid="boot_8c_1a7bb57823f134b6a675acd22bcdc42fb6" kind="define"><name>BOOT_STATUS_PROG_ERROR</name></member>
+    <member refid="boot_8c_1a57918f97084378c0147f47ae51d36a99" kind="define"><name>BOOT_STATUS_STATE_ERROR</name></member>
+    <member refid="boot_8c_1acdd43a1cdbed7509ae5b0aa832d716bc" kind="define"><name>BOOT_STATUS_NB_ERROR</name></member>
+    <member refid="boot_8c_1ae6cc014e6b15b7a1ba1801072e07d277" kind="define"><name>BOOT_OPCODE_RESET</name></member>
+    <member refid="boot_8c_1aea60371d81c269e9c08e1113428e7c73" kind="define"><name>BOOT_OPCODE_SOFTSWAP</name></member>
+    <member refid="boot_8c_1a7d68f636b1bd0a49eaeb1cf375c153d4" kind="define"><name>BOOT_OPCODE_VERIFY</name></member>
+    <member refid="boot_8c_1aab5baf664321d7da74cfe4488be88ead" kind="define"><name>BOOT_OPCODE_HARDSWAP</name></member>
+    <member refid="boot_8c_1afd4a6162138d796e34cee4d8a2442596" kind="function"><name>__attribute__</name></member>
+    <member refid="boot_8c_1a57516d5955e696bf83e2915c7a8d1857" kind="function"><name>check_nonbooting</name></member>
+    <member refid="boot_8c_1a8ede44e2fb3943e5c88c0b87d17c1755" kind="function"><name>boot_state_machine</name></member>
+    <member refid="boot_8c_1a2f0adbd8c38720906b0d7a381953b25f" kind="function"><name>boot_bankswap</name></member>
+    <member refid="boot_8c_1a5e126e050b8c54b0b56f44ea26fc7095" kind="function"><name>boot_transmit_can</name></member>
+    <member refid="boot_8c_1a802eab4cf6dea515c782168aa59b9ff8" kind="function"><name>boot_transmit_status</name></member>
+    <member refid="boot_8c_1a91dd4214fc671646ca73886b1449a47e" kind="function"><name>boot_await_data</name></member>
+    <member refid="boot_8c_1a2c6fab833a1dca4bd1b551321df11ebd" kind="function"><name>boot_program_and_verify</name></member>
+    <member refid="boot_8c_1ac50140136781ee6c565fbe98491f1a29" kind="function"><name>boot</name></member>
+    <member refid="boot_8c_1ab2be0dfac3cabc71734c82636d313d87" kind="function"><name>core_boot_reset_and_enter</name></member>
+    <member refid="boot_8c_1a17df2565b3ec70a6a540f71a38bc4cdc" kind="function"><name>core_boot_init</name></member>
+  </compound>
+  <compound refid="can_8c" kind="file"><name>can.c</name>
+    <member refid="can_8c_1aacd5490e484a5214f955baa09c7168c9" kind="variable"><name>can1</name></member>
+    <member refid="can_8c_1a7aa4c412a7baabfc19892fd7bf9172a7" kind="variable"><name>can2</name></member>
+    <member refid="can_8c_1ae4a35ed0763435aa5a03dd086f42a897" kind="variable"><name>can3</name></member>
+    <member refid="can_8c_1aa7200028243560e4cf59759da4d2e07d" kind="variable"><name>core_CAN_dlc_lookup</name></member>
+    <member refid="can_8c_1a6684b2c0035a1e4f6bb3fec2c7515082" kind="function"><name>rx_handler</name></member>
+    <member refid="can_8c_1a8448367bb43caa72677ab02c3feae243" kind="function"><name>add_CAN_message_to_rx_queue</name></member>
+    <member refid="can_8c_1af9edf2f9c4b105fb15fd2c965a1a8458" kind="function"><name>add_CAN_extended_message_to_rx_queue</name></member>
+    <member refid="can_8c_1a2ec73eef031af8e4e6c07cde77872b68" kind="function"><name>CAN_clock_set_params</name></member>
+    <member refid="can_8c_1ac0dc69c0e35e805834c1dc66fd8fb381" kind="function"><name>core_CAN_convert</name></member>
+    <member refid="can_8c_1af5a65d61181a7d9e50f8f42df8a73cf7" kind="function"><name>core_CAN_init</name></member>
+    <member refid="can_8c_1ae0e18230790182107643e8c44d59646f" kind="function"><name>core_CAN_add_message_to_tx_queue</name></member>
+    <member refid="can_8c_1a78c43d4e3c5280d09a1bca37f9ba986f" kind="function"><name>core_CAN_add_extended_message_to_tx_queue</name></member>
+    <member refid="can_8c_1a5956fa458e011f58d514fcfa3f45b72a" kind="function"><name>core_CAN_send_from_tx_queue_task</name></member>
+    <member refid="can_8c_1a84ba21a70b0eaa5a94ebfa9d80ce0834" kind="function"><name>core_CAN_send_message</name></member>
+    <member refid="can_8c_1aec814b501cd9c108a515bcbb0e3bf4a4" kind="function"><name>core_CAN_send_fd_message</name></member>
+    <member refid="can_8c_1a5abf7049ba56ae95525c7ef6b043c3fd" kind="function"><name>core_CAN_receive_extended_from_queue</name></member>
+    <member refid="can_8c_1a5633bcdabb91aa4268b2b135a8ef21fe" kind="function"><name>core_CAN_receive_from_queue</name></member>
+    <member refid="can_8c_1a59ccd2a37918f52fc0b80607d37652c2" kind="function"><name>FDCAN1_IT0_IRQHandler</name></member>
+    <member refid="can_8c_1aa72d5b6ac0e81f1e37ffd59603964c50" kind="function"><name>FDCAN2_IT0_IRQHandler</name></member>
+    <member refid="can_8c_1afff79a9557e20879ea7846d1c927214a" kind="function"><name>FDCAN3_IT0_IRQHandler</name></member>
+    <member refid="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" kind="function"><name>core_CAN_add_filter</name></member>
+  </compound>
+  <compound refid="clock_8c" kind="file"><name>clock.c</name>
+    <member refid="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" kind="function"><name>core_clock_ADC12_init</name></member>
+    <member refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kind="function"><name>core_clock_ADC345_init</name></member>
+    <member refid="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" kind="function"><name>core_clock_FDCAN_init</name></member>
+    <member refid="clock_8c_1a4dfc43b43b5975284563a397da6a3d56" kind="function"><name>core_clock_USART_init</name></member>
+    <member refid="clock_8c_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" kind="function"><name>core_clock_I2C_init</name></member>
+    <member refid="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" kind="function"><name>core_clock_RTC_init</name></member>
+    <member refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kind="function"><name>core_clock_port_init</name></member>
+    <member refid="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" kind="function"><name>core_clock_generate_params</name></member>
+    <member refid="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" kind="function"><name>core_clock_init</name></member>
+  </compound>
+  <compound refid="error__handler_8c" kind="file"><name>error_handler.c</name>
+    <member refid="error__handler_8c_1afb20db332e8f94686b3b6a7384bb89b8" kind="define"><name>ERROR_HANDLER_BLINK_DELAY</name></member>
+    <member refid="error__handler_8c_1a67265100d2c510d5d79beaec9a28a61e" kind="function"><name>error_handler</name></member>
+  </compound>
+  <compound refid="gpio_8c" kind="file"><name>gpio.c</name>
+    <member refid="gpio_8c_1afad9c66b60c494fd0a86e551de8582ee" kind="variable"><name>LED_port</name></member>
+    <member refid="gpio_8c_1a443b8322c400421eba7a3b27dde1afdb" kind="variable"><name>LED_pin</name></member>
+    <member refid="gpio_8c_1a35c1597c1afe99715c5ce4f07eb1225d" kind="function"><name>core_GPIO_init</name></member>
+    <member refid="gpio_8c_1a0da6c33f69a1025da40463041523375a" kind="function"><name>core_GPIO_digital_write</name></member>
+    <member refid="gpio_8c_1a36b1217f23f1b9fe28a5ceb7dc302e10" kind="function"><name>core_GPIO_digital_read</name></member>
+    <member refid="gpio_8c_1a5e91bf3f87bff4c2db429a737824ae17" kind="function"><name>core_heartbeat_init</name></member>
+    <member refid="gpio_8c_1a5e894851f0d0aa9792d8407a40e811a1" kind="function"><name>core_GPIO_toggle_heartbeat</name></member>
+    <member refid="gpio_8c_1af91019da72ff073dc204bebfee5e152e" kind="function"><name>core_GPIO_set_heartbeat</name></member>
+  </compound>
+  <compound refid="i2c_8c" kind="file"><name>i2c.c</name>
+    <member refid="i2c_8c_1afa3215f0aa766367f5d34bee80929152" kind="define"><name>I2C_TIMEOUT</name></member>
+    <member refid="i2c_8c_1ab02ab9e93d9077d2098953ce94682902" kind="variable"><name>i2c1</name></member>
+    <member refid="i2c_8c_1a19b0693b6c10aab1e6fbb403213dc880" kind="function"><name>I2C_init</name></member>
+    <member refid="i2c_8c_1ae2a24b23633cd4beb3fa9a060c3550fd" kind="function"><name>I2C_register_read</name></member>
+    <member refid="i2c_8c_1a40e61b6faa25d0203476a75a2d66ea08" kind="function"><name>I2C_register_write</name></member>
+  </compound>
+  <compound refid="rtc_8c" kind="file"><name>rtc.c</name>
+    <member refid="rtc_8c_1ac8180a15d1db93e4f9f3c6cada686625" kind="variable"><name>core_RTC_last_usec</name></member>
+    <member refid="rtc_8c_1a2371259b42ee8ea799141e9c4a379089" kind="function"><name>core_RTC_init</name></member>
+    <member refid="rtc_8c_1afab458d2de9c1086c59e84dc64fd8151" kind="function"><name>core_RTC_get_time</name></member>
+    <member refid="rtc_8c_1afb5cec548c668dddaa1e8bfec75d85f3" kind="function"><name>core_RTC_set_time</name></member>
+    <member refid="rtc_8c_1ace4e2903ea297867eb2017ee89984122" kind="function"><name>core_RTC_get_usec</name></member>
+  </compound>
+  <compound refid="spi_8c" kind="file"><name>spi.c</name>
+    <member refid="spi_8c_1aa500f64db163bc69a2e419b1f0a4ec85" kind="variable"><name>core_SPI1_CS_pin</name></member>
+    <member refid="spi_8c_1a57b088aa12e60c60c8d9064c9c1006d4" kind="variable"><name>core_SPI1_CS_port</name></member>
+    <member refid="spi_8c_1a68d29d5d51798f58e0b261ec6d081a1e" kind="variable"><name>core_SPI2_CS_pin</name></member>
+    <member refid="spi_8c_1a194ffa85178586435614cfbfec7ce775" kind="variable"><name>core_SPI2_CS_port</name></member>
+    <member refid="spi_8c_1ae285b4f7eb5c5ef5601010e88336f8df" kind="variable"><name>core_SPI3_CS_pin</name></member>
+    <member refid="spi_8c_1a928f1fa95dc13ebbd430640051abdbc5" kind="variable"><name>core_SPI3_CS_port</name></member>
+    <member refid="spi_8c_1a95bc34ac822dde09e6b8d6b3b4b4b603" kind="variable"><name>core_SPI4_CS_pin</name></member>
+    <member refid="spi_8c_1a8001825d3e57dbaee5bf29a762f72e77" kind="variable"><name>core_SPI4_CS_port</name></member>
+    <member refid="spi_8c_1a36c101bcb5e471be58d32274026d2a14" kind="function"><name>core_SPI_init</name></member>
+    <member refid="spi_8c_1a2f15441739467f9d411486019e3dd869" kind="function"><name>core_SPI_read_write</name></member>
+    <member refid="spi_8c_1a031148ca9fc6ef73a13d90bb0f0fa818" kind="function"><name>core_SPI_start</name></member>
+    <member refid="spi_8c_1a6eb357bc6e05cdb51276f4ca289ac34a" kind="function"><name>core_SPI_stop</name></member>
+  </compound>
+  <compound refid="timeout_8c" kind="file"><name>timeout.c</name>
+    <member refid="timeout_8c_1a72d8033c3861872c6f2fd1bb8c7cac99" kind="variable"><name>core_timeout_list</name></member>
+    <member refid="timeout_8c_1a8780806a8825871f97ab2f244d3d1f15" kind="variable"><name>core_timeout_list_size</name></member>
+    <member refid="timeout_8c_1aaf371ee5182ad11d7eda50e82f5bc831" kind="variable"><name>n_core_timeouts</name></member>
+    <member refid="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" kind="function"><name>core_timeout_insert</name></member>
+    <member refid="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" kind="function"><name>core_timeout_start_all</name></member>
+    <member refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kind="function"><name>core_timeout_reset_by_module_ref</name></member>
+    <member refid="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" kind="function"><name>core_timeout_reset</name></member>
+    <member refid="timeout_8c_1a20d256d89e7597b03051d8c5ceb1bdb2" kind="function"><name>core_timeout_check_all</name></member>
+  </compound>
+  <compound refid="usart_8c" kind="file"><name>usart.c</name>
+    <member refid="usart_8c_1ac44056ed920999ef25103da42746a6ef" kind="variable"><name>core_USART1_rxbuf_int</name></member>
+    <member refid="usart_8c_1ab820bc2a814334af0ed65cc7e179f8c6" kind="variable"><name>core_USART1_rxbuflen_int</name></member>
+    <member refid="usart_8c_1a4a72b7ab8df795ec6dd08ed22adf0a03" kind="variable"><name>core_USART1_rxbuf</name></member>
+    <member refid="usart_8c_1ae063d4e0eaecc89199639d8cd745182f" kind="variable"><name>core_USART1_rxbuflen</name></member>
+    <member refid="usart_8c_1a18905adda8017228ab72cfad4a940bca" kind="variable"><name>core_USART1_callback</name></member>
+    <member refid="usart_8c_1aea5a1efc79fd5fed59363f232a931a25" kind="variable"><name>core_USART2_rxbuf_int</name></member>
+    <member refid="usart_8c_1ae5308eac01f03bbf411e1ba08a22bb92" kind="variable"><name>core_USART2_rxbuflen_int</name></member>
+    <member refid="usart_8c_1a9ac4c4de4c8182fad87a29700ba82a0e" kind="variable"><name>core_USART2_rxbuf</name></member>
+    <member refid="usart_8c_1a6a662a68cc8d0c630209f14b681debc0" kind="variable"><name>core_USART2_rxbuflen</name></member>
+    <member refid="usart_8c_1ae6c8d1565ddf4b08fa6096e5d24c3d23" kind="variable"><name>core_USART2_callback</name></member>
+    <member refid="usart_8c_1a4b502a0a368a82bcd0cfef875f3edbe4" kind="variable"><name>core_USART3_rxbuf_int</name></member>
+    <member refid="usart_8c_1ac7f454bb13d1ad52fea2dd96bc21f3e6" kind="variable"><name>core_USART3_rxbuflen_int</name></member>
+    <member refid="usart_8c_1aaf3dbb4ac0e02cceb9971ab8095b2a8e" kind="variable"><name>core_USART3_rxbuf</name></member>
+    <member refid="usart_8c_1aec8bd9b8f8c552a02017cbece1f7e1d0" kind="variable"><name>core_USART3_rxbuflen</name></member>
+    <member refid="usart_8c_1a785cc22837c60b21ce8d38e4d129c2d7" kind="variable"><name>core_USART3_callback</name></member>
+    <member refid="usart_8c_1a2d4d25ed7ccab8e16a91cbe30458819c" kind="variable"><name>core_USART_flags</name></member>
+    <member refid="usart_8c_1a6d38a484f8bf50a84dc5cc785ddd6688" kind="variable"><name>usart1</name></member>
+    <member refid="usart_8c_1a701531bfa389ea09c945b4341bbfead7" kind="variable"><name>usart2</name></member>
+    <member refid="usart_8c_1ac3be82ebda1d69ef5f2e3c29a51c547f" kind="variable"><name>usart3</name></member>
+    <member refid="usart_8c_1a35dc06127bee8b23c08e4ec63aab66d3" kind="function"><name>core_USART_init</name></member>
+    <member refid="usart_8c_1a080787d9baeec30dbb2639ab958893bd" kind="function"><name>core_USART_start_rx</name></member>
+    <member refid="usart_8c_1a98eee6d24e7130a4a1c8527c207843a3" kind="function"><name>core_USART_register_callback</name></member>
+    <member refid="usart_8c_1a27fb9800d727337121da9525aca0b557" kind="function"><name>USART1_IRQHandler</name></member>
+    <member refid="usart_8c_1adec38e248f7515f0ee427630d5ff98ba" kind="function"><name>USART2_IRQHandler</name></member>
+    <member refid="usart_8c_1a7ef0c8dc631c3684df826336b678dda0" kind="function"><name>USART3_IRQHandler</name></member>
+    <member refid="usart_8c_1aa6d598f617dc2068c62544b474bc5960" kind="function"><name>core_USART_update_disable</name></member>
+    <member refid="usart_8c_1a1c56db6aae9393622a2d93a74ec0b1d5" kind="function"><name>core_USART_update_enable</name></member>
+    <member refid="usart_8c_1a823dd639b55929d621d419b43450a150" kind="function"><name>core_USART_transmit</name></member>
+  </compound>
+  <compound refid="dir_4db3a2f7aa3a8b9901e70dfeb2571af9" kind="dir"><name>/home/matthias/racing/core/src/driver</name>
+  </compound>
+  <compound refid="dir_41704f608ab0377c0be357e75ac2d436" kind="dir"><name>/home/matthias/racing/core/src/driver/Inc</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/home/matthias/racing/core/src</name>
+  </compound>
+  <compound refid="dir_bd43694d282a1a6821503b447b4f5643" kind="dir"><name>/home/matthias/racing/core/src/driver/Src</name>
+  </compound>
+</doxygenindex>

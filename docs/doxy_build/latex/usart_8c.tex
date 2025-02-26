@@ -1,12 +1,12 @@
-\doxysection{/\+Users/solomonshulman/\+RITRacing/\+Core/src/driver/\+Src/usart.c File Reference}
-\hypertarget{usart_8c}{}\label{usart_8c}\index{/Users/solomonshulman/RITRacing/Core/src/driver/Src/usart.c@{/Users/solomonshulman/RITRacing/Core/src/driver/Src/usart.c}}
+\hypertarget{usart_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/usart.c File Reference}
+\label{usart_8c}\index{/home/matthias/racing/core/src/driver/Src/usart.c@{/home/matthias/racing/core/src/driver/Src/usart.c}}
 
 
 Core UART library.  
 
 
-{\ttfamily \#include "{}usart.\+h"{}}\newline
-{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include \char`\"{}usart.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
@@ -14,41 +14,48 @@ Core UART library.
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal\+\_\+usart.\+h$>$}\newline
-{\ttfamily \#include "{}clock.\+h"{}}\newline
-{\ttfamily \#include "{}gpio.\+h"{}}\newline
-\doxysubsubsection*{Functions}
+{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}{core\+\_\+\+USART\+\_\+init}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, uint32\+\_\+t baud)
+bool \mbox{\hyperlink{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}{core\+\_\+\+USART\+\_\+init}} (USART\+\_\+\+Type\+Def $\ast$usart, uint32\+\_\+t baud)
 \begin{DoxyCompactList}\small\item\em Initialize a USART module in asynchronous mode with the given baud rate. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, volatile uint8\+\_\+t \texorpdfstring{$\ast$}{*}rxbuf, volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*}rxbuflen)
+bool \mbox{\hyperlink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx}} (USART\+\_\+\+Type\+Def $\ast$usart, volatile uint8\+\_\+t $\ast$rxbuf, volatile uint32\+\_\+t $\ast$rxbuflen)
 \begin{DoxyCompactList}\small\item\em Start the receiver for the given USART module. \end{DoxyCompactList}\item 
+<<<<<<< HEAD
 \Hypertarget{usart_8c_a98eee6d24e7130a4a1c8527c207843a3}\label{usart_8c_a98eee6d24e7130a4a1c8527c207843a3} 
 bool {\bfseries core\+\_\+\+USART\+\_\+register\+\_\+callback} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, void(\texorpdfstring{$\ast$}{*}callback)(uint8\+\_\+t \texorpdfstring{$\ast$}{*}, uint32\+\_\+t))
 \item 
 \Hypertarget{usart_8c_a27fb9800d727337121da9525aca0b557}\label{usart_8c_a27fb9800d727337121da9525aca0b557} 
+=======
+\mbox{\Hypertarget{usart_8c_a98eee6d24e7130a4a1c8527c207843a3}\label{usart_8c_a98eee6d24e7130a4a1c8527c207843a3}} 
+bool {\bfseries core\+\_\+\+USART\+\_\+register\+\_\+callback} (USART\+\_\+\+Type\+Def $\ast$usart, void($\ast$callback)(uint8\+\_\+t $\ast$, uint32\+\_\+t))
+\item 
+\mbox{\Hypertarget{usart_8c_a27fb9800d727337121da9525aca0b557}\label{usart_8c_a27fb9800d727337121da9525aca0b557}} 
+>>>>>>> 83cc3f7fa6b8a556493a72ee6dddea2c4d3425a7
 void {\bfseries USART1\+\_\+\+IRQHandler} ()
 \item 
-\Hypertarget{usart_8c_adec38e248f7515f0ee427630d5ff98ba}\label{usart_8c_adec38e248f7515f0ee427630d5ff98ba} 
+\mbox{\Hypertarget{usart_8c_adec38e248f7515f0ee427630d5ff98ba}\label{usart_8c_adec38e248f7515f0ee427630d5ff98ba}} 
 void {\bfseries USART2\+\_\+\+IRQHandler} ()
 \item 
-\Hypertarget{usart_8c_a7ef0c8dc631c3684df826336b678dda0}\label{usart_8c_a7ef0c8dc631c3684df826336b678dda0} 
+\mbox{\Hypertarget{usart_8c_a7ef0c8dc631c3684df826336b678dda0}\label{usart_8c_a7ef0c8dc631c3684df826336b678dda0}} 
 void {\bfseries USART3\+\_\+\+IRQHandler} ()
 \item 
-void \mbox{\hyperlink{usart_8c_aa6d598f617dc2068c62544b474bc5960}{core\+\_\+\+USART\+\_\+update\+\_\+disable}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart)
+void \mbox{\hyperlink{usart_8c_aa6d598f617dc2068c62544b474bc5960}{core\+\_\+\+USART\+\_\+update\+\_\+disable}} (USART\+\_\+\+Type\+Def $\ast$usart)
 \begin{DoxyCompactList}\small\item\em Disable updating the RX buffer for the given USART. Use this before reading from the buffer to which data is stored to prevent corruption. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}{core\+\_\+\+USART\+\_\+update\+\_\+enable}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart)
+void \mbox{\hyperlink{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}{core\+\_\+\+USART\+\_\+update\+\_\+enable}} (USART\+\_\+\+Type\+Def $\ast$usart)
 \begin{DoxyCompactList}\small\item\em Enable updating the RX buffer for the given USART. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{usart_8c_a823dd639b55929d621d419b43450a150}{core\+\_\+\+USART\+\_\+transmit}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, uint8\+\_\+t \texorpdfstring{$\ast$}{*}txbuf, uint8\+\_\+t txbuflen)
+bool \mbox{\hyperlink{usart_8c_a823dd639b55929d621d419b43450a150}{core\+\_\+\+USART\+\_\+transmit}} (USART\+\_\+\+Type\+Def $\ast$usart, uint8\+\_\+t $\ast$txbuf, uint8\+\_\+t txbuflen)
 \begin{DoxyCompactList}\small\item\em Transmit data from a USART. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Core UART library. 
 
-This core library component is used to initialize USARTs, transmit data over USART, and asynchronously receive data over USART.\hypertarget{usart_8c_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{Initialization}{Initialization}}\label{usart_8c_autotoc_md7}
-To initialize a USART for transmitting, user code must call the function \doxylink{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}{core\+\_\+\+USART\+\_\+init()} and specify the desired baud rate. To initialize a USART for receiving, user code must call the function \doxylink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx()}.\hypertarget{usart_8c_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Enabling and disabling}{Enabling and disabling}}\label{usart_8c_autotoc_md8}
-When the USART module is configured for receiving, and it has not received any bytes for a given time, the USART hardware triggers an interrupt, which will copy the data in the internal RX buffer to the buffer passed to \doxylink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx()}. If another function was processing the data in this buffer when the interrupt is triggered, then the data will be corrupted. Thus, the user code must call \doxylink{usart_8c_aa6d598f617dc2068c62544b474bc5960}{core\+\_\+\+USART\+\_\+update\+\_\+disable()} before processing received data and \doxylink{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}{core\+\_\+\+USART\+\_\+update\+\_\+enable()} when it is done
+This core library component is used to initialize USARTs, transmit data over USART, and asynchronously receive data over USART.\hypertarget{usart_8c_autotoc_md14}{}\doxysubsubsection{Initialization}\label{usart_8c_autotoc_md14}
+To initialize a USART for transmitting, user code must call the function \mbox{\hyperlink{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}{core\+\_\+\+USART\+\_\+init()}} and specify the desired baud rate. To initialize a USART for receiving, user code must call the function \mbox{\hyperlink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx()}}.\hypertarget{usart_8c_autotoc_md15}{}\doxysubsubsection{Enabling and disabling}\label{usart_8c_autotoc_md15}
+When the USART module is configured for receiving, and it has not received any bytes for a given time, the USART hardware triggers an interrupt, which will copy the data in the internal RX buffer to the buffer passed to \mbox{\hyperlink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx()}}. If another function was processing the data in this buffer when the interrupt is triggered, then the data will be corrupted. Thus, the user code must call \mbox{\hyperlink{usart_8c_aa6d598f617dc2068c62544b474bc5960}{core\+\_\+\+USART\+\_\+update\+\_\+disable()}} before processing received data and \mbox{\hyperlink{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}{core\+\_\+\+USART\+\_\+update\+\_\+enable()}} when it is done
 
 \begin{DoxyNote}{Note}
 Any data received while updating is disabled will be lost. 
@@ -56,11 +63,11 @@ Any data received while updating is disabled will be lost.
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}\index{usart.c@{usart.c}!core\_USART\_init@{core\_USART\_init}}
+\mbox{\Hypertarget{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}\label{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}} 
+\index{usart.c@{usart.c}!core\_USART\_init@{core\_USART\_init}}
 \index{core\_USART\_init@{core\_USART\_init}!usart.c@{usart.c}}
 \doxysubsubsection{\texorpdfstring{core\_USART\_init()}{core\_USART\_init()}}
-{\footnotesize\ttfamily \label{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3} 
-bool core\+\_\+\+USART\+\_\+init (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{, }\item[{uint32\+\_\+t}]{baud}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+USART\+\_\+init (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart,  }\item[{uint32\+\_\+t}]{baud }\end{DoxyParamCaption})}
 
 
 
@@ -80,11 +87,11 @@ Initialize a USART module in asynchronous mode with the given baud rate.
 {\em 1} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\Hypertarget{usart_8c_a080787d9baeec30dbb2639ab958893bd}\index{usart.c@{usart.c}!core\_USART\_start\_rx@{core\_USART\_start\_rx}}
+\mbox{\Hypertarget{usart_8c_a080787d9baeec30dbb2639ab958893bd}\label{usart_8c_a080787d9baeec30dbb2639ab958893bd}} 
+\index{usart.c@{usart.c}!core\_USART\_start\_rx@{core\_USART\_start\_rx}}
 \index{core\_USART\_start\_rx@{core\_USART\_start\_rx}!usart.c@{usart.c}}
 \doxysubsubsection{\texorpdfstring{core\_USART\_start\_rx()}{core\_USART\_start\_rx()}}
-{\footnotesize\ttfamily \label{usart_8c_a080787d9baeec30dbb2639ab958893bd} 
-bool core\+\_\+\+USART\+\_\+start\+\_\+rx (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{, }\item[{volatile uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{rxbuf}{, }\item[{volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{rxbuflen}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+USART\+\_\+start\+\_\+rx (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart,  }\item[{volatile uint8\+\_\+t $\ast$}]{rxbuf,  }\item[{volatile uint32\+\_\+t $\ast$}]{rxbuflen }\end{DoxyParamCaption})}
 
 
 
@@ -106,11 +113,11 @@ Start the receiver for the given USART module.
 {\em 1} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\Hypertarget{usart_8c_a823dd639b55929d621d419b43450a150}\index{usart.c@{usart.c}!core\_USART\_transmit@{core\_USART\_transmit}}
+\mbox{\Hypertarget{usart_8c_a823dd639b55929d621d419b43450a150}\label{usart_8c_a823dd639b55929d621d419b43450a150}} 
+\index{usart.c@{usart.c}!core\_USART\_transmit@{core\_USART\_transmit}}
 \index{core\_USART\_transmit@{core\_USART\_transmit}!usart.c@{usart.c}}
 \doxysubsubsection{\texorpdfstring{core\_USART\_transmit()}{core\_USART\_transmit()}}
-{\footnotesize\ttfamily \label{usart_8c_a823dd639b55929d621d419b43450a150} 
-bool core\+\_\+\+USART\+\_\+transmit (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{txbuf}{, }\item[{uint8\+\_\+t}]{txbuflen}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily bool core\+\_\+\+USART\+\_\+transmit (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart,  }\item[{uint8\+\_\+t $\ast$}]{txbuf,  }\item[{uint8\+\_\+t}]{txbuflen }\end{DoxyParamCaption})}
 
 
 
@@ -135,11 +142,11 @@ This function is blocking and will not return until all data has been transmitte
 {\em 0} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\Hypertarget{usart_8c_aa6d598f617dc2068c62544b474bc5960}\index{usart.c@{usart.c}!core\_USART\_update\_disable@{core\_USART\_update\_disable}}
+\mbox{\Hypertarget{usart_8c_aa6d598f617dc2068c62544b474bc5960}\label{usart_8c_aa6d598f617dc2068c62544b474bc5960}} 
+\index{usart.c@{usart.c}!core\_USART\_update\_disable@{core\_USART\_update\_disable}}
 \index{core\_USART\_update\_disable@{core\_USART\_update\_disable}!usart.c@{usart.c}}
 \doxysubsubsection{\texorpdfstring{core\_USART\_update\_disable()}{core\_USART\_update\_disable()}}
-{\footnotesize\ttfamily \label{usart_8c_aa6d598f617dc2068c62544b474bc5960} 
-void core\+\_\+\+USART\+\_\+update\+\_\+disable (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+USART\+\_\+update\+\_\+disable (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart }\end{DoxyParamCaption})}
 
 
 
@@ -150,11 +157,11 @@ Disable updating the RX buffer for the given USART. Use this before reading from
 {\em usart} & The USART module \\
 \hline
 \end{DoxyParams}
-\Hypertarget{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}\index{usart.c@{usart.c}!core\_USART\_update\_enable@{core\_USART\_update\_enable}}
+\mbox{\Hypertarget{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}\label{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5}} 
+\index{usart.c@{usart.c}!core\_USART\_update\_enable@{core\_USART\_update\_enable}}
 \index{core\_USART\_update\_enable@{core\_USART\_update\_enable}!usart.c@{usart.c}}
 \doxysubsubsection{\texorpdfstring{core\_USART\_update\_enable()}{core\_USART\_update\_enable()}}
-{\footnotesize\ttfamily \label{usart_8c_a1c56db6aae9393622a2d93a74ec0b1d5} 
-void core\+\_\+\+USART\+\_\+update\+\_\+enable (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void core\+\_\+\+USART\+\_\+update\+\_\+enable (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart }\end{DoxyParamCaption})}
 
 
 

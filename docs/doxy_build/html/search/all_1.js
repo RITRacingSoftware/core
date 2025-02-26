@@ -1,5 +1,6 @@
 var searchData=
 [
+<<<<<<< HEAD
   ['can_2ec_0',['can.c',['../can_8c.html',1,'']]],
   ['canextendedmessage_5fs_1',['CanExtendedMessage_s',['../struct_can_extended_message__s.html',1,'']]],
   ['canmessage_5fs_2',['CanMessage_s',['../struct_can_message__s.html',1,'']]],
@@ -55,4 +56,7 @@ var searchData=
   ['core_5fusart_5ftransmit_52',['core_USART_transmit',['../usart_8c.html#a823dd639b55929d621d419b43450a150',1,'usart.c']]],
   ['core_5fusart_5fupdate_5fdisable_53',['core_USART_update_disable',['../usart_8c.html#aa6d598f617dc2068c62544b474bc5960',1,'usart.c']]],
   ['core_5fusart_5fupdate_5fenable_54',['core_USART_update_enable',['../usart_8c.html#a1c56db6aae9393622a2d93a74ec0b1d5',1,'usart.c']]]
+=======
+  ['adc_2ec_1',['adc.c',['../adc_8c.html',1,'']]]
+>>>>>>> 83cc3f7fa6b8a556493a72ee6dddea2c4d3425a7
 ];
