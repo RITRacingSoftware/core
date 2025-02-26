@@ -11,7 +11,7 @@ build:
     build:
       html:
         - echo "Building html"
-        - doxygen docs/Doxyfile
+        - (cd docs; doxygen Doxyfile)
         - mkdir -p $READTHEDOCS_OUTPUT/html/
         - cp -r docs/doxy_build/html $READTHEDOCS_OUTPUT/
 
