@@ -122,6 +122,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>core_timeout_start_al
 void&#160;</td><td class="memItemRight" valign="bottom"><b>core_timeout_check_all</b> ()</td></tr>
 <tr class="memdesc:a20d256d89e7597b03051d8c5ceb1bdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check all timeouts currently stored in the internal timeout list. <br /></td></tr>
 <tr class="separator:a20d256d89e7597b03051d8c5ceb1bdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3f17e94126a67496363bcef24255709" id="r_ac3f17e94126a67496363bcef24255709"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3f17e94126a67496363bcef24255709">core_timeout_suspend</a> (<a class="el" href="structcore__timeout__s.html">core_timeout_t</a> *timeout)</td></tr>
+<tr class="memdesc:ac3f17e94126a67496363bcef24255709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suspend timeout.  <br /></td></tr>
+<tr class="separator:ac3f17e94126a67496363bcef24255709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad57951d17673691b4d5608bff8829d2a" id="r_ad57951d17673691b4d5608bff8829d2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad57951d17673691b4d5608bff8829d2a">core_timeout_resume</a> (<a class="el" href="structcore__timeout__s.html">core_timeout_t</a> *timeout)</td></tr>
+<tr class="memdesc:ad57951d17673691b4d5608bff8829d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume suspended timeout.  <br /></td></tr>
+<tr class="separator:ad57951d17673691b4d5608bff8829d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core timeout library. </p>
@@ -221,6 +227,56 @@ module and ref</h2>
   <table class="params">
     <tr><td class="paramname">module</td><td>Module that is calling this function </td></tr>
     <tr><td class="paramname">ref</td><td>Reference number </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad57951d17673691b4d5608bff8829d2a" name="ad57951d17673691b4d5608bff8829d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad57951d17673691b4d5608bff8829d2a">&#9670;&#160;</a></span>core_timeout_resume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_timeout_resume </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore__timeout__s.html">core_timeout_t</a> *</td>          <td class="paramname"><span class="paramname"><em>timeout</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resume suspended timeout. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>Pointer to the timeout being resumed </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac3f17e94126a67496363bcef24255709" name="ac3f17e94126a67496363bcef24255709"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3f17e94126a67496363bcef24255709">&#9670;&#160;</a></span>core_timeout_suspend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core_timeout_suspend </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore__timeout__s.html">core_timeout_t</a> *</td>          <td class="paramname"><span class="paramname"><em>timeout</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Suspend timeout. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeout</td><td>Pointer to the timeout being suspended </td></tr>
   </table>
   </dd>
 </dl>

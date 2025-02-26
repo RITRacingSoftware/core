@@ -25,7 +25,11 @@ void \mbox{\hyperlink{timeout_8c_a2e86c2b81596b983b91c0e5ba775b599}{core\+\_\+ti
 \begin{DoxyCompactList}\small\item\em Reset a timeout given a pointer to the timeout struct. \end{DoxyCompactList}\item 
 \Hypertarget{timeout_8c_a20d256d89e7597b03051d8c5ceb1bdb2}\label{timeout_8c_a20d256d89e7597b03051d8c5ceb1bdb2} 
 void {\bfseries core\+\_\+timeout\+\_\+check\+\_\+all} ()
-\begin{DoxyCompactList}\small\item\em Check all timeouts currently stored in the internal timeout list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Check all timeouts currently stored in the internal timeout list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{timeout_8c_ac3f17e94126a67496363bcef24255709}{core\+\_\+timeout\+\_\+suspend}} (\mbox{\hyperlink{structcore__timeout__s}{core\+\_\+timeout\+\_\+t}} \texorpdfstring{$\ast$}{*}timeout)
+\begin{DoxyCompactList}\small\item\em Suspend timeout. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{timeout_8c_ad57951d17673691b4d5608bff8829d2a}{core\+\_\+timeout\+\_\+resume}} (\mbox{\hyperlink{structcore__timeout__s}{core\+\_\+timeout\+\_\+t}} \texorpdfstring{$\ast$}{*}timeout)
+\begin{DoxyCompactList}\small\item\em Resume suspended timeout. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -98,5 +102,35 @@ Reset a timeout given the module and the refernce number.
 {\em module} & Module that is calling this function \\
 \hline
 {\em ref} & Reference number \\
+\hline
+\end{DoxyParams}
+\Hypertarget{timeout_8c_ad57951d17673691b4d5608bff8829d2a}\index{timeout.c@{timeout.c}!core\_timeout\_resume@{core\_timeout\_resume}}
+\index{core\_timeout\_resume@{core\_timeout\_resume}!timeout.c@{timeout.c}}
+\doxysubsubsection{\texorpdfstring{core\_timeout\_resume()}{core\_timeout\_resume()}}
+{\footnotesize\ttfamily \label{timeout_8c_ad57951d17673691b4d5608bff8829d2a} 
+void core\+\_\+timeout\+\_\+resume (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcore__timeout__s}{core\+\_\+timeout\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{timeout}{}\end{DoxyParamCaption})}
+
+
+
+Resume suspended timeout. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & Pointer to the timeout being resumed \\
+\hline
+\end{DoxyParams}
+\Hypertarget{timeout_8c_ac3f17e94126a67496363bcef24255709}\index{timeout.c@{timeout.c}!core\_timeout\_suspend@{core\_timeout\_suspend}}
+\index{core\_timeout\_suspend@{core\_timeout\_suspend}!timeout.c@{timeout.c}}
+\doxysubsubsection{\texorpdfstring{core\_timeout\_suspend()}{core\_timeout\_suspend()}}
+{\footnotesize\ttfamily \label{timeout_8c_ac3f17e94126a67496363bcef24255709} 
+void core\+\_\+timeout\+\_\+suspend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcore__timeout__s}{core\+\_\+timeout\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{timeout}{}\end{DoxyParamCaption})}
+
+
+
+Suspend timeout. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & Pointer to the timeout being suspended \\
 \hline
 \end{DoxyParams}

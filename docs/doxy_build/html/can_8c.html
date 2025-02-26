@@ -89,7 +89,8 @@ $(function(){ initResizable(false); });
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">can.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -110,6 +111,7 @@ $(function(){ initResizable(false); });
 <code>#include &quot;clock.h&quot;</code><br />
 <code>#include &quot;timeout.h&quot;</code><br />
 <code>#include &quot;error_handler.h&quot;</code><br />
+<code>#include &quot;boot.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -128,6 +130,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a5956fa458e011f58d514fcfa3f45b72a" id="r_a5956fa458e011f58d514fcfa3f45b72a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5956fa458e011f58d514fcfa3f45b72a">core_CAN_send_from_tx_queue_task</a> (FDCAN_GlobalTypeDef *can)</td></tr>
 <tr class="memdesc:a5956fa458e011f58d514fcfa3f45b72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop for sending data in the TX queue over CAN. This function must be run in its own task.  <br /></td></tr>
 <tr class="separator:a5956fa458e011f58d514fcfa3f45b72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84ba21a70b0eaa5a94ebfa9d80ce0834" id="r_a84ba21a70b0eaa5a94ebfa9d80ce0834"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84ba21a70b0eaa5a94ebfa9d80ce0834">core_CAN_send_message</a> (FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)</td></tr>
+<tr class="memdesc:a84ba21a70b0eaa5a94ebfa9d80ce0834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a CAN message to the hardware FIFO.  <br /></td></tr>
+<tr class="separator:a84ba21a70b0eaa5a94ebfa9d80ce0834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec814b501cd9c108a515bcbb0e3bf4a4" id="r_aec814b501cd9c108a515bcbb0e3bf4a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec814b501cd9c108a515bcbb0e3bf4a4">core_CAN_send_fd_message</a> (FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)</td></tr>
+<tr class="memdesc:aec814b501cd9c108a515bcbb0e3bf4a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an FDCAN message to the hardware FIFO.  <br /></td></tr>
+<tr class="separator:aec814b501cd9c108a515bcbb0e3bf4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5abf7049ba56ae95525c7ef6b043c3fd" id="r_a5abf7049ba56ae95525c7ef6b043c3fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5abf7049ba56ae95525c7ef6b043c3fd">core_CAN_receive_extended_from_queue</a> (FDCAN_GlobalTypeDef *can, <a class="el" href="struct_can_extended_message__s.html">CanExtendedMessage_s</a> *received_message)</td></tr>
 <tr class="memdesc:a5abf7049ba56ae95525c7ef6b043c3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a frame is waiting in the RX queue, copy it to the given location.  <br /></td></tr>
 <tr class="separator:a5abf7049ba56ae95525c7ef6b043c3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +154,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>FDCAN3_IT0_IRQHandler
 <tr class="memitem:a2939ee64b45b67008f5769ba9d0f5f16" id="r_a2939ee64b45b67008f5769ba9d0f5f16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2939ee64b45b67008f5769ba9d0f5f16">core_CAN_add_filter</a> (FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1, uint32_t id2)</td></tr>
 <tr class="memdesc:a2939ee64b45b67008f5769ba9d0f5f16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an RX filter for the given FDCAN module.  <br /></td></tr>
 <tr class="separator:a2939ee64b45b67008f5769ba9d0f5f16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aa7200028243560e4cf59759da4d2e07d" id="r_aa7200028243560e4cf59759da4d2e07d"><td class="memItemLeft" align="right" valign="top"><a id="aa7200028243560e4cf59759da4d2e07d" name="aa7200028243560e4cf59759da4d2e07d"></a>
+const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>core_CAN_dlc_lookup</b> [16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64}</td></tr>
+<tr class="separator:aa7200028243560e4cf59759da4d2e07d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Core FDCAN library. </p>
@@ -157,6 +171,8 @@ Initialization</h2>
 Transmitting</h2>
 <p>Transmission on the CAN bus is managed by a FreeRTOS queue and occurs in two parts. First, the user code adds a CAN frame to the queue with <a class="el" href="#ae0e18230790182107643e8c44d59646f" title="Add a CAN frame to the TX queue.">core_CAN_add_message_to_tx_queue()</a> (classic and FD CAN) or with <a class="el" href="#a78c43d4e3c5280d09a1bca37f9ba986f" title="Add a CAN frame to the TX queue.">core_CAN_add_extended_message_to_tx_queue()</a> (FD CAN only).</p>
 <p>The user code must also run <a class="el" href="#a5956fa458e011f58d514fcfa3f45b72a" title="Loop for sending data in the TX queue over CAN. This function must be run in its own task.">core_CAN_send_from_tx_queue_task()</a> in a dedicated FreeRTOS task. If <a class="el" href="#a5956fa458e011f58d514fcfa3f45b72a" title="Loop for sending data in the TX queue over CAN. This function must be run in its own task.">core_CAN_send_from_tx_queue_task()</a>, an error has occurred while transmitting.</p>
+<p>Internally, a FreeRTOS semaphore is used to ensure only one message sits in the hardware CAN queue at a time. The semaphore is given whenever a transmission completes (or fails) and is taken whenever a message is added to the hardware queue.</p>
+<p>Alternatively, the user can disable the FreeRTOS queue by defining <code>CORE_CAN_DISABLE_TX_QUEUE</code> in <code>core_config.h</code>. This is useful if the user needs finer control over the transmission, wants to synchronize CAN transmissions between FDCAN modules, or would like to save SRAM space. The RX queue is not affected and the user can access the semaphore using core_CAN_convert(), but will be responsible for taking the semaphore.</p>
 <h2><a class="anchor" id="autotoc_md4"></a>
 Receiving</h2>
 <p>In order to enable receiving CAN frames, the user code must first set up one or more filters using the <a class="el" href="#a2939ee64b45b67008f5769ba9d0f5f16" title="Add an RX filter for the given FDCAN module.">core_CAN_add_filter()</a> function. When a frame matching any of the applied filters is received, the FDCAN hardware triggers an interrupt that inserts the contents of this frame into a receiving FreeRTOS queue.</p>
@@ -409,6 +425,55 @@ Receiving</h2>
 
 </div>
 </div>
+<a id="aec814b501cd9c108a515bcbb0e3bf4a4" name="aec814b501cd9c108a515bcbb0e3bf4a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec814b501cd9c108a515bcbb0e3bf4a4">&#9670;&#160;</a></span>core_CAN_send_fd_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core_CAN_send_fd_message </td>
+          <td>(</td>
+          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>can</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>dlc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add an FDCAN message to the hardware FIFO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">can</td><td>FDCAN module </td></tr>
+    <tr><td class="paramname">id</td><td>ID of the message to be transmitted. If this value is greater than 2047, then an extended ID is automatically selected. Only the lowest 29 bits are kept, so setting the MSB will force an extended ID even if the ID is less than or equal to 2047 </td></tr>
+    <tr><td class="paramname">dlc</td><td>Length of the packet. If the length does not correspond to a valid FDCAN packet length, </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the data to be transmitted </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0</td><td>if an error occurred while adding the message to the queue </td></tr>
+    <tr><td class="paramname">1</td><td>otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a5956fa458e011f58d514fcfa3f45b72a" name="a5956fa458e011f58d514fcfa3f45b72a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5956fa458e011f58d514fcfa3f45b72a">&#9670;&#160;</a></span>core_CAN_send_from_tx_queue_task()</h2>
 
@@ -428,6 +493,55 @@ Receiving</h2>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">can</td><td>FDCAN module </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a84ba21a70b0eaa5a94ebfa9d80ce0834" name="a84ba21a70b0eaa5a94ebfa9d80ce0834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84ba21a70b0eaa5a94ebfa9d80ce0834">&#9670;&#160;</a></span>core_CAN_send_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core_CAN_send_message </td>
+          <td>(</td>
+          <td class="paramtype">FDCAN_GlobalTypeDef *</td>          <td class="paramname"><span class="paramname"><em>can</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>dlc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a CAN message to the hardware FIFO. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">can</td><td>FDCAN module </td></tr>
+    <tr><td class="paramname">id</td><td>ID of the message to be transmitted. If this value is greater than 2047, then an extended ID is automatically selected. Only the lowest 29 bits are kept, so setting the MSB will force an extended ID even if the ID is less than or equal to 2047 </td></tr>
+    <tr><td class="paramname">dlc</td><td>Length of the packet (0-8) </td></tr>
+    <tr><td class="paramname">data</td><td>Data encoded as a uint64_t </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0</td><td>if an error occurred while adding the message to the queue </td></tr>
+    <tr><td class="paramname">1</td><td>otherwise </td></tr>
   </table>
   </dd>
 </dl>

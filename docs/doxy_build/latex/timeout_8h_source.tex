@@ -11,21 +11,24 @@
 \DoxyCodeLine{00007\ }
 \DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ CORE\_TIMEOUT\_STATE\_ENABLED\ 0x01}}
 \DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ CORE\_TIMEOUT\_STATE\_TIMED\_OUT\ 0x02}}
-\DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_s}}\ \{}
-\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{void}\ *module;}
-\DoxyCodeLine{00013\ \ \ \ \ uint32\_t\ ref;}
-\DoxyCodeLine{00014\ \ \ \ \ uint32\_t\ last\_event;}
-\DoxyCodeLine{00015\ \ \ \ \ uint32\_t\ timeout;}
-\DoxyCodeLine{00016\ \ \ \ \ uint8\_t\ state;}
-\DoxyCodeLine{00017\ \ \ \ \ void\ (*callback)(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_s}}\ *);}
-\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}};}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \textcolor{keywordtype}{void}\ core\_timeout\_insert(\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}}\ *timeout);}
-\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ core\_timeout\_start\_all();}
-\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ core\_timeout\_reset\_by\_module\_ref(\textcolor{keywordtype}{void}\ *module,\ uint32\_t\ ref);}
-\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ core\_timeout\_check\_all();}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ CORE\_TIMEOUT\_STATE\_SUSPENDED\ 0x04}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_s}}\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{void}\ *module;}
+\DoxyCodeLine{00014\ \ \ \ \ uint32\_t\ ref;}
+\DoxyCodeLine{00015\ \ \ \ \ uint32\_t\ last\_event;}
+\DoxyCodeLine{00016\ \ \ \ \ uint32\_t\ timeout;}
+\DoxyCodeLine{00017\ \ \ \ \ uint8\_t\ state;}
+\DoxyCodeLine{00018\ \ \ \ \ void\ (*callback)(\textcolor{keyword}{struct\ }\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_s}}\ *);}
+\DoxyCodeLine{00019\ \}\ \mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keywordtype}{void}\ core\_timeout\_insert(\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}}\ *timeout);}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{void}\ core\_timeout\_start\_all();}
+\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ core\_timeout\_reset\_by\_module\_ref(\textcolor{keywordtype}{void}\ *module,\ uint32\_t\ ref);}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{void}\ core\_timeout\_check\_all();}
+\DoxyCodeLine{00025\ \textcolor{keywordtype}{void}\ core\_timeout\_suspend(\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}}\ *timeout);}
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{void}\ core\_timeout\_resume(\mbox{\hyperlink{structcore__timeout__s}{core\_timeout\_t}}\ *timeout);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

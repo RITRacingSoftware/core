@@ -20,11 +20,12 @@
 \DoxyCodeLine{00016\ \textcolor{keywordtype}{void}\ core\_USART\_update\_enable(USART\_TypeDef\ *usart);}
 \DoxyCodeLine{00017\ \textcolor{keywordtype}{bool}\ core\_USART\_transmit(USART\_TypeDef\ *usart,\ uint8\_t\ *txbuf,\ uint8\_t\ txbuflen);}
 \DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ core\_USART\_RX\_callback(USART\_HandleTypeDef\ *husart);}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#ifdef\ CORE\_USART\_UPRINTF}}
-\DoxyCodeLine{00021\ \textcolor{keywordtype}{int}\ uprintf(USART\_TypeDef\ *usart,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...);}
-\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{bool}\ core\_USART\_register\_callback(USART\_TypeDef\ *usart,\ \textcolor{keywordtype}{void}\ (*callback)(uint8\_t\ *,\ uint32\_t));}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#ifdef\ CORE\_USART\_UPRINTF}}
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ uprintf(USART\_TypeDef\ *usart,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...);}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

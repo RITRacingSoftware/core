@@ -23,6 +23,9 @@ bool \mbox{\hyperlink{usart_8c_a35dc06127bee8b23c08e4ec63aab66d3}{core\+\_\+\+US
 \begin{DoxyCompactList}\small\item\em Initialize a USART module in asynchronous mode with the given baud rate. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{usart_8c_a080787d9baeec30dbb2639ab958893bd}{core\+\_\+\+USART\+\_\+start\+\_\+rx}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, volatile uint8\+\_\+t \texorpdfstring{$\ast$}{*}rxbuf, volatile uint32\+\_\+t \texorpdfstring{$\ast$}{*}rxbuflen)
 \begin{DoxyCompactList}\small\item\em Start the receiver for the given USART module. \end{DoxyCompactList}\item 
+\Hypertarget{usart_8c_a98eee6d24e7130a4a1c8527c207843a3}\label{usart_8c_a98eee6d24e7130a4a1c8527c207843a3} 
+bool {\bfseries core\+\_\+\+USART\+\_\+register\+\_\+callback} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart, void(\texorpdfstring{$\ast$}{*}callback)(uint8\+\_\+t \texorpdfstring{$\ast$}{*}, uint32\+\_\+t))
+\item 
 \Hypertarget{usart_8c_a27fb9800d727337121da9525aca0b557}\label{usart_8c_a27fb9800d727337121da9525aca0b557} 
 void {\bfseries USART1\+\_\+\+IRQHandler} ()
 \item 

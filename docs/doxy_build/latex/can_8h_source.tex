@@ -39,21 +39,26 @@
 \DoxyCodeLine{00035\ \ \ \ \ uint8\_t\ use\_fd;}
 \DoxyCodeLine{00036\ \}\ \mbox{\hyperlink{structcore___c_a_n__module__s}{core\_CAN\_module\_t}};}
 \DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \textcolor{keywordtype}{bool}\ core\_CAN\_init(FDCAN\_GlobalTypeDef\ *fdcan);}
+\DoxyCodeLine{00038\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ uint8\_t\ core\_CAN\_dlc\_lookup[16];}
 \DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_message\_to\_tx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint64\_t\ data);}
-\DoxyCodeLine{00041\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_extended\_message\_to\_tx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint8\_t\ *data);}
-\DoxyCodeLine{00042\ \textcolor{keywordtype}{bool}\ core\_CAN\_send\_from\_tx\_queue\_task(FDCAN\_GlobalTypeDef\ *can);}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \textcolor{keywordtype}{bool}\ core\_CAN\_receive\_from\_queue(FDCAN\_GlobalTypeDef\ *can,\ \mbox{\hyperlink{struct_can_message__s}{CanMessage\_s}}\ *received\_message);}
-\DoxyCodeLine{00045\ \textcolor{keywordtype}{bool}\ core\_CAN\_receive\_extended\_from\_queue(FDCAN\_GlobalTypeDef\ *can,\ \mbox{\hyperlink{struct_can_extended_message__s}{CanExtendedMessage\_s}}\ *received\_message);}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_filter(FDCAN\_GlobalTypeDef\ *can,\ \textcolor{keywordtype}{bool}\ isExtended,\ uint32\_t\ id1,\ uint32\_t\ id2);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{bool}\ core\_CAN\_init(FDCAN\_GlobalTypeDef\ *fdcan);}
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structcore___c_a_n__module__s}{core\_CAN\_module\_t}}\ *core\_CAN\_convert(FDCAN\_GlobalTypeDef\ *fdcan);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{bool}\ core\_CAN\_send\_message(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint64\_t\ data);}
+\DoxyCodeLine{00044\ \textcolor{keywordtype}{bool}\ core\_CAN\_send\_fd\_message(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint8\_t\ *data);}
+\DoxyCodeLine{00045\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_message\_to\_tx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint64\_t\ data);}
+\DoxyCodeLine{00046\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_extended\_message\_to\_tx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ \textcolor{keywordtype}{id},\ uint8\_t\ dlc,\ uint8\_t\ *data);}
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{bool}\ core\_CAN\_send\_from\_tx\_queue\_task(FDCAN\_GlobalTypeDef\ *can);}
 \DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \textcolor{comment}{/*\ STATIC\ FUNCTIONS\ (DECLARED/DEFINED\ IN\ CAN.C)}}
-\DoxyCodeLine{00050\ \textcolor{comment}{static\ bool\ CAN\_send\_message(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ id,\ uint8\_t\ dlc,\ uint64\_t\ data);}}
-\DoxyCodeLine{00051\ \textcolor{comment}{static\ void\ rx\_handler(FDCAN\_GlobalTypeDef\ *can);}}
-\DoxyCodeLine{00052\ \textcolor{comment}{static\ void\ add\_CAN\_message\_to\_rx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ id,\ uint8\_t\ dlc,\ uint8\_t\ *data);}}
-\DoxyCodeLine{00053\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{bool}\ core\_CAN\_receive\_from\_queue(FDCAN\_GlobalTypeDef\ *can,\ \mbox{\hyperlink{struct_can_message__s}{CanMessage\_s}}\ *received\_message);}
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{bool}\ core\_CAN\_receive\_extended\_from\_queue(FDCAN\_GlobalTypeDef\ *can,\ \mbox{\hyperlink{struct_can_extended_message__s}{CanExtendedMessage\_s}}\ *received\_message);}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{bool}\ core\_CAN\_add\_filter(FDCAN\_GlobalTypeDef\ *can,\ \textcolor{keywordtype}{bool}\ isExtended,\ uint32\_t\ id1,\ uint32\_t\ id2);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{/*\ STATIC\ FUNCTIONS\ (DECLARED/DEFINED\ IN\ CAN.C)}}
+\DoxyCodeLine{00055\ \textcolor{comment}{static\ bool\ CAN\_send\_message(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ id,\ uint8\_t\ dlc,\ uint64\_t\ data);}}
+\DoxyCodeLine{00056\ \textcolor{comment}{static\ void\ rx\_handler(FDCAN\_GlobalTypeDef\ *can);}}
+\DoxyCodeLine{00057\ \textcolor{comment}{static\ void\ add\_CAN\_message\_to\_rx\_queue(FDCAN\_GlobalTypeDef\ *can,\ uint32\_t\ id,\ uint8\_t\ dlc,\ uint8\_t\ *data);}}
+\DoxyCodeLine{00058\ \textcolor{comment}{*/}}
 
 \end{DoxyCode}

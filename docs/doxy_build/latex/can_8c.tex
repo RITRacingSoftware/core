@@ -19,6 +19,7 @@ Core FDCAN library.
 {\ttfamily \#include "{}clock.\+h"{}}\newline
 {\ttfamily \#include "{}timeout.\+h"{}}\newline
 {\ttfamily \#include "{}error\+\_\+handler.\+h"{}}\newline
+{\ttfamily \#include "{}boot.\+h"{}}\newline
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,6 +34,10 @@ bool \mbox{\hyperlink{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f}{core\+\_\+\+CAN\
 \begin{DoxyCompactList}\small\item\em Add a CAN frame to the TX queue. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can)
 \begin{DoxyCompactList}\small\item\em Loop for sending data in the TX queue over CAN. This function must be run in its own task. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_a84ba21a70b0eaa5a94ebfa9d80ce0834}{core\+\_\+\+CAN\+\_\+send\+\_\+message}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, uint32\+\_\+t id, uint8\+\_\+t dlc, uint64\+\_\+t data)
+\begin{DoxyCompactList}\small\item\em Add a CAN message to the hardware FIFO. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{can_8c_aec814b501cd9c108a515bcbb0e3bf4a4}{core\+\_\+\+CAN\+\_\+send\+\_\+fd\+\_\+message}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, uint32\+\_\+t id, uint8\+\_\+t dlc, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Add an FDCAN message to the hardware FIFO. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd}{core\+\_\+\+CAN\+\_\+receive\+\_\+extended\+\_\+from\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, \mbox{\hyperlink{struct_can_extended_message__s}{Can\+Extended\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}received\+\_\+message)
 \begin{DoxyCompactList}\small\item\em If a frame is waiting in the RX queue, copy it to the given location. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe}{core\+\_\+\+CAN\+\_\+receive\+\_\+from\+\_\+queue}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, \mbox{\hyperlink{struct_can_message__s}{Can\+Message\+\_\+s}} \texorpdfstring{$\ast$}{*}received\+\_\+message)
@@ -48,6 +53,12 @@ void {\bfseries FDCAN3\+\_\+\+IT0\+\_\+\+IRQHandler} (void)
 \item 
 bool \mbox{\hyperlink{can_8c_a2939ee64b45b67008f5769ba9d0f5f16}{core\+\_\+\+CAN\+\_\+add\+\_\+filter}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can, bool is\+Extended, uint32\+\_\+t id1, uint32\+\_\+t id2)
 \begin{DoxyCompactList}\small\item\em Add an RX filter for the given FDCAN module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{can_8c_aa7200028243560e4cf59759da4d2e07d}\label{can_8c_aa7200028243560e4cf59759da4d2e07d} 
+const uint8\+\_\+t {\bfseries core\+\_\+\+CAN\+\_\+dlc\+\_\+lookup} \mbox{[}16\mbox{]} = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64\}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -57,7 +68,11 @@ This core library component is used to interface with the FDCAN hardware.\hypert
 An FDCAN module is initialized by calling the \doxylink{can_8c_af5a65d61181a7d9e50f8f42df8a73cf7}{core\+\_\+\+CAN\+\_\+init()} function. The CAN bitrate is set to {\ttfamily CORE\+\_\+\+CAN\+\_\+\+BITRATE}, which is given in bits/second and defined in {\ttfamily core\+\_\+config.\+h}. If {\ttfamily CORE\+\_\+\+FDCANx\+\_\+\+AUTO\+\_\+\+RETRANSMISSION} is set to 1 in {\ttfamily core\+\_\+config.\+h}, the FDCANx module will be cofigured to automatically retransmit packets that were not acknowledged. If {\ttfamily CORE\+\_\+\+FDCANx\+\_\+\+USE\+\_\+\+FD} is set to 1 in {\ttfamily core\+\_\+config.\+h}, the FDCANx module will be able to send and receive FD CAN frames as well as standard CAN frames.\hypertarget{can_8c_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{Transmitting}{Transmitting}}\label{can_8c_autotoc_md3}
 Transmission on the CAN bus is managed by a Free\+RTOS queue and occurs in two parts. First, the user code adds a CAN frame to the queue with \doxylink{can_8c_ae0e18230790182107643e8c44d59646f}{core\+\_\+\+CAN\+\_\+add\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue()} (classic and FD CAN) or with \doxylink{can_8c_a78c43d4e3c5280d09a1bca37f9ba986f}{core\+\_\+\+CAN\+\_\+add\+\_\+extended\+\_\+message\+\_\+to\+\_\+tx\+\_\+queue()} (FD CAN only).
 
-The user code must also run \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()} in a dedicated Free\+RTOS task. If \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()}, an error has occurred while transmitting.\hypertarget{can_8c_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Receiving}{Receiving}}\label{can_8c_autotoc_md4}
+The user code must also run \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()} in a dedicated Free\+RTOS task. If \doxylink{can_8c_a5956fa458e011f58d514fcfa3f45b72a}{core\+\_\+\+CAN\+\_\+send\+\_\+from\+\_\+tx\+\_\+queue\+\_\+task()}, an error has occurred while transmitting.
+
+Internally, a Free\+RTOS semaphore is used to ensure only one message sits in the hardware CAN queue at a time. The semaphore is given whenever a transmission completes (or fails) and is taken whenever a message is added to the hardware queue.
+
+Alternatively, the user can disable the Free\+RTOS queue by defining {\ttfamily CORE\+\_\+\+CAN\+\_\+\+DISABLE\+\_\+\+TX\+\_\+\+QUEUE} in {\ttfamily core\+\_\+config.\+h}. This is useful if the user needs finer control over the transmission, wants to synchronize CAN transmissions between FDCAN modules, or would like to save SRAM space. The RX queue is not affected and the user can access the semaphore using core\+\_\+\+CAN\+\_\+convert(), but will be responsible for taking the semaphore.\hypertarget{can_8c_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Receiving}{Receiving}}\label{can_8c_autotoc_md4}
 In order to enable receiving CAN frames, the user code must first set up one or more filters using the \doxylink{can_8c_a2939ee64b45b67008f5769ba9d0f5f16}{core\+\_\+\+CAN\+\_\+add\+\_\+filter()} function. When a frame matching any of the applied filters is received, the FDCAN hardware triggers an interrupt that inserts the contents of this frame into a receiving Free\+RTOS queue.
 
 The user code must the define a task that repeatedly calls \doxylink{can_8c_a5633bcdabb91aa4268b2b135a8ef21fe}{core\+\_\+\+CAN\+\_\+receive\+\_\+from\+\_\+queue()} (classic CAN) or \doxylink{can_8c_a5abf7049ba56ae95525c7ef6b043c3fd}{core\+\_\+\+CAN\+\_\+receive\+\_\+extended\+\_\+from\+\_\+queue()} (FD CAN only). These functions will return 1 if a frame has been loaded from the queue and 0 otherwise. It is necessary to poll these functions, since they are non-\/blocking. 
@@ -212,6 +227,34 @@ If a frame is waiting in the RX queue, copy it to the given location.
 {\em 0} & otherwise \\
 \hline
 \end{DoxyRetVals}
+\Hypertarget{can_8c_aec814b501cd9c108a515bcbb0e3bf4a4}\index{can.c@{can.c}!core\_CAN\_send\_fd\_message@{core\_CAN\_send\_fd\_message}}
+\index{core\_CAN\_send\_fd\_message@{core\_CAN\_send\_fd\_message}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_send\_fd\_message()}{core\_CAN\_send\_fd\_message()}}
+{\footnotesize\ttfamily \label{can_8c_aec814b501cd9c108a515bcbb0e3bf4a4} 
+bool core\+\_\+\+CAN\+\_\+send\+\_\+fd\+\_\+message (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{uint32\+\_\+t}]{id}{, }\item[{uint8\+\_\+t}]{dlc}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Add an FDCAN message to the hardware FIFO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module \\
+\hline
+{\em id} & ID of the message to be transmitted. If this value is greater than 2047, then an extended ID is automatically selected. Only the lowest 29 bits are kept, so setting the MSB will force an extended ID even if the ID is less than or equal to 2047 \\
+\hline
+{\em dlc} & Length of the packet. If the length does not correspond to a valid FDCAN packet length, \\
+\hline
+{\em data} & Pointer to the data to be transmitted \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if an error occurred while adding the message to the queue \\
+\hline
+{\em 1} & otherwise \\
+\hline
+\end{DoxyRetVals}
 \Hypertarget{can_8c_a5956fa458e011f58d514fcfa3f45b72a}\index{can.c@{can.c}!core\_CAN\_send\_from\_tx\_queue\_task@{core\_CAN\_send\_from\_tx\_queue\_task}}
 \index{core\_CAN\_send\_from\_tx\_queue\_task@{core\_CAN\_send\_from\_tx\_queue\_task}!can.c@{can.c}}
 \doxysubsubsection{\texorpdfstring{core\_CAN\_send\_from\_tx\_queue\_task()}{core\_CAN\_send\_from\_tx\_queue\_task()}}
@@ -227,3 +270,31 @@ Loop for sending data in the TX queue over CAN. This function must be run in its
 {\em can} & FDCAN module \\
 \hline
 \end{DoxyParams}
+\Hypertarget{can_8c_a84ba21a70b0eaa5a94ebfa9d80ce0834}\index{can.c@{can.c}!core\_CAN\_send\_message@{core\_CAN\_send\_message}}
+\index{core\_CAN\_send\_message@{core\_CAN\_send\_message}!can.c@{can.c}}
+\doxysubsubsection{\texorpdfstring{core\_CAN\_send\_message()}{core\_CAN\_send\_message()}}
+{\footnotesize\ttfamily \label{can_8c_a84ba21a70b0eaa5a94ebfa9d80ce0834} 
+bool core\+\_\+\+CAN\+\_\+send\+\_\+message (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{, }\item[{uint32\+\_\+t}]{id}{, }\item[{uint8\+\_\+t}]{dlc}{, }\item[{uint64\+\_\+t}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Add a CAN message to the hardware FIFO. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can} & FDCAN module \\
+\hline
+{\em id} & ID of the message to be transmitted. If this value is greater than 2047, then an extended ID is automatically selected. Only the lowest 29 bits are kept, so setting the MSB will force an extended ID even if the ID is less than or equal to 2047 \\
+\hline
+{\em dlc} & Length of the packet (0-\/8) \\
+\hline
+{\em data} & Data encoded as a uint64\+\_\+t \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & if an error occurred while adding the message to the queue \\
+\hline
+{\em 1} & otherwise \\
+\hline
+\end{DoxyRetVals}
