@@ -1,25 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="gpio_8h" kind="file" language="C++">
     <compoundname>gpio.h</compoundname>
     <includes local="yes">stm32g4xx_hal.h</includes>
     <includes local="no">stdint.h</includes>
     <includes local="no">stdbool.h</includes>
-    <includedby refid="adc_8c" local="yes">/home/matthias/racing/core/src/driver/Src/adc.c</includedby>
-    <includedby refid="boot_8c" local="yes">/home/matthias/racing/core/src/driver/Src/boot.c</includedby>
-    <includedby refid="can_8c" local="yes">/home/matthias/racing/core/src/driver/Src/can.c</includedby>
-    <includedby refid="error__handler_8c" local="yes">/home/matthias/racing/core/src/driver/Src/error_handler.c</includedby>
-    <includedby refid="gpio_8c" local="yes">/home/matthias/racing/core/src/driver/Src/gpio.c</includedby>
-    <includedby refid="usart_8c" local="yes">/home/matthias/racing/core/src/driver/Src/usart.c</includedby>
+    <includedby refid="adc_8c" local="yes">src/driver/Src/adc.c</includedby>
+    <includedby refid="boot_8c" local="yes">src/driver/Src/boot.c</includedby>
+    <includedby refid="can_8c" local="yes">src/driver/Src/can.c</includedby>
+    <includedby refid="error__handler_8c" local="yes">src/driver/Src/error_handler.c</includedby>
+    <includedby refid="gpio_8c" local="yes">src/driver/Src/gpio.c</includedby>
+    <includedby refid="usart_8c" local="yes">src/driver/Src/usart.c</includedby>
     <incdepgraph>
-      <node id="4">
-        <label>stdbool.h</label>
-      </node>
-      <node id="3">
-        <label>stdint.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/gpio.h</label>
+        <label>src/driver/Inc/gpio.h</label>
         <link refid="gpio_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -28,17 +22,19 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
       <node id="2">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="6">
-        <label>/home/matthias/racing/core/src/driver/Src/usart.c</label>
-        <link refid="usart_8c"/>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/gpio.h</label>
+        <label>src/driver/Inc/gpio.h</label>
         <link refid="gpio_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -52,23 +48,27 @@
         </childnode>
       </node>
       <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Src/adc.c</label>
+        <label>src/driver/Src/adc.c</label>
         <link refid="adc_8c"/>
       </node>
-      <node id="5">
-        <label>/home/matthias/racing/core/src/driver/Src/gpio.c</label>
-        <link refid="gpio_8c"/>
-      </node>
       <node id="3">
-        <label>/home/matthias/racing/core/src/driver/Src/boot.c</label>
+        <label>src/driver/Src/boot.c</label>
         <link refid="boot_8c"/>
       </node>
       <node id="4">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
       </node>
+      <node id="5">
+        <label>src/driver/Src/gpio.c</label>
+        <link refid="gpio_8c"/>
+      </node>
+      <node id="6">
+        <label>src/driver/Src/usart.c</label>
+        <link refid="usart_8c"/>
+      </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="gpio_8h_1a35c1597c1afe99715c5ce4f07eb1225d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_GPIO_init</definition>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="7" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="27" bodyend="39" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="7" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="7" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="27" bodyend="39" declfile="src/driver/Inc/gpio.h" declline="7" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="gpio_8h_1a0da6c33f69a1025da40463041523375a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -183,7 +183,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="8" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="47" bodyend="50" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="8" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="8" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="47" bodyend="50" declfile="src/driver/Inc/gpio.h" declline="8" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="gpio_8h_1a36b1217f23f1b9fe28a5ceb7dc302e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -225,7 +225,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="9" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="58" bodyend="61" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="9" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="9" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="58" bodyend="61" declfile="src/driver/Inc/gpio.h" declline="9" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="gpio_8h_1a5e91bf3f87bff4c2db429a737824ae17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -265,7 +265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="11" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="68" bodyend="74" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="11" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="11" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="68" bodyend="74" declfile="src/driver/Inc/gpio.h" declline="11" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="gpio_8h_1a5e894851f0d0aa9792d8407a40e811a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -279,7 +279,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="12" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="79" bodyend="82" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="12" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="12" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="79" bodyend="82" declfile="src/driver/Inc/gpio.h" declline="12" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="gpio_8h_1af91019da72ff073dc204bebfee5e152e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -307,9 +307,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h" line="13" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/gpio.c" bodystart="88" bodyend="91" declfile="/home/matthias/racing/core/src/driver/Inc/gpio.h" declline="13" declcolumn="6"/>
+        <location file="src/driver/Inc/gpio.h" line="13" column="6" bodyfile="src/driver/Src/gpio.c" bodystart="88" bodyend="91" declfile="src/driver/Inc/gpio.h" declline="13" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -321,14 +321,14 @@
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1a35c1597c1afe99715c5ce4f07eb1225d" kindref="member">core_GPIO_init</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin,<sp/>uint16_t<sp/>dir,<sp/>uint32_t<sp/>pull);</highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1a0da6c33f69a1025da40463041523375a" kindref="member">core_GPIO_digital_write</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>state);</highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1a36b1217f23f1b9fe28a5ceb7dc302e10" kindref="member">core_GPIO_digital_read</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_GPIO_init(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin,<sp/>uint16_t<sp/>dir,<sp/>uint32_t<sp/>pull);</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_GPIO_digital_write(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>state);</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_GPIO_digital_read(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin);</highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1a5e91bf3f87bff4c2db429a737824ae17" kindref="member">core_heartbeat_init</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin);</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1a5e894851f0d0aa9792d8407a40e811a1" kindref="member">core_GPIO_toggle_heartbeat</ref>();</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="gpio_8c_1af91019da72ff073dc204bebfee5e152e" kindref="member">core_GPIO_set_heartbeat</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>state);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_heartbeat_init(GPIO_TypeDef<sp/>*port,<sp/>uint16_t<sp/>pin);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_GPIO_toggle_heartbeat();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_GPIO_set_heartbeat(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>state);</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/gpio.h"/>
+    <location file="src/driver/Inc/gpio.h"/>
   </compounddef>
 </doxygen>

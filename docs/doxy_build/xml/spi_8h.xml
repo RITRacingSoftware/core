@@ -1,20 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="spi_8h" kind="file" language="C++">
     <compoundname>spi.h</compoundname>
     <includes local="no">stdint.h</includes>
     <includes local="no">stdbool.h</includes>
     <includes local="no">stm32g4xx_hal.h</includes>
-    <includedby refid="spi_8c" local="yes">/home/matthias/racing/core/src/driver/Src/spi.c</includedby>
+    <includedby refid="spi_8c" local="yes">src/driver/Src/spi.c</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="2">
-        <label>stdint.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/spi.h</label>
+        <label>src/driver/Inc/spi.h</label>
         <link refid="spi_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -23,23 +17,29 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
       <node id="4">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Src/spi.c</label>
-        <link refid="spi_8c"/>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/spi.h</label>
+        <label>src/driver/Inc/spi.h</label>
         <link refid="spi_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>src/driver/Src/spi.c</label>
+        <link refid="spi_8c"/>
+      </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="spi_8h_1a36c101bcb5e471be58d32274026d2a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool core_SPI_init</definition>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/spi.h" line="9" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/spi.c" bodystart="32" bodyend="129" declfile="/home/matthias/racing/core/src/driver/Inc/spi.h" declline="9" declcolumn="6"/>
+        <location file="src/driver/Inc/spi.h" line="9" column="6" bodyfile="src/driver/Src/spi.c" bodystart="32" bodyend="129" declfile="src/driver/Inc/spi.h" declline="9" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="spi_8h_1a2f15441739467f9d411486019e3dd869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -168,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/spi.h" line="10" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/spi.c" bodystart="143" bodyend="161" declfile="/home/matthias/racing/core/src/driver/Inc/spi.h" declline="10" declcolumn="6"/>
+        <location file="src/driver/Inc/spi.h" line="10" column="6" bodyfile="src/driver/Src/spi.c" bodystart="143" bodyend="161" declfile="src/driver/Inc/spi.h" declline="10" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="spi_8h_1a031148ca9fc6ef73a13d90bb0f0fa818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/spi.h" line="11" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/spi.c" bodystart="167" bodyend="185" declfile="/home/matthias/racing/core/src/driver/Inc/spi.h" declline="11" declcolumn="6"/>
+        <location file="src/driver/Inc/spi.h" line="11" column="6" bodyfile="src/driver/Src/spi.c" bodystart="167" bodyend="185" declfile="src/driver/Inc/spi.h" declline="11" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="spi_8h_1a6eb357bc6e05cdb51276f4ca289ac34a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -224,9 +224,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/spi.h" line="12" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/spi.c" bodystart="191" bodyend="209" declfile="/home/matthias/racing/core/src/driver/Inc/spi.h" declline="12" declcolumn="6"/>
+        <location file="src/driver/Inc/spi.h" line="12" column="6" bodyfile="src/driver/Src/spi.c" bodystart="191" bodyend="209" declfile="src/driver/Inc/spi.h" declline="12" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -240,13 +240,13 @@
 <codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stm32g4xx_hal.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a36c101bcb5e471be58d32274026d2a14" kindref="member">core_SPI_init</ref>(SPI_TypeDef<sp/>*spi,<sp/>GPIO_TypeDef<sp/>*cs_port,<sp/>uint16_t<sp/>cs_pin);</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a2f15441739467f9d411486019e3dd869" kindref="member">core_SPI_read_write</ref>(SPI_TypeDef<sp/>*spi,<sp/>uint8_t<sp/>*txbuf,<sp/>uint32_t<sp/>txbuflen,<sp/>uint8_t<sp/>*rxbuf,<sp/>uint32_t<sp/>rxbuflen);</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a031148ca9fc6ef73a13d90bb0f0fa818" kindref="member">core_SPI_start</ref>(SPI_TypeDef<sp/>*spi);</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="spi_8c_1a6eb357bc6e05cdb51276f4ca289ac34a" kindref="member">core_SPI_stop</ref>(SPI_TypeDef<sp/>*spi);</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_SPI_init(SPI_TypeDef<sp/>*spi,<sp/>GPIO_TypeDef<sp/>*cs_port,<sp/>uint16_t<sp/>cs_pin);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_SPI_read_write(SPI_TypeDef<sp/>*spi,<sp/>uint8_t<sp/>*txbuf,<sp/>uint32_t<sp/>txbuflen,<sp/>uint8_t<sp/>*rxbuf,<sp/>uint32_t<sp/>rxbuflen);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_SPI_start(SPI_TypeDef<sp/>*spi);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_SPI_stop(SPI_TypeDef<sp/>*spi);</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/spi.h"/>
+    <location file="src/driver/Inc/spi.h"/>
   </compounddef>
 </doxygen>

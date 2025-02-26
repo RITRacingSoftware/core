@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="adc_8c" kind="file" language="C++">
     <compoundname>adc.c</compoundname>
     <includes refid="adc_8h" local="yes">adc.h</includes>
@@ -13,15 +13,6 @@
     <includes refid="clock_8h" local="yes">clock.h</includes>
     <includes refid="error__handler_8h" local="yes">error_handler.h</includes>
     <incdepgraph>
-      <node id="4">
-        <label>stdbool.h</label>
-      </node>
-      <node id="8">
-        <label>stm32g4xx_hal_adc.h</label>
-      </node>
-      <node id="3">
-        <label>stdint.h</label>
-      </node>
       <node id="2">
         <label>adc.h</label>
         <link refid="adc_8h_source"/>
@@ -42,6 +33,10 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="12">
+        <label>error_handler.h</label>
+        <link refid="error__handler_8h_source"/>
+      </node>
       <node id="10">
         <label>gpio.h</label>
         <link refid="gpio_8h_source"/>
@@ -52,11 +47,8 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="9">
-        <label>string.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/adc.c</label>
+        <label>src/driver/Src/adc.c</label>
         <link refid="adc_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -79,12 +71,14 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="12">
-        <label>error_handler.h</label>
-        <link refid="error__handler_8h_source"/>
-      </node>
       <node id="6">
         <label>core_config.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
       </node>
       <node id="7">
         <label>stdio.h</label>
@@ -92,8 +86,14 @@
       <node id="5">
         <label>stm32g4xx_hal.h</label>
       </node>
+      <node id="8">
+        <label>stm32g4xx_hal_adc.h</label>
+      </node>
+      <node id="9">
+        <label>string.h</label>
+      </node>
     </incdepgraph>
-      <sectiondef kind="var">
+    <sectiondef kind="var">
       <memberdef kind="variable" id="adc_8c_1a3af22b46d4a4cf16b26273d6a9054179" prot="public" static="yes" mutable="no">
         <type>ADC_HandleTypeDef</type>
         <definition>ADC_HandleTypeDef adc1</definition>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="42" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="42" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="42" column="26" bodyfile="src/driver/Src/adc.c" bodystart="42" bodyend="42"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1a3a5d52490a8c5b0cf0d9d08515719476" prot="public" static="yes" mutable="no">
         <type>ADC_HandleTypeDef</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="43" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="43" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="43" column="26" bodyfile="src/driver/Src/adc.c" bodystart="43" bodyend="43"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1a74627bb1eb14733d5d1c1dc7c609569d" prot="public" static="yes" mutable="no">
         <type>ADC_HandleTypeDef</type>
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="44" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="44" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="44" column="26" bodyfile="src/driver/Src/adc.c" bodystart="44" bodyend="44"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1ab631171a6ab1305a6afa56b2fcf84516" prot="public" static="yes" mutable="no">
         <type>ADC_HandleTypeDef</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="45" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="45" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="45" column="26" bodyfile="src/driver/Src/adc.c" bodystart="45" bodyend="45"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1ac2a13d9a01f7398883e64dcfd685c3c8" prot="public" static="yes" mutable="no">
         <type>ADC_HandleTypeDef</type>
@@ -162,10 +162,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="46" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="46" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="46" column="26" bodyfile="src/driver/Src/adc.c" bodystart="46" bodyend="46"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1a6da2f195cdf25256078167f02868a5b2" prot="public" static="yes" mutable="no">
-        <type><ref refid="structcore__ADC__def__s" kindref="compound">core_ADC_def_t</ref></type>
+        <type><ref refid="structcore___a_d_c__def__s" kindref="compound">core_ADC_def_t</ref></type>
         <definition>core_ADC_def_t adc_defs[]</definition>
         <argsstring>[]</argsstring>
         <name>adc_defs</name>
@@ -175,7 +175,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="49" column="23" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="49" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="49" column="23" bodyfile="src/driver/Src/adc.c" bodystart="49" bodyend="92"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1aa3f924e56234c0d53db62abd5ce39560" prot="public" static="yes" mutable="no">
         <type>uint16_t</type>
@@ -189,7 +189,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="94" column="17" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="94" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="94" column="17" bodyfile="src/driver/Src/adc.c" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="adc_8c_1acc7710217e13774ae2341e484213b722" prot="public" static="yes" mutable="no">
         <type>const uint32_t</type>
@@ -208,10 +208,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="95" column="23" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="95" bodyend="-1"/>
+        <location file="src/driver/Src/adc.c" line="95" column="23" bodyfile="src/driver/Src/adc.c" bodystart="95" bodyend="100"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="adc_8c_1a621a15aeabffa62cc698e79224fb5985" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool core_ADC_init</definition>
@@ -255,7 +255,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="111" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="111" bodyend="158"/>
+        <location file="src/driver/Src/adc.c" line="111" column="6" bodyfile="src/driver/Src/adc.c" bodystart="111" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="adc_8c_1ae013346221e7d8ad7c08230899a8b09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -324,7 +324,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="169" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="169" bodyend="244"/>
+        <location file="src/driver/Src/adc.c" line="169" column="6" bodyfile="src/driver/Src/adc.c" bodystart="169" bodyend="244"/>
       </memberdef>
       <memberdef kind="function" id="adc_8c_1a3334b39ee94f9f9c300ac81b88848a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -393,27 +393,25 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/adc.c" line="256" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/adc.c" bodystart="256" bodyend="298"/>
+        <location file="src/driver/Src/adc.c" line="256" column="6" bodyfile="src/driver/Src/adc.c" bodystart="256" bodyend="298"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
 <para>Core ADC library. </para>
     </briefdescription>
     <detaileddescription>
 <para>This core library component is used to initialize ADCs and read from analog inputs.</para>
-<sect2 id="adc_8c_1autotoc_md0">
-<title>Initialization</title>
-<para>Before initializing any pins, the user code must initialize one or more ADC modules.</para>
+<sect1 id="adc_8c_1autotoc_md0_1s1"><sect2 id="adc_8c_1autotoc_md0">
+<title>Initialization</title><para>Before initializing any pins, the user code must initialize one or more ADC modules.</para>
 <para>To initialize a pin, the user code calls <ref refid="adc_8c_1ae013346221e7d8ad7c08230899a8b09a" kindref="member">core_ADC_setup_pin()</ref>. This function takes the port and pin number as well as a third argument specifying whether the analog signal should be routed through an internal op amp follower circuit. This will improve the accuracy of the measurement when the analog input is fed from a high-impedance source</para>
 <para>If <ref refid="adc_8c_1ae013346221e7d8ad7c08230899a8b09a" kindref="member">core_ADC_setup_pin()</ref> returns 0, then the desired pin cannot be connected to any of the ADCs that are currently initialized. It may be necessary to initialize an additional ADC module or change the pin the analog input is connected to.</para>
-</sect2>
-<sect2 id="adc_8c_1autotoc_md1">
-<title>Reading</title>
-<para>To read from an analog input, the user code calls <ref refid="adc_8c_1a3334b39ee94f9f9c300ac81b88848a2e" kindref="member">core_ADC_read_channel()</ref>. The result is stored in a pointer passed as an argument, and the return value specifies whether the conversion was successful or not. </para>
-</sect2>
+</sect2></sect1>
+<sect1 id="adc_8c_1autotoc_md1_1s1"><sect2 id="adc_8c_1autotoc_md1">
+<title>Reading</title><para>To read from an analog input, the user code calls <ref refid="adc_8c_1a3334b39ee94f9f9c300ac81b88848a2e" kindref="member">core_ADC_read_channel()</ref>. The result is stored in a pointer passed as an argument, and the return value specifies whether the conversion was successful or not. </para>
+</sect2></sect1>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;adc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
@@ -434,7 +432,7 @@
 <codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ADC_HandleTypeDef<sp/>adc5<sp/>=<sp/>{0};</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
 <codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore__ADC__def__s" kindref="compound">core_ADC_def_t</ref><sp/>adc_defs[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore___a_d_c__def__s" kindref="compound">core_ADC_def_t</ref><sp/>adc_defs[]<sp/>=<sp/>{</highlight></codeline>
 <codeline lineno="50"><highlight class="normal">{GPIOA,<sp/>GPIO_PIN_0,<sp/>CORE_ADC_ALLOWED_ADC1<sp/>|<sp/>CORE_ADC_ALLOWED_ADC2,<sp/>{1,<sp/>1,<sp/>0,<sp/>0,<sp/>0},<sp/>0,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/>0},</highlight></codeline>
 <codeline lineno="51"><highlight class="normal">{GPIOA,<sp/>GPIO_PIN_1,<sp/>CORE_ADC_ALLOWED_ADC1<sp/>|<sp/>CORE_ADC_ALLOWED_ADC2<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP1<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP3,<sp/>{2,<sp/>2,<sp/>0,<sp/>0,<sp/>0},<sp/>32,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/>0},</highlight></codeline>
 <codeline lineno="52"><highlight class="normal">{GPIOA,<sp/>GPIO_PIN_2,<sp/>CORE_ADC_ALLOWED_ADC1,<sp/>{3,<sp/>0,<sp/>0,<sp/>0,<sp/>0},<sp/>0,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/>0},</highlight></codeline>
@@ -494,23 +492,23 @@
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ADC_HandleTypeDef<sp/>*hadc;</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(adc<sp/>==<sp/>ADC1)<sp/>{</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hadc<sp/>=<sp/>&amp;adc1;</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" kindref="member">core_clock_ADC12_init</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_ADC12_init();</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_ADC_initialized<sp/>|=<sp/>CORE_ADC_ALLOWED_ADC1<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP1;</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(adc<sp/>==<sp/>ADC2)<sp/>{</highlight></codeline>
 <codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hadc<sp/>=<sp/>&amp;adc2;</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" kindref="member">core_clock_ADC12_init</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_ADC12_init();</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_ADC_initialized<sp/>|=<sp/>CORE_ADC_ALLOWED_ADC2<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP2<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP3;</highlight></codeline>
 <codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(adc<sp/>==<sp/>ADC3)<sp/>{</highlight></codeline>
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hadc<sp/>=<sp/>&amp;adc3;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kindref="member">core_clock_ADC345_init</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_ADC345_init();</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_ADC_initialized<sp/>|=<sp/>CORE_ADC_ALLOWED_ADC3<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP3;</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(adc<sp/>==<sp/>ADC4)<sp/>{</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hadc<sp/>=<sp/>&amp;adc4;</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kindref="member">core_clock_ADC345_init</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_ADC345_init();</highlight></codeline>
 <codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_ADC_initialized<sp/>|=<sp/>CORE_ADC_ALLOWED_ADC4<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP6;</highlight></codeline>
 <codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(adc<sp/>==<sp/>ADC5)<sp/>{</highlight></codeline>
 <codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hadc<sp/>=<sp/>&amp;adc5;</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kindref="member">core_clock_ADC345_init</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_clock_ADC345_init();</highlight></codeline>
 <codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_ADC_initialized<sp/>|=<sp/>CORE_ADC_ALLOWED_ADC5<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP4<sp/>|<sp/>CORE_ADC_ALLOWED_OPAMP5;</highlight></codeline>
 <codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="136"><highlight class="normal"></highlight></codeline>
@@ -538,7 +536,7 @@
 <codeline lineno="158"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
 <codeline lineno="169"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="adc_8c_1ae013346221e7d8ad7c08230899a8b09a" kindref="member">core_ADC_setup_pin</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint32_t<sp/>pin,<sp/>uint8_t<sp/>opamp)<sp/>{</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__ADC__def__s" kindref="compound">core_ADC_def_t</ref><sp/>*adc_def_ptr<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___a_d_c__def__s" kindref="compound">core_ADC_def_t</ref><sp/>*adc_def_ptr<sp/>=<sp/>NULL;</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>i=0;<sp/>i<sp/>&lt;<sp/>42;<sp/>i++)<sp/>{</highlight></codeline>
 <codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((adc_defs[i].port<sp/>==<sp/>port)<sp/>&amp;&amp;<sp/>(adc_defs[i].pin<sp/>==<sp/>pin))<sp/>{</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adc_def_ptr<sp/>=<sp/>adc_defs<sp/>+<sp/>i;</highlight></codeline>
@@ -616,7 +614,7 @@
 <codeline lineno="245"><highlight class="normal"></highlight></codeline>
 <codeline lineno="246"><highlight class="normal"></highlight></codeline>
 <codeline lineno="256"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="adc_8c_1a3334b39ee94f9f9c300ac81b88848a2e" kindref="member">core_ADC_read_channel</ref>(GPIO_TypeDef<sp/>*port,<sp/>uint32_t<sp/>pin,<sp/>uint16_t<sp/>*result)<sp/>{</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__ADC__def__s" kindref="compound">core_ADC_def_t</ref><sp/>*adc_def_ptr<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___a_d_c__def__s" kindref="compound">core_ADC_def_t</ref><sp/>*adc_def_ptr<sp/>=<sp/>NULL;</highlight></codeline>
 <codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>i=0;<sp/>i<sp/>&lt;<sp/>42;<sp/>i++)<sp/>{</highlight></codeline>
 <codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((adc_defs[i].port<sp/>==<sp/>port)<sp/>&amp;&amp;<sp/>(adc_defs[i].pin<sp/>==<sp/>pin))<sp/>{</highlight></codeline>
 <codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adc_def_ptr<sp/>=<sp/>adc_defs<sp/>+<sp/>i;</highlight></codeline>
@@ -660,6 +658,6 @@
 <codeline lineno="298"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="299"><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/adc.c"/>
+    <location file="src/driver/Src/adc.c"/>
   </compounddef>
 </doxygen>

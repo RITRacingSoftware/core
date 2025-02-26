@@ -1,48 +1,48 @@
-\hypertarget{adc_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/adc.c File Reference}
-\label{adc_8c}\index{/home/matthias/racing/core/src/driver/Src/adc.c@{/home/matthias/racing/core/src/driver/Src/adc.c}}
+\doxysection{src/driver/\+Src/adc.c File Reference}
+\hypertarget{adc_8c}{}\label{adc_8c}\index{src/driver/Src/adc.c@{src/driver/Src/adc.c}}
 
 
 Core ADC library.  
 
 
-{\ttfamily \#include \char`\"{}adc.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include "{}adc.\+h"{}}\newline
+{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal.\+h$>$}\newline
 {\ttfamily \#include $<$stm32g4xx\+\_\+hal\+\_\+adc.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}error\+\_\+handler.\+h\char`\"{}}\newline
-\doxysubsection*{Functions}
+{\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}clock.\+h"{}}\newline
+{\ttfamily \#include "{}error\+\_\+handler.\+h"{}}\newline
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{adc_8c_a621a15aeabffa62cc698e79224fb5985}{core\+\_\+\+ADC\+\_\+init}} (ADC\+\_\+\+Type\+Def $\ast$adc)
+bool \mbox{\hyperlink{adc_8c_a621a15aeabffa62cc698e79224fb5985}{core\+\_\+\+ADC\+\_\+init}} (ADC\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}adc)
 \begin{DoxyCompactList}\small\item\em Initialize an ADC module, including its clock. Also performs calibration. GPIO ports are not initialized. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint32\+\_\+t pin, uint8\+\_\+t opamp)
+bool \mbox{\hyperlink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint32\+\_\+t pin, uint8\+\_\+t opamp)
 \begin{DoxyCompactList}\small\item\em Set up a pin as an analog input. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}{core\+\_\+\+ADC\+\_\+read\+\_\+channel}} (GPIO\+\_\+\+Type\+Def $\ast$port, uint32\+\_\+t pin, uint16\+\_\+t $\ast$result)
+bool \mbox{\hyperlink{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}{core\+\_\+\+ADC\+\_\+read\+\_\+channel}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port, uint32\+\_\+t pin, uint16\+\_\+t \texorpdfstring{$\ast$}{*}result)
 \begin{DoxyCompactList}\small\item\em Read the value of an analog input as a value between 0 and 4095. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Core ADC library. 
 
-This core library component is used to initialize ADCs and read from analog inputs.\hypertarget{adc_8c_autotoc_md0}{}\doxysubsubsection{Initialization}\label{adc_8c_autotoc_md0}
+This core library component is used to initialize ADCs and read from analog inputs.\hypertarget{adc_8c_autotoc_md0}{}\doxysubsubsection{\texorpdfstring{Initialization}{Initialization}}\label{adc_8c_autotoc_md0}
 Before initializing any pins, the user code must initialize one or more ADC modules.
 
-To initialize a pin, the user code calls \mbox{\hyperlink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin()}}. This function takes the port and pin number as well as a third argument specifying whether the analog signal should be routed through an internal op amp follower circuit. This will improve the accuracy of the measurement when the analog input is fed from a high-\/impedance source
+To initialize a pin, the user code calls \doxylink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin()}. This function takes the port and pin number as well as a third argument specifying whether the analog signal should be routed through an internal op amp follower circuit. This will improve the accuracy of the measurement when the analog input is fed from a high-\/impedance source
 
-If \mbox{\hyperlink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin()}} returns 0, then the desired pin cannot be connected to any of the ADCs that are currently initialized. It may be necessary to initialize an additional ADC module or change the pin the analog input is connected to.\hypertarget{adc_8c_autotoc_md1}{}\doxysubsubsection{Reading}\label{adc_8c_autotoc_md1}
-To read from an analog input, the user code calls \mbox{\hyperlink{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}{core\+\_\+\+ADC\+\_\+read\+\_\+channel()}}. The result is stored in a pointer passed as an argument, and the return value specifies whether the conversion was successful or not. 
+If \doxylink{adc_8c_ae013346221e7d8ad7c08230899a8b09a}{core\+\_\+\+ADC\+\_\+setup\+\_\+pin()} returns 0, then the desired pin cannot be connected to any of the ADCs that are currently initialized. It may be necessary to initialize an additional ADC module or change the pin the analog input is connected to.\hypertarget{adc_8c_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{Reading}{Reading}}\label{adc_8c_autotoc_md1}
+To read from an analog input, the user code calls \doxylink{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}{core\+\_\+\+ADC\+\_\+read\+\_\+channel()}. The result is stored in a pointer passed as an argument, and the return value specifies whether the conversion was successful or not. 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{adc_8c_a621a15aeabffa62cc698e79224fb5985}\label{adc_8c_a621a15aeabffa62cc698e79224fb5985}} 
-\index{adc.c@{adc.c}!core\_ADC\_init@{core\_ADC\_init}}
+\Hypertarget{adc_8c_a621a15aeabffa62cc698e79224fb5985}\index{adc.c@{adc.c}!core\_ADC\_init@{core\_ADC\_init}}
 \index{core\_ADC\_init@{core\_ADC\_init}!adc.c@{adc.c}}
 \doxysubsubsection{\texorpdfstring{core\_ADC\_init()}{core\_ADC\_init()}}
-{\footnotesize\ttfamily bool core\+\_\+\+ADC\+\_\+init (\begin{DoxyParamCaption}\item[{ADC\+\_\+\+Type\+Def $\ast$}]{adc }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{adc_8c_a621a15aeabffa62cc698e79224fb5985} 
+bool core\+\_\+\+ADC\+\_\+init (\begin{DoxyParamCaption}\item[{ADC\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{adc}{}\end{DoxyParamCaption})}
 
 
 
@@ -60,11 +60,11 @@ Initialize an ADC module, including its clock. Also performs calibration. GPIO p
 {\em 1} & otherwise. \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}\label{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}} 
-\index{adc.c@{adc.c}!core\_ADC\_read\_channel@{core\_ADC\_read\_channel}}
+\Hypertarget{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e}\index{adc.c@{adc.c}!core\_ADC\_read\_channel@{core\_ADC\_read\_channel}}
 \index{core\_ADC\_read\_channel@{core\_ADC\_read\_channel}!adc.c@{adc.c}}
 \doxysubsubsection{\texorpdfstring{core\_ADC\_read\_channel()}{core\_ADC\_read\_channel()}}
-{\footnotesize\ttfamily bool core\+\_\+\+ADC\+\_\+read\+\_\+channel (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint32\+\_\+t}]{pin,  }\item[{uint16\+\_\+t $\ast$}]{result }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{adc_8c_a3334b39ee94f9f9c300ac81b88848a2e} 
+bool core\+\_\+\+ADC\+\_\+read\+\_\+channel (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint32\+\_\+t}]{pin}{, }\item[{uint16\+\_\+t \texorpdfstring{$\ast$}{*}}]{result}{}\end{DoxyParamCaption})}
 
 
 
@@ -86,11 +86,11 @@ Read the value of an analog input as a value between 0 and 4095.
 {\em 1} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{adc_8c_ae013346221e7d8ad7c08230899a8b09a}\label{adc_8c_ae013346221e7d8ad7c08230899a8b09a}} 
-\index{adc.c@{adc.c}!core\_ADC\_setup\_pin@{core\_ADC\_setup\_pin}}
+\Hypertarget{adc_8c_ae013346221e7d8ad7c08230899a8b09a}\index{adc.c@{adc.c}!core\_ADC\_setup\_pin@{core\_ADC\_setup\_pin}}
 \index{core\_ADC\_setup\_pin@{core\_ADC\_setup\_pin}!adc.c@{adc.c}}
 \doxysubsubsection{\texorpdfstring{core\_ADC\_setup\_pin()}{core\_ADC\_setup\_pin()}}
-{\footnotesize\ttfamily bool core\+\_\+\+ADC\+\_\+setup\+\_\+pin (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port,  }\item[{uint32\+\_\+t}]{pin,  }\item[{uint8\+\_\+t}]{opamp }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{adc_8c_ae013346221e7d8ad7c08230899a8b09a} 
+bool core\+\_\+\+ADC\+\_\+setup\+\_\+pin (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{, }\item[{uint32\+\_\+t}]{pin}{, }\item[{uint8\+\_\+t}]{opamp}{}\end{DoxyParamCaption})}
 
 
 

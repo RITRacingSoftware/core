@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="rtc_8c" kind="file" language="C++">
     <compoundname>rtc.c</compoundname>
     <includes local="no">stdint.h</includes>
@@ -10,20 +10,6 @@
     <includes local="yes">core_config.h</includes>
     <includes local="no">stm32g4xx_hal.h</includes>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="2">
-        <label>stdint.h</label>
-      </node>
-      <node id="5">
-        <label>rtc.h</label>
-        <link refid="rtc_8h_source"/>
-        <childnode refid="2" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
       <node id="6">
         <label>clock.h</label>
         <link refid="clock_8h_source"/>
@@ -34,11 +20,16 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="8">
-        <label>core_config.h</label>
+      <node id="5">
+        <label>rtc.h</label>
+        <link refid="rtc_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/rtc.c</label>
+        <label>src/driver/Src/rtc.c</label>
         <link refid="rtc_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -55,14 +46,23 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>time.h</label>
+      <node id="8">
+        <label>core_config.h</label>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
       </node>
       <node id="7">
         <label>stm32g4xx_hal.h</label>
       </node>
+      <node id="4">
+        <label>time.h</label>
+      </node>
     </incdepgraph>
-      <sectiondef kind="var">
+    <sectiondef kind="var">
       <memberdef kind="variable" id="rtc_8c_1ac8180a15d1db93e4f9f3c6cada686625" prot="public" static="yes" mutable="no">
         <type>uint32_t</type>
         <definition>uint32_t core_RTC_last_usec</definition>
@@ -75,10 +75,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="18" column="17" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="18" bodyend="-1"/>
+        <location file="src/driver/Src/rtc.c" line="18" column="17" bodyfile="src/driver/Src/rtc.c" bodystart="18" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="rtc_8c_1a2371259b42ee8ea799141e9c4a379089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool core_RTC_init</definition>
@@ -109,7 +109,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="25" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="25" bodyend="34"/>
+        <location file="src/driver/Src/rtc.c" line="25" column="6" bodyfile="src/driver/Src/rtc.c" bodystart="25" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="rtc_8c_1afab458d2de9c1086c59e84dc64fd8151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="44" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="44" bodyend="59"/>
+        <location file="src/driver/Src/rtc.c" line="44" column="6" bodyfile="src/driver/Src/rtc.c" bodystart="44" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="rtc_8c_1afb5cec548c668dddaa1e8bfec75d85f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="65" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="65" bodyend="86"/>
+        <location file="src/driver/Src/rtc.c" line="65" column="6" bodyfile="src/driver/Src/rtc.c" bodystart="65" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="rtc_8c_1ace4e2903ea297867eb2017ee89984122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -182,9 +182,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/rtc.c" line="93" column="10" bodyfile="/home/matthias/racing/core/src/driver/Src/rtc.c" bodystart="93" bodyend="95"/>
+        <location file="src/driver/Src/rtc.c" line="93" column="10" bodyfile="src/driver/Src/rtc.c" bodystart="93" bodyend="95"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
 <para>Core RTC library. </para>
     </briefdescription>
@@ -192,7 +192,7 @@
 <para>The core library component is used to set and get the current time using the internal RTC module. </para>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -205,7 +205,7 @@
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>core_RTC_last_usec<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="rtc_8c_1a2371259b42ee8ea799141e9c4a379089" kindref="member">core_RTC_init</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" kindref="member">core_clock_RTC_init</ref>())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!core_clock_RTC_init())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>RTC_HandleTypeDef<sp/>hrtc;</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>hrtc.Init.HourFormat<sp/>=<sp/>RTC_HOURFORMAT_24;</highlight></codeline>
@@ -260,6 +260,6 @@
 <codeline lineno="95"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/rtc.c"/>
+    <location file="src/driver/Src/rtc.c"/>
   </compounddef>
 </doxygen>

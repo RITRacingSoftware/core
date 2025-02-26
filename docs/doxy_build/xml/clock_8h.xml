@@ -1,28 +1,22 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="clock_8h" kind="file" language="C++">
     <compoundname>clock.h</compoundname>
     <includes local="yes">stm32g4xx_hal.h</includes>
     <includes local="no">stdbool.h</includes>
     <includes local="no">stdint.h</includes>
-    <includedby refid="can_8h" local="yes">/home/matthias/racing/core/src/driver/Inc/can.h</includedby>
-    <includedby refid="adc_8c" local="yes">/home/matthias/racing/core/src/driver/Src/adc.c</includedby>
-    <includedby refid="boot_8c" local="yes">/home/matthias/racing/core/src/driver/Src/boot.c</includedby>
-    <includedby refid="can_8c" local="yes">/home/matthias/racing/core/src/driver/Src/can.c</includedby>
-    <includedby refid="clock_8c" local="yes">/home/matthias/racing/core/src/driver/Src/clock.c</includedby>
-    <includedby refid="gpio_8c" local="yes">/home/matthias/racing/core/src/driver/Src/gpio.c</includedby>
-    <includedby refid="rtc_8c" local="yes">/home/matthias/racing/core/src/driver/Src/rtc.c</includedby>
-    <includedby refid="spi_8c" local="yes">/home/matthias/racing/core/src/driver/Src/spi.c</includedby>
-    <includedby refid="usart_8c" local="yes">/home/matthias/racing/core/src/driver/Src/usart.c</includedby>
+    <includedby refid="can_8h" local="yes">src/driver/Inc/can.h</includedby>
+    <includedby refid="adc_8c" local="yes">src/driver/Src/adc.c</includedby>
+    <includedby refid="boot_8c" local="yes">src/driver/Src/boot.c</includedby>
+    <includedby refid="can_8c" local="yes">src/driver/Src/can.c</includedby>
+    <includedby refid="clock_8c" local="yes">src/driver/Src/clock.c</includedby>
+    <includedby refid="gpio_8c" local="yes">src/driver/Src/gpio.c</includedby>
+    <includedby refid="rtc_8c" local="yes">src/driver/Src/rtc.c</includedby>
+    <includedby refid="spi_8c" local="yes">src/driver/Src/spi.c</includedby>
+    <includedby refid="usart_8c" local="yes">src/driver/Src/usart.c</includedby>
     <incdepgraph>
-      <node id="3">
-        <label>stdbool.h</label>
-      </node>
-      <node id="4">
-        <label>stdint.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/clock.h</label>
+        <label>src/driver/Inc/clock.h</label>
         <link refid="clock_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -31,21 +25,27 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stdint.h</label>
+      </node>
       <node id="2">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="10">
-        <label>/home/matthias/racing/core/src/driver/Src/usart.c</label>
-        <link refid="usart_8c"/>
-      </node>
-      <node id="9">
-        <label>/home/matthias/racing/core/src/driver/Src/spi.c</label>
-        <link refid="spi_8c"/>
+      <node id="2">
+        <label>src/driver/Inc/can.h</label>
+        <link refid="can_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/clock.h</label>
+        <label>src/driver/Inc/clock.h</label>
         <link refid="clock_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -67,39 +67,39 @@
         </childnode>
       </node>
       <node id="5">
-        <label>/home/matthias/racing/core/src/driver/Src/adc.c</label>
+        <label>src/driver/Src/adc.c</label>
         <link refid="adc_8c"/>
       </node>
-      <node id="6">
-        <label>/home/matthias/racing/core/src/driver/Src/clock.c</label>
-        <link refid="clock_8c"/>
-      </node>
-      <node id="8">
-        <label>/home/matthias/racing/core/src/driver/Src/rtc.c</label>
-        <link refid="rtc_8c"/>
-      </node>
-      <node id="7">
-        <label>/home/matthias/racing/core/src/driver/Src/gpio.c</label>
-        <link refid="gpio_8c"/>
-      </node>
       <node id="3">
-        <label>/home/matthias/racing/core/src/driver/Src/boot.c</label>
+        <label>src/driver/Src/boot.c</label>
         <link refid="boot_8c"/>
       </node>
-      <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Inc/can.h</label>
-        <link refid="can_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-      </node>
       <node id="4">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
       </node>
+      <node id="6">
+        <label>src/driver/Src/clock.c</label>
+        <link refid="clock_8c"/>
+      </node>
+      <node id="7">
+        <label>src/driver/Src/gpio.c</label>
+        <link refid="gpio_8c"/>
+      </node>
+      <node id="8">
+        <label>src/driver/Src/rtc.c</label>
+        <link refid="rtc_8c"/>
+      </node>
+      <node id="9">
+        <label>src/driver/Src/spi.c</label>
+        <link refid="spi_8c"/>
+      </node>
+      <node id="10">
+        <label>src/driver/Src/usart.c</label>
+        <link refid="usart_8c"/>
+      </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="clock_8h_1ad7f06124aad3399d2cae6790ea608cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_clock_ADC12_init</definition>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="7" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="22" bodyend="25" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="7" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="7" column="6" bodyfile="src/driver/Src/clock.c" bodystart="22" bodyend="25" declfile="src/driver/Inc/clock.h" declline="7" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a7601bbc868be45032c30a01c421aee79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -126,7 +126,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="8" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="30" bodyend="33" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="8" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="8" column="6" bodyfile="src/driver/Src/clock.c" bodystart="30" bodyend="33" declfile="src/driver/Inc/clock.h" declline="8" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a2b585a218aa24b5c50a5e92538e65615" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="9" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="41" bodyend="57" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="9" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="9" column="6" bodyfile="src/driver/Src/clock.c" bodystart="41" bodyend="57" declfile="src/driver/Inc/clock.h" declline="9" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a4dfc43b43b5975284563a397da6a3d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -199,7 +199,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="10" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="65" bodyend="88" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="10" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="10" column="6" bodyfile="src/driver/Src/clock.c" bodystart="65" bodyend="88" declfile="src/driver/Inc/clock.h" declline="10" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -244,7 +244,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="11" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="96" bodyend="115" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="11" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="11" column="6" bodyfile="src/driver/Src/clock.c" bodystart="96" bodyend="115" declfile="src/driver/Inc/clock.h" declline="11" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a909c55093b5c9d09f4edf03948a0642d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -268,7 +268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="12" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="121" bodyend="129" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="12" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="12" column="6" bodyfile="src/driver/Src/clock.c" bodystart="121" bodyend="129" declfile="src/driver/Inc/clock.h" declline="12" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a8ac22b37088c49b5f266d0a00dcafb28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -296,7 +296,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="13" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="135" bodyend="142" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="13" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="13" column="6" bodyfile="src/driver/Src/clock.c" bodystart="135" bodyend="142" declfile="src/driver/Inc/clock.h" declline="13" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1a7e1523e05d1928674f334740d0e4ae03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint8_t</type>
@@ -391,7 +391,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="14" column="9" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="158" bodyend="219" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="14" declcolumn="9"/>
+        <location file="src/driver/Inc/clock.h" line="14" column="9" bodyfile="src/driver/Src/clock.c" bodystart="158" bodyend="219" declfile="src/driver/Inc/clock.h" declline="14" declcolumn="9"/>
       </memberdef>
       <memberdef kind="function" id="clock_8h_1afdfa75b3a589ff7de55fa846dc848d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -424,9 +424,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/clock.h" line="15" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="231" bodyend="290" declfile="/home/matthias/racing/core/src/driver/Inc/clock.h" declline="15" declcolumn="6"/>
+        <location file="src/driver/Inc/clock.h" line="15" column="6" bodyfile="src/driver/Src/clock.c" bodystart="231" bodyend="294" declfile="src/driver/Inc/clock.h" declline="15" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -438,16 +438,16 @@
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" kindref="member">core_clock_ADC12_init</ref>();</highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a7601bbc868be45032c30a01c421aee79" kindref="member">core_clock_ADC345_init</ref>();</highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" kindref="member">core_clock_FDCAN_init</ref>(FDCAN_GlobalTypeDef<sp/>*can);</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a4dfc43b43b5975284563a397da6a3d56" kindref="member">core_clock_USART_init</ref>(USART_TypeDef<sp/>*usart);</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" kindref="member">core_clock_I2C_init</ref>(I2C_TypeDef<sp/>*i2c);</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" kindref="member">core_clock_RTC_init</ref>();</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" kindref="member">core_clock_port_init</ref>(GPIO_TypeDef<sp/>*port);</highlight></codeline>
-<codeline lineno="14"><highlight class="normal">uint8_t<sp/><ref refid="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" kindref="member">core_clock_generate_params</ref>(uint32_t<sp/>src_freq,<sp/>uint32_t<sp/>target_freq,<sp/>uint8_t<sp/>*n,<sp/>uint8_t<sp/>*m,<sp/>uint8_t<sp/>*r);</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" kindref="member">core_clock_init</ref>();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_clock_ADC12_init();</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_clock_ADC345_init();</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_clock_FDCAN_init(FDCAN_GlobalTypeDef<sp/>*can);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_clock_USART_init(USART_TypeDef<sp/>*usart);</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_clock_I2C_init(I2C_TypeDef<sp/>*i2c);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_clock_RTC_init();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_clock_port_init(GPIO_TypeDef<sp/>*port);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">uint8_t<sp/>core_clock_generate_params(uint32_t<sp/>src_freq,<sp/>uint32_t<sp/>target_freq,<sp/>uint8_t<sp/>*n,<sp/>uint8_t<sp/>*m,<sp/>uint8_t<sp/>*r);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>core_clock_init();</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/clock.h"/>
+    <location file="src/driver/Inc/clock.h"/>
   </compounddef>
 </doxygen>

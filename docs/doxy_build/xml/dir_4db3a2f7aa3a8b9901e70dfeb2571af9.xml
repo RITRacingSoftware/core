@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="dir_4db3a2f7aa3a8b9901e70dfeb2571af9" kind="dir">
-    <compoundname>/home/matthias/racing/core/src/driver</compoundname>
-    <innerdir refid="dir_41704f608ab0377c0be357e75ac2d436">/home/matthias/racing/core/src/driver/Inc</innerdir>
-    <innerdir refid="dir_bd43694d282a1a6821503b447b4f5643">/home/matthias/racing/core/src/driver/Src</innerdir>
+    <compoundname>src/driver</compoundname>
+    <innerdir refid="dir_41704f608ab0377c0be357e75ac2d436">src/driver/Inc</innerdir>
+    <innerdir refid="dir_bd43694d282a1a6821503b447b4f5643">src/driver/Src</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/matthias/racing/core/src/driver/"/>
+    <location file="src/driver/"/>
   </compounddef>
 </doxygen>

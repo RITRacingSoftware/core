@@ -1,18 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="error__handler_8h" kind="file" language="C++">
     <compoundname>error_handler.h</compoundname>
-    <includedby refid="adc_8c" local="yes">/home/matthias/racing/core/src/driver/Src/adc.c</includedby>
-    <includedby refid="boot_8c" local="yes">/home/matthias/racing/core/src/driver/Src/boot.c</includedby>
-    <includedby refid="can_8c" local="yes">/home/matthias/racing/core/src/driver/Src/can.c</includedby>
-    <includedby refid="error__handler_8c" local="yes">/home/matthias/racing/core/src/driver/Src/error_handler.c</includedby>
+    <includedby refid="adc_8c" local="yes">src/driver/Src/adc.c</includedby>
+    <includedby refid="boot_8c" local="yes">src/driver/Src/boot.c</includedby>
+    <includedby refid="can_8c" local="yes">src/driver/Src/can.c</includedby>
+    <includedby refid="error__handler_8c" local="yes">src/driver/Src/error_handler.c</includedby>
     <invincdepgraph>
-      <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Src/adc.c</label>
-        <link refid="adc_8c"/>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/error_handler.h</label>
+        <label>src/driver/Inc/error_handler.h</label>
         <link refid="error__handler_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -21,16 +17,20 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>src/driver/Src/adc.c</label>
+        <link refid="adc_8c"/>
+      </node>
       <node id="3">
-        <label>/home/matthias/racing/core/src/driver/Src/boot.c</label>
+        <label>src/driver/Src/boot.c</label>
         <link refid="boot_8c"/>
       </node>
       <node id="4">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
       </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="error__handler_8h_1a67265100d2c510d5d79beaec9a28a61e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void error_handler</definition>
@@ -42,9 +42,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/error_handler.h" line="3" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/error_handler.c" bodystart="10" bodyend="17" declfile="/home/matthias/racing/core/src/driver/Inc/error_handler.h" declline="3" declcolumn="6"/>
+        <location file="src/driver/Inc/error_handler.h" line="3" column="6" bodyfile="src/driver/Src/error_handler.c" bodystart="10" bodyend="17" declfile="src/driver/Inc/error_handler.h" declline="3" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -54,6 +54,6 @@
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>error_handler();</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/error_handler.h"/>
+    <location file="src/driver/Inc/error_handler.h"/>
   </compounddef>
 </doxygen>

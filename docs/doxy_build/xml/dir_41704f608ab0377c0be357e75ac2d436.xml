@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="dir_41704f608ab0377c0be357e75ac2d436" kind="dir">
-    <compoundname>/home/matthias/racing/core/src/driver/Inc</compoundname>
+    <compoundname>src/driver/Inc</compoundname>
     <innerfile refid="adc_8h">adc.h</innerfile>
     <innerfile refid="boot_8h">boot.h</innerfile>
     <innerfile refid="can_8h">can.h</innerfile>
@@ -17,6 +17,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="/home/matthias/racing/core/src/driver/Inc/"/>
+    <location file="src/driver/Inc/"/>
   </compounddef>
 </doxygen>

@@ -1,34 +1,34 @@
-\hypertarget{clock_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/clock.c File Reference}
-\label{clock_8c}\index{/home/matthias/racing/core/src/driver/Src/clock.c@{/home/matthias/racing/core/src/driver/Src/clock.c}}
+\doxysection{src/driver/\+Src/clock.c File Reference}
+\hypertarget{clock_8c}{}\label{clock_8c}\index{src/driver/Src/clock.c@{src/driver/Src/clock.c}}
 
 
 Core clock library.  
 
 
-{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include "{}clock.\+h"{}}\newline
+{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}stm32g4xx\+\_\+hal.\+h\char`\"{}}\newline
-\doxysubsection*{Functions}
+{\ttfamily \#include "{}stm32g4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{clock_8c_ad7f06124aad3399d2cae6790ea608cef}\label{clock_8c_ad7f06124aad3399d2cae6790ea608cef}} 
-void \mbox{\hyperlink{clock_8c_ad7f06124aad3399d2cae6790ea608cef}{core\+\_\+clock\+\_\+\+ADC12\+\_\+init}} ()
+\Hypertarget{clock_8c_ad7f06124aad3399d2cae6790ea608cef}\label{clock_8c_ad7f06124aad3399d2cae6790ea608cef} 
+void {\bfseries core\+\_\+clock\+\_\+\+ADC12\+\_\+init} ()
 \begin{DoxyCompactList}\small\item\em Set the clocks for ADC1 and ADC2 to SYSCLK and enable them. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{clock_8c_a7601bbc868be45032c30a01c421aee79}\label{clock_8c_a7601bbc868be45032c30a01c421aee79}} 
-void \mbox{\hyperlink{clock_8c_a7601bbc868be45032c30a01c421aee79}{core\+\_\+clock\+\_\+\+ADC345\+\_\+init}} ()
+\Hypertarget{clock_8c_a7601bbc868be45032c30a01c421aee79}\label{clock_8c_a7601bbc868be45032c30a01c421aee79} 
+void {\bfseries core\+\_\+clock\+\_\+\+ADC345\+\_\+init} ()
 \begin{DoxyCompactList}\small\item\em Set the clocks for ADC3, ADC4, and ADC5 to SYSCLK and enable them. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{clock_8c_a2b585a218aa24b5c50a5e92538e65615}{core\+\_\+clock\+\_\+\+FDCAN\+\_\+init}} (FDCAN\+\_\+\+Global\+Type\+Def $\ast$can)
+void \mbox{\hyperlink{clock_8c_a2b585a218aa24b5c50a5e92538e65615}{core\+\_\+clock\+\_\+\+FDCAN\+\_\+init}} (FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}can)
 \begin{DoxyCompactList}\small\item\em Set FDCAN clock to PCLK1 and enable it. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{clock_8c_a4dfc43b43b5975284563a397da6a3d56}{core\+\_\+clock\+\_\+\+USART\+\_\+init}} (USART\+\_\+\+Type\+Def $\ast$usart)
+bool \mbox{\hyperlink{clock_8c_a4dfc43b43b5975284563a397da6a3d56}{core\+\_\+clock\+\_\+\+USART\+\_\+init}} (USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}usart)
 \begin{DoxyCompactList}\small\item\em Set a USART clock to PCLK1 and enable it. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6}{core\+\_\+clock\+\_\+\+I2\+C\+\_\+init}} (I2\+C\+\_\+\+Type\+Def $\ast$i2c)
+bool \mbox{\hyperlink{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6}{core\+\_\+clock\+\_\+\+I2\+C\+\_\+init}} (I2\+C\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}i2c)
 \begin{DoxyCompactList}\small\item\em Set an I2C clock to PCLK1 and enable it. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{clock_8c_a909c55093b5c9d09f4edf03948a0642d}{core\+\_\+clock\+\_\+\+RTC\+\_\+init}} ()
 \begin{DoxyCompactList}\small\item\em Enable the external 32.\+768k\+Hz oscillator and set the RTC clock to it. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28}{core\+\_\+clock\+\_\+port\+\_\+init}} (GPIO\+\_\+\+Type\+Def $\ast$port)
+void \mbox{\hyperlink{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28}{core\+\_\+clock\+\_\+port\+\_\+init}} (GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}port)
 \begin{DoxyCompactList}\small\item\em Initializes port clock for selected port. \end{DoxyCompactList}\item 
-uint8\+\_\+t \mbox{\hyperlink{clock_8c_a7e1523e05d1928674f334740d0e4ae03}{core\+\_\+clock\+\_\+generate\+\_\+params}} (uint32\+\_\+t src\+\_\+freq, uint32\+\_\+t target\+\_\+freq, uint8\+\_\+t $\ast$n, uint8\+\_\+t $\ast$m, uint8\+\_\+t $\ast$r)
+uint8\+\_\+t \mbox{\hyperlink{clock_8c_a7e1523e05d1928674f334740d0e4ae03}{core\+\_\+clock\+\_\+generate\+\_\+params}} (uint32\+\_\+t src\+\_\+freq, uint32\+\_\+t target\+\_\+freq, uint8\+\_\+t \texorpdfstring{$\ast$}{*}n, uint8\+\_\+t \texorpdfstring{$\ast$}{*}m, uint8\+\_\+t \texorpdfstring{$\ast$}{*}r)
 \begin{DoxyCompactList}\small\item\em Generate the settings for the N, M, and R dividers from the clock source frequency and the desired output frequency. \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}{core\+\_\+clock\+\_\+init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize the STM32\+G4\textquotesingle{}s core clocks. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -37,14 +37,14 @@ bool \mbox{\hyperlink{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}{core\+\_\+cloc
 \doxysubsection{Detailed Description}
 Core clock library. 
 
-This core library component is used to initialize peripheral clocks. Generally, it is only necessary to call \mbox{\hyperlink{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}{core\+\_\+clock\+\_\+init()}} from user code. Other clock initialization functions are called by the respective core module init function. 
+This core library component is used to initialize peripheral clocks. Generally, it is only necessary to call \doxylink{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}{core\+\_\+clock\+\_\+init()} from user code. Other clock initialization functions are called by the respective core module init function. 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{clock_8c_a2b585a218aa24b5c50a5e92538e65615}\label{clock_8c_a2b585a218aa24b5c50a5e92538e65615}} 
-\index{clock.c@{clock.c}!core\_clock\_FDCAN\_init@{core\_clock\_FDCAN\_init}}
+\Hypertarget{clock_8c_a2b585a218aa24b5c50a5e92538e65615}\index{clock.c@{clock.c}!core\_clock\_FDCAN\_init@{core\_clock\_FDCAN\_init}}
 \index{core\_clock\_FDCAN\_init@{core\_clock\_FDCAN\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_FDCAN\_init()}{core\_clock\_FDCAN\_init()}}
-{\footnotesize\ttfamily void core\+\_\+clock\+\_\+\+FDCAN\+\_\+init (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def $\ast$}]{can }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a2b585a218aa24b5c50a5e92538e65615} 
+void core\+\_\+clock\+\_\+\+FDCAN\+\_\+init (\begin{DoxyParamCaption}\item[{FDCAN\+\_\+\+Global\+Type\+Def \texorpdfstring{$\ast$}{*}}]{can}{}\end{DoxyParamCaption})}
 
 
 
@@ -55,11 +55,11 @@ Initialize GPIO port clocks corresponding to CAN bus selected
 {\em can} & FDCAN module to initialize \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{clock_8c_a7e1523e05d1928674f334740d0e4ae03}\label{clock_8c_a7e1523e05d1928674f334740d0e4ae03}} 
-\index{clock.c@{clock.c}!core\_clock\_generate\_params@{core\_clock\_generate\_params}}
+\Hypertarget{clock_8c_a7e1523e05d1928674f334740d0e4ae03}\index{clock.c@{clock.c}!core\_clock\_generate\_params@{core\_clock\_generate\_params}}
 \index{core\_clock\_generate\_params@{core\_clock\_generate\_params}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_generate\_params()}{core\_clock\_generate\_params()}}
-{\footnotesize\ttfamily uint8\+\_\+t core\+\_\+clock\+\_\+generate\+\_\+params (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{src\+\_\+freq,  }\item[{uint32\+\_\+t}]{target\+\_\+freq,  }\item[{uint8\+\_\+t $\ast$}]{n,  }\item[{uint8\+\_\+t $\ast$}]{m,  }\item[{uint8\+\_\+t $\ast$}]{r }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a7e1523e05d1928674f334740d0e4ae03} 
+uint8\+\_\+t core\+\_\+clock\+\_\+generate\+\_\+params (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{src\+\_\+freq}{, }\item[{uint32\+\_\+t}]{target\+\_\+freq}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{n}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{m}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{r}{}\end{DoxyParamCaption})}
 
 
 
@@ -88,11 +88,11 @@ The algorithm used here will try to maximize the frequency of the VCO output. Th
 {\em 1} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6}\label{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6}} 
-\index{clock.c@{clock.c}!core\_clock\_I2C\_init@{core\_clock\_I2C\_init}}
+\Hypertarget{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6}\index{clock.c@{clock.c}!core\_clock\_I2C\_init@{core\_clock\_I2C\_init}}
 \index{core\_clock\_I2C\_init@{core\_clock\_I2C\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_I2C\_init()}{core\_clock\_I2C\_init()}}
-{\footnotesize\ttfamily bool core\+\_\+clock\+\_\+\+I2\+C\+\_\+init (\begin{DoxyParamCaption}\item[{I2\+C\+\_\+\+Type\+Def $\ast$}]{i2c }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a8d0a10c2a2dd80900d18dcf3d1b2dae6} 
+bool core\+\_\+clock\+\_\+\+I2\+C\+\_\+init (\begin{DoxyParamCaption}\item[{I2\+C\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{i2c}{}\end{DoxyParamCaption})}
 
 
 
@@ -110,11 +110,11 @@ Set an I2C clock to PCLK1 and enable it.
 {\em 0} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}\label{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}} 
-\index{clock.c@{clock.c}!core\_clock\_init@{core\_clock\_init}}
+\Hypertarget{clock_8c_afdfa75b3a589ff7de55fa846dc848d27}\index{clock.c@{clock.c}!core\_clock\_init@{core\_clock\_init}}
 \index{core\_clock\_init@{core\_clock\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_init()}{core\_clock\_init()}}
-{\footnotesize\ttfamily bool core\+\_\+clock\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_afdfa75b3a589ff7de55fa846dc848d27} 
+bool core\+\_\+clock\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 
@@ -129,11 +129,11 @@ The SYSCLK frequency will be set to CORE\+\_\+\+CLOCK\+\_\+\+SYSCLK\+\_\+\+FREQ,
 {\em 0} & otherwise \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28}\label{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28}} 
-\index{clock.c@{clock.c}!core\_clock\_port\_init@{core\_clock\_port\_init}}
+\Hypertarget{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28}\index{clock.c@{clock.c}!core\_clock\_port\_init@{core\_clock\_port\_init}}
 \index{core\_clock\_port\_init@{core\_clock\_port\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_port\_init()}{core\_clock\_port\_init()}}
-{\footnotesize\ttfamily void core\+\_\+clock\+\_\+port\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def $\ast$}]{port }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a8ac22b37088c49b5f266d0a00dcafb28} 
+void core\+\_\+clock\+\_\+port\+\_\+init (\begin{DoxyParamCaption}\item[{GPIO\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{port}{}\end{DoxyParamCaption})}
 
 
 
@@ -144,11 +144,11 @@ Initializes port clock for selected port.
 {\em port} & Port to initialize clock for \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{clock_8c_a909c55093b5c9d09f4edf03948a0642d}\label{clock_8c_a909c55093b5c9d09f4edf03948a0642d}} 
-\index{clock.c@{clock.c}!core\_clock\_RTC\_init@{core\_clock\_RTC\_init}}
+\Hypertarget{clock_8c_a909c55093b5c9d09f4edf03948a0642d}\index{clock.c@{clock.c}!core\_clock\_RTC\_init@{core\_clock\_RTC\_init}}
 \index{core\_clock\_RTC\_init@{core\_clock\_RTC\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_RTC\_init()}{core\_clock\_RTC\_init()}}
-{\footnotesize\ttfamily bool core\+\_\+clock\+\_\+\+RTC\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a909c55093b5c9d09f4edf03948a0642d} 
+bool core\+\_\+clock\+\_\+\+RTC\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 
@@ -159,11 +159,11 @@ Enable the external 32.\+768k\+Hz oscillator and set the RTC clock to it.
 {\em 1} & \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{clock_8c_a4dfc43b43b5975284563a397da6a3d56}\label{clock_8c_a4dfc43b43b5975284563a397da6a3d56}} 
-\index{clock.c@{clock.c}!core\_clock\_USART\_init@{core\_clock\_USART\_init}}
+\Hypertarget{clock_8c_a4dfc43b43b5975284563a397da6a3d56}\index{clock.c@{clock.c}!core\_clock\_USART\_init@{core\_clock\_USART\_init}}
 \index{core\_clock\_USART\_init@{core\_clock\_USART\_init}!clock.c@{clock.c}}
 \doxysubsubsection{\texorpdfstring{core\_clock\_USART\_init()}{core\_clock\_USART\_init()}}
-{\footnotesize\ttfamily bool core\+\_\+clock\+\_\+\+USART\+\_\+init (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def $\ast$}]{usart }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{clock_8c_a4dfc43b43b5975284563a397da6a3d56} 
+bool core\+\_\+clock\+\_\+\+USART\+\_\+init (\begin{DoxyParamCaption}\item[{USART\+\_\+\+Type\+Def \texorpdfstring{$\ast$}{*}}]{usart}{}\end{DoxyParamCaption})}
 
 
 

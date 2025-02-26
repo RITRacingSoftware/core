@@ -1,33 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="boot_8h" kind="file" language="C++">
     <compoundname>boot.h</compoundname>
     <includes local="no">stdint.h</includes>
-    <includedby refid="can_8c" local="yes">/home/matthias/racing/core/src/driver/Src/can.c</includedby>
+    <includedby refid="can_8c" local="yes">src/driver/Src/can.c</includedby>
     <incdepgraph>
-      <node id="2">
-        <label>stdint.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/boot.h</label>
+        <label>src/driver/Inc/boot.h</label>
         <link refid="boot_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/boot.h</label>
+        <label>src/driver/Inc/boot.h</label>
         <link refid="boot_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
       </node>
     </invincdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="boot_8h_1a17df2565b3ec70a6a540f71a38bc4cdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_boot_init</definition>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/boot.h" line="6" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/boot.c" bodystart="622" bodyend="665" declfile="/home/matthias/racing/core/src/driver/Inc/boot.h" declline="6" declcolumn="6"/>
+        <location file="src/driver/Inc/boot.h" line="6" column="6" bodyfile="src/driver/Src/boot.c" bodystart="623" bodyend="666" declfile="src/driver/Inc/boot.h" declline="6" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="boot_8h_1ab2be0dfac3cabc71734c82636d313d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -57,9 +57,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/boot.h" line="7" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/boot.c" bodystart="598" bodyend="613" declfile="/home/matthias/racing/core/src/driver/Inc/boot.h" declline="7" declcolumn="6"/>
+        <location file="src/driver/Inc/boot.h" line="7" column="6" bodyfile="src/driver/Src/boot.c" bodystart="599" bodyend="614" declfile="src/driver/Inc/boot.h" declline="7" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -70,11 +70,11 @@
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>CORE_BOOT_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CORE_BOOT_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="boot_8c_1a17df2565b3ec70a6a540f71a38bc4cdc" kindref="member">core_boot_init</ref>();</highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="boot_8c_1ab2be0dfac3cabc71734c82636d313d87" kindref="member">core_boot_reset_and_enter</ref>();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_boot_init();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_boot_reset_and_enter();</highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/boot.h"/>
+    <location file="src/driver/Inc/boot.h"/>
   </compounddef>
 </doxygen>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="clock_8c" kind="file" language="C++">
     <compoundname>clock.c</compoundname>
     <includes refid="clock_8h" local="yes">clock.h</includes>
@@ -7,12 +7,6 @@
     <includes local="no">stdbool.h</includes>
     <includes local="yes">stm32g4xx_hal.h</includes>
     <incdepgraph>
-      <node id="4">
-        <label>stdbool.h</label>
-      </node>
-      <node id="5">
-        <label>stdint.h</label>
-      </node>
       <node id="2">
         <label>clock.h</label>
         <link refid="clock_8h_source"/>
@@ -23,11 +17,8 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="6">
-        <label>core_config.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/clock.c</label>
+        <label>src/driver/Src/clock.c</label>
         <link refid="clock_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -38,11 +29,20 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="6">
+        <label>core_config.h</label>
+      </node>
+      <node id="4">
+        <label>stdbool.h</label>
+      </node>
+      <node id="5">
+        <label>stdint.h</label>
+      </node>
       <node id="3">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
-      <sectiondef kind="func">
+    <sectiondef kind="func">
       <memberdef kind="function" id="clock_8c_1ad7f06124aad3399d2cae6790ea608cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_clock_ADC12_init</definition>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="22" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="22" bodyend="25"/>
+        <location file="src/driver/Src/clock.c" line="22" column="6" bodyfile="src/driver/Src/clock.c" bodystart="22" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a7601bbc868be45032c30a01c421aee79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="30" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="30" bodyend="33"/>
+        <location file="src/driver/Src/clock.c" line="30" column="6" bodyfile="src/driver/Src/clock.c" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -97,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="41" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="41" bodyend="57"/>
+        <location file="src/driver/Src/clock.c" line="41" column="6" bodyfile="src/driver/Src/clock.c" bodystart="41" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a4dfc43b43b5975284563a397da6a3d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -142,7 +142,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="65" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="65" bodyend="88"/>
+        <location file="src/driver/Src/clock.c" line="65" column="6" bodyfile="src/driver/Src/clock.c" bodystart="65" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a8d0a10c2a2dd80900d18dcf3d1b2dae6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -187,7 +187,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="96" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="96" bodyend="115"/>
+        <location file="src/driver/Src/clock.c" line="96" column="6" bodyfile="src/driver/Src/clock.c" bodystart="96" bodyend="115"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a909c55093b5c9d09f4edf03948a0642d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -211,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="121" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="121" bodyend="129"/>
+        <location file="src/driver/Src/clock.c" line="121" column="6" bodyfile="src/driver/Src/clock.c" bodystart="121" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a8ac22b37088c49b5f266d0a00dcafb28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -239,7 +239,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="135" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="135" bodyend="142"/>
+        <location file="src/driver/Src/clock.c" line="135" column="6" bodyfile="src/driver/Src/clock.c" bodystart="135" bodyend="142"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1a7e1523e05d1928674f334740d0e4ae03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint8_t</type>
@@ -334,7 +334,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="158" column="9" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="158" bodyend="219"/>
+        <location file="src/driver/Src/clock.c" line="158" column="9" bodyfile="src/driver/Src/clock.c" bodystart="158" bodyend="219"/>
       </memberdef>
       <memberdef kind="function" id="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -367,9 +367,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/clock.c" line="231" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/clock.c" bodystart="231" bodyend="290"/>
+        <location file="src/driver/Src/clock.c" line="231" column="6" bodyfile="src/driver/Src/clock.c" bodystart="231" bodyend="294"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
 <para>Core clock library. </para>
     </briefdescription>
@@ -377,7 +377,7 @@
 <para>This core library component is used to initialize peripheral clocks. Generally, it is only necessary to call <ref refid="clock_8c_1afdfa75b3a589ff7de55fa846dc848d27" kindref="member">core_clock_init()</ref> from user code. Other clock initialization functions are called by the respective core module init function. </para>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;clock.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
@@ -576,33 +576,37 @@
 <codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLState<sp/>=<sp/>RCC_PLL_ON;</highlight></codeline>
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLM<sp/>=<sp/>mdiv;</highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLN<sp/>=<sp/>ndiv;</highlight></codeline>
-<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLP<sp/>=<sp/>RCC_PLLP_DIV2;</highlight></codeline>
-<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLQ<sp/>=<sp/>RCC_PLLQ_DIV2;</highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLR<sp/>=<sp/>rdiv;</highlight></codeline>
-<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_OscConfig(&amp;RCC_OscInitStruct)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"></highlight></codeline>
-<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>CPU,<sp/>AHB<sp/>and<sp/>APB<sp/>buses<sp/>clocks</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitTypeDef<sp/>RCC_ClkInitStruct<sp/>=<sp/>{0};</highlight></codeline>
-<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.ClockType<sp/>=<sp/>RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK</highlight></codeline>
-<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;</highlight></codeline>
-<codeline lineno="276"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_USE_HSE</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSE<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
-<codeline lineno="278"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSI<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
-<codeline lineno="280"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.AHBCLKDivider<sp/>=<sp/>RCC_SYSCLK_DIV1;</highlight></codeline>
-<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB1CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB2CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"></highlight></codeline>
-<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_ClockConfig(&amp;RCC_ClkInitStruct,<sp/>FLASH_LATENCY_4)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
-<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_PLLP_DIV</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLP<sp/>=<sp/>CORE_CLOCK_PLLP_DIV;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLP<sp/>=<sp/>RCC_PLLP_DIV2;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLQ<sp/>=<sp/>RCC_PLLQ_DIV2;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_OscInitStruct.PLL.PLLR<sp/>=<sp/>rdiv;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_OscConfig(&amp;RCC_OscInitStruct)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>CPU,<sp/>AHB<sp/>and<sp/>APB<sp/>buses<sp/>clocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitTypeDef<sp/>RCC_ClkInitStruct<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.ClockType<sp/>=<sp/>RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>CORE_CLOCK_USE_HSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSE<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.SYSCLKSource<sp/>=<sp/>(ext_freq<sp/>==<sp/>sysclk_freq<sp/>?<sp/>RCC_SYSCLKSOURCE_HSI<sp/>:<sp/>RCC_SYSCLKSOURCE_PLLCLK);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.AHBCLKDivider<sp/>=<sp/>RCC_SYSCLK_DIV1;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB1CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>RCC_ClkInitStruct.APB2CLKDivider<sp/>=<sp/>RCC_HCLK_DIV1;</highlight></codeline>
 <codeline lineno="288"><highlight class="normal"></highlight></codeline>
-<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_RCC_ClockConfig(&amp;RCC_ClkInitStruct,<sp/>FLASH_LATENCY_4)<sp/>!=<sp/>HAL_OK)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/clock.c"/>
+    <location file="src/driver/Src/clock.c"/>
   </compounddef>
 </doxygen>

@@ -1,5 +1,5 @@
-\hypertarget{boot_8c}{}\doxysection{/home/matthias/racing/core/src/driver/\+Src/boot.c File Reference}
-\label{boot_8c}\index{/home/matthias/racing/core/src/driver/Src/boot.c@{/home/matthias/racing/core/src/driver/Src/boot.c}}
+\doxysection{src/driver/\+Src/boot.c File Reference}
+\hypertarget{boot_8c}{}\label{boot_8c}\index{src/driver/Src/boot.c@{src/driver/Src/boot.c}}
 
 
 Core bootloader.  
@@ -8,104 +8,121 @@ Core bootloader.
 {\ttfamily \#include $<$stdint.\+h$>$}\newline
 {\ttfamily \#include $<$stdbool.\+h$>$}\newline
 {\ttfamily \#include $<$string.\+h$>$}\newline
-{\ttfamily \#include \char`\"{}usart.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}gpio.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}clock.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}can.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}error\+\_\+handler.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}core\+\_\+config.\+h\char`\"{}}\newline
-{\ttfamily \#include \char`\"{}stm32g4xx\+\_\+hal.\+h\char`\"{}}\newline
-\doxysubsection*{Macros}
+{\ttfamily \#include "{}usart.\+h"{}}\newline
+{\ttfamily \#include "{}gpio.\+h"{}}\newline
+{\ttfamily \#include "{}clock.\+h"{}}\newline
+{\ttfamily \#include "{}can.\+h"{}}\newline
+{\ttfamily \#include "{}error\+\_\+handler.\+h"{}}\newline
+{\ttfamily \#include "{}core\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include "{}stm32g4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{boot_8c_a493d540465c602715c436346fee5448d}\label{boot_8c_a493d540465c602715c436346fee5448d}} 
-\#define {\bfseries BOOTSTART}~\mbox{\hyperlink{boot_8c_afd4a6162138d796e34cee4d8a2442596}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section (\char`\"{}.bootstart\char`\"{}))) \+\_\+\+\_\+attribute\+\_\+\+\_\+ ((\+\_\+\+\_\+used\+\_\+\+\_\+))
+\Hypertarget{boot_8c_a7c90e3d19ed94dfa33b60685c7428c77}\label{boot_8c_a7c90e3d19ed94dfa33b60685c7428c77} 
+\#define {\bfseries BOOTSTATE}~\+\_\+\+\_\+attribute\+\_\+\+\_\+ ((section ("{}.bootstate"{})))
 \item 
-\mbox{\Hypertarget{boot_8c_a7c90e3d19ed94dfa33b60685c7428c77}\label{boot_8c_a7c90e3d19ed94dfa33b60685c7428c77}} 
-\#define {\bfseries BOOTSTATE}~\mbox{\hyperlink{boot_8c_afd4a6162138d796e34cee4d8a2442596}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section (\char`\"{}.bootstate\char`\"{})))
+\Hypertarget{boot_8c_a4fc8f7191e911197da65c33f72ce8381}\label{boot_8c_a4fc8f7191e911197da65c33f72ce8381} 
+\#define {\bfseries BOOTPROGNAME}~\+\_\+\+\_\+attribute\+\_\+\+\_\+ ((section ("{}.progname"{}))) \+\_\+\+\_\+attribute\+\_\+\+\_\+ ((\+\_\+\+\_\+used\+\_\+\+\_\+))
 \item 
-\mbox{\Hypertarget{boot_8c_a29693d620c6ad33c3355b5a50551c3e6}\label{boot_8c_a29693d620c6ad33c3355b5a50551c3e6}} 
+\Hypertarget{boot_8c_a29693d620c6ad33c3355b5a50551c3e6}\label{boot_8c_a29693d620c6ad33c3355b5a50551c3e6} 
 \#define {\bfseries ALTBANK\+\_\+\+BASE}~0x08040000
 \item 
-\mbox{\Hypertarget{boot_8c_a04f24a8a30c822a9eba74b5f85891682}\label{boot_8c_a04f24a8a30c822a9eba74b5f85891682}} 
+\Hypertarget{boot_8c_a04f24a8a30c822a9eba74b5f85891682}\label{boot_8c_a04f24a8a30c822a9eba74b5f85891682} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+KEY}~0x\+ABCDEF00
 \item 
-\mbox{\Hypertarget{boot_8c_a130489ae854e12b78d240992ae15f796}\label{boot_8c_a130489ae854e12b78d240992ae15f796}} 
+\Hypertarget{boot_8c_a130489ae854e12b78d240992ae15f796}\label{boot_8c_a130489ae854e12b78d240992ae15f796} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+NORMAL}~0x00
 \item 
-\mbox{\Hypertarget{boot_8c_a19d1df504d3cd4ea0573d7345547a186}\label{boot_8c_a19d1df504d3cd4ea0573d7345547a186}} 
+\Hypertarget{boot_8c_a19d1df504d3cd4ea0573d7345547a186}\label{boot_8c_a19d1df504d3cd4ea0573d7345547a186} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+VERIFY}~0x01
 \item 
-\mbox{\Hypertarget{boot_8c_a374ddab2f5e387e175db32effcab51da}\label{boot_8c_a374ddab2f5e387e175db32effcab51da}} 
+\Hypertarget{boot_8c_a374ddab2f5e387e175db32effcab51da}\label{boot_8c_a374ddab2f5e387e175db32effcab51da} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+VERIFY\+\_\+\+SOFT\+\_\+\+SWITCH}~0x02
 \item 
-\mbox{\Hypertarget{boot_8c_a9b7c831ec055ef3ff25889b6a656dca6}\label{boot_8c_a9b7c831ec055ef3ff25889b6a656dca6}} 
+\Hypertarget{boot_8c_a9b7c831ec055ef3ff25889b6a656dca6}\label{boot_8c_a9b7c831ec055ef3ff25889b6a656dca6} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+SOFT\+\_\+\+SWITCHED}~0x04
 \item 
-\mbox{\Hypertarget{boot_8c_a6467331ede146fbd11dcb1005501762d}\label{boot_8c_a6467331ede146fbd11dcb1005501762d}} 
+\Hypertarget{boot_8c_a6467331ede146fbd11dcb1005501762d}\label{boot_8c_a6467331ede146fbd11dcb1005501762d} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+VERIFIED}~0x08
 \item 
-\mbox{\Hypertarget{boot_8c_a62f0b8e9500ecaf044593412c6271b58}\label{boot_8c_a62f0b8e9500ecaf044593412c6271b58}} 
+\Hypertarget{boot_8c_a62f0b8e9500ecaf044593412c6271b58}\label{boot_8c_a62f0b8e9500ecaf044593412c6271b58} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+ENTER}~0x10
 \item 
-\mbox{\Hypertarget{boot_8c_a17c50cd2d01c2a92908b5820ae9d9720}\label{boot_8c_a17c50cd2d01c2a92908b5820ae9d9720}} 
+\Hypertarget{boot_8c_a17c50cd2d01c2a92908b5820ae9d9720}\label{boot_8c_a17c50cd2d01c2a92908b5820ae9d9720} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+ERROR}~0x80
 \item 
-\mbox{\Hypertarget{boot_8c_aaad4d0d5a96038d882593eac56794f70}\label{boot_8c_aaad4d0d5a96038d882593eac56794f70}} 
+\Hypertarget{boot_8c_aaad4d0d5a96038d882593eac56794f70}\label{boot_8c_aaad4d0d5a96038d882593eac56794f70} 
 \#define {\bfseries BOOT\+\_\+\+STATE\+\_\+\+NB\+\_\+\+ERROR}~0x40
 \item 
-\mbox{\Hypertarget{boot_8c_a2922095e24d0bcdbe14f36875a7fdc2c}\label{boot_8c_a2922095e24d0bcdbe14f36875a7fdc2c}} 
+\Hypertarget{boot_8c_a2922095e24d0bcdbe14f36875a7fdc2c}\label{boot_8c_a2922095e24d0bcdbe14f36875a7fdc2c} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+OK}~0x00
 \item 
-\mbox{\Hypertarget{boot_8c_a434868841c8c53b1e0826be614186469}\label{boot_8c_a434868841c8c53b1e0826be614186469}} 
+\Hypertarget{boot_8c_a434868841c8c53b1e0826be614186469}\label{boot_8c_a434868841c8c53b1e0826be614186469} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+INVALID\+\_\+\+ADDRESS}~0x01
 \item 
-\mbox{\Hypertarget{boot_8c_aed2fde3cc10c8e86ea494c7b9425c667}\label{boot_8c_aed2fde3cc10c8e86ea494c7b9425c667}} 
+\Hypertarget{boot_8c_aed2fde3cc10c8e86ea494c7b9425c667}\label{boot_8c_aed2fde3cc10c8e86ea494c7b9425c667} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+ERASE\+\_\+\+ERROR}~0x02
 \item 
-\mbox{\Hypertarget{boot_8c_a7bb57823f134b6a675acd22bcdc42fb6}\label{boot_8c_a7bb57823f134b6a675acd22bcdc42fb6}} 
+\Hypertarget{boot_8c_a7bb57823f134b6a675acd22bcdc42fb6}\label{boot_8c_a7bb57823f134b6a675acd22bcdc42fb6} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+PROG\+\_\+\+ERROR}~0x03
 \item 
-\mbox{\Hypertarget{boot_8c_a57918f97084378c0147f47ae51d36a99}\label{boot_8c_a57918f97084378c0147f47ae51d36a99}} 
+\Hypertarget{boot_8c_a57918f97084378c0147f47ae51d36a99}\label{boot_8c_a57918f97084378c0147f47ae51d36a99} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+STATE\+\_\+\+ERROR}~0x04
 \item 
-\mbox{\Hypertarget{boot_8c_acdd43a1cdbed7509ae5b0aa832d716bc}\label{boot_8c_acdd43a1cdbed7509ae5b0aa832d716bc}} 
+\Hypertarget{boot_8c_acdd43a1cdbed7509ae5b0aa832d716bc}\label{boot_8c_acdd43a1cdbed7509ae5b0aa832d716bc} 
 \#define {\bfseries BOOT\+\_\+\+STATUS\+\_\+\+NB\+\_\+\+ERROR}~0x05
 \item 
-\mbox{\Hypertarget{boot_8c_ae6cc014e6b15b7a1ba1801072e07d277}\label{boot_8c_ae6cc014e6b15b7a1ba1801072e07d277}} 
+\Hypertarget{boot_8c_ae6cc014e6b15b7a1ba1801072e07d277}\label{boot_8c_ae6cc014e6b15b7a1ba1801072e07d277} 
 \#define {\bfseries BOOT\+\_\+\+OPCODE\+\_\+\+RESET}~0x00
 \item 
-\mbox{\Hypertarget{boot_8c_aea60371d81c269e9c08e1113428e7c73}\label{boot_8c_aea60371d81c269e9c08e1113428e7c73}} 
+\Hypertarget{boot_8c_aea60371d81c269e9c08e1113428e7c73}\label{boot_8c_aea60371d81c269e9c08e1113428e7c73} 
 \#define {\bfseries BOOT\+\_\+\+OPCODE\+\_\+\+SOFTSWAP}~0x01
 \item 
-\mbox{\Hypertarget{boot_8c_a7d68f636b1bd0a49eaeb1cf375c153d4}\label{boot_8c_a7d68f636b1bd0a49eaeb1cf375c153d4}} 
+\Hypertarget{boot_8c_a7d68f636b1bd0a49eaeb1cf375c153d4}\label{boot_8c_a7d68f636b1bd0a49eaeb1cf375c153d4} 
 \#define {\bfseries BOOT\+\_\+\+OPCODE\+\_\+\+VERIFY}~0x02
 \item 
-\mbox{\Hypertarget{boot_8c_aab5baf664321d7da74cfe4488be88ead}\label{boot_8c_aab5baf664321d7da74cfe4488be88ead}} 
+\Hypertarget{boot_8c_aab5baf664321d7da74cfe4488be88ead}\label{boot_8c_aab5baf664321d7da74cfe4488be88ead} 
 \#define {\bfseries BOOT\+\_\+\+OPCODE\+\_\+\+HARDSWAP}~0x03
 \end{DoxyCompactItemize}
-\doxysubsection*{Functions}
+\doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{boot_8c_afd4a6162138d796e34cee4d8a2442596}\label{boot_8c_afd4a6162138d796e34cee4d8a2442596}} 
-const char progname\mbox{[}32\mbox{]} \mbox{\hyperlink{boot_8c_afd4a6162138d796e34cee4d8a2442596}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((section(\char`\"{}.progname\char`\"{})))
+void \mbox{\hyperlink{boot_8c_a8422dff7830d6235171228d40177a36f}{boot\+\_\+soft\+\_\+toggle}} ()
+\begin{DoxyCompactList}\small\item\em Soft bank swap. \end{DoxyCompactList}\item 
+\Hypertarget{boot_8c_a7c6ce3603114a5cb4c56d3c85cdce927}\label{boot_8c_a7c6ce3603114a5cb4c56d3c85cdce927} 
+void {\bfseries boot\+\_\+reset} ()
 \begin{DoxyCompactList}\small\item\em Reset the chip. \end{DoxyCompactList}\item 
 uint32\+\_\+t \mbox{\hyperlink{boot_8c_a57516d5955e696bf83e2915c7a8d1857}{check\+\_\+nonbooting}} ()
 \begin{DoxyCompactList}\small\item\em Check if the program currently running is running from the non-\/booting bank. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{boot_8c_a8ede44e2fb3943e5c88c0b87d17c1755}{boot\+\_\+state\+\_\+machine}} ()
 \begin{DoxyCompactList}\small\item\em Process the current boot state and swap banks if needed. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{boot_8c_ab2be0dfac3cabc71734c82636d313d87}\label{boot_8c_ab2be0dfac3cabc71734c82636d313d87}} 
-void \mbox{\hyperlink{boot_8c_ab2be0dfac3cabc71734c82636d313d87}{core\+\_\+boot\+\_\+reset\+\_\+and\+\_\+enter}} ()
+\Hypertarget{boot_8c_ab2be0dfac3cabc71734c82636d313d87}\label{boot_8c_ab2be0dfac3cabc71734c82636d313d87} 
+void {\bfseries core\+\_\+boot\+\_\+reset\+\_\+and\+\_\+enter} ()
 \begin{DoxyCompactList}\small\item\em Reset the chip and enter the bootloader. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}{core\+\_\+boot\+\_\+init}} ()
 \begin{DoxyCompactList}\small\item\em Initialize the FDCAN filters, check the boot state, and enter the bootloader if necessary. If the state is not valid, an error message will be transmitted. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{boot_8c_a709767f30bbe0160deb9d7ec4c63a533}\label{boot_8c_a709767f30bbe0160deb9d7ec4c63a533} 
+const char BOOTPROGNAME {\bfseries progname} \mbox{[}32\mbox{]} = PROGRAM\+\_\+\+NAME\+\_\+\+STRING
+\item 
+\Hypertarget{boot_8c_a43d0f36c200b02cf94c4109641d65549}\label{boot_8c_a43d0f36c200b02cf94c4109641d65549} 
+uint32\+\_\+t BOOTSTATE {\bfseries boot\+\_\+state}
+\item 
+\Hypertarget{boot_8c_a27e83d0afb8dd4acbe24448a9b188e52}\label{boot_8c_a27e83d0afb8dd4acbe24448a9b188e52} 
+uint32\+\_\+t {\bfseries boot\+\_\+toggle} \mbox{[}8\mbox{]}
+\item 
+\Hypertarget{boot_8c_a34412b147d42dabb2c87c1f2f13ba4bb}\label{boot_8c_a34412b147d42dabb2c87c1f2f13ba4bb} 
+uint32\+\_\+t {\bfseries boot\+\_\+reset\+\_\+state}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Core bootloader. 
 
-This core library component implements a bootloader that allows boards to be programmed over CAN.\hypertarget{boot_8c_autotoc_md2}{}\doxysubsubsection{Theory of operation}\label{boot_8c_autotoc_md2}
-The STM32\+G473 cas 512k of FLASH, which is split into two banks of 256k each. The chip can be configured to boot either from the first or the second bank by configuring the non-\/volatile {\ttfamily BFB2} bit in the option byte registers. When the {\ttfamily BFB2} bit is set in the FLASH option byte register, the boots from the second bank, otherwise, it boots from the first bank. However, there is also an option to temporarily swap the banks and run the code in the second bank even when booting from the first bank. This allows the code in the non-\/booting bank to be verified before finalizing the swap. If the verification fails, then the chip will fall back to the working code in the booting bank.
+This core library component implements a bootloader that allows boards to be programmed over CAN.\hypertarget{boot_8c_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{Theory of operation}{Theory of operation}}\label{boot_8c_autotoc_md2}
+The STM32\+G473 has 512k of FLASH, which is split into two banks of 256k each. The chip can be configured to boot either from the first or the second bank by configuring the non-\/volatile {\ttfamily BFB2} bit in the option byte registers. When the {\ttfamily BFB2} bit is set in the FLASH option byte register, the boots from the second bank, otherwise, it boots from the first bank. However, there is also an option to temporarily swap the banks and run the code in the second bank even when booting from the first bank. This allows the code in the non-\/booting bank to be verified before finalizing the swap. If the verification fails, then the chip will fall back to the working code in the booting bank.
 
 Programming a board takes place according to the following process\+:
 \begin{DoxyEnumerate}
@@ -120,7 +137,7 @@ Programming a board takes place according to the following process\+:
 \item The target board updates the option byte, resets, and runs the new code
 \end{DoxyEnumerate}
 
-The bootloader keeps track of its state across resets and between banks using the {\ttfamily boot\+\_\+state} variable, which is stored at the highest RAM address (above the stack). This variable is not initialized when the chip is reset, so its value is always preserved unless the chip is power cycled. The highest 24 bits of {\ttfamily boot\+\_\+state} are known as the boot key and must always be set to {\ttfamily 0x\+ABCDEF}. If the boot key is incorrect, an error is raised. This might occur if the {\ttfamily boot\+\_\+state} variable is not correctly configured.\hypertarget{boot_8c_autotoc_md3}{}\doxysubsubsection{FDCAN format}\label{boot_8c_autotoc_md3}
+The bootloader keeps track of its state across resets and between banks using the {\ttfamily boot\+\_\+state} variable, which is stored at the highest RAM address (above the stack). This variable is not initialized when the chip is reset, so its value is always preserved unless the chip is power cycled. The highest 24 bits of {\ttfamily boot\+\_\+state} are known as the boot key and must always be set to {\ttfamily 0x\+ABCDEF}. If the boot key is incorrect, an error is raised. This might occur if the {\ttfamily boot\+\_\+state} variable is not correctly configured.\hypertarget{boot_8c_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{FDCAN format}{FDCAN format}}\label{boot_8c_autotoc_md3}
 The bootloader communicates with the programmer board using FDCAN with extended IDs. The extra bits in the ID are used to communicate they type of message and the address to be programmed (if required), so all 64 bytes in the body of the message can be used for data.
 
 Each board has a unique board ID and master ID, so the master will respond to several IDs, one for each device that can be programmed. The 29-\/bit extended board IDs have the following format\+: \tabulinesep=1mm
@@ -187,6 +204,7 @@ Status messages transmitted from a board to the programmer are 64 bits long and 
 \item {\ttfamily MEMRMP}\+: {\ttfamily MEMRMP} bit from the memory remap register. Indicates which bank is currently running
 \item Next two bytes contain the lowest two bytes of {\ttfamily FLASH\+\_\+\+SR}
 \item Next three bytes contain the boot key, which should be 0x\+ABCDEF
+\item Bits 7 through 0 contain the boot state.
 \item {\ttfamily ERROR}\+: Indicates a state error occurred in the booting bank
 \item {\ttfamily NB\+\_\+\+ERROR}\+: Indicates a state error occurred in the non-\/booting bank
 \item {\ttfamily ENTER}\+: Indicates that the program should enter the bootloader after the next reset
@@ -194,35 +212,45 @@ Status messages transmitted from a board to the programmer are 64 bits long and 
 \item {\ttfamily SOFT\+\_\+\+SWITCHED}\+: Indicates that the soft switching succeeded
 \item {\ttfamily VERIFY\+\_\+\+SOFT\+\_\+\+SWITCH}\+: Indicates that the signal to soft switch has been processed by the boot state machine in the booting bank
 \item {\ttfamily VERIFY}\+: Indicates that the chip should soft switch after the next reset
-\end{DoxyItemize}\hypertarget{boot_8c_autotoc_md4}{}\doxysubsubsection{Components}\label{boot_8c_autotoc_md4}
-The bootloader consists of four main components\+: the startup script, the boot state machine, the \mbox{\hyperlink{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}{core\+\_\+boot\+\_\+init()}} function, and an entry point.\hypertarget{boot_8c_autotoc_md5}{}\doxyparagraph{Startup script}\label{boot_8c_autotoc_md5}
-For the bootloader to work, the default startup script must be replaced by the startup script startup\+\_\+stm32g473xx.\+s. The startup script defines the interrupt handlers for the program, including the reset handler. By default, the reset handler initializes the stack and jumps to the application code. The modified startup script required for the bootloader also runs the boot state machine before performing any additional initialization.\hypertarget{boot_8c_autotoc_md6}{}\doxyparagraph{Boot state machine}\label{boot_8c_autotoc_md6}
+\end{DoxyItemize}\hypertarget{boot_8c_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Components}{Components}}\label{boot_8c_autotoc_md4}
+The bootloader consists of four main components\+: the startup script, the boot state machine, the \doxylink{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}{core\+\_\+boot\+\_\+init()} function, and an entry point.\hypertarget{boot_8c_autotoc_md5}{}\doxysubsubsubsection{\texorpdfstring{Startup script}{Startup script}}\label{boot_8c_autotoc_md5}
+For the bootloader to work, the default startup script must be replaced by the startup script startup\+\_\+stm32g473xx.\+s. The startup script defines the interrupt handlers for the program, including the reset handler. By default, the reset handler initializes the stack and jumps to the application code. The modified startup script required for the bootloader also runs the boot state machine before performing any additional initialization.\hypertarget{boot_8c_autotoc_md6}{}\doxysubsubsubsection{\texorpdfstring{Boot state machine}{Boot state machine}}\label{boot_8c_autotoc_md6}
 The boot state machine runs before any other code and updates the boot state or soft swaps as necessary. The BSM first checks the nature of the reset. If the reset was caused externally (by pulling the n\+RST pin low), then the state is reset to NORMAL and the BSM continues to the application code.
 
 The behavior of the BSM depends on whether it is running in the booting or non-\/booting banks. In the booting bank, the BSM will change the state to VERIFY\+\_\+\+SOFT\+\_\+\+SWAP and soft-\/swap if the state is VERIFY and continue to application code otherwise.
 
 In the non-\/booting bank, the BSM will change the state to SOFT\+\_\+\+SWITCHED if the state is VERIFY\+\_\+\+SOFT\+\_\+\+SWAP. Otherwise, the BSM will set the NB\+\_\+\+ERROR bit and reset. This causes the chip to return to the booting bank.
 
-\hypertarget{boot_8c_autotoc_md7}{}\doxyparagraph{core\+\_\+boot\+\_\+init()}\label{boot_8c_autotoc_md7}
-The \mbox{\hyperlink{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}{core\+\_\+boot\+\_\+init()}} function is called by application code after the clocks, GPIO, and FDCAN modules needed for the bootloader have been initialized. This function initializes the RX filter for the board\textquotesingle{}s bootloader ID. The function also checks the boot state and enters the bootloader is necessary. See the state diagram above for details.\hypertarget{boot_8c_autotoc_md8}{}\doxyparagraph{Entry point}\label{boot_8c_autotoc_md8}
-The software enters the bootloader by calling \mbox{\hyperlink{boot_8c_ab2be0dfac3cabc71734c82636d313d87}{core\+\_\+boot\+\_\+reset\+\_\+and\+\_\+enter()}}. The FDCAN RX interrupt hander in \mbox{\hyperlink{can_8c}{can.\+c}} will automatically call this function if it receives a packet addressed to its bootloader FDCAN ID containing the command to enter the bootloader 
+\hypertarget{boot_8c_autotoc_md7}{}\doxysubsubsubsection{\texorpdfstring{core\+\_\+boot\+\_\+init()}{core\+\_\+boot\+\_\+init()}}\label{boot_8c_autotoc_md7}
+The \doxylink{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}{core\+\_\+boot\+\_\+init()} function is called by application code after the clocks, GPIO, and FDCAN modules needed for the bootloader have been initialized. This function initializes the RX filter for the board\textquotesingle{}s bootloader ID. The function also checks the boot state and enters the bootloader if necessary. See the state diagram above for details.\hypertarget{boot_8c_autotoc_md8}{}\doxysubsubsubsection{\texorpdfstring{Entry point}{Entry point}}\label{boot_8c_autotoc_md8}
+The software enters the bootloader by calling \doxylink{boot_8c_ab2be0dfac3cabc71734c82636d313d87}{core\+\_\+boot\+\_\+reset\+\_\+and\+\_\+enter()}. The FDCAN RX interrupt hander in \doxylink{can_8c}{can.\+c} will automatically call this function if it receives a packet addressed to its bootloader FDCAN ID containing the command to enter the bootloader 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{boot_8c_a8ede44e2fb3943e5c88c0b87d17c1755}\label{boot_8c_a8ede44e2fb3943e5c88c0b87d17c1755}} 
-\index{boot.c@{boot.c}!boot\_state\_machine@{boot\_state\_machine}}
+\Hypertarget{boot_8c_a8422dff7830d6235171228d40177a36f}\index{boot.c@{boot.c}!boot\_soft\_toggle@{boot\_soft\_toggle}}
+\index{boot\_soft\_toggle@{boot\_soft\_toggle}!boot.c@{boot.c}}
+\doxysubsubsection{\texorpdfstring{boot\_soft\_toggle()}{boot\_soft\_toggle()}}
+{\footnotesize\ttfamily \label{boot_8c_a8422dff7830d6235171228d40177a36f} 
+void boot\+\_\+soft\+\_\+toggle (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Soft bank swap. 
+
+This function is defined in startup\+\_\+stm32g473xx.\+s \Hypertarget{boot_8c_a8ede44e2fb3943e5c88c0b87d17c1755}\index{boot.c@{boot.c}!boot\_state\_machine@{boot\_state\_machine}}
 \index{boot\_state\_machine@{boot\_state\_machine}!boot.c@{boot.c}}
 \doxysubsubsection{\texorpdfstring{boot\_state\_machine()}{boot\_state\_machine()}}
-{\footnotesize\ttfamily void boot\+\_\+state\+\_\+machine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{boot_8c_a8ede44e2fb3943e5c88c0b87d17c1755} 
+void boot\+\_\+state\+\_\+machine (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 
 Process the current boot state and swap banks if needed. 
 
-This function is called from startup\+\_\+stm32g473xx.\+s and is called before the HAL is initialized and before the RAM is initialized. The boot state is preserved in a special section (.bootstate) at the end of the RAM that is not initialized, so its contents are preserved between resets. \mbox{\Hypertarget{boot_8c_a57516d5955e696bf83e2915c7a8d1857}\label{boot_8c_a57516d5955e696bf83e2915c7a8d1857}} 
-\index{boot.c@{boot.c}!check\_nonbooting@{check\_nonbooting}}
+This function is called from startup\+\_\+stm32g473xx.\+s and is called before the HAL is initialized and before the RAM is initialized. The boot state is preserved in a special section (.bootstate) at the end of the RAM that is not initialized, so its contents are preserved between resets. \Hypertarget{boot_8c_a57516d5955e696bf83e2915c7a8d1857}\index{boot.c@{boot.c}!check\_nonbooting@{check\_nonbooting}}
 \index{check\_nonbooting@{check\_nonbooting}!boot.c@{boot.c}}
 \doxysubsubsection{\texorpdfstring{check\_nonbooting()}{check\_nonbooting()}}
-{\footnotesize\ttfamily uint32\+\_\+t check\+\_\+nonbooting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{boot_8c_a57516d5955e696bf83e2915c7a8d1857} 
+uint32\+\_\+t check\+\_\+nonbooting (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 
@@ -235,11 +263,11 @@ Check if the program currently running is running from the non-\/booting bank.
 {\em 1} & The program currently running is in the non-\/booting bank \\
 \hline
 \end{DoxyRetVals}
-\mbox{\Hypertarget{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}\label{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}} 
-\index{boot.c@{boot.c}!core\_boot\_init@{core\_boot\_init}}
+\Hypertarget{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc}\index{boot.c@{boot.c}!core\_boot\_init@{core\_boot\_init}}
 \index{core\_boot\_init@{core\_boot\_init}!boot.c@{boot.c}}
 \doxysubsubsection{\texorpdfstring{core\_boot\_init()}{core\_boot\_init()}}
-{\footnotesize\ttfamily void core\+\_\+boot\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{boot_8c_a17df2565b3ec70a6a540f71a38bc4cdc} 
+void core\+\_\+boot\+\_\+init (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
 

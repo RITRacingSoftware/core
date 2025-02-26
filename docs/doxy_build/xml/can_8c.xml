@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="can_8c" kind="file" language="C++">
     <compoundname>can.c</compoundname>
     <includes refid="can_8h" local="yes">can.h</includes>
@@ -18,68 +18,11 @@
     <includes refid="error__handler_8h" local="yes">error_handler.h</includes>
     <includes refid="boot_8h" local="yes">boot.h</includes>
     <incdepgraph>
-      <node id="5">
-        <label>stdbool.h</label>
-      </node>
-      <node id="8">
-        <label>queue.h</label>
-      </node>
-      <node id="6">
-        <label>stdint.h</label>
-      </node>
-      <node id="3">
-        <label>clock.h</label>
-        <link refid="clock_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="14">
-        <label>gpio.h</label>
-        <link refid="gpio_8h_source"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="12">
-        <label>string.h</label>
-      </node>
-      <node id="9">
-        <label>semphr.h</label>
-      </node>
-      <node id="16">
-        <label>error_handler.h</label>
-        <link refid="error__handler_8h_source"/>
-      </node>
-      <node id="10">
-        <label>core_config.h</label>
-      </node>
-      <node id="13">
-        <label>math.h</label>
-      </node>
-      <node id="15">
-        <label>timeout.h</label>
-        <link refid="timeout_8h_source"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
       <node id="17">
         <label>boot.h</label>
         <link refid="boot_8h_source"/>
         <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="11">
-        <label>stdio.h</label>
-      </node>
-      <node id="7">
-        <label>FreeRTOS.h</label>
       </node>
       <node id="2">
         <label>can.h</label>
@@ -97,11 +40,38 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="4">
-        <label>stm32g4xx_hal.h</label>
+      <node id="3">
+        <label>clock.h</label>
+        <link refid="clock_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>error_handler.h</label>
+        <link refid="error__handler_8h_source"/>
+      </node>
+      <node id="14">
+        <label>gpio.h</label>
+        <link refid="gpio_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>timeout.h</label>
+        <link refid="timeout_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -134,10 +104,40 @@
         <childnode refid="17" relation="include">
         </childnode>
       </node>
+      <node id="7">
+        <label>FreeRTOS.h</label>
+      </node>
+      <node id="10">
+        <label>core_config.h</label>
+      </node>
+      <node id="13">
+        <label>math.h</label>
+      </node>
+      <node id="8">
+        <label>queue.h</label>
+      </node>
+      <node id="9">
+        <label>semphr.h</label>
+      </node>
+      <node id="5">
+        <label>stdbool.h</label>
+      </node>
+      <node id="6">
+        <label>stdint.h</label>
+      </node>
+      <node id="11">
+        <label>stdio.h</label>
+      </node>
+      <node id="4">
+        <label>stm32g4xx_hal.h</label>
+      </node>
+      <node id="12">
+        <label>string.h</label>
+      </node>
     </incdepgraph>
-      <sectiondef kind="var">
+    <sectiondef kind="var">
       <memberdef kind="variable" id="can_8c_1aacd5490e484a5214f955baa09c7168c9" prot="public" static="yes" mutable="no">
-        <type><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref></type>
+        <type><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref></type>
         <definition>core_CAN_module_t can1</definition>
         <argsstring></argsstring>
         <name>can1</name>
@@ -147,10 +147,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="71" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="71" bodyend="-1"/>
+        <location file="src/driver/Src/can.c" line="71" column="26" bodyfile="src/driver/Src/can.c" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="can_8c_1a7aa4c412a7baabfc19892fd7bf9172a7" prot="public" static="yes" mutable="no">
-        <type><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref></type>
+        <type><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref></type>
         <definition>core_CAN_module_t can2</definition>
         <argsstring></argsstring>
         <name>can2</name>
@@ -160,10 +160,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="72" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="72" bodyend="-1"/>
+        <location file="src/driver/Src/can.c" line="72" column="26" bodyfile="src/driver/Src/can.c" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="can_8c_1ae4a35ed0763435aa5a03dd086f42a897" prot="public" static="yes" mutable="no">
-        <type><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref></type>
+        <type><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref></type>
         <definition>core_CAN_module_t can3</definition>
         <argsstring></argsstring>
         <name>can3</name>
@@ -173,7 +173,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="73" column="26" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="73" bodyend="-1"/>
+        <location file="src/driver/Src/can.c" line="73" column="26" bodyfile="src/driver/Src/can.c" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="can_8c_1aa7200028243560e4cf59759da4d2e07d" prot="public" static="no" mutable="no">
         <type>const uint8_t</type>
@@ -187,10 +187,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="75" column="15" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="75" bodyend="-1"/>
+        <location file="src/driver/Src/can.c" line="75" column="15" bodyfile="src/driver/Src/can.c" bodystart="75" bodyend="75"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="can_8c_1a6684b2c0035a1e4f6bb3fec2c7515082" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>static void rx_handler</definition>
@@ -206,7 +206,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="397" column="13" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="397" bodyend="440" declfile="/home/matthias/racing/core/src/driver/Src/can.c" declline="77" declcolumn="13"/>
+        <location file="src/driver/Src/can.c" line="397" column="13" bodyfile="src/driver/Src/can.c" bodystart="397" bodyend="438" declfile="src/driver/Src/can.c" declline="77" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a8448367bb43caa72677ab02c3feae243" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -235,7 +235,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="456" column="13" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="456" bodyend="469" declfile="/home/matthias/racing/core/src/driver/Src/can.c" declline="78" declcolumn="13"/>
+        <location file="src/driver/Src/can.c" line="454" column="13" bodyfile="src/driver/Src/can.c" bodystart="454" bodyend="467" declfile="src/driver/Src/can.c" declline="78" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1af9edf2f9c4b105fb15fd2c965a1a8458" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -268,7 +268,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="442" column="13" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="442" bodyend="454" declfile="/home/matthias/racing/core/src/driver/Src/can.c" declline="79" declcolumn="13"/>
+        <location file="src/driver/Src/can.c" line="440" column="13" bodyfile="src/driver/Src/can.c" bodystart="440" bodyend="452" declfile="src/driver/Src/can.c" declline="79" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a2ec73eef031af8e4e6c07cde77872b68" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -285,11 +285,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="554" column="13" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="554" bodyend="578" declfile="/home/matthias/racing/core/src/driver/Src/can.c" declline="80" declcolumn="13"/>
+        <location file="src/driver/Src/can.c" line="552" column="13" bodyfile="src/driver/Src/can.c" bodystart="552" bodyend="576" declfile="src/driver/Src/can.c" declline="80" declcolumn="13"/>
       </memberdef>
-      <memberdef kind="function" id="can_8c_1ac0dc69c0e35e805834c1dc66fd8fb381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref> *</type>
-        <definition>core_CAN_module_t* core_CAN_convert</definition>
+      <memberdef kind="function" id="can_8c_1a278571ff8913fe491ebc6a8d6d2bf705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref> *</type>
+        <definition>core_CAN_module_t * core_CAN_convert</definition>
         <argsstring>(FDCAN_GlobalTypeDef *can)</argsstring>
         <name>core_CAN_convert</name>
         <param>
@@ -302,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="82" column="19" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="82" bodyend="87"/>
+        <location file="src/driver/Src/can.c" line="82" column="19" bodyfile="src/driver/Src/can.c" bodystart="82" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1af5a65d61181a7d9e50f8f42df8a73cf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -338,7 +338,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="95" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="95" bodyend="244"/>
+        <location file="src/driver/Src/can.c" line="95" column="6" bodyfile="src/driver/Src/can.c" bodystart="95" bodyend="244"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1ae0e18230790182107643e8c44d59646f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -419,7 +419,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="256" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="256" bodyend="270"/>
+        <location file="src/driver/Src/can.c" line="256" column="6" bodyfile="src/driver/Src/can.c" bodystart="256" bodyend="270"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a78c43d4e3c5280d09a1bca37f9ba986f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -500,7 +500,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="282" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="282" bodyend="294"/>
+        <location file="src/driver/Src/can.c" line="282" column="6" bodyfile="src/driver/Src/can.c" bodystart="282" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a5956fa458e011f58d514fcfa3f45b72a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -528,7 +528,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="301" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="301" bodyend="326"/>
+        <location file="src/driver/Src/can.c" line="301" column="6" bodyfile="src/driver/Src/can.c" bodystart="301" bodyend="326"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a84ba21a70b0eaa5a94ebfa9d80ce0834" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -609,7 +609,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="341" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="341" bodyend="359"/>
+        <location file="src/driver/Src/can.c" line="341" column="6" bodyfile="src/driver/Src/can.c" bodystart="341" bodyend="359"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1aec814b501cd9c108a515bcbb0e3bf4a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -690,7 +690,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="374" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="374" bodyend="394"/>
+        <location file="src/driver/Src/can.c" line="374" column="6" bodyfile="src/driver/Src/can.c" bodystart="374" bodyend="394"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a5abf7049ba56ae95525c7ef6b043c3fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -702,7 +702,7 @@
           <declname>can</declname>
         </param>
         <param>
-          <type><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref> *</type>
+          <type><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref> *</type>
           <declname>received_message</declname>
         </param>
         <briefdescription>
@@ -747,7 +747,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="479" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="479" bodyend="487"/>
+        <location file="src/driver/Src/can.c" line="477" column="6" bodyfile="src/driver/Src/can.c" bodystart="477" bodyend="485"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a5633bcdabb91aa4268b2b135a8ef21fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -759,7 +759,7 @@
           <declname>can</declname>
         </param>
         <param>
-          <type><ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref> *</type>
+          <type><ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref> *</type>
           <declname>received_message</declname>
         </param>
         <briefdescription>
@@ -804,7 +804,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="497" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="497" bodyend="505"/>
+        <location file="src/driver/Src/can.c" line="495" column="6" bodyfile="src/driver/Src/can.c" bodystart="495" bodyend="503"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a59ccd2a37918f52fc0b80607d37652c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -820,7 +820,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="508" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="508" bodyend="508"/>
+        <location file="src/driver/Src/can.c" line="506" column="6" bodyfile="src/driver/Src/can.c" bodystart="506" bodyend="506"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1aa72d5b6ac0e81f1e37ffd59603964c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -836,7 +836,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="509" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="509" bodyend="509"/>
+        <location file="src/driver/Src/can.c" line="507" column="6" bodyfile="src/driver/Src/can.c" bodystart="507" bodyend="507"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1afff79a9557e20879ea7846d1c927214a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -852,7 +852,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="510" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="510" bodyend="510"/>
+        <location file="src/driver/Src/can.c" line="508" column="6" bodyfile="src/driver/Src/can.c" bodystart="508" bodyend="508"/>
       </memberdef>
       <memberdef kind="function" id="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -933,33 +933,30 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/can.c" line="524" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/can.c" bodystart="524" bodyend="552"/>
+        <location file="src/driver/Src/can.c" line="522" column="6" bodyfile="src/driver/Src/can.c" bodystart="522" bodyend="550"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
 <para>Core FDCAN library. </para>
     </briefdescription>
     <detaileddescription>
 <para>This core library component is used to interface with the FDCAN hardware.</para>
-<sect2 id="can_8c_1autotoc_md9">
-<title>Initialization</title>
-<para>An FDCAN module is initialized by calling the <ref refid="can_8c_1af5a65d61181a7d9e50f8f42df8a73cf7" kindref="member">core_CAN_init()</ref> function. The CAN bitrate is set to <computeroutput>CORE_CAN_BITRATE</computeroutput>, which is given in bits/second and defined in <computeroutput>core_config.h</computeroutput>. If <computeroutput>CORE_FDCANx_AUTO_RETRANSMISSION</computeroutput> is set to 1 in <computeroutput>core_config.h</computeroutput>, the FDCANx module will be cofigured to automatically retransmit packets that were not acknowledged. If <computeroutput>CORE_FDCANx_USE_FD</computeroutput> is set to 1 in <computeroutput>core_config.h</computeroutput>, the FDCANx module will be able to send and receive FD CAN frames as well as standard CAN frames.</para>
-</sect2>
-<sect2 id="can_8c_1autotoc_md10">
-<title>Transmitting</title>
-<para>Transmission on the CAN bus is managed by a FreeRTOS queue and occurs in two parts. First, the user code adds a CAN frame to the queue with <ref refid="can_8c_1ae0e18230790182107643e8c44d59646f" kindref="member">core_CAN_add_message_to_tx_queue()</ref> (classic and FD CAN) or with <ref refid="can_8c_1a78c43d4e3c5280d09a1bca37f9ba986f" kindref="member">core_CAN_add_extended_message_to_tx_queue()</ref> (FD CAN only).</para>
+<sect1 id="can_8c_1autotoc_md9_1s1"><sect2 id="can_8c_1autotoc_md9">
+<title>Initialization</title><para>An FDCAN module is initialized by calling the <ref refid="can_8c_1af5a65d61181a7d9e50f8f42df8a73cf7" kindref="member">core_CAN_init()</ref> function. The CAN bitrate is set to <computeroutput>CORE_CAN_BITRATE</computeroutput>, which is given in bits/second and defined in <computeroutput>core_config.h</computeroutput>. If <computeroutput>CORE_FDCANx_AUTO_RETRANSMISSION</computeroutput> is set to 1 in <computeroutput>core_config.h</computeroutput>, the FDCANx module will be cofigured to automatically retransmit packets that were not acknowledged. If <computeroutput>CORE_FDCANx_USE_FD</computeroutput> is set to 1 in <computeroutput>core_config.h</computeroutput>, the FDCANx module will be able to send and receive FD CAN frames as well as standard CAN frames.</para>
+</sect2></sect1>
+<sect1 id="can_8c_1autotoc_md10_1s1"><sect2 id="can_8c_1autotoc_md10">
+<title>Transmitting</title><para>Transmission on the CAN bus is managed by a FreeRTOS queue and occurs in two parts. First, the user code adds a CAN frame to the queue with <ref refid="can_8c_1ae0e18230790182107643e8c44d59646f" kindref="member">core_CAN_add_message_to_tx_queue()</ref> (classic and FD CAN) or with <ref refid="can_8c_1a78c43d4e3c5280d09a1bca37f9ba986f" kindref="member">core_CAN_add_extended_message_to_tx_queue()</ref> (FD CAN only).</para>
 <para>The user code must also run <ref refid="can_8c_1a5956fa458e011f58d514fcfa3f45b72a" kindref="member">core_CAN_send_from_tx_queue_task()</ref> in a dedicated FreeRTOS task. If <ref refid="can_8c_1a5956fa458e011f58d514fcfa3f45b72a" kindref="member">core_CAN_send_from_tx_queue_task()</ref>, an error has occurred while transmitting.</para>
 <para>Internally, a FreeRTOS semaphore is used to ensure only one message sits in the hardware CAN queue at a time. The semaphore is given whenever a transmission completes (or fails) and is taken whenever a message is added to the hardware queue.</para>
 <para>Alternatively, the user can disable the FreeRTOS queue by defining <computeroutput>CORE_CAN_DISABLE_TX_QUEUE</computeroutput> in <computeroutput>core_config.h</computeroutput>. This is useful if the user needs finer control over the transmission, wants to synchronize CAN transmissions between FDCAN modules, or would like to save SRAM space. The RX queue is not affected and the user can access the semaphore using core_CAN_convert(), but will be responsible for taking the semaphore.</para>
-</sect2>
-<sect2 id="can_8c_1autotoc_md11">
-<title>Receiving</title>
-<para>In order to enable receiving CAN frames, the user code must first set up one or more filters using the <ref refid="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" kindref="member">core_CAN_add_filter()</ref> function. When a frame matching any of the applied filters is received, the FDCAN hardware triggers an interrupt that inserts the contents of this frame into a receiving FreeRTOS queue.</para>
+</sect2></sect1>
+<sect1 id="can_8c_1autotoc_md11_1s1"><sect2 id="can_8c_1autotoc_md11">
+<title>Receiving</title><para>In order to enable receiving CAN frames, the user code must first set up one or more filters using the <ref refid="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" kindref="member">core_CAN_add_filter()</ref> function. When a frame matching any of the applied filters is received, the FDCAN hardware triggers an interrupt that inserts the contents of this frame into a receiving FreeRTOS queue.</para>
 <para>The user code must the define a task that repeatedly calls <ref refid="can_8c_1a5633bcdabb91aa4268b2b135a8ef21fe" kindref="member">core_CAN_receive_from_queue()</ref> (classic CAN) or <ref refid="can_8c_1a5abf7049ba56ae95525c7ef6b043c3fd" kindref="member">core_CAN_receive_extended_from_queue()</ref> (FD CAN only). These functions will return 1 if a frame has been loaded from the queue and 0 otherwise. It is necessary to poll these functions, since they are non-blocking. </para>
-</sect2>
+</sect2></sect1>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;can.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="54"><highlight class="normal"></highlight></codeline>
@@ -979,9 +976,9 @@
 <codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;error_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;boot.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can1;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can2;</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can3;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can1;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can2;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>can3;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>core_CAN_dlc_lookup[16]<sp/>=<sp/>{0,<sp/>1,<sp/>2,<sp/>3,<sp/>4,<sp/>5,<sp/>6,<sp/>7,<sp/>8,<sp/>12,<sp/>16,<sp/>20,<sp/>24,<sp/>32,<sp/>48,<sp/>64};</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight></codeline>
@@ -990,7 +987,7 @@
 <codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_fd);</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CAN_clock_set_params(FDCAN_HandleTypeDef<sp/>*hfdcan);</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*core_CAN_convert(FDCAN_GlobalTypeDef<sp/>*can)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*core_CAN_convert(FDCAN_GlobalTypeDef<sp/>*can)<sp/>{</highlight></codeline>
 <codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN1)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;can1;</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN2)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;can2;</highlight></codeline>
 <codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(can<sp/>==<sp/>FDCAN3)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;can3;</highlight></codeline>
@@ -1000,8 +997,8 @@
 <codeline lineno="95"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1af5a65d61181a7d9e50f8f42df8a73cf7" kindref="member">core_CAN_init</ref>(FDCAN_GlobalTypeDef<sp/>*can)</highlight></codeline>
 <codeline lineno="96"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Init<sp/>port<sp/>clock<sp/>based<sp/>on<sp/>which<sp/>CAN<sp/>bus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="clock_8c_1a2b585a218aa24b5c50a5e92538e65615" kindref="member">core_clock_FDCAN_init</ref>(can);</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>core_clock_FDCAN_init(can);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>pins</highlight><highlight class="normal"></highlight></codeline>
@@ -1126,7 +1123,7 @@
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>(HAL_FDCAN_ActivateNotification(&amp;(p_can-&gt;hfdcan),<sp/>FDCAN_IT_TX_ABORT_COMPLETE,<sp/>FDCAN_TX_BUFFER0<sp/>|<sp/>FDCAN_TX_BUFFER1<sp/>|<sp/>FDCAN_TX_BUFFER2)<sp/>!=<sp/>HAL_OK)<sp/>return<sp/>false;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="222"><highlight class="normal"></highlight></codeline>
 <codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>queue<sp/>to<sp/>put<sp/>received<sp/>messages<sp/>in</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>msgsize<sp/>=<sp/>(p_can-&gt;use_fd<sp/>?<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref>)<sp/>:<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref>));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>msgsize<sp/>=<sp/>(p_can-&gt;use_fd<sp/>?<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref>)<sp/>:<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref>));</highlight></codeline>
 <codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>p_can-&gt;can_queue_rx<sp/>=<sp/>xQueueCreate(CORE_CAN_QUEUE_LENGTH,<sp/>msgsize);</highlight></codeline>
 <codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;can_queue_rx<sp/>==<sp/>0)<sp/>error_handler();</highlight></codeline>
 <codeline lineno="227"><highlight class="normal"></highlight></codeline>
@@ -1148,29 +1145,29 @@
 <codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="244"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="245"><highlight class="normal"></highlight></codeline>
-<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>CORE_CAN_DISABLE_TX_QUEUE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>CORE_CAN_DISABLE_TX_QUEUE</highlight></codeline>
 <codeline lineno="256"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1ae0e18230790182107643e8c44d59646f" kindref="member">core_CAN_add_message_to_tx_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint64_t<sp/>data)</highlight></codeline>
 <codeline lineno="257"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;use_fd)<sp/>{</highlight></codeline>
-<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref><sp/>message;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref><sp/>message;</highlight></codeline>
 <codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message.id<sp/>=<sp/>id;</highlight></codeline>
 <codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message.dlc<sp/>=<sp/>dlc;</highlight></codeline>
 <codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message.use_fd<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memcpy(&amp;(message.data),<sp/>&amp;data,<sp/>8);</highlight></codeline>
 <codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>xQueueSendToBack(p_can-&gt;can_queue_tx,<sp/>&amp;message,<sp/>0);</highlight></codeline>
 <codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref><sp/>message<sp/>=<sp/>{(int)</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>dlc,<sp/>data};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref><sp/>message<sp/>=<sp/>{(int)</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>dlc,<sp/>data};</highlight></codeline>
 <codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>xQueueSendToBack(p_can-&gt;can_queue_tx,<sp/>&amp;message,<sp/>0);</highlight></codeline>
 <codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="270"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="271"><highlight class="normal"></highlight></codeline>
 <codeline lineno="282"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a78c43d4e3c5280d09a1bca37f9ba986f" kindref="member">core_CAN_add_extended_message_to_tx_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data)</highlight></codeline>
 <codeline lineno="283"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!(p_can-&gt;use_fd))<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dlc<sp/>&gt;<sp/>64)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref><sp/>message;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref><sp/>message;</highlight></codeline>
 <codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>message.id<sp/>=<sp/>id;</highlight></codeline>
 <codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>message.dlc<sp/>=<sp/>dlc;</highlight></codeline>
 <codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>message.use_fd<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
@@ -1181,9 +1178,9 @@
 <codeline lineno="295"><highlight class="normal"></highlight></codeline>
 <codeline lineno="301"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a5956fa458e011f58d514fcfa3f45b72a" kindref="member">core_CAN_send_from_tx_queue_task</ref>(FDCAN_GlobalTypeDef<sp/>*can)</highlight></codeline>
 <codeline lineno="302"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref><sp/>dequeuedExtendedMessage;</highlight></codeline>
-<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref><sp/>dequeuedMessage;</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref><sp/>dequeuedExtendedMessage;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref><sp/>dequeuedMessage;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>autort<sp/>=<sp/>p_can-&gt;autort;</highlight></codeline>
 <codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;use_fd)<sp/>{</highlight></codeline>
 <codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>data;</highlight></codeline>
@@ -1209,7 +1206,7 @@
 <codeline lineno="328"><highlight class="normal"></highlight></codeline>
 <codeline lineno="341"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a84ba21a70b0eaa5a94ebfa9d80ce0834" kindref="member">core_CAN_send_message</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint64_t<sp/>data)</highlight></codeline>
 <codeline lineno="342"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="344"><highlight class="normal"></highlight></codeline>
 <codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>FDCAN_TxHeaderTypeDef<sp/>header<sp/>=<sp/>{0};</highlight></codeline>
 <codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>header.Identifier<sp/>=<sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>&amp;<sp/>0x1fffffff);</highlight></codeline>
@@ -1229,7 +1226,7 @@
 <codeline lineno="360"><highlight class="normal"></highlight></codeline>
 <codeline lineno="374"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1aec814b501cd9c108a515bcbb0e3bf4a4" kindref="member">core_CAN_send_fd_message</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data)</highlight></codeline>
 <codeline lineno="375"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="377"><highlight class="normal"></highlight></codeline>
 <codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>i=0;</highlight></codeline>
 <codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(core_CAN_dlc_lookup[i]<sp/>&lt;<sp/>dlc)<sp/>i++;</highlight></codeline>
@@ -1252,7 +1249,7 @@
 <codeline lineno="396"><highlight class="normal"></highlight></codeline>
 <codeline lineno="397"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rx_handler(FDCAN_GlobalTypeDef<sp/>*can)</highlight></codeline>
 <codeline lineno="398"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
 <codeline lineno="400"><highlight class="normal"></highlight></codeline>
 <codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>interrupt<sp/>flag<sp/>is<sp/>set<sp/>for<sp/>FIFO0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;hfdcan.Instance-&gt;IR<sp/>&amp;<sp/>FDCAN_IT_RX_FIFO0_NEW_MESSAGE)</highlight></codeline>
@@ -1263,148 +1260,146 @@
 <codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>data[64];</highlight></codeline>
 <codeline lineno="408"><highlight class="normal"></highlight></codeline>
 <codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>Rx<sp/>messages<sp/>from<sp/>RX<sp/>FIFO0</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(HAL_FDCAN_GetRxMessage(&amp;(p_can-&gt;hfdcan),<sp/>FDCAN_RX_FIFO0,<sp/>&amp;header,<sp/>data)<sp/>!=<sp/>HAL_OK)</highlight></codeline>
-<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error_handler();</highlight></codeline>
-<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpio_8c_1a5e894851f0d0aa9792d8407a40e811a1" kindref="member">core_GPIO_toggle_heartbeat</ref>();</highlight></codeline>
-<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enter<sp/>the<sp/>bootloader<sp/>if<sp/>the<sp/>the<sp/>boot<sp/>ID<sp/>or<sp/>the<sp/>broadcast<sp/>ID<sp/>is<sp/>received</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((header.IdType<sp/>==<sp/>FDCAN_EXTENDED_ID)<sp/>&amp;&amp;<sp/>((header.Identifier<sp/>==<sp/>(CORE_BOOT_FDCAN_ID<sp/>&lt;&lt;<sp/>18))<sp/>||<sp/>(header.Identifier<sp/>==<sp/>(0x7ff<sp/>&lt;&lt;<sp/>18))))<sp/>{</highlight></codeline>
-<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//core_GPIO_toggle_heartbeat();</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="boot_8c_1ab2be0dfac3cabc71734c82636d313d87" kindref="member">core_boot_reset_and_enter</ref>();</highlight></codeline>
-<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>the<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref</ref>(can,<sp/>header.Identifier);</highlight></codeline>
-<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>the<sp/>message<sp/>to<sp/>the<sp/>RX<sp/>queue</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(header.IdType<sp/>==<sp/>FDCAN_EXTENDED_ID)<sp/>header.Identifier<sp/>|=<sp/>(1&lt;&lt;30);</highlight></codeline>
-<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;use_fd)<sp/>add_CAN_extended_message_to_rx_queue(can,<sp/>header.Identifier,<sp/>core_CAN_dlc_lookup[header.DataLength],<sp/>data,<sp/>header.FDFormat<sp/>==<sp/>FDCAN_FD_CAN);</highlight></codeline>
-<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>add_CAN_message_to_rx_queue(can,<sp/>header.Identifier,<sp/>core_CAN_dlc_lookup[header.DataLength],<sp/>data);</highlight></codeline>
-<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;hfdcan.Instance-&gt;IR<sp/>&amp;<sp/>FDCAN_IR_TC)<sp/>{</highlight></codeline>
-<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>interrupt<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_can-&gt;hfdcan.Instance-&gt;IR<sp/>=<sp/>FDCAN_IR_TC;</highlight></codeline>
-<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
-<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xSemaphoreGiveFromISR(p_can-&gt;can_tx_semaphore,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;hfdcan.Instance-&gt;IR<sp/>&amp;<sp/>FDCAN_IR_PEA)<sp/>{</highlight></codeline>
-<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_can-&gt;hfdcan.Instance-&gt;IR<sp/>=<sp/>FDCAN_IR_PEA;</highlight></codeline>
-<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
-<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xSemaphoreGiveFromISR(p_can-&gt;can_tx_semaphore,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="440"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="441"><highlight class="normal"></highlight></codeline>
-<codeline lineno="442"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_fd)<sp/>{</highlight></codeline>
-<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
-<codeline lineno="444"><highlight class="normal"></highlight></codeline>
-<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref><sp/>rx_msg;</highlight></codeline>
-<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.id<sp/>=<sp/>id;</highlight></codeline>
-<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.dlc<sp/>=<sp/>dlc;</highlight></codeline>
-<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.use_fd<sp/>=<sp/>use_fd;</highlight></codeline>
-<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(rx_msg.data,<sp/>data,<sp/>dlc);</highlight></codeline>
-<codeline lineno="450"><highlight class="normal"></highlight></codeline>
-<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
-<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>xQueueSendFromISR(p_can-&gt;can_queue_rx,<sp/>&amp;rx_msg,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(xHigherPriorityTaskWoken)<sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="454"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="455"><highlight class="normal"></highlight></codeline>
-<codeline lineno="456"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data)<sp/>{</highlight></codeline>
-<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
-<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>msg_data<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(&amp;msg_data,<sp/>data,<sp/>dlc);</highlight></codeline>
-<codeline lineno="460"><highlight class="normal"></highlight></codeline>
-<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref><sp/>rx_msg;</highlight></codeline>
-<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.data<sp/>=<sp/>msg_data;</highlight></codeline>
-<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.id<sp/>=<sp/>id;</highlight></codeline>
-<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.dlc<sp/>=<sp/>dlc;</highlight></codeline>
-<codeline lineno="465"><highlight class="normal"></highlight></codeline>
-<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
-<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>xQueueSendFromISR(p_can-&gt;can_queue_rx,<sp/>&amp;rx_msg,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(xHigherPriorityTaskWoken)<sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
-<codeline lineno="469"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="470"><highlight class="normal"></highlight></codeline>
-<codeline lineno="479"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a5abf7049ba56ae95525c7ef6b043c3fd" kindref="member">core_CAN_receive_extended_from_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/><ref refid="structCanExtendedMessage__s" kindref="compound">CanExtendedMessage_s</ref><sp/>*received_message)</highlight></codeline>
-<codeline lineno="480"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
-<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="483"><highlight class="normal"></highlight></codeline>
-<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receive<sp/>CAN<sp/>message<sp/>from<sp/>queue,<sp/>copy<sp/>it<sp/>to<sp/>buffer<sp/>&quot;received_message&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>true<sp/>if<sp/>it<sp/>read<sp/>a<sp/>value<sp/>from<sp/>the<sp/>queue,<sp/>false<sp/>if<sp/>not</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(xQueueReceive(p_can-&gt;can_queue_rx,<sp/>received_message,<sp/>pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT))<sp/>==<sp/>pdTRUE);</highlight></codeline>
-<codeline lineno="487"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="488"><highlight class="normal"></highlight></codeline>
-<codeline lineno="497"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a5633bcdabb91aa4268b2b135a8ef21fe" kindref="member">core_CAN_receive_from_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/><ref refid="structCanMessage__s" kindref="compound">CanMessage_s</ref><sp/>*received_message)</highlight></codeline>
-<codeline lineno="498"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
-<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="501"><highlight class="normal"></highlight></codeline>
-<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receive<sp/>CAN<sp/>message<sp/>from<sp/>queue,<sp/>copy<sp/>it<sp/>to<sp/>buffer<sp/>&quot;received_message&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>true<sp/>if<sp/>it<sp/>read<sp/>a<sp/>value<sp/>from<sp/>the<sp/>queue,<sp/>false<sp/>if<sp/>not</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(xQueueReceive(p_can-&gt;can_queue_rx,<sp/>received_message,<sp/>pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT))<sp/>==<sp/>pdTRUE);</highlight></codeline>
-<codeline lineno="505"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="506"><highlight class="normal"></highlight></codeline>
-<codeline lineno="507"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Call<sp/>RX<sp/>interrupt<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="508"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN1_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN1);}</highlight></codeline>
-<codeline lineno="509"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN2_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN2);}</highlight></codeline>
-<codeline lineno="510"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN3_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN3);}</highlight></codeline>
-<codeline lineno="511"><highlight class="normal"></highlight></codeline>
-<codeline lineno="524"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" kindref="member">core_CAN_add_filter</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExtended,<sp/>uint32_t<sp/>id1,<sp/>uint32_t<sp/>id2)</highlight></codeline>
-<codeline lineno="525"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore__CAN__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
-<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*p_num_filters;</highlight></codeline>
-<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>max_filter_num;</highlight></codeline>
-<codeline lineno="530"><highlight class="normal"></highlight></codeline>
-<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>for<sp/>each<sp/>CAN<sp/>bus,<sp/>whether<sp/>it&apos;s<sp/>standard<sp/>or<sp/>extended</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isExtended)<sp/>max_filter_num<sp/>=<sp/>p_can-&gt;hfdcan.Init.ExtFiltersNbr;</highlight></codeline>
-<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>max_filter_num<sp/>=<sp/>p_can-&gt;hfdcan.Init.StdFiltersNbr;</highlight></codeline>
-<codeline lineno="534"><highlight class="normal"></highlight></codeline>
-<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isExtended)<sp/>{</highlight></codeline>
-<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_num_filters<sp/>=<sp/>&amp;(p_can-&gt;fdcan_num_extended_filters);</highlight></codeline>
-<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_num_filters<sp/>=<sp/>&amp;(p_can-&gt;fdcan_num_standard_filters);</highlight></codeline>
-<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(*p_num_filters<sp/>+<sp/>1<sp/>&gt;<sp/><sp/>max_filter_num)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>FDCAN_FilterTypeDef<sp/>filter;</highlight></codeline>
-<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.IdType<sp/>=<sp/>isExtended<sp/>?<sp/>FDCAN_EXTENDED_ID<sp/>:<sp/>FDCAN_STANDARD_ID;</highlight></codeline>
-<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterIndex<sp/>=<sp/>*p_num_filters;</highlight></codeline>
-<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterType<sp/>=<sp/>FDCAN_FILTER_RANGE;</highlight></codeline>
-<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterConfig<sp/>=<sp/>FDCAN_FILTER_TO_RXFIFO0;</highlight></codeline>
-<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterID1<sp/>=<sp/>id1;</highlight></codeline>
-<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterID2<sp/>=<sp/>id2;</highlight></codeline>
-<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/>*p_num_filters<sp/>=<sp/>*p_num_filters<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(HAL_FDCAN_GetRxMessage(&amp;(p_can-&gt;hfdcan),<sp/>FDCAN_RX_FIFO0,<sp/>&amp;header,<sp/>data)<sp/>==<sp/>HAL_OK)<sp/>{</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_GPIO_toggle_heartbeat();</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enter<sp/>the<sp/>bootloader<sp/>if<sp/>the<sp/>the<sp/>boot<sp/>ID<sp/>or<sp/>the<sp/>broadcast<sp/>ID<sp/>is<sp/>received</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((header.IdType<sp/>==<sp/>FDCAN_EXTENDED_ID)<sp/>&amp;&amp;<sp/>((header.Identifier<sp/>==<sp/>(CORE_BOOT_FDCAN_ID<sp/>&lt;&lt;<sp/>18))<sp/>||<sp/>(header.Identifier<sp/>==<sp/>(0x7ff<sp/>&lt;&lt;<sp/>18))))<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//core_GPIO_toggle_heartbeat();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_boot_reset_and_enter();</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>the<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_timeout_reset_by_module_ref(can,<sp/>header.Identifier);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>the<sp/>message<sp/>to<sp/>the<sp/>RX<sp/>queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(header.IdType<sp/>==<sp/>FDCAN_EXTENDED_ID)<sp/>header.Identifier<sp/>|=<sp/>(1&lt;&lt;30);</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;use_fd)<sp/>add_CAN_extended_message_to_rx_queue(can,<sp/>header.Identifier,<sp/>core_CAN_dlc_lookup[header.DataLength],<sp/>data,<sp/>header.FDFormat<sp/>==<sp/>FDCAN_FD_CAN);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>add_CAN_message_to_rx_queue(can,<sp/>header.Identifier,<sp/>core_CAN_dlc_lookup[header.DataLength],<sp/>data);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;hfdcan.Instance-&gt;IR<sp/>&amp;<sp/>FDCAN_IR_TC)<sp/>{</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>interrupt<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_can-&gt;hfdcan.Instance-&gt;IR<sp/>=<sp/>FDCAN_IR_TC;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xSemaphoreGiveFromISR(p_can-&gt;can_tx_semaphore,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can-&gt;hfdcan.Instance-&gt;IR<sp/>&amp;<sp/>FDCAN_IR_PEA)<sp/>{</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_can-&gt;hfdcan.Instance-&gt;IR<sp/>=<sp/>FDCAN_IR_PEA;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>xSemaphoreGiveFromISR(p_can-&gt;can_tx_semaphore,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="438"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_fd)<sp/>{</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref><sp/>rx_msg;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.id<sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.dlc<sp/>=<sp/>dlc;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.use_fd<sp/>=<sp/>use_fd;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(rx_msg.data,<sp/>data,<sp/>dlc);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>xQueueSendFromISR(p_can-&gt;can_queue_rx,<sp/>&amp;rx_msg,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(xHigherPriorityTaskWoken)<sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef<sp/>*can,<sp/>uint32_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>uint8_t<sp/>dlc,<sp/>uint8_t<sp/>*data)<sp/>{</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>msg_data<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(&amp;msg_data,<sp/>data,<sp/>dlc);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref><sp/>rx_msg;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.data<sp/>=<sp/>msg_data;</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.id<sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>rx_msg.dlc<sp/>=<sp/>dlc;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseType_t<sp/>xHigherPriorityTaskWoken<sp/>=<sp/>pdFALSE;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>xQueueSendFromISR(p_can-&gt;can_queue_rx,<sp/>&amp;rx_msg,<sp/>&amp;xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(xHigherPriorityTaskWoken)<sp/>portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</highlight></codeline>
+<codeline lineno="467"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a5abf7049ba56ae95525c7ef6b043c3fd" kindref="member">core_CAN_receive_extended_from_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/><ref refid="struct_can_extended_message__s" kindref="compound">CanExtendedMessage_s</ref><sp/>*received_message)</highlight></codeline>
+<codeline lineno="478"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receive<sp/>CAN<sp/>message<sp/>from<sp/>queue,<sp/>copy<sp/>it<sp/>to<sp/>buffer<sp/>&quot;received_message&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>true<sp/>if<sp/>it<sp/>read<sp/>a<sp/>value<sp/>from<sp/>the<sp/>queue,<sp/>false<sp/>if<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(xQueueReceive(p_can-&gt;can_queue_rx,<sp/>received_message,<sp/>pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT))<sp/>==<sp/>pdTRUE);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a5633bcdabb91aa4268b2b135a8ef21fe" kindref="member">core_CAN_receive_from_queue</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/><ref refid="struct_can_message__s" kindref="compound">CanMessage_s</ref><sp/>*received_message)</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receive<sp/>CAN<sp/>message<sp/>from<sp/>queue,<sp/>copy<sp/>it<sp/>to<sp/>buffer<sp/>&quot;received_message&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Return<sp/>true<sp/>if<sp/>it<sp/>read<sp/>a<sp/>value<sp/>from<sp/>the<sp/>queue,<sp/>false<sp/>if<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(xQueueReceive(p_can-&gt;can_queue_rx,<sp/>received_message,<sp/>pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT))<sp/>==<sp/>pdTRUE);</highlight></codeline>
+<codeline lineno="503"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Call<sp/>RX<sp/>interrupt<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN1_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN1);}</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN2_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN2);}</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>FDCAN3_IT0_IRQHandler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{rx_handler(FDCAN3);}</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="can_8c_1a2939ee64b45b67008f5769ba9d0f5f16" kindref="member">core_CAN_add_filter</ref>(FDCAN_GlobalTypeDef<sp/>*can,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExtended,<sp/>uint32_t<sp/>id1,<sp/>uint32_t<sp/>id2)</highlight></codeline>
+<codeline lineno="523"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structcore___c_a_n__module__s" kindref="compound">core_CAN_module_t</ref><sp/>*p_can<sp/>=<sp/>core_CAN_convert(can);</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p_can<sp/>==<sp/>NULL)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*p_num_filters;</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>max_filter_num;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>for<sp/>each<sp/>CAN<sp/>bus,<sp/>whether<sp/>it&apos;s<sp/>standard<sp/>or<sp/>extended</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isExtended)<sp/>max_filter_num<sp/>=<sp/>p_can-&gt;hfdcan.Init.ExtFiltersNbr;</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>max_filter_num<sp/>=<sp/>p_can-&gt;hfdcan.Init.StdFiltersNbr;</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isExtended)<sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_num_filters<sp/>=<sp/>&amp;(p_can-&gt;fdcan_num_extended_filters);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_num_filters<sp/>=<sp/>&amp;(p_can-&gt;fdcan_num_standard_filters);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(*p_num_filters<sp/>+<sp/>1<sp/>&gt;<sp/><sp/>max_filter_num)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>FDCAN_FilterTypeDef<sp/>filter;</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.IdType<sp/>=<sp/>isExtended<sp/>?<sp/>FDCAN_EXTENDED_ID<sp/>:<sp/>FDCAN_STANDARD_ID;</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterIndex<sp/>=<sp/>*p_num_filters;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterType<sp/>=<sp/>FDCAN_FILTER_RANGE;</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterConfig<sp/>=<sp/>FDCAN_FILTER_TO_RXFIFO0;</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterID1<sp/>=<sp/>id1;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>filter.FilterID2<sp/>=<sp/>id2;</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/>*p_num_filters<sp/>=<sp/>*p_num_filters<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>HAL_FDCAN_ConfigFilter(&amp;(p_can-&gt;hfdcan),<sp/>&amp;filter)<sp/>==<sp/>HAL_OK;</highlight></codeline>
 <codeline lineno="549"><highlight class="normal"></highlight></codeline>
-<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>HAL_FDCAN_ConfigFilter(&amp;(p_can-&gt;hfdcan),<sp/>&amp;filter)<sp/>==<sp/>HAL_OK;</highlight></codeline>
+<codeline lineno="550"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="551"><highlight class="normal"></highlight></codeline>
-<codeline lineno="552"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="553"><highlight class="normal"></highlight></codeline>
-<codeline lineno="554"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CAN_clock_set_params(FDCAN_HandleTypeDef<sp/>*hfdcan)</highlight></codeline>
-<codeline lineno="555"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalPrescaler<sp/>=<sp/>8;</highlight></codeline>
-<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalSyncJumpWidth<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataPrescaler<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Data<sp/>timing<sp/>fields<sp/>unused<sp/>for<sp/>classic<sp/>CAN</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataSyncJumpWidth<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataTimeSeg1<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataTimeSeg2<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="562"><highlight class="normal"></highlight></codeline>
-<codeline lineno="563"><highlight class="normal"></highlight></codeline>
-<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CAN<sp/>BitRate<sp/>=<sp/>SysClk/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(APB1ClockDivider<sp/>*<sp/>NominalPrescaler<sp/>*<sp/>(1<sp/>+<sp/>NominalTimeSeg1<sp/>+<sp/>NominalTimeSeg2))</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ns_sum<sp/>=<sp/>(((double)CORE_CLOCK_SYSCLK_FREQ<sp/>*<sp/>1000)/(double)(CORE_CAN_BITRATE<sp/>*<sp/>1<sp/>*<sp/>8))<sp/>-<sp/>1;</highlight></codeline>
-<codeline lineno="567"><highlight class="normal"></highlight></codeline>
-<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sum<sp/>of<sp/>both<sp/>time<sp/>segments<sp/>is<sp/>not<sp/>an<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(floor(ns_sum)<sp/>!=<sp/>ns_sum)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="570"><highlight class="normal"></highlight></codeline>
-<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>NominalTimeSeg1<sp/>~75%<sp/>of<sp/>the<sp/>sum<sp/>of<sp/>it<sp/>and<sp/>NominalTimeSeg2.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>seg1<sp/>=<sp/>round(ns_sum<sp/>*<sp/>0.85);</highlight></codeline>
-<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>seg2<sp/>=<sp/>ns_sum<sp/>-<sp/>seg1;</highlight></codeline>
-<codeline lineno="574"><highlight class="normal"></highlight></codeline>
-<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalTimeSeg1<sp/>=<sp/>seg1;</highlight></codeline>
-<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalTimeSeg2<sp/>=<sp/>seg2;</highlight></codeline>
-<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="578"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CAN_clock_set_params(FDCAN_HandleTypeDef<sp/>*hfdcan)</highlight></codeline>
+<codeline lineno="553"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalPrescaler<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalSyncJumpWidth<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataPrescaler<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Data<sp/>timing<sp/>fields<sp/>unused<sp/>for<sp/>classic<sp/>CAN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataSyncJumpWidth<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataTimeSeg1<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.DataTimeSeg2<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"></highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CAN<sp/>BitRate<sp/>=<sp/>SysClk/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(APB1ClockDivider<sp/>*<sp/>NominalPrescaler<sp/>*<sp/>(1<sp/>+<sp/>NominalTimeSeg1<sp/>+<sp/>NominalTimeSeg2))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ns_sum<sp/>=<sp/>(((double)CORE_CLOCK_SYSCLK_FREQ<sp/>*<sp/>1000)/(double)(CORE_CAN_BITRATE<sp/>*<sp/>1<sp/>*<sp/>8))<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sum<sp/>of<sp/>both<sp/>time<sp/>segments<sp/>is<sp/>not<sp/>an<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(floor(ns_sum)<sp/>!=<sp/>ns_sum)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>NominalTimeSeg1<sp/>~75%<sp/>of<sp/>the<sp/>sum<sp/>of<sp/>it<sp/>and<sp/>NominalTimeSeg2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>seg1<sp/>=<sp/>round(ns_sum<sp/>*<sp/>0.85);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>seg2<sp/>=<sp/>ns_sum<sp/>-<sp/>seg1;</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalTimeSeg1<sp/>=<sp/>seg1;</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>hfdcan-&gt;Init.NominalTimeSeg2<sp/>=<sp/>seg2;</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="576"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/can.c"/>
+    <location file="src/driver/Src/can.c"/>
   </compounddef>
 </doxygen>

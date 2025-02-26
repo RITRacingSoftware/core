@@ -1,28 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="timeout_8h" kind="file" language="C++">
     <compoundname>timeout.h</compoundname>
     <includes local="no">stdint.h</includes>
-    <includedby refid="can_8c" local="yes">/home/matthias/racing/core/src/driver/Src/can.c</includedby>
-    <includedby refid="timeout_8c" local="yes">/home/matthias/racing/core/src/driver/Src/timeout.c</includedby>
+    <includedby refid="can_8c" local="yes">src/driver/Src/can.c</includedby>
+    <includedby refid="timeout_8c" local="yes">src/driver/Src/timeout.c</includedby>
     <incdepgraph>
-      <node id="2">
-        <label>stdint.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/timeout.h</label>
+        <label>src/driver/Inc/timeout.h</label>
         <link refid="timeout_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="3">
-        <label>/home/matthias/racing/core/src/driver/Src/timeout.c</label>
-        <link refid="timeout_8c"/>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Inc/timeout.h</label>
+        <label>src/driver/Inc/timeout.h</label>
         <link refid="timeout_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -30,12 +26,16 @@
         </childnode>
       </node>
       <node id="2">
-        <label>/home/matthias/racing/core/src/driver/Src/can.c</label>
+        <label>src/driver/Src/can.c</label>
         <link refid="can_8c"/>
+      </node>
+      <node id="3">
+        <label>src/driver/Src/timeout.c</label>
+        <link refid="timeout_8c"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structcore__timeout__s" prot="public">core_timeout_s</innerclass>
-      <sectiondef kind="define">
+    <sectiondef kind="define">
       <memberdef kind="define" id="timeout_8h_1aa3949d37e043e7003c1a09531f26b490" prot="public" static="no">
         <name>CORE_TIMEOUT_BLOCK_SIZE</name>
         <initializer>16</initializer>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="6" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" bodystart="6" bodyend="-1"/>
+        <location file="src/driver/Inc/timeout.h" line="6" column="9" bodyfile="src/driver/Inc/timeout.h" bodystart="6" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="timeout_8h_1a495b871383b0e2b7ffe8bab2854ee572" prot="public" static="no">
         <name>CORE_TIMEOUT_STATE_ENABLED</name>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="8" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" bodystart="8" bodyend="-1"/>
+        <location file="src/driver/Inc/timeout.h" line="8" column="9" bodyfile="src/driver/Inc/timeout.h" bodystart="8" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="timeout_8h_1afab132b7cba1f9b9202bc97bd6b8ffcc" prot="public" static="no">
         <name>CORE_TIMEOUT_STATE_TIMED_OUT</name>
@@ -67,10 +67,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="9" column="9" bodyfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" bodystart="9" bodyend="-1"/>
+        <location file="src/driver/Inc/timeout.h" line="9" column="9" bodyfile="src/driver/Inc/timeout.h" bodystart="9" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="typedef">
+      <memberdef kind="define" id="timeout_8h_1a0016c7806a595893f359046edaf279e4" prot="public" static="no">
+        <name>CORE_TIMEOUT_STATE_SUSPENDED</name>
+        <initializer>0x04</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/driver/Inc/timeout.h" line="10" column="9" bodyfile="src/driver/Inc/timeout.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
       <memberdef kind="typedef" id="timeout_8h_1a2269c28b6b30d2481e3496dd4585d1cc" prot="public" static="no">
         <type>struct <ref refid="structcore__timeout__s" kindref="compound">core_timeout_s</ref></type>
         <definition>typedef struct core_timeout_s core_timeout_t</definition>
@@ -82,10 +93,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="18" column="16"/>
+        <location file="src/driver/Inc/timeout.h" line="19" column="16"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="timeout_8h_1ac6773f5872b12a63f6962ff3ad77e293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_timeout_insert</definition>
@@ -112,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="20" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="59" bodyend="66" declfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" declline="20" declcolumn="6"/>
+        <location file="src/driver/Inc/timeout.h" line="21" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="59" bodyend="66" declfile="src/driver/Inc/timeout.h" declline="21" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8h_1a4b2c1a1fb196b899718eb0ec450b87ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -126,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="21" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="71" bodyend="77" declfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" declline="21" declcolumn="6"/>
+        <location file="src/driver/Inc/timeout.h" line="22" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="71" bodyend="77" declfile="src/driver/Inc/timeout.h" declline="22" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8h_1a4fdb5d680ce585ff6d985fdac54b773e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -166,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="22" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="84" bodyend="94" declfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" declline="22" declcolumn="6"/>
+        <location file="src/driver/Inc/timeout.h" line="23" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="84" bodyend="94" declfile="src/driver/Inc/timeout.h" declline="23" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8h_1a20d256d89e7597b03051d8c5ceb1bdb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -180,9 +191,65 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h" line="23" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="109" bodyend="125" declfile="/home/matthias/racing/core/src/driver/Inc/timeout.h" declline="23" declcolumn="6"/>
+        <location file="src/driver/Inc/timeout.h" line="24" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="109" bodyend="125" declfile="src/driver/Inc/timeout.h" declline="24" declcolumn="6"/>
       </memberdef>
-      </sectiondef>
+      <memberdef kind="function" id="timeout_8h_1ac3f17e94126a67496363bcef24255709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_suspend</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_suspend</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Suspend timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout being suspended </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/driver/Inc/timeout.h" line="25" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="131" bodyend="134" declfile="src/driver/Inc/timeout.h" declline="25" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8h_1ad57951d17673691b4d5608bff8829d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_resume</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_resume</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Resume suspended timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout being resumed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/driver/Inc/timeout.h" line="26" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="140" bodyend="144" declfile="src/driver/Inc/timeout.h" declline="26" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -197,23 +264,26 @@
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CORE_TIMEOUT_STATE_ENABLED<sp/>0x01</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CORE_TIMEOUT_STATE_TIMED_OUT<sp/>0x02</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11" refid="structcore__timeout__s" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structcore__timeout__s" kindref="compound">core_timeout_s</ref><sp/>{</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*module;</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ref;</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>last_event;</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>timeout;</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>state;</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>void<sp/>(*callback)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structcore__timeout__s" kindref="compound">core_timeout_s</ref><sp/>*);</highlight></codeline>
-<codeline lineno="18"><highlight class="normal">}<sp/><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref>;</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" kindref="member">core_timeout_insert</ref>(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout);</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" kindref="member">core_timeout_start_all</ref>();</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*module,<sp/>uint32_t<sp/>ref);</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1a20d256d89e7597b03051d8c5ceb1bdb2" kindref="member">core_timeout_check_all</ref>();</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CORE_TIMEOUT_STATE_SUSPENDED<sp/>0x04</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="structcore__timeout__s" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structcore__timeout__s" kindref="compound">core_timeout_s</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*module;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ref;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>last_event;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>timeout;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>state;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>void<sp/>(*callback)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structcore__timeout__s" kindref="compound">core_timeout_s</ref><sp/>*);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}<sp/><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_insert(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_start_all();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_reset_by_module_ref(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*module,<sp/>uint32_t<sp/>ref);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_check_all();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_suspend(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>core_timeout_resume(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Inc/timeout.h"/>
+    <location file="src/driver/Inc/timeout.h"/>
   </compounddef>
 </doxygen>

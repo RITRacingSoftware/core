@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="error__handler_8c" kind="file" language="C++">
     <compoundname>error_handler.c</compoundname>
     <includes refid="error__handler_8h" local="yes">error_handler.h</includes>
     <includes local="yes">core_config.h</includes>
     <includes refid="gpio_8h" local="yes">gpio.h</includes>
     <incdepgraph>
-      <node id="7">
-        <label>stdbool.h</label>
-      </node>
-      <node id="6">
-        <label>stdint.h</label>
+      <node id="2">
+        <label>error_handler.h</label>
+        <link refid="error__handler_8h_source"/>
       </node>
       <node id="4">
         <label>gpio.h</label>
@@ -22,15 +20,8 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="2">
-        <label>error_handler.h</label>
-        <link refid="error__handler_8h_source"/>
-      </node>
-      <node id="3">
-        <label>core_config.h</label>
-      </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/error_handler.c</label>
+        <label>src/driver/Src/error_handler.c</label>
         <link refid="error__handler_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -39,11 +30,20 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="3">
+        <label>core_config.h</label>
+      </node>
+      <node id="7">
+        <label>stdbool.h</label>
+      </node>
+      <node id="6">
+        <label>stdint.h</label>
+      </node>
       <node id="5">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
-      <sectiondef kind="define">
+    <sectiondef kind="define">
       <memberdef kind="define" id="error__handler_8c_1afb20db332e8f94686b3b6a7384bb89b8" prot="public" static="no">
         <name>ERROR_HANDLER_BLINK_DELAY</name>
         <initializer>200000</initializer>
@@ -53,10 +53,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/error_handler.c" line="7" column="9" bodyfile="/home/matthias/racing/core/src/driver/Src/error_handler.c" bodystart="7" bodyend="-1"/>
+        <location file="src/driver/Src/error_handler.c" line="7" column="9" bodyfile="src/driver/Src/error_handler.c" bodystart="7" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="error__handler_8c_1a67265100d2c510d5d79beaec9a28a61e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void error_handler</definition>
@@ -68,9 +68,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/error_handler.c" line="10" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/error_handler.c" bodystart="10" bodyend="17"/>
+        <location file="src/driver/Src/error_handler.c" line="10" column="6" bodyfile="src/driver/Src/error_handler.c" bodystart="10" bodyend="17"/>
       </memberdef>
-      </sectiondef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
@@ -89,11 +89,11 @@
 <codeline lineno="11"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(1)</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="gpio_8c_1a5e894851f0d0aa9792d8407a40e811a1" kindref="member">core_GPIO_toggle_heartbeat</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>core_GPIO_toggle_heartbeat();</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>ERROR_HANDLER_BLINK_DELAY;<sp/>i++);</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="17"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/error_handler.c"/>
+    <location file="src/driver/Src/error_handler.c"/>
   </compounddef>
 </doxygen>

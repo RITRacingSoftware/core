@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.12.0" xml:lang="en-US">
   <compounddef id="timeout_8c" kind="file" language="C++">
     <compoundname>timeout.c</compoundname>
     <includes refid="timeout_8h" local="yes">timeout.h</includes>
@@ -9,11 +9,14 @@
     <includes local="no">stdlib.h</includes>
     <includes local="no">stm32g4xx_hal.h</includes>
     <incdepgraph>
-      <node id="5">
-        <label>stdbool.h</label>
+      <node id="2">
+        <label>timeout.h</label>
+        <link refid="timeout_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="1">
-        <label>/home/matthias/racing/core/src/driver/Src/timeout.c</label>
+        <label>src/driver/Src/timeout.c</label>
         <link refid="timeout_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -28,26 +31,23 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>core_config.h</label>
+      </node>
+      <node id="5">
+        <label>stdbool.h</label>
+      </node>
       <node id="3">
         <label>stdint.h</label>
       </node>
       <node id="6">
         <label>stdlib.h</label>
       </node>
-      <node id="4">
-        <label>core_config.h</label>
-      </node>
-      <node id="2">
-        <label>timeout.h</label>
-        <link refid="timeout_8h_source"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-      </node>
       <node id="7">
         <label>stm32g4xx_hal.h</label>
       </node>
     </incdepgraph>
-      <sectiondef kind="var">
+    <sectiondef kind="var">
       <memberdef kind="variable" id="timeout_8c_1a72d8033c3861872c6f2fd1bb8c7cac99" prot="public" static="yes" mutable="no">
         <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> **</type>
         <definition>core_timeout_t** core_timeout_list</definition>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="51" column="23" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="51" bodyend="-1"/>
+        <location file="src/driver/Src/timeout.c" line="51" column="23" bodyfile="src/driver/Src/timeout.c" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="timeout_8c_1a8780806a8825871f97ab2f244d3d1f15" prot="public" static="yes" mutable="no">
         <type>int</type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="52" column="12" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="52" bodyend="-1"/>
+        <location file="src/driver/Src/timeout.c" line="52" column="12" bodyfile="src/driver/Src/timeout.c" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="timeout_8c_1aaf371ee5182ad11d7eda50e82f5bc831" prot="public" static="yes" mutable="no">
         <type>int</type>
@@ -88,10 +88,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="53" column="12" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="53" bodyend="-1"/>
+        <location file="src/driver/Src/timeout.c" line="53" column="12" bodyfile="src/driver/Src/timeout.c" bodystart="53" bodyend="-1"/>
       </memberdef>
-      </sectiondef>
-      <sectiondef kind="func">
+    </sectiondef>
+    <sectiondef kind="func">
       <memberdef kind="function" id="timeout_8c_1ac6773f5872b12a63f6962ff3ad77e293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void core_timeout_insert</definition>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="59" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="59" bodyend="66"/>
+        <location file="src/driver/Src/timeout.c" line="59" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="59" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8c_1a4b2c1a1fb196b899718eb0ec450b87ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -132,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="71" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="71" bodyend="77"/>
+        <location file="src/driver/Src/timeout.c" line="71" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="71" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -172,7 +172,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="84" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="84" bodyend="94"/>
+        <location file="src/driver/Src/timeout.c" line="84" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="84" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -200,7 +200,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="100" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="100" bodyend="104"/>
+        <location file="src/driver/Src/timeout.c" line="100" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="100" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="timeout_8c_1a20d256d89e7597b03051d8c5ceb1bdb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -214,17 +214,72 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/matthias/racing/core/src/driver/Src/timeout.c" line="109" column="6" bodyfile="/home/matthias/racing/core/src/driver/Src/timeout.c" bodystart="109" bodyend="125"/>
+        <location file="src/driver/Src/timeout.c" line="109" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="109" bodyend="125"/>
       </memberdef>
-      </sectiondef>
+      <memberdef kind="function" id="timeout_8c_1ac3f17e94126a67496363bcef24255709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_suspend</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_suspend</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Suspend timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout being suspended </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/driver/Src/timeout.c" line="131" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="timeout_8c_1ad57951d17673691b4d5608bff8829d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void core_timeout_resume</definition>
+        <argsstring>(core_timeout_t *timeout)</argsstring>
+        <name>core_timeout_resume</name>
+        <param>
+          <type><ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref> *</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Resume suspended timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the timeout being resumed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/driver/Src/timeout.c" line="140" column="6" bodyfile="src/driver/Src/timeout.c" bodystart="140" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
 <para>Core timeout library. </para>
     </briefdescription>
     <detaileddescription>
 <para>This core library component can be used to set timeouts for both software events and core library events. Timeouts are specified by a core_timeout_t struct.</para>
-<sect2 id="timeout_8c_1autotoc_md12">
-<title>Typical initialization</title>
-<para><orderedlist>
+<sect1 id="timeout_8c_1autotoc_md12_1s1"><sect2 id="timeout_8c_1autotoc_md12">
+<title>Typical initialization</title><para><orderedlist>
 <listitem><para>Initialize a core_timeout_t struct for each timeout<itemizedlist>
 <listitem><para>Set the <computeroutput>timeout</computeroutput> member to the desired timeout length in milliseconds</para>
 </listitem><listitem><para>Set the <computeroutput>callback</computeroutput> member to the timeout&apos;s callback function. When the function is called, a pointer to the struct defining the timeout that called the callback function is passed to it.</para>
@@ -237,18 +292,17 @@
 </listitem><listitem><para>Reset timeouts as needed with the <ref refid="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" kindref="member">core_timeout_reset()</ref> function.</para>
 </listitem></orderedlist>
 </para>
-</sect2>
-<sect2 id="timeout_8c_1autotoc_md13">
-<title>module and ref</title>
-<para>The <computeroutput>module</computeroutput> and <computeroutput>ref</computeroutput> members of the core_timeout_t struct can be used to define timeouts that are automatically reset by other core library components. To reset these timeouts, the <ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref()</ref> function is used. The <computeroutput>module</computeroutput> member is set to a register struct defined by the HAL (e.g. FDCAN1, SPI1, USART3, etc.). The meaning of <computeroutput>ref</computeroutput> depends on the selected module. Currently, the modules that support this feature are:<orderedlist>
+</sect2></sect1>
+<sect1 id="timeout_8c_1autotoc_md13_1s1"><sect2 id="timeout_8c_1autotoc_md13">
+<title>module and ref</title><para>The <computeroutput>module</computeroutput> and <computeroutput>ref</computeroutput> members of the core_timeout_t struct can be used to define timeouts that are automatically reset by other core library components. To reset these timeouts, the <ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref()</ref> function is used. The <computeroutput>module</computeroutput> member is set to a register struct defined by the HAL (e.g. FDCAN1, SPI1, USART3, etc.). The meaning of <computeroutput>ref</computeroutput> depends on the selected module. Currently, the modules that support this feature are:<orderedlist>
 <listitem><para><computeroutput>FDCAN1</computeroutput>, <computeroutput>FDCAN2</computeroutput>, and <computeroutput>FDCAN3</computeroutput>: The timeout is reset when a frame with an ID equal to the value of <computeroutput>ref</computeroutput> is received</para>
 </listitem></orderedlist>
 </para>
 <para>Timeouts with a <computeroutput>module</computeroutput> not in the above list will never be reset by the core library. Thus, the user can define timeouts where <computeroutput>module</computeroutput> is NULL or equal to a custom value and reset them using the <ref refid="timeout_8c_1a4fdb5d680ce585ff6d985fdac54b773e" kindref="member">core_timeout_reset_by_module_ref()</ref> function. </para>
-</sect2>
+</sect2></sect1>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;timeout.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight></codeline>
@@ -302,7 +356,7 @@
 <codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>diff;</highlight></codeline>
 <codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;<sp/>i<sp/>&lt;<sp/>n_core_timeouts;<sp/>i++)<sp/>{</highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>=<sp/>core_timeout_list[i];</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_ENABLED)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_ENABLED)<sp/>&amp;&amp;<sp/>!(to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_SUSPENDED))<sp/>{</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>diff<sp/>=<sp/>t<sp/>-<sp/>to-&gt;last_event;</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(to-&gt;state<sp/>&amp;<sp/>CORE_TIMEOUT_STATE_TIMED_OUT)<sp/>{</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to-&gt;callback(to);</highlight></codeline>
@@ -314,7 +368,17 @@
 <codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="125"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1ac3f17e94126a67496363bcef24255709" kindref="member">core_timeout_suspend</ref>(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>timeout-&gt;state<sp/>|=<sp/>CORE_TIMEOUT_STATE_SUSPENDED;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="timeout_8c_1ad57951d17673691b4d5608bff8829d2a" kindref="member">core_timeout_resume</ref>(<ref refid="structcore__timeout__s" kindref="compound">core_timeout_t</ref><sp/>*timeout)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>timeout-&gt;state<sp/>&amp;=<sp/>~CORE_TIMEOUT_STATE_SUSPENDED;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="timeout_8c_1a2e86c2b81596b983b91c0e5ba775b599" kindref="member">core_timeout_reset</ref>(timeout);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="/home/matthias/racing/core/src/driver/Src/timeout.c"/>
+    <location file="src/driver/Src/timeout.c"/>
   </compounddef>
 </doxygen>
