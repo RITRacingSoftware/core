@@ -2,7 +2,7 @@
   * @file   adc.c
   * @brief  Core ADC library
   *
-  * TEST2
+  *
   *
   * This core library component is used to initialize ADCs and read from analog
   * inputs. 
