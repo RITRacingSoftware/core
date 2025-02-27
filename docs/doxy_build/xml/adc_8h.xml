@@ -244,7 +244,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/driver/Inc/adc.h" line="37" column="6" bodyfile="src/driver/Src/adc.c" bodystart="111" bodyend="158" declfile="src/driver/Inc/adc.h" declline="37" declcolumn="6"/>
+        <location file="src/driver/Inc/adc.h" line="37" column="6" bodyfile="src/driver/Src/adc.c" bodystart="113" bodyend="160" declfile="src/driver/Inc/adc.h" declline="37" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="adc_8h_1ae013346221e7d8ad7c08230899a8b09a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -313,7 +313,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/driver/Inc/adc.h" line="38" column="6" bodyfile="src/driver/Src/adc.c" bodystart="169" bodyend="244" declfile="src/driver/Inc/adc.h" declline="38" declcolumn="6"/>
+        <location file="src/driver/Inc/adc.h" line="38" column="6" bodyfile="src/driver/Src/adc.c" bodystart="171" bodyend="246" declfile="src/driver/Inc/adc.h" declline="38" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="adc_8h_1a3334b39ee94f9f9c300ac81b88848a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -382,7 +382,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/driver/Inc/adc.h" line="39" column="6" bodyfile="src/driver/Src/adc.c" bodystart="256" bodyend="298" declfile="src/driver/Inc/adc.h" declline="39" declcolumn="6"/>
+        <location file="src/driver/Inc/adc.h" line="39" column="6" bodyfile="src/driver/Src/adc.c" bodystart="258" bodyend="300" declfile="src/driver/Inc/adc.h" declline="39" declcolumn="6"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
