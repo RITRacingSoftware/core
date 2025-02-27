@@ -11,9 +11,9 @@ build:
     build:
       html:
         - echo "Building html"
-        - doxygen Doxyfile
-        - mkdir -p ../$READTHEDOCS_OUTPUT/html/
-        - cp -r doxy_build/html $READTHEDOCS_OUTPUT/
+        - (cd docs; doxygen Doxyfile)
+        - mkdir -p $READTHEDOCS_OUTPUT/html/
+        - cp -r docs/doxy_build/html $READTHEDOCS_OUTPUT/
 
     # Build documentation in the "docs/" directory with Sphinx
 sphinx:
