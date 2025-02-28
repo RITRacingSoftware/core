@@ -25,9 +25,11 @@ This file allows you to change variables such as clock speeds, pin functionality
 The **core_config.h** file you will be using in your projects, however, is not the one in the Core. Every new project needs its 
 own unique config file to work. This has been included for you in the [template project](https://github.com/RITRacingSoftware/STM32G4xx-Template.git).
 
-**bold** *italics*
-# BIG
-## Medium
+[//]: # (**bold** *italics*)
+
+[//]: # (# BIG)
+
+[//]: # (## Medium)
 
 [//]: # ()
 [//]: # (## Why do we need the Core?)
