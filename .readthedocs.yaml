@@ -6,11 +6,10 @@ build:
   tools:
     python: "3.12"
   jobs:
-    install:
-      - echo "Installing dependencies blah"
     build:
       html:
         - echo "Building html"
+        - doxygen --version
         - (cd docs; doxygen Doxyfile)
         - mkdir -p $READTHEDOCS_OUTPUT/html/
         - cp -r docs/doxy_build/html $READTHEDOCS_OUTPUT/
