@@ -77,7 +77,7 @@ static USART_HandleTypeDef usart1;
 static USART_HandleTypeDef usart2;
 static USART_HandleTypeDef usart3;
 
-#ifdef CORE_USART_UPRINTF
+#if defined(CORE_USART_UPRINTF) && (CORE_USART_UPRINTF != 0)
 uint8_t core_USART_usartbuf[CORE_USART_TXBUFLEN];
 #endif
 
@@ -302,7 +302,7 @@ bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen)
     return HAL_USART_Transmit(husart, txbuf, txbuflen, 0xffffffff) == HAL_OK;
 }
 
-#ifdef CORE_USART_UPRINTF
+#if defined(CORE_USART_UPRINTF) && (CORE_USART_UPRINTF != 0)
 /**
   * @brief  Print a formatted string to a USART
   * @note   This function is blocking and will not return until all data has

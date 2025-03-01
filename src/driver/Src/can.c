@@ -225,7 +225,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
 
-#ifndef CORE_CAN_DISABLE_TX_QUEUE
+#if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
     // Create queue to put outgoing messages in
     p_can->can_queue_tx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_tx == 0) error_handler();
@@ -243,7 +243,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     return true;
 }
 
-#ifndef CORE_CAN_DISABLE_TX_QUEUE
+#if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
 /**
   * @brief  Add a CAN frame to the TX queue
   * @param  can FDCAN module for which the frame is being enqueued

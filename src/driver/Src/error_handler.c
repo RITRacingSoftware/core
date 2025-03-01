@@ -3,8 +3,8 @@
 
 #include "gpio.h"
 
-#ifndef ERROR_HANDLER_BLINK_DELAY
-#define ERROR_HANDLER_BLINK_DELAY 200000
+#ifndef CORE_ERROR_HANDLER_BLINK_DELAY
+#define CORE_ERROR_HANDLER_BLINK_DELAY 200000
 #endif
 
 void error_handler()
