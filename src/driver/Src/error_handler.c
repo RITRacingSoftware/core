@@ -12,6 +12,6 @@ void error_handler()
     while(1)
     {
         core_GPIO_toggle_heartbeat();
-        for (unsigned long long  i = 0; i < ERROR_HANDLER_BLINK_DELAY; i++);
+        for (unsigned long long  i = 0; i < CORE_ERROR_HANDLER_BLINK_DELAY; i++);
     }
 }
