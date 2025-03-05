@@ -251,7 +251,7 @@ bool core_clock_init() {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-#ifdef CORE_CLOCK_USE_HSE
+#if defined(CORE_CLOCK_USE_HSE) && (CORE_CLOCK_USE_HSE != 0)
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 #else
@@ -277,7 +277,7 @@ bool core_clock_init() {
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                                   |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-#ifdef CORE_CLOCK_USE_HSE
+#if defined(CORE_CLOCK_USE_HSE) && (CORE_CLOCK_USE_HSE != 0)
     RCC_ClkInitStruct.SYSCLKSource = (ext_freq == sysclk_freq ? RCC_SYSCLKSOURCE_HSE : RCC_SYSCLKSOURCE_PLLCLK);
 #else
     RCC_ClkInitStruct.SYSCLKSource = (ext_freq == sysclk_freq ? RCC_SYSCLKSOURCE_HSI : RCC_SYSCLKSOURCE_PLLCLK);

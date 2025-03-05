@@ -19,20 +19,20 @@
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pagecheckerboard="0"
      inkscape:document-units="px"
      showgrid="false"
      units="px"
-     inkscape:zoom="1.2043221"
-     inkscape:cx="388.1852"
-     inkscape:cy="171.46576"
+     inkscape:zoom="0.75325865"
+     inkscape:cx="432.78627"
+     inkscape:cy="173.24726"
      inkscape:window-width="1366"
      inkscape:window-height="720"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="CB0-0-3-9-5-6"
+     inkscape:current-layer="layer1"
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-midpoints="true"
@@ -41,6 +41,12 @@
      width="800px" />
   <defs
      id="defs4511">
+    <rect
+       x="639.17114"
+       y="94.493575"
+       width="128.31215"
+       height="30.430278"
+       id="rect6657" />
     <marker
        inkscape:stockid="Arrow1Mend"
        orient="auto-start-reverse"
@@ -366,6 +372,13 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264999;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
+       id="rect18047"
+       width="211.66667"
+       height="89.958336"
+       x="0"
+       y="0" />
     <path
        style="fill:none;stroke:#0000c8;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker76747-63-4-91508-22479-4)"
        d="M 116.41672,14.552083 H 106.36256"
@@ -953,5 +966,19 @@
        id="path76577-7-3-0-4-1-9-9-8"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text6655"
+       style="font-size:8px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect6657)"><tspan
+         x="639.17188"
+         y="101.57227"
+         id="tspan18545">Dashed lines indicate changes </tspan><tspan
+         x="639.17188"
+         y="111.57227"
+         id="tspan18547">that occur in the non-booting </tspan><tspan
+         x="639.17188"
+         y="121.57227"
+         id="tspan18549">bank</tspan></text>
   </g>
 </svg>
