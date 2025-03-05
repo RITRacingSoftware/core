@@ -21,6 +21,7 @@ typedef struct core_timeout_s {
 void core_timeout_insert(core_timeout_t *timeout);
 void core_timeout_start_all();
 void core_timeout_reset_by_module_ref(void *module, uint32_t ref);
+void core_timeout_reset(core_timeout_t *timeout);
 void core_timeout_check_all();
 void core_timeout_suspend(core_timeout_t *timeout);
 void core_timeout_resume(core_timeout_t *timeout);
