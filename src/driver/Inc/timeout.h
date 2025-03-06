@@ -2,8 +2,7 @@
 #define CORE_TIMEOUT_H
 
 #include <stdint.h>
-
-#define CORE_TIMEOUT_BLOCK_SIZE 16
+#include <stdbool.h>
 
 #define CORE_TIMEOUT_STATE_ENABLED 0x01
 #define CORE_TIMEOUT_STATE_TIMED_OUT 0x02
@@ -16,6 +15,7 @@ typedef struct core_timeout_s {
     uint32_t timeout;
     uint8_t state;
     void (*callback)(struct core_timeout_s *);
+    bool (*check)(struct core_timeout_s *);
 } core_timeout_t;
 
 void core_timeout_insert(core_timeout_t *timeout);

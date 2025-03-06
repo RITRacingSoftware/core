@@ -14,7 +14,8 @@
   *       - Set the `callback` member to the timeout's callback function. When
   *         the function is called, a pointer to the struct defining the 
   *         timeout that called the callback function is passed to it.
-  *       - Set the `module` and `ref` members. See below
+  *       - Set the `module` and `ref` members. See below.
+  *       - Set the 'check' member. See below.
   *  2. Add the timeout structs to the internal list with core_timeout_insert()
   *  3. Start all of the timeouts with core_timeout_start_all()
   *  4. Call `core_timeout_check_all` at regular intervals. If a timeout has 
@@ -37,6 +38,13 @@
   * core library. Thus, the user can define timeouts where `module` is NULL
   * or equal to a custom value and reset them using the
   * core_timeout_reset_by_module_ref() function.
+  *
+  * ## check
+  * The 'check' member can be implemented to have the timeout library
+  * automatically check whether or not a timeout should be reset.
+  * The 'check' member should point to a function returning a bool value,
+  * *true* if the timeout should be reset, *false* if not. This is checked
+  * inside the *core_timeout_check_all* function.
   * 
   */
 
@@ -48,8 +56,7 @@
 #include <stdlib.h>
 #include <stm32g4xx_hal.h>
 
-static core_timeout_t **core_timeout_list = NULL;
-static int core_timeout_list_size = 0;
+static core_timeout_t *core_timeout_list[CORE_TIMEOUT_NUM];
 static int n_core_timeouts = 0;
 
 /**
@@ -57,10 +64,6 @@ static int n_core_timeouts = 0;
   * @param  timeout Pointer to the timeout
   */
 void core_timeout_insert(core_timeout_t *timeout) {
-    if (n_core_timeouts == core_timeout_list_size) {
-        core_timeout_list_size += CORE_TIMEOUT_BLOCK_SIZE;
-        core_timeout_list = realloc(core_timeout_list, CORE_TIMEOUT_BLOCK_SIZE*sizeof(core_timeout_t*));
-    }
     core_timeout_list[n_core_timeouts] = timeout;
     n_core_timeouts++;
 }
@@ -113,7 +116,10 @@ void core_timeout_check_all() {
     for (int i=0; i < n_core_timeouts; i++) {
         to = core_timeout_list[i];
         if ((to->state & CORE_TIMEOUT_STATE_ENABLED) && !(to->state & CORE_TIMEOUT_STATE_SUSPENDED)) {
-            diff = t - to->last_event;
+            // If a checking function has been implemented, use it
+            if (to->check == NULL) diff = t - to->last_event;
+            else diff = (to->check) ? 0 : t - to->last_event;
+
             if (to->state & CORE_TIMEOUT_STATE_TIMED_OUT) {
                 to->callback(to);
             } else if (diff >= to->timeout) {

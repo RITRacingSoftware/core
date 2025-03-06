@@ -12,8 +12,8 @@
   */
 #define PROGRAM_NAME_STRING "Bootloader test"
 
-/*** CLOCK CONFIG PARAMETERS ***/
-
+/***************** CLOCK PARAMETERS ****************************/
+/***************************************************************/
 /**
   * @brief  Use the external oscillator. If not defined, the internal
   *         oscillator will be used instead
@@ -36,15 +36,16 @@
   */
 #define CORE_CLOCK_PLLP_DIV 12
 
-/*** ERROR HANDLER PARAMETERS ***/
+/***************** ERROR HANDLER PARAMETERS ********************/
+/***************************************************************/
 /**
   * @brief  Delay between toggling the heartbeat LED in the error handler.
   */
 #define CORE_ERROR_HANDLER_BLINK_DELAY 200000
 
 
-/*** CAN CONFIG PARAMETERS ***/
-
+/********************** CAN PARAMETERS *************************/
+/***************************************************************/
 /**
   * @brief  CAN bitrate in bits per second
   */
@@ -102,7 +103,8 @@
 #define CORE_FDCAN2_USE_FD 1
 #define CORE_FDCAN3_USE_FD 0
 
-/*** SPI CONFIG PARAMETERS ***/
+/********************* SPI PARAMETERS **************************/
+/***************************************************************/
 #define CORE_SPI1_SCK_PORT  GPIOA
 #define CORE_SPI1_SCK_PIN   GPIO_PIN_5
 #define CORE_SPI1_SCK_AF    5
@@ -176,7 +178,8 @@
 #define CORE_SPI4_DATA_SIZE 8
 
 
-/*** USART CONFIG PARAMETERS ***/
+/******************** USART PARAMETERS *************************/
+/***************************************************************/
 /**
   * @brief  Size of the internal RX buffer. One buffer will be created for each
   *         USART module
@@ -209,10 +212,12 @@
 #define CORE_USART3_PINS (GPIO_PIN_10 | GPIO_PIN_11)
 
 
-/*** RTC CONFIG PARAMETERS ***/
+/*********************** RTC PARAMETERS ************************/
+/***************************************************************/
 #define CORE_RTC_CENTURY 2000
 
-/*** BOOTLOADER CONFIG ***/
+/******************** BOOTLOADER PARAMETERS ********************/
+/***************************************************************/
 /**
   * @brief  FDCAN module over which the chip can be programmed via the bootloader
   */
@@ -231,5 +236,12 @@
   *         enumeration and reset.
   */
 #define CORE_BOOT_FDCAN_BROADCAST_ID 0x7ff
+
+/********************* TIMEOUT PARAMETERS **********************/
+/***************************************************************/
+/**
+ * @brief Number of timeouts used
+ */
+#define CORE_TIMEOUT_NUM 0
 
 #endif //CORE_CORE_CONFIG_H
