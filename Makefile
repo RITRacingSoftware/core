@@ -58,6 +58,12 @@ FREERTOS_INCLUDES := $(FREERTOS_DIR)/include $(FREERTOS_DIR)/portable/GCC/ARM_CM
 FREERTOS_INCLUDES := $(foreach d, $(FREERTOS_INCLUDES),-I $d)
 FREERTOS_OBJS := $(FREERTOS_SRCS:$(FREERTOS_DIR)/%=$(STM32_BUILD_DIR)/obj/freertos/%.o)
 
+RTT_DIR := lib/RTT
+RTT_SRCS := $(RTT_DIR)/RTT/SEGGER_RTT.c
+RTT_INCLUDES := $(RTT_DIR)/RTT/SEGGER_RTT.h ./src/RTT_config.h
+RTT_OBJS := $(RTT_SRCS:$(RTT_DIR)/%=$(STM32_BUILD_IR)/obj/rtt/%.o)
+
+
 OUTNAME := $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION)
 
 # Compilation targets
@@ -76,7 +82,7 @@ $(OUTNAME).ihex: $(OUTNAME).elf
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_OBJCOPY) -O ihex $< $@
 
-$(OUTNAME).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS)
+$(OUTNAME).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS) $()
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_LD) $(STM32_LD_FLAGS) $^ -o $@
 
@@ -103,6 +109,11 @@ $(STM32_BUILD_DIR)/obj/stm32cube/startup_stm32g473xx.s.o: src/startup_stm32g473x
 $(STM32_BUILD_DIR)/obj/freertos/%.c.o: $(FREERTOS_DIR)/%.c
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(FREERTOS_INCLUDES) -c $< -o $@
+
+# RTT objects
+$(STM32_BUILD_DIR)/obj/rtt/%.c.o: $(RTT_DIR)/%.c
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(RTT_INCLUDES) -c $< -o $@
 
 # Misc targets
 .PHONY: clean
