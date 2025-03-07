@@ -14,18 +14,13 @@
 #include "timeout.h"
 #include "rtc.h"
 #include "error_handler.h"
+#include "rtt.h"
 
 #include "imu.h"
 
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "task.h"
-
-//#include <SEGGER_RTT.h>
-
-#include <stm32g4xx_hal.h>
-#include <stm32g4xx_hal_rtc.h>
-#include <stm32g4xx_hal_pwr.h>
 
 void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
@@ -43,11 +38,8 @@ int main(void)
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
-
-    //SEGGER_RTT_Init();
-    //SEGGER_RTT_WriteString(0, "Test\n");
-    //SEGGER_RTT_printf(0, "test");
-
+    core_RTT_init();
+    rprintf("RTT working\n");
 
 
     int err;
