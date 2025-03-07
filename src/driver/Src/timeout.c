@@ -45,7 +45,15 @@
   * The 'check' member should point to a function returning a bool value,
   * *true* if the timeout should be reset, *false* if not. This is checked
   * inside the *core_timeout_check_all* function.
-  * 
+  *
+  * ## latching
+  * Set this member to *1* to not allow it to be reset by a normal
+  * reset function. A timeout with this parameter set can only be
+  * reset through the *core_timeout_hard_reset* function.
+  *
+  * ## single_shot
+  * Set this member to *1* to only have callback trigger once, the first time
+  * the timeout has hit its limit.
   */
 
 #include "timeout.h"
@@ -95,9 +103,7 @@ void core_timeout_reset_by_module_ref(void *module, uint32_t ref) {
     for (int i=0; i < n_core_timeouts; i++) {
         to = core_timeout_list[i];
         if ((to->module == module) && (to->ref == ref)) {
-            if (!((to->state & CORE_TIMEOUT_STATE_TIMED_OUT) && to->latching)){
-                core_timeout_reset(to);
-            }
+            core_timeout_hard_reset(to);
         }
     }
 }
@@ -107,9 +113,9 @@ void core_timeout_reset_by_module_ref(void *module, uint32_t ref) {
   * @param  timeout Pointer to the timeout being reset
   */
 void core_timeout_reset(core_timeout_t *timeout) {
-    uint32_t t = HAL_GetTick();
-    timeout->last_event = t;
-    timeout->state &= ~CORE_TIMEOUT_STATE_TIMED_OUT;
+    if (!((timeout->state & CORE_TIMEOUT_STATE_TIMED_OUT) && timeout->latching)){
+        core_timeout_hard_reset(timeout);
+    }
 }
 
 /**
@@ -151,4 +157,14 @@ void core_timeout_suspend(core_timeout_t *timeout) {
 void core_timeout_resume(core_timeout_t *timeout) {
     timeout->state &= ~CORE_TIMEOUT_STATE_SUSPENDED;
     core_timeout_reset(timeout);
+}
+
+/**
+ * @brief Force reset a timeout
+ * @param timeout Pointer to timeout being reset
+ */
+void core_timeout_hard_reset(core_timeout_t *timeout) {
+    uint32_t t = HAL_GetTick();
+    timeout->last_event = t;
+    timeout->state &= ~CORE_TIMEOUT_STATE_TIMED_OUT;
 }
