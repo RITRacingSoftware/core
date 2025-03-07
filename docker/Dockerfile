@@ -9,10 +9,11 @@ gcc-arm-none-eabi \
 gdb-multiarch \
 openocd
 
+
 WORKDIR /core
 
 # Setup user
 ARG UID=1000
-ARG UNAME=TEMP
+ARG UNAME=core
 RUN useradd -mu ${UID} -s /usr/bin/bash ${UNAME}
 USER ${UID}

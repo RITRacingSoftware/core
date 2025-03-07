@@ -62,10 +62,16 @@ static int n_core_timeouts = 0;
 /**
   * @brief  Add a timeout to the internal list of timeouts to be monitored
   * @param  timeout Pointer to the timeout
+  * @retval 1 if there is enough space
+  * @retval 0 otherwise
   */
-void core_timeout_insert(core_timeout_t *timeout) {
-    core_timeout_list[n_core_timeouts] = timeout;
-    n_core_timeouts++;
+bool core_timeout_insert(core_timeout_t *timeout) {
+    if (n_core_timeouts < CORE_TIMEOUT_NUM) {
+        core_timeout_list[n_core_timeouts] = timeout;
+        n_core_timeouts++;
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -86,12 +92,12 @@ void core_timeout_start_all() {
   */
 void core_timeout_reset_by_module_ref(void *module, uint32_t ref) {
     core_timeout_t *to;
-    uint32_t t = HAL_GetTick();
     for (int i=0; i < n_core_timeouts; i++) {
         to = core_timeout_list[i];
         if ((to->module == module) && (to->ref == ref)) {
-            to->last_event = t;
-            to->state &= ~CORE_TIMEOUT_STATE_TIMED_OUT;
+            if (!((to->state & CORE_TIMEOUT_STATE_TIMED_OUT) && to->latching)){
+                core_timeout_reset(to);
+            }
         }
     }
 }
@@ -121,7 +127,7 @@ void core_timeout_check_all() {
             else diff = (to->check) ? 0 : t - to->last_event;
 
             if (to->state & CORE_TIMEOUT_STATE_TIMED_OUT) {
-                to->callback(to);
+                if (!to->single_shot) to->callback(to);
             } else if (diff >= to->timeout) {
                 to->callback(to);
                 to->state |= CORE_TIMEOUT_STATE_TIMED_OUT;
@@ -134,8 +140,7 @@ void core_timeout_check_all() {
  * @brief Suspend timeout
  * @param timeout Pointer to the timeout being suspended
  */
-void core_timeout_suspend(core_timeout_t *timeout)
-{
+void core_timeout_suspend(core_timeout_t *timeout) {
     timeout->state |= CORE_TIMEOUT_STATE_SUSPENDED;
 }
 
@@ -143,8 +148,7 @@ void core_timeout_suspend(core_timeout_t *timeout)
  * @brief Resume suspended timeout
  * @param timeout Pointer to the timeout being resumed
  */
-void core_timeout_resume(core_timeout_t *timeout)
-{
+void core_timeout_resume(core_timeout_t *timeout) {
     timeout->state &= ~CORE_TIMEOUT_STATE_SUSPENDED;
     core_timeout_reset(timeout);
 }
