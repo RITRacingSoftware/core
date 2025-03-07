@@ -21,7 +21,7 @@
 #include "queue.h"
 #include "task.h"
 
-#include <SEGGER_RTT.h>
+//#include <SEGGER_RTT.h>
 
 #include <stm32g4xx_hal.h>
 #include <stm32g4xx_hal_rtc.h>
@@ -39,14 +39,14 @@ int main(void)
 {
     HAL_Init();
     // Drivers
-    core_heartbeat_init(GPIOC, GPIO_PIN_9);
+    core_heartbeat_init(GPIOA, GPIO_PIN_5);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
 
-    SEGGER_RTT_Init();
-    SEGGER_RTT_WriteString(0, "Test\n");
-    SEGGER_RTT_printf(0, "test");
+    //SEGGER_RTT_Init();
+    //SEGGER_RTT_WriteString(0, "Test\n");
+    //SEGGER_RTT_printf(0, "test");
 
 
 

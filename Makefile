@@ -39,7 +39,7 @@ DRIVER_INCLUDE := -I $(DRIVER_DIR)/Inc
 STM32_DRIVER_OBJS := $(DRIVER_SRCS:$(DRIVER_DIR)/%=$(STM32_BUILD_DIR)/obj/driver/%.o)
 
 # Libraries
-STM32CUBE_DIR := lib/STM32CubeG4
+STM32CUBE_DIR := ../STM32CubeG4
 STM32CUBE_HAL_DIR := $(STM32CUBE_DIR)/Drivers/STM32G4xx_HAL_Driver
 STM32CUBE_CMSIS_DIR := $(STM32CUBE_DIR)/Drivers/CMSIS/Device/ST/STM32G4xx
 STM32CUBE_SRC_DIRS := $(STM32CUBE_HAL_DIR)/Src
@@ -51,17 +51,17 @@ STM32CUBE_INCLUDES := $(foreach d, $(STM32CUBE_INCLUDES),-I $d)
 #STM32CUBE_OBJS := $(STM32CUBE_SRCS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o) $(STM32CUBE_ASMS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o)
 STM32CUBE_OBJS := $(STM32CUBE_SRCS:$(STM32CUBE_DIR)/%=$(STM32_BUILD_DIR)/obj/stm32cube/%.o) $(STM32_BUILD_DIR)/obj/stm32cube/startup_stm32g473xx.s.o
 
-FREERTOS_DIR := lib/FreeRTOS-Kernel
+FREERTOS_DIR := ../FreeRTOS-Kernel
 FREERTOS_SRC_DIRS := $(FREERTOS_DIR) $(FREERTOS_DIR)/portable/GCC/ARM_CM4F
 FREERTOS_SRCS := $(shell find $(FREERTOS_SRC_DIRS) -maxdepth 1 -type f -name "*.c") $(FREERTOS_DIR)/portable/MemMang/heap_4.c
 FREERTOS_INCLUDES := $(FREERTOS_DIR)/include $(FREERTOS_DIR)/portable/GCC/ARM_CM4F
 FREERTOS_INCLUDES := $(foreach d, $(FREERTOS_INCLUDES),-I $d)
 FREERTOS_OBJS := $(FREERTOS_SRCS:$(FREERTOS_DIR)/%=$(STM32_BUILD_DIR)/obj/freertos/%.o)
 
-RTT_DIR := lib/RTT
-RTT_SRCS := $(RTT_DIR)/RTT/SEGGER_RTT.c $(RTT_DIR)/Syscalls/SEGGER_RTT_Syscalls_GCC.c $(RTT_DIR)/RTT/SEGGER_RTT_printf.c
-RTT_INCLUDES := $(addprefix -I, ./src) $(addprefix -I, $(RTT_DIR)/RTT)
-RTT_OBJS := $(RTT_SRCS:$(RTT_DIR)/%=$(STM32_BUILD_DIR)/obj/rtt/%.o)
+#RTT_DIR := lib/RTT
+#RTT_SRCS := $(RTT_DIR)/RTT/SEGGER_RTT.c $(RTT_DIR)/Syscalls/SEGGER_RTT_Syscalls_GCC.c $(RTT_DIR)/RTT/SEGGER_RTT_printf.c
+#RTT_INCLUDES := $(addprefix -I, ./src) $(addprefix -I, $(RTT_DIR)/RTT)
+#RTT_OBJS := $(RTT_SRCS:$(RTT_DIR)/%=$(STM32_BUILD_DIR)/obj/rtt/%.o)
 
 OUTNAME := $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION)
 
@@ -110,14 +110,19 @@ $(STM32_BUILD_DIR)/obj/freertos/%.c.o: $(FREERTOS_DIR)/%.c
 	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(FREERTOS_INCLUDES) -c $< -o $@
 
 # RTT objects
-$(STM32_BUILD_DIR)/obj/rtt/%.c.o: $(RTT_DIR)/%.c
-	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(RTT_INCLUDES) -c $< -o $@
+#$(STM32_BUILD_DIR)/obj/rtt/%.c.o: $(RTT_DIR)/%.c
+#	@[ -d $(@D) ] || mkdir -p $(@D)
+#	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(RTT_INCLUDES) -c $< -o $@
 
 # Misc targets
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+
+.PHONY: clean-user
+clean-user:
+	rm -r $(BUILD_DIR)/stm32/obj/app
+	rm -r $(BUILD_DIR)/stm32/obj/driver
 
 .PHONY: check-target
 check-target:

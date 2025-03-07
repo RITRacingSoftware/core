@@ -22,7 +22,7 @@
 /**
   * @brief  Frequency of the external oscillator in kHz
   */
-#define CORE_CLOCK_HSE_FREQ 25000
+#define CORE_CLOCK_HSE_FREQ 24000
 /**
   * @brief  Desired system clock frequency in kHz
   */
