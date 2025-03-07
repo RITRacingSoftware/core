@@ -59,10 +59,9 @@ FREERTOS_INCLUDES := $(foreach d, $(FREERTOS_INCLUDES),-I $d)
 FREERTOS_OBJS := $(FREERTOS_SRCS:$(FREERTOS_DIR)/%=$(STM32_BUILD_DIR)/obj/freertos/%.o)
 
 RTT_DIR := lib/RTT
-RTT_SRCS := $(RTT_DIR)/RTT/SEGGER_RTT.c
-RTT_INCLUDES := $(RTT_DIR)/RTT/SEGGER_RTT.h ./src/RTT_config.h
-RTT_OBJS := $(RTT_SRCS:$(RTT_DIR)/%=$(STM32_BUILD_IR)/obj/rtt/%.o)
-
+RTT_SRCS := $(RTT_DIR)/RTT/SEGGER_RTT.c $(RTT_DIR)/Syscalls/SEGGER_RTT_Syscalls_GCC.c $(RTT_DIR)/RTT/SEGGER_RTT_printf.c
+RTT_INCLUDES := $(addprefix -I, ./src) $(addprefix -I, $(RTT_DIR)/RTT)
+RTT_OBJS := $(RTT_SRCS:$(RTT_DIR)/%=$(STM32_BUILD_DIR)/obj/rtt/%.o)
 
 OUTNAME := $(STM32_BUILD_DIR)/$(PROJECT_NAME)-$(PROJECT_VERSION)
 
@@ -82,19 +81,19 @@ $(OUTNAME).ihex: $(OUTNAME).elf
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_OBJCOPY) -O ihex $< $@
 
-$(OUTNAME).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS) $()
+$(OUTNAME).elf: $(STM32_APP_OBJS) $(STM32_DRIVER_OBJS) $(STM32CUBE_OBJS) $(FREERTOS_OBJS) $(RTT_OBJS)
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(STM32_LD) $(STM32_LD_FLAGS) $^ -o $@
 
 # application objects
 $(STM32_BUILD_DIR)/obj/app/%.c.o: $(APP_DIR)/%.c
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(APP_INCLUDE) $(DRIVER_INCLUDE) $(FREERTOS_INCLUDES) $(STM32CUBE_INCLUDES) -c $< -o $@
+	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(APP_INCLUDE) $(DRIVER_INCLUDE) $(FREERTOS_INCLUDES) $(STM32CUBE_INCLUDES) $(RTT_INCLUDES) -c $< -o $@
 
 # driver objects
 $(STM32_BUILD_DIR)/obj/driver/%.c.o: $(DRIVER_DIR)/%.c
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(DRIVER_INCLUDE) $(FREERTOS_INCLUDES) $(STM32CUBE_INCLUDES) -c $< -o $@
+	$(STM32_CC) $(STM32_CC_FLAGS) -I src $(DRIVER_INCLUDE) $(FREERTOS_INCLUDES) $(STM32CUBE_INCLUDES) $(RTT_INCLUDES) -c $< -o $@
 
 # stm32cube objects
 $(STM32_BUILD_DIR)/obj/stm32cube/%.c.o: $(STM32CUBE_DIR)/%.c
