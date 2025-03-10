@@ -88,6 +88,23 @@ bool core_clock_USART_init(USART_TypeDef *usart) {
 }
 
 /**
+  * @brief  Enable a timer clock
+  * @param  timer Timer to initialize (TIM2 through TIM7)
+  * @retval 1 if timer is a supported timer module
+  * @retval 0 otherwise
+  */
+bool core_clock_timer_init(TIM_TypeDef *timer) {
+    if (timer == TIM2) __HAL_RCC_TIM2_CLK_ENABLE();
+    else if (timer == TIM3) __HAL_RCC_TIM3_CLK_ENABLE();
+    else if (timer == TIM4) __HAL_RCC_TIM4_CLK_ENABLE();
+    else if (timer == TIM5) __HAL_RCC_TIM5_CLK_ENABLE();
+    else if (timer == TIM6) __HAL_RCC_TIM6_CLK_ENABLE();
+    else if (timer == TIM7) __HAL_RCC_TIM7_CLK_ENABLE();
+    else return 0;
+    return 1;
+}
+
+/**
   * @brief  Set an I2C clock to PCLK1 and enable it
   * @param  i2c  I2C module to initialize
   * @retval 1 if i2c_num is a valid I2C module

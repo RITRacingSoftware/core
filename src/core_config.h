@@ -67,9 +67,14 @@
   */
 #define CORE_CAN_USE_MSGBUF 1
 /**
-  * @brief  Specifies the timestamping mode
+  * @brief  Transmit timestamp messages in all message buffers when the CAN
+  *         timestamp counter overflows.
   */
 #define CORE_CAN_TIMESTAMP 1
+/**
+  * @brief  Use hardware timestamping when possible
+  */
+#define CORE_CAN_HW_TIMESTAMP 1
 /**
   * @brief  Timer that stores the upper bits of the CAN timestamp
   */

@@ -27,11 +27,15 @@ typedef struct
 } CanExtendedMessage_s;
 
 typedef struct core_CAN_module_s {
-    FDCAN_HandleTypeDef hfdcan;
-    QueueHandle_t can_queue_rx;
-    QueueHandle_t can_queue_tx;
-    MessageBufferHandle_t msgbuf;
-    SemaphoreHandle_t can_tx_semaphore;
+    FDCAN_HandleTypeDef hfdcan;         /**< @brief HAL FDCAN handle **/
+    QueueHandle_t can_queue_rx;         /**< @brief Handle for FreeRTOS RX queue **/
+    QueueHandle_t can_queue_tx;         /**< @brief Handle for FreeRTOS TX queue **/
+    MessageBufferHandle_t msgbuf;       /**< @brief Handle for FreeRTOS RX message buffer **/
+    SemaphoreHandle_t can_tx_semaphore; /**< @brief TX semaphore, taken when a message is added
+                                                    to the hardware FIFO and given when
+                                                    transmission completes. **/
+    uint32_t timestamp_msb;             /**< @brief Most significant bits of the timestamp for
+                                                    the most recently received packet. **/
     uint8_t fdcan_num_standard_filters;
     uint8_t fdcan_num_extended_filters;
     uint8_t autort;
@@ -57,6 +61,7 @@ extern const uint8_t core_CAN_dlc_lookup[16];
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
+void core_CAN_enable_timestamps();
 
 bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
 bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);

@@ -82,7 +82,9 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
 static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan);
 
-static uint8_t can_temp[72];
+// can_temp must be aligned because the lowest 8 bytes must be interpreted as
+// a core_CAN_head_t struct when message buffers are enabled.
+static uint8_t __attribute__((aligned(4))) can_temp[72];
 
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
 #if (CORE_CAN_MSGBUF1_SIZE > 0)
@@ -188,6 +190,16 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
         // Extended frame settings
         p_can->use_fd = CORE_FDCAN2_USE_FD;
+#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+        if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) == NULL) {
+            CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) = xMessageBufferCreateStatic(
+                    CORE_CAN_MSGBUF2_SIZE, 
+                    CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN2_MSGBUF),
+                    &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN2_MSGBUF))
+            );
+            p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF);
+        }
+#endif
     }
     else if (can == FDCAN3)
     {
@@ -209,6 +221,16 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 
         // Extended frame settings
         p_can->use_fd = CORE_FDCAN3_USE_FD;
+#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+        if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) == NULL) {
+            CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) = xMessageBufferCreateStatic(
+                    CORE_CAN_MSGBUF3_SIZE, 
+                    CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN3_MSGBUF),
+                    &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN3_MSGBUF))
+            );
+            p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF);
+        }
+#endif
     }
     else return false;
 
@@ -283,8 +305,26 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     return true;
 }
 
-void core_CAN_enable_timestamps(FDCAN_GlobalTypeDef *can) {
-    
+void core_CAN_enable_timestamps() {
+    core_clock_timer_init(TIM3);
+    core_clock_timer_init(CORE_CAN_TIMER);
+    // TIM3 counts at 1MHz and outputs the update (overflow) event
+    TIM3->CR1 = 0x0000;
+    TIM3->CR2 = TIM_TRGO_UPDATE;
+    TIM3->PSC = 159;
+    TIM3->ARR = 0xffff;
+    // CORE_CAN_TIMER is clocked from TIM3's overflow event
+    CORE_CAN_TIMER->CR1 = 0x0000;
+    CORE_CAN_TIMER->CR2 = 0x0000;
+    CORE_CAN_TIMER->SMCR = TIM_TS_ITR2 | TIM_SLAVEMODE_EXTERNAL1;
+    CORE_CAN_TIMER->PSC = 0;
+    CORE_CAN_TIMER->ARR = 0xffffffff;
+    // Reset timers
+    TIM3->CNT = 0;
+    CORE_CAN_TIMER->CNT = 0;
+    // Start counting
+    TIM3->CR1 |= TIM_CR1_CEN;
+    CORE_CAN_TIMER->CR1 |= TIM_CR1_CEN;
 }
 
 #if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
@@ -440,6 +480,10 @@ bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc
 static void rx_handler(FDCAN_GlobalTypeDef *can)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
+    uint32_t t1, t3;
+    uint32_t old_msb;
+    uint16_t t2;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
     // If the interrupt flag is set for FIFO0
     if (p_can->hfdcan.Instance->IR & FDCAN_IT_RX_FIFO0_NEW_MESSAGE)
@@ -455,16 +499,48 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
                 //core_GPIO_toggle_heartbeat();
                 core_boot_reset_and_enter();
             }
-            // Reset the timeout
+            // Reset any timeouts
             core_timeout_reset_by_module_ref(can, header.Identifier);
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+            // Generate the timestamp data for the received CAN message. Recall
+            // that TIM3 increments every microsecond and CORE_CAN_TIMER
+            // increments whenever TIM3 overflows. To get the full timestamp,
+            // the values of both timers are needed. However, if TIM3
+            // overflows after reading CORE_CAN_TIMER and before reading TIM3,
+            // then the timestamp is corrupted. Thus, CORE_CAN_TIMER must be
+            // read a second time to detect overflows.
+#if (CORE_CAN_TIMESTAMP != 0)
+            t1 = CORE_CAN_TIMER->CNT;
+            t2 = TIM3->CNT;
+            t3 = CORE_CAN_TIMER->CNT;
+            old_msb = p_can->timestamp_msb;
+#if (CORE_CAN_HW_TIMESTAMP != 0)
+            ((core_CAN_head_t*)(can_temp))->timestamp = header.RxTimestamp;
+            if (t2 > header.RxTimestamp) p_can->timestamp_msb = t1;
+            else p_can->timestamp_msb = t3-1;
+#else
+            p_can->timestamp_msb = t1;
+            if (t1 == t3) ((core_CAN_head_t*)(can_temp))->timestamp = t2;
+            else ((core_CAN_head_t*)(can_temp))->timestamp = 0xffff;
+#endif
+            if (old_msb != p_can->timestamp_msb) {
+                ((core_CAN_head_t*)(can_temp))->type = 4;
+                ((core_CAN_head_t*)(can_temp))->length = 4;
+                old_msb = *((uint32_t*)(can_temp+8));
+                *((uint32_t*)(can_temp+8)) = p_can->timestamp_msb;
+                if (xMessageBufferSendFromISR(p_can->msgbuf, can_temp, 12, &xHigherPriorityTaskWoken) == 0) {
+                    // Increment the error counter
+                    msgbuf_overflow++;
+                }
+                 *((uint32_t*)(can_temp+8)) = old_msb;
+            }
+#endif
             ((core_CAN_head_t*)(can_temp))->type = (can - FDCAN1) / (FDCAN2 - FDCAN1) + 1;
             ((core_CAN_head_t*)(can_temp))->length = core_CAN_dlc_lookup[header.DataLength];
             ((core_CAN_head_t*)(can_temp))->fdf = (header.FDFormat == FDCAN_FD_CAN ? 1 : 0);
             ((core_CAN_head_t*)(can_temp))->id = header.Identifier;
             ((core_CAN_head_t*)(can_temp))->xtd = (header.IdType == FDCAN_EXTENDED_ID ? 1 : 0);
-            BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-            if (xMessageBufferSendFromISR(p_can->msgbuf, can_temp, 8 + core_CAN_dlc_lookup[header.DataLength], &xHigherPriorityTaskWoken) ==0) {
+            if (xMessageBufferSendFromISR(p_can->msgbuf, can_temp, 8 + core_CAN_dlc_lookup[header.DataLength], &xHigherPriorityTaskWoken) == 0) {
                 // Increment the error counter
                 msgbuf_overflow++;
             }
@@ -477,16 +553,17 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
 #endif
         }
     }
+    //
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag
         p_can->hfdcan.Instance->IR = FDCAN_IR_TC;
-        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
+    // Error occurred, give the semaphore so the transmitting task does not
+    // block indefinitely.
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PEA) {
         p_can->hfdcan.Instance->IR = FDCAN_IR_PEA;
-        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
