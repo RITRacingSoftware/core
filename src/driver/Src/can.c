@@ -162,7 +162,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF1_SIZE, 
+                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN1_MSGBUF), 
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN1_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN1_MSGBUF))
             );
@@ -193,7 +193,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF2_SIZE, 
+                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN2_MSGBUF), 
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN2_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN2_MSGBUF))
             );
@@ -224,7 +224,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF3_SIZE, 
+                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN3_MSGBUF), 
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN3_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN3_MSGBUF))
             );
@@ -248,6 +248,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     {
         return false;
     }
+    HAL_FDCAN_EnableTimestampCounter(&(p_can->hfdcan), FDCAN_TIMESTAMP_EXTERNAL);
 
     // Reject all frames not configured in filter
     if (HAL_FDCAN_ConfigGlobalFilter(&(p_can->hfdcan), FDCAN_REJECT,
@@ -535,7 +536,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
                  *((uint32_t*)(can_temp+8)) = old_msb;
             }
 #endif
-            ((core_CAN_head_t*)(can_temp))->type = (can - FDCAN1) / (FDCAN2 - FDCAN1) + 1;
+            ((core_CAN_head_t*)(can_temp))->type = (((uint32_t)can - (uint32_t)FDCAN1)>>10) + 1;
             ((core_CAN_head_t*)(can_temp))->length = core_CAN_dlc_lookup[header.DataLength];
             ((core_CAN_head_t*)(can_temp))->fdf = (header.FDFormat == FDCAN_FD_CAN ? 1 : 0);
             ((core_CAN_head_t*)(can_temp))->id = header.Identifier;
