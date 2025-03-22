@@ -109,47 +109,39 @@
   * and have the following format:
   * <table class="doxtable RegisterTable">
   * <tr class="RegisterBitNumber">
-  *   <td>63</td><td>62</td><td>61</td><td>60</td><td>59</td><td>58</td><td>57</td><td>56</td>
-  *   <td>55</td><td>54</td><td>53</td><td>52</td><td>51</td><td>50</td><td>49</td><td>48</td>
+  *   <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+  *   <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
   * </tr>
   * <tr class="RegisterFields">
   *  <td colspan=8>`STATUS[7:0]`</td>
-  *  <td colspan=6></td>
-  *  <td>`BFB2`</td>
   *  <td>`MEMRMP`</td>
+  *  <td>`BFB2`</td>
+  *  <td colspan=6></td>
   * </tr>
   * <tr class="RegisterBitNumber">
-  *   <td>47</td><td>46</td><td>45</td><td>44</td><td>43</td><td>42</td><td>41</td><td>40</td>
-  *   <td>39</td><td>38</td><td>37</td><td>36</td><td>35</td><td>34</td><td>33</td><td>32</td>
+  *   <td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+  *   <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td>
   * </tr>
   * <tr class="RegisterFields">
-  *   <td>`OPTVERR`</td>
-  *   <td>`RDERR`</td>
-  *   <td colspan=4></td>
-  *   <td>`FASTERR`</td>
-  *   <td>`MISSERR`</td>
-  *   <td>`PGSERR`</td>
-  *   <td>`SIZERR`</td>
-  *   <td>`PGAERR`</td>
-  *   <td>`WRPERR`</td>
-  *   <td>`PROGERR`</td>
-  *   <td></td>
-  *   <td>`OPERR`</td>
   *   <td>`EOP`</td>
+  *   <td>`OPERR`</td>
+  *   <td></td>
+  *   <td>`PROGERR`</td>
+  *   <td>`WRPERR`</td>
+  *   <td>`PGAERR`</td>
+  *   <td>`SIZERR`</td>
+  *   <td>`PGSERR`</td>
+  *   <td>`MISSERR`</td>
+  *   <td>`FASTERR`</td>
+  *   <td colspan=4></td>
+  *   <td>`RDERR`</td>
+  *   <td>`OPTVERR`</td>
   * </tr>
   * <tr class="RegisterBitNumber">
-  *   <td>31</td><td>30</td><td>29</td><td>28</td><td>27</td><td>26</td><td>25</td><td>24</td>
-  *   <td>23</td><td>22</td><td>21</td><td>20</td><td>19</td><td>18</td><td>17</td><td>16</td>
+  *   <td>32</td><td>33</td><td>34</td><td>35</td><td>36</td><td>37</td><td>38</td><td>39</td>
+  *   <td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td>
   * </tr>
   * <tr class="RegisterFields">
-  *   <td colspan=16>`BOOT_STATE_KEY[23:8]`</td>
-  * </tr>
-  * <tr class="RegisterBitNumber">
-  *   <td>15</td><td>14</td><td>13</td><td>12</td><td>11</td><td>10</td><td>9</td><td>8</td>
-  *   <td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
-  * </tr>
-  * <tr class="RegisterFields">
-  *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
   *   <td>`ERROR`</td>
   *   <td>`NB_ERROR`</td>
   *   <td></td>
@@ -158,6 +150,14 @@
   *   <td>`SOFT_SWITCHED`</td>
   *   <td>`VERIFY_SOFT_SWITCH`</td>
   *   <td>`VERIFY`</td>
+  *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>48</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td>
+  *   <td>56</td><td>57</td><td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td colspan=16>`BOOT_STATE_KEY[23:8]`</td>
   * </tr>
   * </table>
   *  - `STATUS[7:0]`: Status code
@@ -281,6 +281,10 @@ static FDCAN_HandleTypeDef *hfdcan;
 #define BOOT_STATUS_PROG_ERROR  0x03
 #define BOOT_STATUS_STATE_ERROR 0x04
 #define BOOT_STATUS_NB_ERROR    0x05
+#define BOOT_STATUS_ALREAD_BOOTED   0x06
+#define BOOT_STATUS_NO_BSM      0x07
+#define BOOT_STATUS_SOFTSWAP_SUCCESS    0x08
+#define BOOT_STATUS_MAINBANK    0x09
 
 #define BOOT_OPCODE_RESET       0x00
 #define BOOT_OPCODE_SOFTSWAP    0x01
@@ -419,7 +423,7 @@ static void boot_bankswap() {
   */
 static void boot_transmit_can(uint8_t length, bool is_data) {
     uint32_t tx_id;
-    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
+    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | ((address >> 3) & 0x7fff);
     if (is_data) tx_id |= (1<<16);
     if (length > 64) length = 64;
     if ((length >= 32) && (length & 8)) {
@@ -497,6 +501,8 @@ static uint8_t boot_await_data() {
                 boot_transmit_status(4);
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
             }
+        } else if (databuf[0] == 0x55) {
+            boot_transmit_status(0);
         }
     }
     return 0;
@@ -635,18 +641,24 @@ void core_boot_init() {
             boot_reset();
         } else if ((boot_state & 0x0000000f) != BOOT_STATE_SOFT_SWITCHED) {
             // Invalid state, likely because the boot state machine was not
-            // run. Set the NB_ERROR flag and reset.
+            // run. Set the NB_ERROR flag and reset. This error case should
+            // not occur, since soft switching requires the BSM to run
             boot_state |= BOOT_STATE_NB_ERROR;
             boot_reset();
         }
         // Soft switching can only occur if there are no errors. If the boot
         // state machine in the non-booting bank sees an error, a reset will be
         // triggered.
+        boot_transmit_status(BOOT_STATUS_SOFTSWAP_SUCCESS);
     } else {
+        boot_transmit_status(BOOT_STATUS_MAINBANK);
         if (((boot_state & 0xffffff00) != BOOT_STATE_KEY) || (boot_state & BOOT_STATE_ERROR)) {
             // An error was reported or the boot state key is not valid, 
             // transmit an error message on CAN.
             boot_transmit_status(BOOT_STATUS_STATE_ERROR);
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+        } else if ((boot_state & 0xff) == BOOT_STATE_VERIFY) {
+            boot_transmit_status(BOOT_STATUS_NO_BSM);
             boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
         }
     }
