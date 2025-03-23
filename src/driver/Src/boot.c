@@ -579,7 +579,7 @@ static void boot() {
             ndata = databuf[0];
             uint8_t bank = databuf[1];
             for (uint8_t i=0; i < ndata; i++) {
-                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0) + address+i);
+                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0x08000000) + address+i);
             }
             boot_transmit_can(ndata, 1);
         } 
