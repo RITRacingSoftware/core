@@ -281,7 +281,7 @@ static FDCAN_HandleTypeDef *hfdcan;
 #define BOOT_STATUS_PROG_ERROR  0x03
 #define BOOT_STATUS_STATE_ERROR 0x04
 #define BOOT_STATUS_NB_ERROR    0x05
-#define BOOT_STATUS_ALREAD_BOOTED   0x06
+#define BOOT_STATUS_ALREADY_BOOTED  0x06
 #define BOOT_STATUS_NO_BSM      0x07
 #define BOOT_STATUS_SOFTSWAP_SUCCESS    0x08
 #define BOOT_STATUS_MAINBANK    0x09
@@ -502,7 +502,7 @@ static uint8_t boot_await_data() {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
             }
         } else if (databuf[0] == 0x55) {
-            boot_transmit_status(0);
+            boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
         }
     }
     return 0;
