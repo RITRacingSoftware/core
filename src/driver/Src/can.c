@@ -39,14 +39,31 @@
   * In order to enable receiving CAN frames, the user code must first set up
   * one or more filters using the core_CAN_add_filter() function. When a frame
   * matching any of the applied filters is received, the FDCAN hardware
-  * triggers an interrupt that inserts the contents of this frame into a
-  * receiving FreeRTOS queue.
+  * triggers an interrupt that processes the received data.
   *
-  * The user code must the define a task that repeatedly calls 
-  * core_CAN_receive_from_queue() (classic CAN) or 
-  * core_CAN_receive_extended_from_queue() (FD CAN only). These functions will
-  * return 1 if a frame has been loaded from the queue and 0 otherwise. It is 
-  * necessary to poll these functions, since they are non-blocking.
+  * There are two options for processing received frames: queues or message
+  * buffers. If CORE_CAN_USE_MSGBUF is not set, then one RX queue is created
+  * for each initialized CAN module. When the receive interrupt is triggered,
+  * the received frame is inserted into the corresponding queue. Queues are
+  * preferred when data from different busses is processed separately and when
+  * different busses are assigned different priorities. However, a queue can
+  * only store a fixed number of elements, and a fixed amount of space will be
+  * allocated for each message, regardless of the message's size.
+  *
+  * If CORE_CAN_USE_MSGBUF is set to 1, then up to three RX message buffers
+  * can be created. Each FDCAN module can then be connected to one of the
+  * three message buffers. This allows data from multiple busses to be 
+  * combined into one message buffer, which is helpful if data from all busses
+  * is processed identically. Furthermore, message will only take up as much
+  * space in the message buffer as needed, allowing the space to be used more
+  * efficiently.
+  *
+  * If not using message buffers, the user code must define a task that 
+  * repeatedly calls core_CAN_receive_from_queue() (classic CAN) or 
+  * core_CAN_receive_extended_from_queue() (FD CAN only). If using message
+  * buffers, the user code must define a task that repeatedly calls
+  * core_CAN_receive_from_msgbuf(). These functions will wait up to
+  * CORE_CAN_RX_TIMEOUT for a message to appear in the buffer before returning.
   */
 
 #include "can.h"
@@ -118,14 +135,14 @@ core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
 }
 
 /**
-  * @brief  Initialize an FDCAN module, the RX and TX queues, 
-  *         and the RX and TX pins.
+  * @brief  Initialize an FDCAN module, the RX and TX pins, the TX queue (if
+  *         enabled), and the RX queue or message buffer (if enabled).
   * @retval 0 if the given FDCAN is not valid or the initialization failed
   * @retval 1 otherwise
   */
 bool core_CAN_init(FDCAN_GlobalTypeDef *can)
 {
-    // Init port clock based on which CAN bus
+    // Initialize FDCAN clock and port clocks
     core_clock_FDCAN_init(can);
     core_CAN_module_t *p_can = core_CAN_convert(can);
     if (p_can == NULL) return false;
@@ -160,6 +177,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         p_can->use_fd = CORE_FDCAN1_USE_FD;
 
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+        // Initialize the message buffer associated with FDCAN1 if it has not
+        // already been initialized by a previous FDCAN init.
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) = xMessageBufferCreateStatic(
                     CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN1_MSGBUF), 
@@ -191,6 +210,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         // Extended frame settings
         p_can->use_fd = CORE_FDCAN2_USE_FD;
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+        // Initialize the message buffer associated with FDCAN2 if it has not
+        // already been initialized by a previous FDCAN init.
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) = xMessageBufferCreateStatic(
                     CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN2_MSGBUF), 
@@ -222,6 +243,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
         // Extended frame settings
         p_can->use_fd = CORE_FDCAN3_USE_FD;
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+        // Initialize the message buffer associated with FDCAN3 if it has not
+        // already been initialized by a previous FDCAN init.
         if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) == NULL) {
             CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) = xMessageBufferCreateStatic(
                     CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN3_MSGBUF), 
@@ -242,12 +265,9 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->hfdcan.Init.ProtocolException = ENABLE;
     p_can->hfdcan.Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
     CAN_clock_set_params(&(p_can->hfdcan));
+    if (HAL_FDCAN_Init(&(p_can->hfdcan)) != HAL_OK) return false;
 
-    // Init CAN interface
-    if (HAL_FDCAN_Init(&(p_can->hfdcan)) != HAL_OK)
-    {
-        return false;
-    }
+    // Configure FDCAN module to use TIM3 as the timestamp source
     HAL_FDCAN_EnableTimestampCounter(&(p_can->hfdcan), FDCAN_TIMESTAMP_EXTERNAL);
 
     // Reject all frames not configured in filter
@@ -283,10 +303,12 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_ARB_PROTOCOL_ERROR, 0) != HAL_OK) return false;
     //if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_ABORT_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
-    // Create queue to put received messages in
     size_t msgsize = (p_can->use_fd ? sizeof(CanExtendedMessage_s) : sizeof(CanMessage_s));
+#if (!defined(CORE_CAN_USE_MSGBUF)) || (CORE_CAN_USE_MSGBUF == 0)
+    // Create queue to put received messages in
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
+#endif
 
 #if (!defined(CORE_CAN_DISABLE_TX_QUEUE)) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
     // Create queue to put outgoing messages in
@@ -297,15 +319,16 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
     xSemaphoreGive(p_can->can_tx_semaphore);
 
-    // Start can interface
-    if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK)
-    {
-        return false;
-    }
+    // Start CAN interface
+    if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK) return false;
 
     return true;
 }
 
+#if (defined(CORE_CAN_TIMESTAMP)) && (CORE_CAN_TIMESTAMP == 1)
+/**
+  * @brief  Initialize and start the timestamp counters for the CAN module
+  */
 void core_CAN_enable_timestamps() {
     core_clock_timer_init(TIM3);
     core_clock_timer_init(CORE_CAN_TIMER);
@@ -327,6 +350,7 @@ void core_CAN_enable_timestamps() {
     TIM3->CR1 |= TIM_CR1_CEN;
     CORE_CAN_TIMER->CR1 |= TIM_CR1_CEN;
 }
+#endif
 
 #if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
 /**
@@ -601,6 +625,10 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
 
 /**
   * @brief  If a frame is waiting in the RX queue, copy it to the given location
+  *
+  * If no frame is waiting in the RX queue, this function will wait up to
+  * CORE_CAN_RX_TIMEOUT milliseconds for one to enter the queue.
+  *
   * @param  can FDCAN module from which the frame is read
   * @param  received_message Pointer to the location where the received frame
   *         would be stored
@@ -619,6 +647,10 @@ bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedM
 
 /**
   * @brief  If a frame is waiting in the RX queue, copy it to the given location
+  *
+  * If no frame is waiting in the RX queue, this function will wait up to
+  * CORE_CAN_RX_TIMEOUT milliseconds for one to enter the queue.
+  *
   * @param  can FDCAN module from which the frame is read
   * @param  received_message Pointer to the location where the received frame
   *         would be stored
@@ -635,6 +667,18 @@ bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *receive
     return (xQueueReceive(p_can->can_queue_rx, received_message, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT)) == pdTRUE);
 }
 
+/**
+  * @brief  If a frame is waiting in an RX message buffer, copy it to the given
+  *         location and return its length.
+  *
+  * If no frame is waiting in the RX message buffer, this function will wait up
+  * to CORE_CAN_RX_TIMEOUT milliseconds for one to enter the message buffer.
+  *
+  * @param  can FDCAN module from which the frame is read
+  * @param  buf Buffer to which the received data should be stored
+  * @retval 1 if a frame was copied from the queue into the given location
+  * @retval 0 otherwise
+  */
 uint8_t core_CAN_receive_from_msgbuf(FDCAN_GlobalTypeDef *can, uint8_t *buf) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
     return xMessageBufferReceive(p_can->msgbuf, buf, 72, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT));
