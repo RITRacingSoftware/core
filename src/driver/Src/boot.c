@@ -48,6 +48,8 @@
   * message and the address to be programmed (if required), so all 64 bytes in
   * the body of the message can be used for data.
   *
+  * ### Communication from the programmer to the target boards
+  *
   * Each board has a unique board ID and master ID, so the master will respond
   * to several IDs, one for each device that can be programmed. The 29-bit 
   * extended board IDs have the following format:
@@ -77,6 +79,41 @@
   *  - `RD/`<span class="overlined">WR</span>: 1 to read from the slave, 0 to write to the slave
   *  - `PAD`: Set if the last doubleword in the frame is a padding doubleword
   *  - `ADDR[14:0]`: Doubleword address
+  *
+  * To decrease the number of bits required to transmit the address, the 
+  * address is left-shifted by 3 bits. This means that the address will be 
+  * aligned on an 8-byte boundary. This is required for writing, since all
+  * writes to the FLASH memory must be doubleword-aligned.
+  *
+  * Messages sent with <span class="overlined">CTRL</span> set to 0 can have
+  * the following contents:
+  * | Data                      | Operation |
+  * |---------------------------| --------- |
+  * | `55 55 55 55 55 55 55 55` | Enter bootloader |
+  * | `00`                      | Reset chip |
+  * | `01`                      | Soft swap (jump to non-booting bank) |
+  * | `02`                      | Verify |
+  * | `03`                      | Hard swap (only possible after verification with `02`) |
+  * Note that all commands except "enter bootloader" require the chip to
+  * have been booted. 
+  *
+  * Messages sent with <span class="overlined">CTRL</span> set to 1 can either 
+  * be read or write requests. For a read request, the first data byte is the 
+  * length and the second byte indicates the bank. Note that while the address
+  * must be 8-byte aligned, the length of the read can have any value. If the 
+  * bank byte is non-zero, then the target board will read from the bank that 
+  * is not currently running. 
+  *
+  * For a write request, all of the data bytes contain data to be written. The
+  * number of data bytes must be a multiple of 8. Since FDCAN only supports 
+  * certain packet lengths, if the packet contains fewer doublewords than would
+  * fit in the packet, the `PAD` byte is set. For example, to transmit 56 bytes
+  * of data (7 doublewords), one would need a packet length of 64 (DLC set to
+  * 15) and set the `PAD` bit to indicate that the last doubleword should be
+  * ignored.
+  *
+  *
+  * ### Communication from the target boards to the programmer
   *
   * The master IDs have the following format:
   * <table class="doxtable RegisterTable">
@@ -142,14 +179,14 @@
   *   <td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td>
   * </tr>
   * <tr class="RegisterFields">
-  *   <td>`ERROR`</td>
-  *   <td>`NB_ERROR`</td>
-  *   <td></td>
-  *   <td>`ENTER`</td>
-  *   <td>`VERIFIED`</td>
-  *   <td>`SOFT_SWITCHED`</td>
-  *   <td>`VERIFY_SOFT_SWITCH`</td>
   *   <td>`VERIFY`</td>
+  *   <td>`VERIFY_SOFT_SWITCH`</td>
+  *   <td>`SOFT_SWITCHED`</td>
+  *   <td>`VERIFIED`</td>
+  *   <td>`ENTER`</td>
+  *   <td></td>
+  *   <td>`NB_ERROR`</td>
+  *   <td>`ERROR`</td>
   *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
   * </tr>
   * <tr class="RegisterBitNumber">
@@ -162,12 +199,18 @@
   * </table>
   *  - `STATUS[7:0]`: Status code
   *    <table>
-  *    <tr><td>0</td><td>No error</td></tr>
-  *    <tr><td>1</td><td>Address out of range</td></tr>
-  *    <tr><td>2</td><td>Error while erasing</td></tr>
-  *    <tr><td>3</td><td>Error while programming</td></tr>
-  *    <tr><td>4</td><td>Boot state error</td></tr>
-  *    <tr><td>5</td><td>Write from non-booting bank</td></tr>
+  *    <tr><td>0</td><td>Status</td><td>No error</td></tr>
+  *    <tr><td>1</td><td>Error</td><td>Address out of range</td></tr>
+  *    <tr><td>2</td><td>Error</td><td>Error while erasing</td></tr>
+  *    <tr><td>3</td><td>Error</td><td>Error while programming</td></tr>
+  *    <tr><td>4</td><td>Error</td><td>Boot state error</td></tr>
+  *    <tr><td>5</td><td>Error</td><td>Write from non-booting bank</td></tr>
+  *    <tr><td>6</td><td>Status</td><td>Board is already booted (sent when bootloader received opcode 0x55)</td></tr>
+  *    <tr><td>7</td><td>Status</td><td>BSM did not run</td></tr>
+  *    <tr><td>8</td><td>Status</td><td>Soft swap successful (sent when 
+  *         core_boot_init() runs in the non-booting bank)</td></tr>
+  *    <tr><td>9</td><td>Status</td><td>Sent when core_boot_init() runs in the
+  *         booting bank</td></tr>
   *    </table>
   *  - `BFB2`: `BFB2` bit from the option byte register. Indicates which bank
   *    the chip will boot from
