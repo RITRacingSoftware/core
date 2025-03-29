@@ -498,57 +498,61 @@ static void boot_transmit_status(uint8_t code) {
   * @return Length of the data received, or 0 if the message is a control message
   */
 static uint8_t boot_await_data() {
-    while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
-    // Data received over CAN
-    FDCAN_RxHeaderTypeDef head;
-    HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
-    id = head.Identifier;
-    uint32_t length = core_CAN_dlc_lookup[head.DataLength];
-    // Reset is the only opcode that can be executed using the broadcast address
-    if ((!(id & (1<<17))) && (databuf[0] == BOOT_OPCODE_RESET) && (((id >> 18) == CORE_BOOT_FDCAN_ID) || ((id >> 18) == CORE_BOOT_FDCAN_BROADCAST_ID))) {
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            boot_reset();
-    }
-    if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
-    if (id & (1<<17)) {
-        // Data frame
-        if (id & (1<<15)) length -= 8;
-        address = (id & 0x7fff) << 3;
-        return length;
-    } else {
-        // Control frame
-        if (databuf[0] == BOOT_OPCODE_RESET) {
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            boot_reset();
-        } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
-            // Failsafe bank swap
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
-            boot_reset();
-        } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
-            // Verification command
-            if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
-            } else {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
-            }
-            boot_transmit_status(0);
-            return 0;
-        } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
-            // If the program is verified, swap the banks, set state to
-            // NORMAL, and reset
-            if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+    while (1) {
+        while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
+        // Data received over CAN
+        FDCAN_RxHeaderTypeDef head;
+        HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
+        id = head.Identifier;
+        uint32_t length = core_CAN_dlc_lookup[head.DataLength];
+        // Reset is the only opcode that can be executed using the broadcast address
+        if ((!(id & (1<<17))) && (databuf[0] == BOOT_OPCODE_RESET) && (((id >> 18) == CORE_BOOT_FDCAN_ID) || ((id >> 18) == CORE_BOOT_FDCAN_BROADCAST_ID))) {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-                boot_transmit_status(0);
-                boot_bankswap();
-            } else {
-                boot_transmit_status(4);
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            }
-        } else if (databuf[0] == 0x55) {
-            boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
+                boot_reset();
         }
+        if ((head.IdType != FDCAN_EXTENDED_ID) || ((id >> 18) != CORE_BOOT_FDCAN_ID)) continue;
+        //__BKPT(1);
+
+        if (id & (1<<17)) {
+            // Data frame
+            if (id & (1<<15)) length -= 8;
+            address = (id & 0x7fff) << 3;
+            return length;
+        } else {
+            // Control frame
+            if (databuf[0] == BOOT_OPCODE_RESET) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_reset();
+            } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
+                // Failsafe bank swap
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+                boot_reset();
+            } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
+                // Verification command
+                if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+                } else {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
+                }
+                boot_transmit_status(0);
+                return 0;
+            } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
+                // If the program is verified, swap the banks, set state to
+                // NORMAL, and reset
+                if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                    boot_transmit_status(0);
+                    boot_bankswap();
+                } else {
+                    boot_transmit_status(4);
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                }
+            } else if (databuf[0] == 0x55) {
+                boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
+            }
+        }
+        return 0;
     }
-    return 0;
 }
 
 static int8_t boot_program_and_verify(uint8_t length) {

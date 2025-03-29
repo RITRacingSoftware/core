@@ -64,15 +64,17 @@ def send_data(bus, id, address, data):
     if l >= 32 and l&8:
         address |= (1<<15)
         l += 8
-    frame = struct.pack("<BBHI", bus, 0x80 | (len(data)), 0, (1<<30) | (id<<18) | address | (1<<17))+data
-    s.sendto(frame, ('192.168.72.100', 5001))
-    resp = parse_response(True)
-    for p in resp:
-        if p["type"] == "data":
-            if p["data"] != frame[8:]:
-                print("ERROR")
-                print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in frame[8:]))
-                print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in p["data"]))
+    resp = []
+    while not resp:
+        frame = struct.pack("<BBHI", bus, 0x80 | (len(data)), 0, (1<<30) | (id<<18) | address | (1<<17))+data
+        s.sendto(frame, ('192.168.72.100', 5001))
+        resp = parse_response(True)
+        for p in resp:
+            if p["type"] == "data":
+                if p["data"] != frame[8:]:
+                    print("ERROR")
+                    print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in frame[8:]))
+                    print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in p["data"]))
 
 def read_data(bus, id, address, length, bankmode):
     frame = struct.pack("<BBHIBB", bus, 0x02, 0, (1<<30) | (id<<18) | address | (1<<17) | (1<<16), length, bankmode)
@@ -205,10 +207,10 @@ elif cmd == "ls":
         print("Found ID", id, ids[id])
         resp = read_data(1, id, 0x3ffe0>>3, 32, ids[id]["bankstatus"]&1)[0]
         if "type" in resp and resp["type"] == "data":
-            print("    Bank 1:", resp["data"].strip(b"\x00").decode())
+            print("    Bank 1:", resp["data"].strip(b"\x00"))
         resp = read_data(1, id, 0x3ffe0>>3, 32, 1 ^ (ids[id]["bankstatus"]&1))[0]
         if "type" in resp and resp["type"] == "data":
-            print("    Bank 2:", resp["data"].strip(b"\x00").decode())
+            print("    Bank 2:", resp["data"].strip(b"\x00"))
     reset(0x7ff)
 
 
