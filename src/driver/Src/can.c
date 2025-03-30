@@ -185,8 +185,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN1_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN1_MSGBUF))
             );
-            p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF);
         }
+        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF);
 #endif
     }
     else if (can == FDCAN2)
@@ -218,8 +218,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN2_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN2_MSGBUF))
             );
-            p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF);
         }
+        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF);
 #endif
     }
     else if (can == FDCAN3)
@@ -251,8 +251,8 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
                     CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN3_MSGBUF),
                     &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN3_MSGBUF))
             );
-            p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF);
         }
+        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF);
 #endif
     }
     else return false;
