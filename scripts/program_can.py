@@ -47,6 +47,8 @@ def parse_response(print_response=False, timeout=0.5, mintime=0):
                         packet["status"], packet["bankstatus"], packet["flashstatus"], packet["bootstate"] = stat
                         if print_response: print("    Status {:02x}, bank status {:02x}, FLASH status {:04x}, boot state {:08x}".format(*stat))
                 frames.append(packet)
+            #elif bus == 1:
+            #    print("rejecting bad packet", bus, id)
             i += (length & 0x7f)+8
         t = time.time()
         if (frames and (t - tstart) >= mintime) or (t - tstart) >= timeout:
@@ -79,7 +81,7 @@ def send_data(bus, id, address, data):
 def read_data(bus, id, address, length, bankmode):
     frame = struct.pack("<BBHIBB", bus, 0x02, 0, (1<<30) | (id<<18) | address | (1<<17) | (1<<16), length, bankmode)
     s.sendto(frame, ('192.168.72.100', 5001))
-    return parse_response(False)
+    return parse_response(True)
 
 
 
@@ -101,7 +103,7 @@ def boot_enum():
     print("Booting all")
     send_command(1, 0x7ff, b"\x55"*8)
     print("Collecting IDs ... ", end="")
-    frames = parse_response(False, timeout=0.2, mintime=0.2)
+    frames = parse_response(False, timeout=0.5, mintime=0.5)
     print("done")
     ids = {}
     for packet in frames:
@@ -181,9 +183,9 @@ if cmd == "program":
         fname = sys.argv[3]
         boot(id)
         program(id, fname)
-        boot(id)
-        verify(id)
-        hardswap(id)
+        #boot(id)
+        #verify(id)
+        #hardswap(id)
 elif cmd == "boot":
     boot(int(sys.argv[2]))
 elif cmd == "softswap":
@@ -202,7 +204,12 @@ elif cmd == "read":
     boot(id)
     read_data(1, id, 0x3ffe0>>3, 32, 0)
 elif cmd == "ls":
-    ids = boot_enum()
+    if len(sys.argv) > 2:
+        id = int(sys.argv[2])
+        send_command(1, id, b"\x55"*8)
+        ids = {id: parse_response(False, timeout=0.5, mintime=0.5)[0]}
+    else:
+        ids = boot_enum()
     for id in ids:
         print("Found ID", id, ids[id])
         resp = read_data(1, id, 0x3ffe0>>3, 32, ids[id]["bankstatus"]&1)[0]
@@ -212,6 +219,12 @@ elif cmd == "ls":
         if "type" in resp and resp["type"] == "data":
             print("    Bank 2:", resp["data"].strip(b"\x00"))
     reset(0x7ff)
+elif cmd == "reset":
+    reset(0x7ff)
+elif cmd == "txoff":
+    send_command(5, 0, b"\x00")
+elif cmd == "txon":
+    send_command(5, 0, b"\x01")
 
 
 s.close()
