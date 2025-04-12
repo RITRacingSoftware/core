@@ -183,9 +183,9 @@ if cmd == "program":
         fname = sys.argv[3]
         boot(id)
         program(id, fname)
-        #boot(id)
-        #verify(id)
-        #hardswap(id)
+        boot(id)
+        verify(id)
+        hardswap(id)
 elif cmd == "boot":
     boot(int(sys.argv[2]))
 elif cmd == "softswap":
@@ -225,6 +225,12 @@ elif cmd == "txoff":
     send_command(5, 0, b"\x00")
 elif cmd == "txon":
     send_command(5, 0, b"\x01")
+elif cmd == "c70off":
+    frame = struct.pack("<BBHI", bus, 0x01, 0, 0x701)+b"\x01"
+    s.sendto(frame, ('192.168.72.100', 5001))
+elif cmd == "c70on":
+    frame = struct.pack("<BBHI", bus, 0x01, 0, 0x701)+b"\x00"
+    s.sendto(frame, ('192.168.72.100', 5001))
 
 
 s.close()
