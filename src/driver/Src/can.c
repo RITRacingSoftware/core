@@ -73,6 +73,7 @@ static core_CAN_module_t can2;
 static core_CAN_module_t can3;
 
 const uint8_t core_CAN_dlc_lookup[16] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 32, 48, 64};
+core_CAN_errors_t core_CAN_errors = {0};
 
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
@@ -218,6 +219,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_ARB_PROTOCOL_ERROR, 0) != HAL_OK) return false;
+    if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_DATA_PROTOCOL_ERROR, 0) != HAL_OK) return false;
     //if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_ABORT_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     // Create queue to put received messages in
@@ -430,10 +432,15 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PEA) {
+        core_CAN_errors.arbitration_error++;
         p_can->hfdcan.Instance->IR = FDCAN_IR_PEA;
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+    else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PED) {
+        p_can->hfdcan.Instance->IR = FDCAN_IR_PED;
+        core_CAN_errors.data_error++;
     }
 }
 

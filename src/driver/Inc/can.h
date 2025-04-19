@@ -35,7 +35,13 @@ typedef struct core_CAN_module_s {
     uint8_t use_fd;
 } core_CAN_module_t;
 
+typedef struct core_CAN_errors_s {
+    uint16_t arbitration_error;
+    uint16_t data_error;
+} core_CAN_errors_t;
+
 extern const uint8_t core_CAN_dlc_lookup[16];
+extern core_CAN_errors_t core_CAN_errors;
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
