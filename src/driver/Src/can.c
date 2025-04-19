@@ -410,7 +410,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
 
         // Retrieve Rx messages from RX FIFO0
         while (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, data) == HAL_OK) {
-            core_GPIO_toggle_heartbeat();
+            //core_GPIO_toggle_heartbeat();
             // Enter the bootloader if the the boot ID or the broadcast ID is received
             if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18)))) {
                 //core_GPIO_toggle_heartbeat();

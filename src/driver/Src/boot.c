@@ -48,6 +48,8 @@
   * message and the address to be programmed (if required), so all 64 bytes in
   * the body of the message can be used for data.
   *
+  * ### Communication from the programmer to the target boards
+  *
   * Each board has a unique board ID and master ID, so the master will respond
   * to several IDs, one for each device that can be programmed. The 29-bit 
   * extended board IDs have the following format:
@@ -77,6 +79,41 @@
   *  - `RD/`<span class="overlined">WR</span>: 1 to read from the slave, 0 to write to the slave
   *  - `PAD`: Set if the last doubleword in the frame is a padding doubleword
   *  - `ADDR[14:0]`: Doubleword address
+  *
+  * To decrease the number of bits required to transmit the address, the 
+  * address is left-shifted by 3 bits. This means that the address will be 
+  * aligned on an 8-byte boundary. This is required for writing, since all
+  * writes to the FLASH memory must be doubleword-aligned.
+  *
+  * Messages sent with <span class="overlined">CTRL</span> set to 0 can have
+  * the following contents:
+  * | Data                      | Operation |
+  * |---------------------------| --------- |
+  * | `55 55 55 55 55 55 55 55` | Enter bootloader |
+  * | `00`                      | Reset chip |
+  * | `01`                      | Soft swap (jump to non-booting bank) |
+  * | `02`                      | Verify |
+  * | `03`                      | Hard swap (only possible after verification with `02`) |
+  * Note that all commands except "enter bootloader" require the chip to
+  * have been booted. 
+  *
+  * Messages sent with <span class="overlined">CTRL</span> set to 1 can either 
+  * be read or write requests. For a read request, the first data byte is the 
+  * length and the second byte indicates the bank. Note that while the address
+  * must be 8-byte aligned, the length of the read can have any value. If the 
+  * bank byte is non-zero, then the target board will read from the bank that 
+  * is not currently running. 
+  *
+  * For a write request, all of the data bytes contain data to be written. The
+  * number of data bytes must be a multiple of 8. Since FDCAN only supports 
+  * certain packet lengths, if the packet contains fewer doublewords than would
+  * fit in the packet, the `PAD` byte is set. For example, to transmit 56 bytes
+  * of data (7 doublewords), one would need a packet length of 64 (DLC set to
+  * 15) and set the `PAD` bit to indicate that the last doubleword should be
+  * ignored.
+  *
+  *
+  * ### Communication from the target boards to the programmer
   *
   * The master IDs have the following format:
   * <table class="doxtable RegisterTable">
@@ -109,65 +146,71 @@
   * and have the following format:
   * <table class="doxtable RegisterTable">
   * <tr class="RegisterBitNumber">
-  *   <td>63</td><td>62</td><td>61</td><td>60</td><td>59</td><td>58</td><td>57</td><td>56</td>
-  *   <td>55</td><td>54</td><td>53</td><td>52</td><td>51</td><td>50</td><td>49</td><td>48</td>
+  *   <td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+  *   <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
   * </tr>
   * <tr class="RegisterFields">
   *  <td colspan=8>`STATUS[7:0]`</td>
-  *  <td colspan=6></td>
-  *  <td>`BFB2`</td>
   *  <td>`MEMRMP`</td>
+  *  <td>`BFB2`</td>
+  *  <td colspan=6></td>
   * </tr>
   * <tr class="RegisterBitNumber">
-  *   <td>47</td><td>46</td><td>45</td><td>44</td><td>43</td><td>42</td><td>41</td><td>40</td>
-  *   <td>39</td><td>38</td><td>37</td><td>36</td><td>35</td><td>34</td><td>33</td><td>32</td>
+  *   <td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td>
+  *   <td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td>
   * </tr>
   * <tr class="RegisterFields">
-  *   <td>`OPTVERR`</td>
-  *   <td>`RDERR`</td>
-  *   <td colspan=4></td>
-  *   <td>`FASTERR`</td>
-  *   <td>`MISSERR`</td>
-  *   <td>`PGSERR`</td>
-  *   <td>`SIZERR`</td>
-  *   <td>`PGAERR`</td>
-  *   <td>`WRPERR`</td>
-  *   <td>`PROGERR`</td>
-  *   <td></td>
-  *   <td>`OPERR`</td>
   *   <td>`EOP`</td>
+  *   <td>`OPERR`</td>
+  *   <td></td>
+  *   <td>`PROGERR`</td>
+  *   <td>`WRPERR`</td>
+  *   <td>`PGAERR`</td>
+  *   <td>`SIZERR`</td>
+  *   <td>`PGSERR`</td>
+  *   <td>`MISSERR`</td>
+  *   <td>`FASTERR`</td>
+  *   <td colspan=4></td>
+  *   <td>`RDERR`</td>
+  *   <td>`OPTVERR`</td>
   * </tr>
   * <tr class="RegisterBitNumber">
-  *   <td>31</td><td>30</td><td>29</td><td>28</td><td>27</td><td>26</td><td>25</td><td>24</td>
-  *   <td>23</td><td>22</td><td>21</td><td>20</td><td>19</td><td>18</td><td>17</td><td>16</td>
+  *   <td>32</td><td>33</td><td>34</td><td>35</td><td>36</td><td>37</td><td>38</td><td>39</td>
+  *   <td>40</td><td>41</td><td>42</td><td>43</td><td>44</td><td>45</td><td>46</td><td>47</td>
+  * </tr>
+  * <tr class="RegisterFields">
+  *   <td>`VERIFY`</td>
+  *   <td>`VERIFY_SOFT_SWITCH`</td>
+  *   <td>`SOFT_SWITCHED`</td>
+  *   <td>`VERIFIED`</td>
+  *   <td>`ENTER`</td>
+  *   <td></td>
+  *   <td>`NB_ERROR`</td>
+  *   <td>`ERROR`</td>
+  *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
+  * </tr>
+  * <tr class="RegisterBitNumber">
+  *   <td>48</td><td>49</td><td>50</td><td>51</td><td>52</td><td>53</td><td>54</td><td>55</td>
+  *   <td>56</td><td>57</td><td>58</td><td>59</td><td>60</td><td>61</td><td>62</td><td>63</td>
   * </tr>
   * <tr class="RegisterFields">
   *   <td colspan=16>`BOOT_STATE_KEY[23:8]`</td>
   * </tr>
-  * <tr class="RegisterBitNumber">
-  *   <td>15</td><td>14</td><td>13</td><td>12</td><td>11</td><td>10</td><td>9</td><td>8</td>
-  *   <td>7</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td><td>0</td>
-  * </tr>
-  * <tr class="RegisterFields">
-  *   <td colspan=8>`BOOT_STATE_KEY[7:0]`</td>
-  *   <td>`ERROR`</td>
-  *   <td>`NB_ERROR`</td>
-  *   <td></td>
-  *   <td>`ENTER`</td>
-  *   <td>`VERIFIED`</td>
-  *   <td>`SOFT_SWITCHED`</td>
-  *   <td>`VERIFY_SOFT_SWITCH`</td>
-  *   <td>`VERIFY`</td>
-  * </tr>
   * </table>
   *  - `STATUS[7:0]`: Status code
   *    <table>
-  *    <tr><td>0</td><td>No error</td></tr>
-  *    <tr><td>1</td><td>Address out of range</td></tr>
-  *    <tr><td>2</td><td>Error while erasing</td></tr>
-  *    <tr><td>3</td><td>Error while programming</td></tr>
-  *    <tr><td>4</td><td>Boot state error</td></tr>
-  *    <tr><td>5</td><td>Write from non-booting bank</td></tr>
+  *    <tr><td>0</td><td>Status</td><td>No error</td></tr>
+  *    <tr><td>1</td><td>Error</td><td>Address out of range</td></tr>
+  *    <tr><td>2</td><td>Error</td><td>Error while erasing</td></tr>
+  *    <tr><td>3</td><td>Error</td><td>Error while programming</td></tr>
+  *    <tr><td>4</td><td>Error</td><td>Boot state error</td></tr>
+  *    <tr><td>5</td><td>Error</td><td>Write from non-booting bank</td></tr>
+  *    <tr><td>6</td><td>Status</td><td>Board is already booted (sent when bootloader received opcode 0x55)</td></tr>
+  *    <tr><td>7</td><td>Status</td><td>BSM did not run</td></tr>
+  *    <tr><td>8</td><td>Status</td><td>Soft swap successful (sent when 
+  *         core_boot_init() runs in the non-booting bank)</td></tr>
+  *    <tr><td>9</td><td>Status</td><td>Sent when core_boot_init() runs in the
+  *         booting bank</td></tr>
   *    </table>
   *  - `BFB2`: `BFB2` bit from the option byte register. Indicates which bank
   *    the chip will boot from
@@ -281,6 +324,10 @@ static FDCAN_HandleTypeDef *hfdcan;
 #define BOOT_STATUS_PROG_ERROR  0x03
 #define BOOT_STATUS_STATE_ERROR 0x04
 #define BOOT_STATUS_NB_ERROR    0x05
+#define BOOT_STATUS_ALREADY_BOOTED  0x06
+#define BOOT_STATUS_NO_BSM      0x07
+#define BOOT_STATUS_SOFTSWAP_SUCCESS    0x08
+#define BOOT_STATUS_MAINBANK    0x09
 
 #define BOOT_OPCODE_RESET       0x00
 #define BOOT_OPCODE_SOFTSWAP    0x01
@@ -419,7 +466,7 @@ static void boot_bankswap() {
   */
 static void boot_transmit_can(uint8_t length, bool is_data) {
     uint32_t tx_id;
-    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | address;
+    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | ((address >> 3) & 0x7fff);
     if (is_data) tx_id |= (1<<16);
     if (length > 64) length = 64;
     if ((length >= 32) && (length & 8)) {
@@ -451,55 +498,61 @@ static void boot_transmit_status(uint8_t code) {
   * @return Length of the data received, or 0 if the message is a control message
   */
 static uint8_t boot_await_data() {
-    while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
-    // Data received over CAN
-    FDCAN_RxHeaderTypeDef head;
-    HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
-    id = head.Identifier;
-    uint32_t length = core_CAN_dlc_lookup[head.DataLength];
-    // Reset is the only opcode that can be executed using the broadcast address
-    if ((!(id & (1<<17))) && (databuf[0] == BOOT_OPCODE_RESET) && (((id >> 18) == CORE_BOOT_FDCAN_ID) || ((id >> 18) == CORE_BOOT_FDCAN_BROADCAST_ID))) {
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            boot_reset();
-    }
-    if ((id >> 18) != CORE_BOOT_FDCAN_ID) return 0;
-    if (id & (1<<17)) {
-        // Data frame
-        if (id & (1<<15)) length -= 8;
-        address = (id & 0x7fff) << 3;
-        return length;
-    } else {
-        // Control frame
-        if (databuf[0] == BOOT_OPCODE_RESET) {
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-            boot_reset();
-        } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
-            // Failsafe bank swap
-            boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
-            boot_reset();
-        } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
-            // Verification command
-            if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
-            } else {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
-            }
-            boot_transmit_status(0);
-            return 0;
-        } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
-            // If the program is verified, swap the banks, set state to
-            // NORMAL, and reset
-            if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+    while (1) {
+        while (!(CORE_BOOT_FDCAN->RXF0S & FDCAN_RXF0S_F0FL));
+        // Data received over CAN
+        FDCAN_RxHeaderTypeDef head;
+        HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &head, databuf);
+        id = head.Identifier;
+        uint32_t length = core_CAN_dlc_lookup[head.DataLength];
+        // Reset is the only opcode that can be executed using the broadcast address
+        if ((!(id & (1<<17))) && (databuf[0] == BOOT_OPCODE_RESET) && (((id >> 18) == CORE_BOOT_FDCAN_ID) || ((id >> 18) == CORE_BOOT_FDCAN_BROADCAST_ID))) {
                 boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_reset();
+        }
+        if ((head.IdType != FDCAN_EXTENDED_ID) || ((id >> 18) != CORE_BOOT_FDCAN_ID)) continue;
+        //__BKPT(1);
+
+        if (id & (1<<17)) {
+            // Data frame
+            if (id & (1<<15)) length -= 8;
+            address = (id & 0x7fff) << 3;
+            return length;
+        } else {
+            // Control frame
+            if (databuf[0] == BOOT_OPCODE_RESET) {
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                boot_reset();
+            } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
+                // Failsafe bank swap
+                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+                boot_reset();
+            } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
+                // Verification command
+                if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+                } else {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
+                }
                 boot_transmit_status(0);
-                boot_bankswap();
-            } else {
-                boot_transmit_status(4);
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                return 0;
+            } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
+                // If the program is verified, swap the banks, set state to
+                // NORMAL, and reset
+                if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                    boot_transmit_status(0);
+                    boot_bankswap();
+                } else {
+                    boot_transmit_status(4);
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                }
+            } else if (databuf[0] == 0x55) {
+                boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
             }
         }
+        return 0;
     }
-    return 0;
 }
 
 static int8_t boot_program_and_verify(uint8_t length) {
@@ -573,7 +626,7 @@ static void boot() {
             ndata = databuf[0];
             uint8_t bank = databuf[1];
             for (uint8_t i=0; i < ndata; i++) {
-                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0) + address+i);
+                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0x08000000) + address+i);
             }
             boot_transmit_can(ndata, 1);
         } 
@@ -635,18 +688,24 @@ void core_boot_init() {
             boot_reset();
         } else if ((boot_state & 0x0000000f) != BOOT_STATE_SOFT_SWITCHED) {
             // Invalid state, likely because the boot state machine was not
-            // run. Set the NB_ERROR flag and reset.
+            // run. Set the NB_ERROR flag and reset. This error case should
+            // not occur, since soft switching requires the BSM to run
             boot_state |= BOOT_STATE_NB_ERROR;
             boot_reset();
         }
         // Soft switching can only occur if there are no errors. If the boot
         // state machine in the non-booting bank sees an error, a reset will be
         // triggered.
+        boot_transmit_status(BOOT_STATUS_SOFTSWAP_SUCCESS);
     } else {
+        boot_transmit_status(BOOT_STATUS_MAINBANK);
         if (((boot_state & 0xffffff00) != BOOT_STATE_KEY) || (boot_state & BOOT_STATE_ERROR)) {
             // An error was reported or the boot state key is not valid, 
             // transmit an error message on CAN.
             boot_transmit_status(BOOT_STATUS_STATE_ERROR);
+            boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+        } else if ((boot_state & 0xff) == BOOT_STATE_VERIFY) {
+            boot_transmit_status(BOOT_STATUS_NO_BSM);
             boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
         }
     }

@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stm32g4xx_hal.h>
-#include <stm32g4xx_hal_usart.h>
 #include "core_config.h"
 
 #define CORE_USART1_UPDATE 0x01
