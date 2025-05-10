@@ -97,7 +97,7 @@ uint32_t msgbuf_overflow = 0;
 static void rx_handler(FDCAN_GlobalTypeDef *can);
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
-static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan);
+static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan, uint32_t baudrate);
 
 // can_temp must be aligned because the lowest 8 bytes must be interpreted as
 // a core_CAN_head_t struct when message buffers are enabled.
@@ -140,7 +140,7 @@ core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
   * @retval 0 if the given FDCAN is not valid or the initialization failed
   * @retval 1 otherwise
   */
-bool core_CAN_init(FDCAN_GlobalTypeDef *can)
+bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
 {
     // Initialize FDCAN clock and port clocks
     core_clock_FDCAN_init(can);
@@ -264,7 +264,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     p_can->hfdcan.Init.TransmitPause = DISABLE;
     p_can->hfdcan.Init.ProtocolException = ENABLE;
     p_can->hfdcan.Init.TxFifoQueueMode = FDCAN_TX_QUEUE_OPERATION;
-    CAN_clock_set_params(&(p_can->hfdcan));
+    CAN_clock_set_params(&(p_can->hfdcan), baudrate);
     if (HAL_FDCAN_Init(&(p_can->hfdcan)) != HAL_OK) return false;
 
     // Configure FDCAN module to use TIM3 as the timestamp source
@@ -731,7 +731,7 @@ bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1
 
 }
 
-static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan)
+static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan, uint32_t baudrate)
 {
     hfdcan->Init.NominalPrescaler = 8;
     hfdcan->Init.NominalSyncJumpWidth = 1;
@@ -743,7 +743,7 @@ static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan)
 
     // CAN BitRate = SysClk/
     //              (APB1ClockDivider * NominalPrescaler * (1 + NominalTimeSeg1 + NominalTimeSeg2))
-    double ns_sum = (((double)CORE_CLOCK_SYSCLK_FREQ * 1000)/(double)(CORE_CAN_BITRATE * 1 * 8)) - 1;
+    double ns_sum = (((double)CORE_CLOCK_SYSCLK_FREQ * 1000)/(double)(baudrate * 1 * 8)) - 1;
 
     // Sum of both time segments is not an integer
     if (floor(ns_sum) != ns_sum) return false;

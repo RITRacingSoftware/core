@@ -59,7 +59,7 @@ typedef struct core_CAN_head_s {
 
 extern const uint8_t core_CAN_dlc_lookup[16];
 
-bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan);
+bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan, uint32_t baudrate);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
 void core_CAN_enable_timestamps();
 

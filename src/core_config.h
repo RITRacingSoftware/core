@@ -46,10 +46,6 @@
 /*** CAN CONFIG PARAMETERS ***/
 
 /**
-  * @brief  CAN bitrate in bits per second
-  */
-#define CORE_CAN_BITRATE 1000000
-/**
   * @brief  Number of CAN messages that can be stored in the CAN FreeRTOS queue
   */
 #define CORE_CAN_QUEUE_LENGTH 15
@@ -145,6 +141,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI1_DATA_SIZE 8
+#define CORE_SPI1_MASTER    1
 
 #define CORE_SPI2_SCK_PORT  GPIOB
 #define CORE_SPI2_SCK_PIN   GPIO_PIN_13
@@ -163,6 +160,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI2_DATA_SIZE 8
+#define CORE_SPI2_MASTER    1
 
 #define CORE_SPI3_SCK_PORT  GPIOC
 #define CORE_SPI3_SCK_PIN   GPIO_PIN_10
@@ -181,6 +179,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI3_DATA_SIZE 8
+#define CORE_SPI3_MASTER    1
 
 #define CORE_SPI4_SCK_PORT  GPIOE
 #define CORE_SPI4_SCK_PIN   GPIO_PIN_12
@@ -199,6 +198,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI4_DATA_SIZE 8
+#define CORE_SPI4_MASTER    1
 
 
 /*** USART CONFIG PARAMETERS ***/
