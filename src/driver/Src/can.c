@@ -86,6 +86,8 @@
 #include "error_handler.h"
 #include "boot.h"
 
+#include "rtt.h"
+
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
 static core_CAN_module_t can3;
@@ -743,14 +745,14 @@ static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan, uint32_t baudrate)
 
     // CAN BitRate = SysClk/
     //              (APB1ClockDivider * NominalPrescaler * (1 + NominalTimeSeg1 + NominalTimeSeg2))
-    double ns_sum = (((double)CORE_CLOCK_SYSCLK_FREQ * 1000)/(double)(baudrate * 1 * 8)) - 1;
-
-    // Sum of both time segments is not an integer
-    if (floor(ns_sum) != ns_sum) return false;
+    uint32_t ns_sum = (((uint32_t)CORE_CLOCK_SYSCLK_FREQ * 1000)/(baudrate * 1 * 8));
+    if ((ns_sum * baudrate * 1 * 8) != (CORE_CLOCK_SYSCLK_FREQ * 1000)) return false;
+    ns_sum -= 1;
 
     // Make NominalTimeSeg1 ~75% of the sum of it and NominalTimeSeg2.
-    uint8_t seg1 = round(ns_sum * 0.85);
+    uint8_t seg1 = round(ns_sum * 0.85f);
     uint8_t seg2 = ns_sum - seg1;
+    rprintf("ns_sum %d %d %d\n", ns_sum, seg1, seg2);
 
     hfdcan->Init.NominalTimeSeg1 = seg1;
     hfdcan->Init.NominalTimeSeg2 = seg2;
