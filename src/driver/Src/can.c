@@ -752,7 +752,6 @@ static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan, uint32_t baudrate)
     // Make NominalTimeSeg1 ~75% of the sum of it and NominalTimeSeg2.
     uint8_t seg1 = round(ns_sum * 0.85f);
     uint8_t seg2 = ns_sum - seg1;
-    rprintf("ns_sum %d %d %d\n", ns_sum, seg1, seg2);
 
     hfdcan->Init.NominalTimeSeg1 = seg1;
     hfdcan->Init.NominalTimeSeg2 = seg2;
