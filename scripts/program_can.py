@@ -226,10 +226,10 @@ elif cmd == "txoff":
 elif cmd == "txon":
     send_command(5, 0, b"\x01")
 elif cmd == "c70off":
-    frame = struct.pack("<BBHI", bus, 0x01, 0, 0x701)+b"\x01"
+    frame = struct.pack("<BBHI", 2, 0x01, 0, 0x701)+b"\x01"
     s.sendto(frame, ('192.168.72.100', 5001))
 elif cmd == "c70on":
-    frame = struct.pack("<BBHI", bus, 0x01, 0, 0x701)+b"\x00"
+    frame = struct.pack("<BBHI", 2, 0x01, 0, 0x701)+b"\x00"
     s.sendto(frame, ('192.168.72.100', 5001))
 
 

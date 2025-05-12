@@ -129,8 +129,8 @@ void core_timeout_check_all() {
         to = core_timeout_list[i];
         if ((to->state & CORE_TIMEOUT_STATE_ENABLED) && !(to->state & CORE_TIMEOUT_STATE_SUSPENDED)) {
             // If a checking function has been implemented, use it
-            if (to->check == NULL) diff = t - to->last_event;
-            else diff = (to->check) ? 0 : t - to->last_event;
+            if ((to->check != NULL) && (to->check(to))) to->last_event = t;
+            diff = t - to->last_event;
 
             if (to->state & CORE_TIMEOUT_STATE_TIMED_OUT) {
                 if (!to->single_shot) to->callback(to);

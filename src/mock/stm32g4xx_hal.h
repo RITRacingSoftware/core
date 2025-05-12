@@ -1,4 +1,9 @@
 #pragma once
+#include <stdint.h>
+
+
+// GENERAL
+uint32_t HAL_GetTick();
 
 // USART
 typedef struct {
@@ -20,7 +25,7 @@ typedef struct {
 
 typedef enum
 {
-  GPIO_PIN_RESET = 0U,
+  GPIO_PIN_RESET,
   GPIO_PIN_SET
 } GPIO_PinState;
 
@@ -30,13 +35,13 @@ typedef enum
 #define GPIO_PULLUP         1
 #define GPIO_NOPULL         1
 
-#define GPIOA               ((GPIO_TypeDef *) 1)
+#define GPIOA               ((GPIO_TypeDef *) 0)
 #define GPIOB               ((GPIO_TypeDef *) 1)
-#define GPIOC               ((GPIO_TypeDef *) 1)
-#define GPIOD               ((GPIO_TypeDef *) 1)
-#define GPIOE               ((GPIO_TypeDef *) 1)
-#define GPIOF               ((GPIO_TypeDef *) 1)
-#define GPIOG               ((GPIO_TypeDef *) 1)
+#define GPIOC               ((GPIO_TypeDef *) 2)
+#define GPIOD               ((GPIO_TypeDef *) 3)
+#define GPIOE               ((GPIO_TypeDef *) 4)
+#define GPIOF               ((GPIO_TypeDef *) 5)
+#define GPIOG               ((GPIO_TypeDef *) 6)
 
 
 #define GPIO_PIN_0                 ((uint16_t)0x0001)  /* Pin 0 selected    */
