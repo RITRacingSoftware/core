@@ -86,8 +86,6 @@
 #include "error_handler.h"
 #include "boot.h"
 
-#include "rtt.h"
-
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
 static core_CAN_module_t can3;

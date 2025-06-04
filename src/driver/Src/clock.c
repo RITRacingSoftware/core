@@ -254,7 +254,7 @@ bool core_clock_init() {
     // Compute the values of the N, M, and R dividers
     uint8_t ndiv, mdiv, rdiv;
     uint32_t ext_freq;
-#ifdef CORE_CLOCK_USE_HSE
+#if defined(CORE_CLOCK_USE_HSE) && (CORE_CLOCK_USE_HSE != 0)
     ext_freq = CORE_CLOCK_HSE_FREQ;
 #else
     ext_freq = CORE_CLOCK_HSI_FREQ;
@@ -272,6 +272,7 @@ bool core_clock_init() {
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 #else
+    uint32_t cal = RCC->ICSCR;
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     //RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
@@ -306,6 +307,9 @@ bool core_clock_init() {
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
         return false;
     }
+#if (CORE_CLOCK_USE_HSE == 0) || (!defined(CORE_CLOCK_USE_HSE))
+    RCC->ICSCR = cal;
+#endif
 
     return true;
 }
