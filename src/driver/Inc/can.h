@@ -38,6 +38,7 @@ typedef struct core_CAN_module_s {
 typedef struct core_CAN_errors_s {
     uint16_t arbitration_error;
     uint16_t data_error;
+    uint16_t bus_off;
 } core_CAN_errors_t;
 
 extern const uint8_t core_CAN_dlc_lookup[16];

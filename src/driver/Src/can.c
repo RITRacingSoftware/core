@@ -344,6 +344,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
+    HAL_StatusTypeDef err = HAL_OK;
 
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = (id & 0x1fffffff);
@@ -356,8 +357,13 @@ bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, u
     header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
     header.MessageMarker = 0;
 
+#if (!defined(CORE_CAN_BUS_OFF_BLOCK)) || (CORE_CAN_BUS_OFF_BLOCK == 1)
     while ((can->PSR & (0x3 << 3)) != (0x01 << 3));
-    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, (uint8_t*) &data);
+#else
+    while (((can->PSR & (0x3 << 3)) != (0x01 << 3)) && (!(can->PSR & FDCAN_PSR_BO)));
+    if (!(can->PSR & FDCAN_PSR_BO))
+#endif
+    err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, (uint8_t*) &data);
     return err == HAL_OK;
 }
 
@@ -377,6 +383,7 @@ bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, u
 bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
+    HAL_StatusTypeDef err = HAL_OK;
 
     uint8_t i=0;
     while (core_CAN_dlc_lookup[i] < dlc) i++;
@@ -390,9 +397,13 @@ bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc
     header.FDFormat = FDCAN_FD_CAN;
     header.TxEventFifoControl = FDCAN_STORE_TX_EVENTS;
     header.MessageMarker = 0;
-
+#if (!defined(CORE_CAN_BUS_OFF_BLOCK)) || (CORE_CAN_BUS_OFF_BLOCK == 1)
     while ((can->PSR & (0x3 << 3)) != (0x01 << 3));
-    HAL_StatusTypeDef err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, data);
+#else
+    while (((can->PSR & (0x3 << 3)) != (0x01 << 3)) && (!(can->PSR & FDCAN_PSR_BO)));
+    if (!(can->PSR & FDCAN_PSR_BO))
+#endif
+    err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, data);
     return err == HAL_OK;
 }
 
@@ -447,6 +458,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Bus-off status detected, reset module
         p_can->hfdcan.Instance->IR = FDCAN_IR_BO;
         p_can->hfdcan.Instance->CCCR &= ~FDCAN_CCCR_INIT;
+        core_CAN_errors.bus_off++;
     }
 }
 

@@ -63,6 +63,12 @@
   */
 #define CORE_CAN_DISABLE_TX_QUEUE 0
 
+/**
+  * @brief If set, calls to core_CAN_send_message will block
+  *        until the bus exits the bus-off state
+  */
+#define CORE_CAN_BUS_OFF_BLOCK 1
+
 // Ports and pins for CAN communication
 #define CORE_FDCAN1_TX_PORT GPIOA
 #define CORE_FDCAN1_TX_PIN  GPIO_PIN_12
