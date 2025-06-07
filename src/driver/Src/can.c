@@ -220,6 +220,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can)
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_ARB_PROTOCOL_ERROR, 0) != HAL_OK) return false;
     if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_DATA_PROTOCOL_ERROR, 0) != HAL_OK) return false;
+    if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_BUS_OFF, 0) != HAL_OK) return false;
     //if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_ABORT_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     // Create queue to put received messages in
@@ -441,6 +442,11 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PED) {
         p_can->hfdcan.Instance->IR = FDCAN_IR_PED;
         core_CAN_errors.data_error++;
+    }
+    else if (p_can->hfdcan.Instance->IR & FDCAN_IR_BO) {
+        // Bus-off status detected, reset module
+        p_can->hfdcan.Instance->IR = FDCAN_IR_BO;
+        p_can->hfdcan.Instance->CCCR &= ~FDCAN_CCCR_INIT;
     }
 }
 
