@@ -18,7 +18,7 @@
   * @brief  Use the external oscillator. If not defined, the internal
   *         oscillator will be used instead
   */
-#define CORE_CLOCK_USE_HSE 1
+#define CORE_CLOCK_USE_HSE 0
 /**
   * @brief  Frequency of the external oscillator in kHz
   */
@@ -119,7 +119,7 @@
 #define CORE_FDCAN3_AUTO_RETRANSMISSION 1
 
 // CAN FD config
-#define CORE_FDCAN1_USE_FD 0
+#define CORE_FDCAN1_USE_FD 1
 #define CORE_FDCAN2_USE_FD 1
 #define CORE_FDCAN3_USE_FD 0
 
@@ -241,7 +241,7 @@
 /**
   * @brief  FDCAN module over which the chip can be programmed via the bootloader
   */
-#define CORE_BOOT_FDCAN FDCAN2
+#define CORE_BOOT_FDCAN FDCAN1
 /**
   * @brief  Bootloader board ID
   */
@@ -256,5 +256,9 @@
   *         enumeration and reset.
   */
 #define CORE_BOOT_FDCAN_BROADCAST_ID 0x7ff
+/**
+  * @brief  Enable external programming
+  */
+#define CORE_BOOT_EXTERNAL 1
 
 #endif //CORE_CORE_CONFIG_H

@@ -94,6 +94,8 @@
   * | `01`                      | Soft swap (jump to non-booting bank) |
   * | `02`                      | Verify |
   * | `03`                      | Hard swap (only possible after verification with `02`) |
+  * | `04`                      | Switch to external programming mode (only possible in booting bank) |
+  * | `05`                      | Leave external programming mode (only possible in booting bank) |
   * Note that all commands except "enter bootloader" require the chip to
   * have been booted. 
   *
@@ -279,6 +281,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "usart.h"
+#include "boot.h"
 #include "gpio.h"
 #include "clock.h"
 #include "can.h"
@@ -304,6 +307,7 @@ static uint32_t page_erased[4];
 static uint32_t address;
 static uint32_t id;
 static uint8_t databuf[100];
+static uint8_t extmode;
 
 static FDCAN_HandleTypeDef *hfdcan;
 
@@ -333,6 +337,8 @@ static FDCAN_HandleTypeDef *hfdcan;
 #define BOOT_OPCODE_SOFTSWAP    0x01
 #define BOOT_OPCODE_VERIFY      0x02
 #define BOOT_OPCODE_HARDSWAP    0x03
+#define BOOT_OPCODE_EXTERNAL    0x04
+#define BOOT_OPCODE_INTERNAL    0x05
 
 /**
   * @brief  Soft bank swap
@@ -466,7 +472,7 @@ static void boot_bankswap() {
   */
 static void boot_transmit_can(uint8_t length, bool is_data) {
     uint32_t tx_id;
-    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | ((address >> 3) & 0x7fff);
+    tx_id = (CORE_BOOT_FDCAN_MASTER_ID << 18) | (1<<17) | (address & 0x7fff);
     if (is_data) tx_id |= (1<<16);
     if (length > 64) length = 64;
     if ((length >= 32) && (length & 8)) {
@@ -486,7 +492,8 @@ static void boot_transmit_status(uint8_t code) {
     databuf[0] = code;
     // bit 0: remap status (which bank the code runs on)
     // bit 1: BFB2 (which bank the chip boots from)
-    databuf[1] = ((FLASH->OPTR >> 19) & 2) | ((SYSCFG->MEMRMP >> 8) & 1);
+    // bit 7: external mode
+    databuf[1] = (extmode << 7) | ((FLASH->OPTR >> 19) & 2) | ((SYSCFG->MEMRMP >> 8) & 1);
     databuf[2] = (FLASH->SR) & 0xff;
     databuf[3] = (FLASH->SR >> 8) & 0xff;
     memcpy(databuf+4, &boot_state, 4);
@@ -516,39 +523,56 @@ static uint8_t boot_await_data() {
         if (id & (1<<17)) {
             // Data frame
             if (id & (1<<15)) length -= 8;
-            address = (id & 0x7fff) << 3;
+            address = (id & 0x7fff);
             return length;
         } else {
             // Control frame
-            if (databuf[0] == BOOT_OPCODE_RESET) {
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-                boot_reset();
-            } else if (databuf[0] == BOOT_OPCODE_SOFTSWAP) {
-                // Failsafe bank swap
-                boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
-                boot_reset();
-            } else if (databuf[0] == BOOT_OPCODE_VERIFY) {
-                // Verification command
-                if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
-                } else {
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
-                }
-                boot_transmit_status(0);
-                return 0;
-            } else if (databuf[0] == BOOT_OPCODE_HARDSWAP) {
-                // If the program is verified, swap the banks, set state to
-                // NORMAL, and reset
-                if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+            switch (databuf[0]) {
+                case BOOT_OPCODE_RESET:
                     boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                    boot_reset();
+                    break;
+                case BOOT_OPCODE_SOFTSWAP:
+                    // Failsafe bank swap
+                    boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFY;
+                    boot_reset();
+                    break;
+                case BOOT_OPCODE_VERIFY:
+                    // Verification command
+                    if (boot_state == (BOOT_STATE_KEY | BOOT_STATE_SOFT_SWITCHED)) {
+                        boot_state = BOOT_STATE_KEY | BOOT_STATE_VERIFIED;
+                    } else {
+                        boot_state = BOOT_STATE_KEY | BOOT_STATE_NB_ERROR;
+                    }
                     boot_transmit_status(0);
-                    boot_bankswap();
-                } else {
-                    boot_transmit_status(4);
-                    boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
-                }
-            } else if (databuf[0] == 0x55) {
-                boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
+                    return 0;
+                case BOOT_OPCODE_HARDSWAP:
+                    // If the program is verified, swap the banks, set state to
+                    // NORMAL, and reset
+                    if ((check_nonbooting()) && (boot_state == (BOOT_STATE_KEY | BOOT_STATE_VERIFIED))) {
+                        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                        boot_transmit_status(0);
+                        boot_bankswap();
+                    } else {
+                        boot_transmit_status(BOOT_STATUS_STATE_ERROR);
+                        boot_state = BOOT_STATE_KEY | BOOT_STATE_NORMAL;
+                    }
+                    break;
+#if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
+                case BOOT_OPCODE_EXTERNAL:
+                    core_boot_external_enter();
+                    extmode = 1;
+                    break;
+                case BOOT_OPCODE_INTERNAL:
+                    core_boot_external_exit();
+                    extmode = 0;
+                    break;
+#endif
+                case 0x55:
+                    boot_transmit_status(BOOT_STATUS_ALREADY_BOOTED);
+                    break;
+                default:
+                    break;
             }
         }
         return 0;
@@ -558,18 +582,12 @@ static uint8_t boot_await_data() {
 static int8_t boot_program_and_verify(uint8_t length) {
     // If the length is not doubleword-aligned, return 0 (error).
     if (length & 0x07) return -BOOT_STATUS_INVALID_ADDRESS;
-    // If the address is not doubleword-aligned, return 0 (error).
-    if (address & 0x07) return -BOOT_STATUS_INVALID_ADDRESS;
-    // In case the target section overlaps with bootloader code, return 0.
-    // An empty echo frame will be transmitted, indicating an error.
-    if (address + length > 0x40000) return -BOOT_STATUS_INVALID_ADDRESS;
-    //return length;
     // Unlock the flash
     FLASH->KEYR = 0x45670123;
     FLASH->KEYR = 0xCDEF89AB;
     uint8_t page;
-    if (FLASH->OPTR & FLASH_OPTR_DBANK) page = address >> 11;
-    else page = (address >> 12) & 0x7f;
+    if (FLASH->OPTR & FLASH_OPTR_DBANK) page = address >> 8;
+    else page = (address >> 9) & 0x7f;
     while (FLASH->SR & FLASH_SR_BSY);
     if (!((page_erased[page>>5]>>(page & 0x1f)) & 1)) {
         // Page has not been erased, so erase it
@@ -590,16 +608,16 @@ static int8_t boot_program_and_verify(uint8_t length) {
         FLASH->SR = FLASH->SR & 0xffff;
         temp = ((uint64_t*)(databuf+i))[0];
         // Program the doubleword
-        *(uint32_t*)(ALTBANK_BASE + address+i) = (uint32_t)temp;
+        *(uint32_t*)(ALTBANK_BASE + (address<<3)+i) = (uint32_t)temp;
         __ISB();
-        *(uint32_t*)(ALTBANK_BASE + address+i+4) = (uint32_t)(temp >> 32);
+        *(uint32_t*)(ALTBANK_BASE + (address<<3)+i+4) = (uint32_t)(temp >> 32);
         while (FLASH->SR & FLASH_SR_BSY);
         // Return 0 if an error occurred
         if (FLASH->SR & 0xfffe) return -BOOT_STATUS_PROG_ERROR;
     }
     FLASH->CR = FLASH_CR_LOCK;
     for (uint8_t i=0; i < length; i++) {
-        databuf[i] = *(uint8_t*)(ALTBANK_BASE + address+i);
+        databuf[i] = *(uint8_t*)(ALTBANK_BASE + (address<<3)+i);
     }
     return length;
 }
@@ -623,16 +641,30 @@ static void boot() {
         ndata = boot_await_data();
         // Read data
         if (id & (1<<16)) {
-            ndata = databuf[0];
-            uint8_t bank = databuf[1];
-            for (uint8_t i=0; i < ndata; i++) {
-                databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0x08000000) + address+i);
+#if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
+            if (extmode) {
+                core_boot_external_read(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
+            } else 
+#endif
+            {
+                ndata = databuf[0];
+                uint8_t bank = databuf[1];
+                for (uint8_t i=0; i < ndata; i++) {
+                    databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0x08000000) + (address<<3)+i);
+                }
             }
             boot_transmit_can(ndata, 1);
         } 
         // Write data only if the ID is equal to the boot ID (rather than the
         // broadcast ID)
         else if (ndata && (((id >> 18) & 0x7ff) == CORE_BOOT_FDCAN_ID)) {
+#if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
+            if (extmode) {
+                core_boot_external_write(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
+                core_boot_external_read(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
+            }
+            else 
+#endif
             if (bankmode) boot_transmit_status(BOOT_STATUS_NB_ERROR);
             else {
                 ndata = boot_program_and_verify(ndata);

@@ -176,6 +176,14 @@ def hardswap(id):
     send_command(1, id, b"\x03")
     parse_response(True)
 
+def extmode(id, enable):
+    if enable:
+        print("Entering external programming mode for", id)
+        send_command(1, id, b"\x04")
+    else:
+        print("Leaving external programming mode for", id)
+        send_command(1, id, b"\x05")
+
 cmd = sys.argv[1]
 if cmd == "program":
     id = int(sys.argv[2])
@@ -231,6 +239,14 @@ elif cmd == "c70off":
 elif cmd == "c70on":
     frame = struct.pack("<BBHI", 2, 0x08, 0, 0x701)+b"\x00"*8
     s.sendto(frame, ('192.168.72.100', 5001))
+elif cmd == "extmode":
+    id = int(sys.argv[2])
+    boot(id)
+    extmode(id, True)
+    boot(id)
+    extmode(id, False)
+    boot(id)
+    reset(id)
 
 
 s.close()
