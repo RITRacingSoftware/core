@@ -59,6 +59,12 @@
 #define CORE_CAN_DISABLE_TX_QUEUE 0
 
 /**
+  * @brief If set, calls to core_CAN_send_message will block
+  *        until the bus exits the bus-off state
+  */
+#define CORE_CAN_BUS_OFF_BLOCK 1
+
+/**
   * @brief  Use FreeRTOS message buffers instead of queues for received data
   */
 #define CORE_CAN_USE_MSGBUF 1
