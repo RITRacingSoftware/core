@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "core_config.h"
 
 #ifndef CORE_BOOT_H
 #define CORE_BOOT_H

@@ -523,7 +523,7 @@ static uint8_t boot_await_data() {
         if (id & (1<<17)) {
             // Data frame
             if (id & (1<<15)) length -= 8;
-            address = (id & 0x7fff);
+            address = (address & 0xffff8000) | (id & 0x7fff);
             return length;
         } else {
             // Control frame
@@ -560,12 +560,14 @@ static uint8_t boot_await_data() {
                     break;
 #if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
                 case BOOT_OPCODE_EXTERNAL:
-                    core_boot_external_enter();
                     extmode = 1;
+                    core_boot_external_enter();
+                    boot_transmit_status(0);
                     break;
                 case BOOT_OPCODE_INTERNAL:
-                    core_boot_external_exit();
                     extmode = 0;
+                    core_boot_external_exit();
+                    boot_transmit_status(0);
                     break;
 #endif
                 case 0x55:
@@ -641,27 +643,30 @@ static void boot() {
         ndata = boot_await_data();
         // Read data
         if (id & (1<<16)) {
+            ndata = databuf[0];
 #if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
             if (extmode) {
-                core_boot_external_read(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
+                address = (address & 0x7fff) | (databuf[1] << 15) | (databuf[2] << 23);
+                core_boot_external_read(databuf, address, databuf[0]);
             } else 
 #endif
             {
-                ndata = databuf[0];
                 uint8_t bank = databuf[1];
                 for (uint8_t i=0; i < ndata; i++) {
                     databuf[i] = *(uint8_t*)((bank ? ALTBANK_BASE : 0x08000000) + (address<<3)+i);
                 }
             }
-            boot_transmit_can(ndata, 1);
+            if (ndata) boot_transmit_can(ndata, 1);
         } 
         // Write data only if the ID is equal to the boot ID (rather than the
         // broadcast ID)
         else if (ndata && (((id >> 18) & 0x7ff) == CORE_BOOT_FDCAN_ID)) {
 #if defined(CORE_BOOT_EXTERNAL) && (CORE_BOOT_EXTERNAL == 1)
             if (extmode) {
-                core_boot_external_write(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
-                core_boot_external_read(databuf, address | (databuf[1] << 15) | (databuf[2] << 23), databuf[0]);
+                core_boot_external_write(databuf, address, ndata);
+                memset(databuf, 0, 64);
+                core_boot_external_read(databuf, address, ndata);
+                boot_transmit_can(ndata, 1);
             }
             else 
 #endif
