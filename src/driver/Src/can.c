@@ -85,6 +85,7 @@
 #include "timeout.h"
 #include "error_handler.h"
 #include "boot.h"
+#include "timestamp.h"
 
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
@@ -96,8 +97,10 @@ core_CAN_errors_t core_CAN_errors = {0};
 uint32_t msgbuf_overflow = 0;
 
 static void rx_handler(FDCAN_GlobalTypeDef *can);
+#if CORE_CAN_USE_MSGBUF != 1
 static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd);
+#endif
 static bool CAN_clock_set_params(FDCAN_HandleTypeDef *hfdcan, uint32_t baudrate);
 
 // can_temp must be aligned because the lowest 8 bytes must be interpreted as
@@ -325,33 +328,6 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
 
     return true;
 }
-
-#if (defined(CORE_CAN_TIMESTAMP)) && (CORE_CAN_TIMESTAMP == 1)
-/**
-  * @brief  Initialize and start the timestamp counters for the CAN module
-  */
-void core_CAN_enable_timestamps() {
-    core_clock_timer_init(TIM3);
-    core_clock_timer_init(CORE_CAN_TIMER);
-    // TIM3 counts at 1MHz and outputs the update (overflow) event
-    TIM3->CR1 = 0x0000;
-    TIM3->CR2 = TIM_TRGO_UPDATE;
-    TIM3->PSC = 159;
-    TIM3->ARR = 0xffff;
-    // CORE_CAN_TIMER is clocked from TIM3's overflow event
-    CORE_CAN_TIMER->CR1 = 0x0000;
-    CORE_CAN_TIMER->CR2 = 0x0000;
-    CORE_CAN_TIMER->SMCR = TIM_TS_ITR2 | TIM_SLAVEMODE_EXTERNAL1;
-    CORE_CAN_TIMER->PSC = 0;
-    CORE_CAN_TIMER->ARR = 0xffffffff;
-    // Reset timers
-    TIM3->CNT = 0;
-    CORE_CAN_TIMER->CNT = 0;
-    // Start counting
-    TIM3->CR1 |= TIM_CR1_CEN;
-    CORE_CAN_TIMER->CR1 |= TIM_CR1_CEN;
-}
-#endif
 
 #if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
 /**
@@ -618,6 +594,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     }
 }
 
+#if CORE_CAN_USE_MSGBUF != 1
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
@@ -646,6 +623,7 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
     xQueueSendFromISR(p_can->can_queue_rx, &rx_msg, &xHigherPriorityTaskWoken);
     if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
+#endif
 
 /**
   * @brief  If a frame is waiting in the RX queue, copy it to the given location

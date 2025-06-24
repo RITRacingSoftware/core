@@ -40,6 +40,7 @@
   */
 
 #include "usart.h"
+#include "timestamp.h"
 #include "core_config.h"
 
 #include <stdint.h>
@@ -322,4 +323,29 @@ int uprintf(USART_TypeDef *usart, const char *format, ...) {
     else return -1;
 }
 #endif
+
+/**
+  * @brief  Synchronously receive data from a USART
+  * @note   This function is blocking and will not return until all data has
+  *         been read or until the timeout has elapsed
+  * @param  usart The USART module
+  * @param  rxbuf Location where the data to be received is stored
+  * @param  rxbuflen Size of the RX buffer
+  * @param  timeout RX timeout in microseconds
+  * @return Returns the number of bytes received
+  */
+uint32_t core_USART_receive(USART_TypeDef *usart, uint8_t *rxbuf, uint32_t rxbuflen, uint32_t timeout) {
+    uint32_t nrx = 0;
+    uint32_t t0 = core_timestamp_get_tick();
+    uint32_t indata;
+    while (1) {
+        if (usart->ISR & USART_ISR_RXNE) {
+            if (rxbuflen > 0) {
+                rxbuf[nrx++] = usart->RDR;
+                if (nrx >= rxbuflen) return nrx;
+            } else indata = usart->RDR;
+        }
+        if (core_timestamp_get_tick() - t0 >= timeout) return nrx;
+    }
+}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "clock.h"
+#include "timestamp.h"
 #include "core_config.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -68,7 +69,8 @@ extern core_CAN_errors_t core_CAN_errors;
 
 bool core_CAN_init(FDCAN_GlobalTypeDef *fdcan, uint32_t baudrate);
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *fdcan);
-void core_CAN_enable_timestamps();
+
+#define core_CAN_enable_timestamps core_timestamp_init
 
 bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data);
 bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data);
