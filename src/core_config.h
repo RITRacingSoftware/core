@@ -69,6 +69,31 @@
   */
 #define CORE_CAN_BUS_OFF_BLOCK 1
 
+/**
+  * @brief  Use FreeRTOS message buffers instead of queues for received data
+  */
+#define CORE_CAN_USE_MSGBUF 1
+/**
+  * @brief  Transmit timestamp messages in all message buffers when the CAN
+  *         timestamp counter overflows.
+  */
+#define CORE_CAN_TIMESTAMP 1
+/**
+  * @brief  Use hardware timestamping when possible
+  */
+#define CORE_CAN_HW_TIMESTAMP 1
+/**
+  * @brief  Timer that stores the upper bits of the CAN timestamp
+  */
+#define CORE_CAN_TIMER  TIM2
+
+#define CORE_CAN_MSGBUF1_SIZE 1024
+#define CORE_CAN_MSGBUF2_SIZE 0
+#define CORE_CAN_MSGBUF3_SIZE 0
+#define CORE_FDCAN1_MSGBUF 1
+#define CORE_FDCAN2_MSGBUF 1
+#define CORE_FDCAN3_MSGBUF 1
+
 // Ports and pins for CAN communication
 #define CORE_FDCAN1_TX_PORT GPIOA
 #define CORE_FDCAN1_TX_PIN  GPIO_PIN_12
@@ -128,6 +153,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI1_DATA_SIZE 8
+#define CORE_SPI1_MASTER    1
 
 #define CORE_SPI2_SCK_PORT  GPIOB
 #define CORE_SPI2_SCK_PIN   GPIO_PIN_13
@@ -146,6 +172,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI2_DATA_SIZE 8
+#define CORE_SPI2_MASTER    1
 
 #define CORE_SPI3_SCK_PORT  GPIOC
 #define CORE_SPI3_SCK_PIN   GPIO_PIN_10
@@ -164,6 +191,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI3_DATA_SIZE 8
+#define CORE_SPI3_MASTER    1
 
 #define CORE_SPI4_SCK_PORT  GPIOE
 #define CORE_SPI4_SCK_PIN   GPIO_PIN_12
@@ -182,6 +210,7 @@
   * @brief  Size of an SPI transfer in bits
   */
 #define CORE_SPI4_DATA_SIZE 8
+#define CORE_SPI4_MASTER    1
 
 
 /******************** USART PARAMETERS *************************/
@@ -242,6 +271,11 @@
   *         enumeration and reset.
   */
 #define CORE_BOOT_FDCAN_BROADCAST_ID 0x7ff
+
+/**
+  * @brief  Enable external programming
+  */
+#define CORE_BOOT_EXTERNAL 0
 
 /********************* TIMEOUT PARAMETERS **********************/
 /***************************************************************/

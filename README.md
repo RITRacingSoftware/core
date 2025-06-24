@@ -15,10 +15,50 @@ It consists of commonly-used functions, spanning many hardware abilities, that p
 
 You can think of it as a way to "Arduino-ify" the STM32s we use.
 
-## How is the Core used?
-The Core is implemented as a GitHub Submodule, which is a way of including a GitHub Repository inside of another project,
-allowing it to be used.
+## Installing the core and its dependencies
+Users will generally have one copy of the Core, one copy of STM32G4 HAL, and
+one copy of the FreeRTOS kernel on their system. Each project they create will
+then use these libraries when compiling. It is recommended to have the
+following directory structure on your system.
+```
+racing
+├── core
+├── Formula-DBC
+├── FreeRTOS-Kernel
+├── RTT
+├── STM32CubeG4
+├── <project1>
+├── <project2>
+└── <etc.>
+```
+The HAL and FreeRTOS kernel can be cloned by running the following commands in
+the `racing` directory
+```
+git clone --recursive https://github.com/STMicroelectronics/STM32CubeG4
+git clone --recursive https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+```
 
+Users should also have the `RTT` and `Formula-DBC` libraries in their `racing`
+directory as well. These are not required for the core to work and some 
+projects will not need one or both of these libraries. However, they are still
+useful to have. `RTT` (Real Time Transfer) allows user programs to print to a
+terminal on their computer via the J-link module used to program the STM32.
+This library can be cloned by with the command:
+```
+git clone https://github.com/SEGGERMicro/RTT.git
+```
+
+The `Formula-DBC` library contains a set of functions that are used to
+pack data into CAN messages. Using this library allows the format of CAN
+messages to be stored in a single place and updates simultaneously across all
+projects. Thus, whenever a change is made to the format of any CAN message,
+any system that interfaces with CAN can be easily updated to take the changed
+format into account. This library can be cloned with the command:
+```
+git clone git@github.com:RITRacingSoftware/Formula-DBC.git
+```
+
+## How is the Core used?
 Although the Core is very generic and can be used by many different projects, there is still a way to customize it
 to your use: the **core_config.h** file. Here, you will find many definitions relating to different parts of the Core code.
 This file allows you to change variables such as clock speeds, pin functionality, specific peripheral parameters, and more.  

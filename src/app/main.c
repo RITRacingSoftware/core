@@ -14,7 +14,6 @@
 #include "timeout.h"
 #include "rtc.h"
 #include "error_handler.h"
-#include "rtt.h"
 
 #include "imu.h"
 
@@ -22,33 +21,59 @@
 #include "queue.h"
 #include "task.h"
 
+#include <stm32g4xx_hal.h>
+#include <stm32g4xx_hal_rtc.h>
+#include <stm32g4xx_hal_pwr.h>
+
+
 void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
+    TickType_t nextWakeTime = xTaskGetTickCount();
     while(true) {
         core_GPIO_toggle_heartbeat();
-        vTaskDelay(100 * portTICK_PERIOD_MS);
+        //RTC->ICSR &= ~RTC_ICSR_RSF;
+        //while (!(RTC->ICSR & RTC_ICSR_RSF));
+        //struct tm time;
+        //core_RTC_get_time(&time);
+        //sprintf(txbuf, "ssr: %08x, tr: %08x, dr: %08x\r\n", ssr, tr, dr);
+        //strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
+        //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
+        //core_USART_transmit(USART1, txbuf, strlen(txbuf));
+        //vTaskDelay(100 * portTICK_PERIOD_MS);
+        vTaskDelayUntil(&nextWakeTime, 100);
+        core_CAN_send_message(FDCAN1, 7, 2, 0x55ff);
     }
 }
 
-int main(void)
-{
+void core_boot_external_enter() {
+
+}
+
+void core_boot_external_exit() {
+
+}
+
+void core_boot_external_read(uint8_t *ptr, uint32_t address, uint32_t length) {
+
+}
+
+void core_boot_external_write(uint8_t *ptr, uint32_t address, uint32_t length) {
+
+}
+
+int main(void) {
     HAL_Init();
+
     // Drivers
     core_heartbeat_init(GPIOA, GPIO_PIN_5);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
-    core_RTT_init();
-    rprintf("RTT working\n");
-
+    if (!core_CAN_init(FDCAN1, 1000000)) error_handler();
+    core_boot_init();
 
     int err;
-    err = xTaskCreate(heartbeat_task,
-        "heartbeat",
-        1000,
-        NULL,
-        4,
-        NULL);
+    err = xTaskCreate(heartbeat_task, "heartbeat", 1000, NULL, 4, NULL);
     if (err != pdPASS) {
         error_handler();
     }

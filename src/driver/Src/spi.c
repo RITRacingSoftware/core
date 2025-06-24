@@ -30,11 +30,9 @@ GPIO_TypeDef *core_SPI4_CS_port;
   * @param  cs_pin CS pin (GPIO_PIN_x)
   */
 bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
-    GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, 0};
-    HAL_GPIO_Init(cs_port, &cs_init);
-    HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     uint8_t div;
     uint8_t data_size;
+    uint8_t master;
     if (spi == SPI1) {
         core_SPI1_CS_port = cs_port;
         core_SPI1_CS_pin = cs_pin;
@@ -51,6 +49,7 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         __HAL_RCC_SPI1_CLK_ENABLE();
         div = CORE_SPI1_DIVIDER;
         data_size = CORE_SPI1_DATA_SIZE - 1;
+        master = CORE_SPI1_MASTER;
     }
     else if (spi == SPI2) {
         core_SPI2_CS_port = cs_port;
@@ -67,6 +66,7 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         __HAL_RCC_SPI2_CLK_ENABLE();
         div = CORE_SPI2_DIVIDER;
         data_size = CORE_SPI2_DATA_SIZE - 1;
+        master = CORE_SPI2_MASTER;
     }
     else if (spi == SPI3) {
         core_SPI3_CS_port = cs_port;
@@ -83,6 +83,7 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         __HAL_RCC_SPI3_CLK_ENABLE();
         div = CORE_SPI3_DIVIDER;
         data_size = CORE_SPI3_DATA_SIZE - 1;
+        master = CORE_SPI3_MASTER;
     }
     else if (spi == SPI4) {
         core_SPI4_CS_port = cs_port;
@@ -99,13 +100,23 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         __HAL_RCC_SPI4_CLK_ENABLE();
         div = CORE_SPI4_DIVIDER;
         data_size = CORE_SPI4_DATA_SIZE - 1;
+        master = CORE_SPI4_MASTER;
     }
     else return false;
     if ((div > 7) || (data_size > 15)) return false;
+    
+    if (master) {
+        GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_OUTPUT_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, 0};
+        HAL_GPIO_Init(cs_port, &cs_init);
+        HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
+    } else {
+        GPIO_InitTypeDef cs_init = {cs_pin, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, 5};
+        HAL_GPIO_Init(cs_port, &cs_init);
+    }
 
     // SPI master, /256 prescaler, CPOL=0, CPHA=0
     spi->I2SCFGR = 0;
-    spi->CR1 = (div << SPI_CR1_BR_Pos) | SPI_CR1_MSTR | SPI_CR1_SSI | SPI_CR1_SSM;
+    spi->CR1 = (div << SPI_CR1_BR_Pos) | (master ? (SPI_CR1_MSTR | SPI_CR1_SSI | SPI_CR1_SSM) : 0);
     spi->CR2 = SPI_CR2_SSOE | (data_size << SPI_CR2_DS_Pos) | SPI_CR2_FRXTH;
     spi->CR1 |= SPI_CR1_SPE;
 

@@ -15,6 +15,7 @@ BOOT_STATUS_NO_BSM =            0x07
 BOOT_STATUS_SOFTSWAP_SUCCESS =  0x08
 BOOT_STATUS_MAINBANK =          0x09
 
+extmode_addr = 0
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(("192.168.72.1", 40000))
@@ -25,7 +26,7 @@ while rlist:
     rlist, wlist, xlist = select.select([s], [], [], 0)
 
 
-def parse_response(print_response=False, timeout=0.5, mintime=0):
+def parse_response(print_response=False, timeout=0.5, mintime=0, print_data=False):
     frames = []
     tstart = time.time()
     rlist, wlist, xlist = select.select([s], [], [], timeout)
@@ -39,7 +40,7 @@ def parse_response(print_response=False, timeout=0.5, mintime=0):
                 if (packet["id"] & (1<<30)):
                     if (packet["id"] & (1<<16)):
                         packet["type"] = "data"
-                        #if print_response: print("    Data", packet["data"])
+                        if print_data: print("    Data", packet["data"])
                     else:
                         if print_response: print("bus {:02x}, id {}/{:08x} (device {})".format(packet["bus"], "EXT" if (packet["id"] & (1<<30)) else "STD", packet["id"] & 0x1fffffff, packet["board"]))
                         stat = struct.unpack("<BBHI", packet["data"])
@@ -47,6 +48,9 @@ def parse_response(print_response=False, timeout=0.5, mintime=0):
                         packet["status"], packet["bankstatus"], packet["flashstatus"], packet["bootstate"] = stat
                         if print_response: print("    Status {:02x}, bank status {:02x}, FLASH status {:04x}, boot state {:08x}".format(*stat))
                 frames.append(packet)
+            if bus == 5:
+                print("Control packet", frame[i+8:i+8+(length&0x7f)])
+                frames.append({"bus": 5, "data": frame[i+8:i+8+(length&0x7f)]})
             #elif bus == 1:
             #    print("rejecting bad packet", bus, id)
             i += (length & 0x7f)+8
@@ -79,9 +83,10 @@ def send_data(bus, id, address, data):
                     print("    "+"".join(hex(x)[2:].rjust(2, "0") for x in p["data"]))
 
 def read_data(bus, id, address, length, bankmode):
-    frame = struct.pack("<BBHIBB", bus, 0x02, 0, (1<<30) | (id<<18) | address | (1<<17) | (1<<16), length, bankmode)
+    print("Reading from", id, address, length)
+    frame = struct.pack("<BBHIBB", bus, 0x83, 0, (1<<30) | (id<<18) | address | (1<<17) | (1<<16), length, bankmode)
     s.sendto(frame, ('192.168.72.100', 5001))
-    return parse_response(True)
+    return parse_response(True, print_data=True)
 
 
 
@@ -112,6 +117,7 @@ def boot_enum():
     return ids
 
 def reset(id):
+    print("Resetting", id)
     send_command(1, id, b"\x00")
 
 def program(id, fname):
@@ -176,6 +182,32 @@ def hardswap(id):
     send_command(1, id, b"\x03")
     parse_response(True)
 
+def extmode(id, enable):
+    if enable:
+        print("Entering external programming mode for", id)
+        send_command(1, id, b"\x04")
+    else:
+        print("Leaving external programming mode for", id)
+        send_command(1, id, b"\x05")
+    parse_response(True)
+
+def extmode_read(bus, id, address, length, erase=0):
+    global extmode_addr
+    print("Reading from", id, address, length)
+    frame = struct.pack("<BBHIBHxI", bus, 0x88, 0, (1<<30) | (id<<18) | (address & 0x7fff) | (1<<17) | (1<<16), length, address >> 15, erase)
+    s.sendto(frame, ('192.168.72.100', 5001))
+    extmode_addr = (address & 0xffff8000)
+    if length:
+        return parse_response(True, print_data=True)
+
+def extmode_write(bus, id, address, data):
+    global extmode_addr
+    if (address & 0xffff8000) != extmode_addr:
+        extmode_read(bus, id, address, 0)
+    frame = struct.pack("<BBHI", bus, len(data) | 0x80, 0, (1<<30) | (id<<18) | (address & 0x7fff) | (1<<17)) + data
+    s.sendto(frame, ('192.168.72.100', 5001))
+    return parse_response(True, print_data=True)
+
 cmd = sys.argv[1]
 if cmd == "program":
     id = int(sys.argv[2])
@@ -223,14 +255,39 @@ elif cmd == "reset":
     reset(0x7ff)
 elif cmd == "txoff":
     send_command(5, 0, b"\x00")
+elif cmd == "txoff_retry":
+    while True:
+        send_command(5, 0, b"\x00")
+        if parse_response(timeout=0.5): break
+        else: print("TXOFF failed, trying agin...")
 elif cmd == "txon":
     send_command(5, 0, b"\x01")
 elif cmd == "c70off":
-    frame = struct.pack("<BBHI", 2, 0x01, 0, 0x701)+b"\x01"
+    frame = struct.pack("<BBHI", 2, 0x08, 0, 0x701)+b"\xff"*8
     s.sendto(frame, ('192.168.72.100', 5001))
 elif cmd == "c70on":
-    frame = struct.pack("<BBHI", 2, 0x01, 0, 0x701)+b"\x00"
+    frame = struct.pack("<BBHI", 2, 0x08, 0, 0x701)+b"\x00"*8
     s.sendto(frame, ('192.168.72.100', 5001))
+elif cmd == "extmode":
+    id = int(sys.argv[2])
+    boot(id)
+    extmode(id, True)
+    extmode_read(1, id, 0x20000, 32)
+    extmode_read(1, id, 0x20000, 32, erase=0x30000)
+    with open(sys.argv[3], "rb") as f:
+        for i in range(0, 0x30000, 64):
+            data = f.read(64)
+            address = 0x20000 + i
+            if (address & 0xffff8000) != extmode_addr:
+                extmode_read(1, id, address, 0)
+                extmode_addr = (address & 0xffff8000)
+            send_data(1, id, address & 0x7fff, data)
+            print("\rWritten {:08x}/00030000 bytes".format(i+64), end="")
+        print()
+
+
+
+    #reset(id)
 
 
 s.close()

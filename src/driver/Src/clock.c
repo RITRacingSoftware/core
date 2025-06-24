@@ -88,6 +88,23 @@ bool core_clock_USART_init(USART_TypeDef *usart) {
 }
 
 /**
+  * @brief  Enable a timer clock
+  * @param  timer Timer to initialize (TIM2 through TIM7)
+  * @retval 1 if timer is a supported timer module
+  * @retval 0 otherwise
+  */
+bool core_clock_timer_init(TIM_TypeDef *timer) {
+    if (timer == TIM2) __HAL_RCC_TIM2_CLK_ENABLE();
+    else if (timer == TIM3) __HAL_RCC_TIM3_CLK_ENABLE();
+    else if (timer == TIM4) __HAL_RCC_TIM4_CLK_ENABLE();
+    else if (timer == TIM5) __HAL_RCC_TIM5_CLK_ENABLE();
+    else if (timer == TIM6) __HAL_RCC_TIM6_CLK_ENABLE();
+    else if (timer == TIM7) __HAL_RCC_TIM7_CLK_ENABLE();
+    else return 0;
+    return 1;
+}
+
+/**
   * @brief  Set an I2C clock to PCLK1 and enable it
   * @param  i2c  I2C module to initialize
   * @retval 1 if i2c_num is a valid I2C module
@@ -237,7 +254,7 @@ bool core_clock_init() {
     // Compute the values of the N, M, and R dividers
     uint8_t ndiv, mdiv, rdiv;
     uint32_t ext_freq;
-#ifdef CORE_CLOCK_USE_HSE
+#if defined(CORE_CLOCK_USE_HSE) && (CORE_CLOCK_USE_HSE != 0)
     ext_freq = CORE_CLOCK_HSE_FREQ;
 #else
     ext_freq = CORE_CLOCK_HSI_FREQ;
@@ -255,6 +272,7 @@ bool core_clock_init() {
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
 #else
+    uint32_t cal = RCC->ICSCR;
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     //RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
@@ -289,6 +307,9 @@ bool core_clock_init() {
     if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
         return false;
     }
+#if (CORE_CLOCK_USE_HSE == 0) || (!defined(CORE_CLOCK_USE_HSE))
+    RCC->ICSCR = cal;
+#endif
 
     return true;
 }
