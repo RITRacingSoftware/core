@@ -1,5 +1,10 @@
 # RIT-Racing Core
 
+Note: this version of the core is meant for use with STM32G441 chips, which are
+only used for a few projects. These chips have fewer peripherals than the
+STM32G473 used by most boards. However, the interface exposed by this version
+of the core is mostly compatible with the main version of the core.
+
 ## Overview
 Most of our projects use the same features of the STM32s. They require internal/external clocks,
 GPIO functionality, communication protocols like CAN, SPI, or UART, the ability to read analog inputs, etc.
