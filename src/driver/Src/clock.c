@@ -25,14 +25,6 @@ void core_clock_ADC12_init() {
 }
 
 /**
-  * @brief  Set the clocks for ADC3, ADC4, and ADC5 to SYSCLK and enable them
-  */
-void core_clock_ADC345_init() {
-    __HAL_RCC_ADC345_CONFIG(RCC_ADC345CLKSOURCE_SYSCLK);
-    __HAL_RCC_ADC12_CLK_ENABLE();
-}
-
-/**
   * @brief  Set FDCAN clock to PCLK1 and enable it.
   *
   * Initialize GPIO port clocks corresponding to CAN bus selected
@@ -45,12 +37,6 @@ void core_clock_FDCAN_init(FDCAN_GlobalTypeDef *can)
     if (can == FDCAN1) {
         core_clock_port_init(CORE_FDCAN1_RX_PORT);
         core_clock_port_init(CORE_FDCAN1_TX_PORT);
-    } else if (can == FDCAN2) {
-        core_clock_port_init(CORE_FDCAN2_RX_PORT);
-        core_clock_port_init(CORE_FDCAN2_TX_PORT);
-    } else if (can == FDCAN3) {
-        core_clock_port_init(CORE_FDCAN3_RX_PORT);
-        core_clock_port_init(CORE_FDCAN3_TX_PORT);
     }
     __HAL_RCC_FDCAN_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -79,10 +65,6 @@ bool core_clock_USART_init(USART_TypeDef *usart) {
         __HAL_RCC_UART4_CONFIG(RCC_UART4CLKSOURCE_PCLK1);
         __HAL_RCC_UART4_CLK_ENABLE();
     }
-    else if (usart == UART5) {
-        __HAL_RCC_UART5_CONFIG(RCC_UART5CLKSOURCE_PCLK1);
-        __HAL_RCC_UART5_CLK_ENABLE();
-    }
     else return false;
     return true;
 }
@@ -97,7 +79,6 @@ bool core_clock_timer_init(TIM_TypeDef *timer) {
     if (timer == TIM2) __HAL_RCC_TIM2_CLK_ENABLE();
     else if (timer == TIM3) __HAL_RCC_TIM3_CLK_ENABLE();
     else if (timer == TIM4) __HAL_RCC_TIM4_CLK_ENABLE();
-    else if (timer == TIM5) __HAL_RCC_TIM5_CLK_ENABLE();
     else if (timer == TIM6) __HAL_RCC_TIM6_CLK_ENABLE();
     else if (timer == TIM7) __HAL_RCC_TIM7_CLK_ENABLE();
     else return 0;
@@ -122,10 +103,6 @@ bool core_clock_I2C_init(I2C_TypeDef *i2c) {
     else if (i2c == I2C3) {
         __HAL_RCC_I2C3_CONFIG(RCC_I2C3CLKSOURCE_PCLK1);
         __HAL_RCC_I2C3_CLK_ENABLE();
-    }
-    else if (i2c == I2C4) {
-        __HAL_RCC_I2C4_CONFIG(RCC_I2C4CLKSOURCE_PCLK1);
-        __HAL_RCC_I2C4_CLK_ENABLE();
     }
     else return false;
     return true;

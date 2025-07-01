@@ -84,7 +84,6 @@
 #include "clock.h"
 #include "timeout.h"
 #include "error_handler.h"
-#include "boot.h"
 #include "timestamp.h"
 
 static core_CAN_module_t can1;
@@ -132,8 +131,6 @@ static MessageBufferHandle_t msgbuf3_handle = NULL;
 
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
     if (can == FDCAN1) return &can1;
-    if (can == FDCAN2) return &can2;
-    if (can == FDCAN3) return &can3;
     return NULL;
 }
 
@@ -192,72 +189,6 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
         p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF);
 #endif
     }
-    else if (can == FDCAN2)
-    {
-        p_can->hfdcan.Instance = FDCAN2;
-        gpio.Pin = CORE_FDCAN2_TX_PIN;
-        gpio.Alternate = CORE_FDCAN2_TX_AF;
-        HAL_GPIO_Init(CORE_FDCAN2_TX_PORT, &gpio);
-        gpio.Pin = CORE_FDCAN2_RX_PIN;
-        gpio.Alternate = CORE_FDCAN2_RX_AF;
-        HAL_GPIO_Init(CORE_FDCAN2_RX_PORT, &gpio);
-
-        // Auto retransmission settings
-        p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN2_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
-        p_can->autort = CORE_FDCAN2_AUTO_RETRANSMISSION;
-
-        // Set max filter numbers
-        p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN2_MAX_STANDARD_FILTER_NUM;
-        p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN2_MAX_EXTENDED_FILTER_NUM;
-
-        // Extended frame settings
-        p_can->use_fd = CORE_FDCAN2_USE_FD;
-#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
-        // Initialize the message buffer associated with FDCAN2 if it has not
-        // already been initialized by a previous FDCAN init.
-        if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) == NULL) {
-            CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN2_MSGBUF), 
-                    CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN2_MSGBUF),
-                    &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN2_MSGBUF))
-            );
-        }
-        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF);
-#endif
-    }
-    else if (can == FDCAN3)
-    {
-        p_can->hfdcan.Instance = FDCAN3;
-        gpio.Pin = CORE_FDCAN3_TX_PIN;
-        gpio.Alternate = CORE_FDCAN3_TX_AF;
-        HAL_GPIO_Init(CORE_FDCAN3_TX_PORT, &gpio);
-        gpio.Pin = CORE_FDCAN3_RX_PIN;
-        gpio.Alternate = CORE_FDCAN3_RX_AF;
-        HAL_GPIO_Init(CORE_FDCAN3_RX_PORT, &gpio);
-
-        // Auto retransmission settings
-        p_can->hfdcan.Init.AutoRetransmission = CORE_FDCAN3_AUTO_RETRANSMISSION ? ENABLE : DISABLE;
-        p_can->autort = CORE_FDCAN3_AUTO_RETRANSMISSION;
-
-        // Set max filter numbers
-        p_can->hfdcan.Init.StdFiltersNbr = CORE_FDCAN3_MAX_STANDARD_FILTER_NUM;
-        p_can->hfdcan.Init.ExtFiltersNbr = CORE_FDCAN3_MAX_EXTENDED_FILTER_NUM;
-
-        // Extended frame settings
-        p_can->use_fd = CORE_FDCAN3_USE_FD;
-#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
-        // Initialize the message buffer associated with FDCAN3 if it has not
-        // already been initialized by a previous FDCAN init.
-        if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) == NULL) {
-            CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN3_MSGBUF), 
-                    CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN3_MSGBUF),
-                    &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN3_MSGBUF))
-            );
-        }
-        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF);
-#endif
-    }
     else return false;
 
     // Initialize CAN interface
@@ -287,16 +218,6 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
     {
         HAL_NVIC_SetPriority(FDCAN1_IT0_IRQn, 5, 0); // Main bus has slightly higher priority than sensor bus
         HAL_NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
-    }
-    else if (can == FDCAN2)
-    {
-        HAL_NVIC_SetPriority(FDCAN2_IT0_IRQn, 5, 0); // Main bus has slightly higher priority than sensor bus
-        HAL_NVIC_EnableIRQ(FDCAN2_IT0_IRQn);
-    }
-    else
-    {
-        HAL_NVIC_SetPriority(FDCAN3_IT0_IRQn, 5, 0); // Main bus has slightly higher priority than sensor bus
-        HAL_NVIC_EnableIRQ(FDCAN3_IT0_IRQn);
     }
 
     // Configure interrupts and set notifications for CAN bus
@@ -508,11 +429,6 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
 
         // Retrieve Rx messages from RX FIFO0
         while (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, can_temp+8) == HAL_OK) {
-            // Enter the bootloader if the the boot ID or the broadcast ID is received
-            if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18))) && (can_temp[8] == 0x55)) {
-                //core_GPIO_toggle_heartbeat();
-                core_boot_reset_and_enter();
-            }
             // Reset any timeouts
             core_timeout_reset_by_module_ref(can, header.Identifier);
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
@@ -688,8 +604,6 @@ uint8_t core_CAN_receive_from_msgbuf(FDCAN_GlobalTypeDef *can, uint8_t *buf) {
 
 // Call RX interrupt handlers
 void FDCAN1_IT0_IRQHandler(void) {rx_handler(FDCAN1);}
-void FDCAN2_IT0_IRQHandler(void) {rx_handler(FDCAN2);}
-void FDCAN3_IT0_IRQHandler(void) {rx_handler(FDCAN3);}
 
 /**
   * @brief  Add an RX filter for the given FDCAN module

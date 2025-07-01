@@ -85,23 +85,6 @@ bool core_SPI_init(SPI_TypeDef *spi, GPIO_TypeDef *cs_port, uint16_t cs_pin) {
         data_size = CORE_SPI3_DATA_SIZE - 1;
         master = CORE_SPI3_MASTER;
     }
-    else if (spi == SPI4) {
-        core_SPI4_CS_port = cs_port;
-        core_SPI4_CS_pin = cs_pin;
-        core_clock_port_init(CORE_SPI4_SCK_PORT);
-        GPIO_InitTypeDef spiGPIOinit2 = {CORE_SPI4_SCK_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_SCK_AF};
-        HAL_GPIO_Init(CORE_SPI4_SCK_PORT, &spiGPIOinit2);
-        core_clock_port_init(CORE_SPI4_MISO_PORT);
-        GPIO_InitTypeDef spiGPIOinit3 = {CORE_SPI4_MISO_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_MISO_AF};
-        HAL_GPIO_Init(CORE_SPI4_MISO_PORT, &spiGPIOinit3);
-        core_clock_port_init(CORE_SPI4_MOSI_PORT);
-        GPIO_InitTypeDef spiGPIOinit4 = {CORE_SPI4_MOSI_PIN, GPIO_MODE_AF_PP, GPIO_NOPULL, GPIO_SPEED_FREQ_VERY_HIGH, CORE_SPI4_MOSI_AF};
-        HAL_GPIO_Init(CORE_SPI4_MOSI_PORT, &spiGPIOinit4);
-        __HAL_RCC_SPI4_CLK_ENABLE();
-        div = CORE_SPI4_DIVIDER;
-        data_size = CORE_SPI4_DATA_SIZE - 1;
-        master = CORE_SPI4_MASTER;
-    }
     else return false;
     if ((div > 7) || (data_size > 15)) return false;
     
@@ -187,9 +170,6 @@ bool core_SPI_start(SPI_TypeDef *spi) {
     } else if (spi == SPI3) {
         cs_pin = core_SPI3_CS_pin;
         cs_port = core_SPI3_CS_port;
-    } else if (spi == SPI4) {
-        cs_pin = core_SPI4_CS_pin;
-        cs_port = core_SPI4_CS_port;
     } else return false;
     HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_RESET);
     return true;
@@ -211,9 +191,6 @@ bool core_SPI_stop(SPI_TypeDef *spi) {
     } else if (spi == SPI3) {
         cs_pin = core_SPI3_CS_pin;
         cs_port = core_SPI3_CS_port;
-    } else if (spi == SPI4) {
-        cs_pin = core_SPI4_CS_pin;
-        cs_port = core_SPI4_CS_port;
     } else return false;
     HAL_GPIO_WritePin(cs_port, cs_pin, GPIO_PIN_SET);
     return true;

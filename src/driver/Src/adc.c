@@ -96,9 +96,6 @@
 
 static ADC_HandleTypeDef adc1 = {0};
 static ADC_HandleTypeDef adc2 = {0};
-static ADC_HandleTypeDef adc3 = {0};
-static ADC_HandleTypeDef adc4 = {0};
-static ADC_HandleTypeDef adc5 = {0};
 
 
 static core_ADC_def_t adc_defs[] = {
@@ -175,18 +172,6 @@ bool core_ADC_init(ADC_TypeDef *adc) {
         hadc = &adc2;
         core_clock_ADC12_init();
         core_ADC_initialized |= CORE_ADC_ALLOWED_ADC2 | CORE_ADC_ALLOWED_OPAMP2 | CORE_ADC_ALLOWED_OPAMP3;
-    } else if (adc == ADC3) {
-        hadc = &adc3;
-        core_clock_ADC345_init();
-        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC3 | CORE_ADC_ALLOWED_OPAMP3;
-    } else if (adc == ADC4) {
-        hadc = &adc4;
-        core_clock_ADC345_init();
-        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC4 | CORE_ADC_ALLOWED_OPAMP6;
-    } else if (adc == ADC5) {
-        hadc = &adc5;
-        core_clock_ADC345_init();
-        core_ADC_initialized |= CORE_ADC_ALLOWED_ADC5 | CORE_ADC_ALLOWED_OPAMP4 | CORE_ADC_ALLOWED_OPAMP5;
     } else return false;
 
     hadc->Instance = adc;
@@ -245,30 +230,10 @@ bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
             adc_def_ptr->opamp = OPAMP2;
             adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>2) & 3);
         } else if (mask & CORE_ADC_ALLOWED_OPAMP3) {
-            if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC2) {
-                adc_def_ptr->adc = ADC2;
-                adc_def_ptr->adc_chan_sel = 18;
-            } else {
-                adc_def_ptr->adc = ADC3;
-                adc_def_ptr->adc_chan_sel = 13;
-            }
+            adc_def_ptr->adc = ADC2;
+            adc_def_ptr->adc_chan_sel = 18;
             adc_def_ptr->opamp = OPAMP3;
             adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>4) & 3);
-        } else if (mask & CORE_ADC_ALLOWED_OPAMP4) {
-            adc_def_ptr->adc = ADC5;
-            adc_def_ptr->adc_chan_sel = 5;
-            adc_def_ptr->opamp = OPAMP4;
-            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>6) & 3);
-        } else if (mask & CORE_ADC_ALLOWED_OPAMP5) {
-            adc_def_ptr->adc = ADC5;
-            adc_def_ptr->adc_chan_sel = 3;
-            adc_def_ptr->opamp = OPAMP5;
-            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>8) & 3);
-        } else if (mask & CORE_ADC_ALLOWED_OPAMP6) {
-            adc_def_ptr->adc = ADC4;
-            adc_def_ptr->adc_chan_sel = 17;
-            adc_def_ptr->opamp = OPAMP6;
-            adc_def_ptr->opamp_chan_sel = ((adc_def_ptr->opamp_chan>>10) & 3);
         } else return false;
     } else {
         if (mask & CORE_ADC_ALLOWED_ADC1) {
@@ -277,15 +242,6 @@ bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp) {
         } else if (mask & CORE_ADC_ALLOWED_ADC2) {
             adc_def_ptr->adc = ADC2;
             adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[1];
-        } else if (mask & CORE_ADC_ALLOWED_ADC3) {
-            adc_def_ptr->adc = ADC3;
-            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[2];
-        } else if (mask & CORE_ADC_ALLOWED_ADC4) {
-            adc_def_ptr->adc = ADC4;
-            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[3];
-        } else if (mask & CORE_ADC_ALLOWED_ADC5) {
-            adc_def_ptr->adc = ADC5;
-            adc_def_ptr->adc_chan_sel = adc_def_ptr->chan[4];
         }
         else return false;
         GPIO_InitTypeDef GPIO_InitStructure;
@@ -323,12 +279,6 @@ bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result) {
         hadc = &adc1;
     } else if (adc_def_ptr->adc == ADC2) {
         hadc = &adc2;
-    } else if (adc_def_ptr->adc == ADC3) {
-        hadc = &adc3;
-    } else if (adc_def_ptr->adc == ADC4) {
-        hadc = &adc4;
-    } else if (adc_def_ptr->adc == ADC5) {
-        hadc = &adc5;
     } else return false;
 
     if (adc_def_ptr->opamp) {

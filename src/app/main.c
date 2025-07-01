@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "boot.h"
 #include "can.h"
 #include "clock.h"
 #include "gpio.h"
@@ -45,22 +44,6 @@ void heartbeat_task(void *pvParameters) {
     }
 }
 
-void core_boot_external_enter() {
-
-}
-
-void core_boot_external_exit() {
-
-}
-
-void core_boot_external_read(uint8_t *ptr, uint32_t address, uint32_t length) {
-
-}
-
-void core_boot_external_write(uint8_t *ptr, uint32_t address, uint32_t length) {
-
-}
-
 int main(void) {
     HAL_Init();
 
@@ -70,7 +53,6 @@ int main(void) {
 
     if (!core_clock_init()) error_handler();
     if (!core_CAN_init(FDCAN1, 1000000)) error_handler();
-    core_boot_init();
 
     int err;
     err = xTaskCreate(heartbeat_task, "heartbeat", 1000, NULL, 4, NULL);
