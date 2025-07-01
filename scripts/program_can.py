@@ -49,8 +49,17 @@ def parse_response(print_response=False, timeout=0.5, mintime=0, print_data=Fals
                         if print_response: print("    Status {:02x}, bank status {:02x}, FLASH status {:04x}, boot state {:08x}".format(*stat))
                 frames.append(packet)
             if bus == 5:
-                print("Control packet", frame[i+8:i+8+(length&0x7f)])
-                frames.append({"bus": 5, "data": frame[i+8:i+8+(length&0x7f)]})
+                if id == 1:
+                    ecr1, psr1, ecr2, psr2, ecr3, psr3, arb_e, data_e, bus_off = struct.unpack("<IIIIIIHHH", frame[i+8:i+8+(length&0x7f)])
+                    if print_response:
+                        print("FDCAN1 ECR: {:08x}, PSR: {:08x}".format(ecr1, psr1))
+                        print("FDCAN2 ECR: {:08x}, PSR: {:08x}".format(ecr2, psr2))
+                        print("FDCAN3 ECR: {:08x}, PSR: {:08x}".format(ecr3, psr3))
+                        print("Arbitration errors: {}, data errors: {}, bus-off: {}".format(arb_e, data_e, bus_off))
+                    frames.append({"bus": 5, "data": frame[i+8:i+8+(length&0x7f)], "id": id, "errors": {"arb": arb_e, "data": data_e, "bus_off": bus_off}})
+                else:
+                    if print_response: print("Control packet", frame[i+8:i+8+(length&0x7f)])
+                    frames.append({"bus": 5, "data": frame[i+8:i+8+(length&0x7f)], "id": id})
             #elif bus == 1:
             #    print("rejecting bad packet", bus, id)
             i += (length & 0x7f)+8
@@ -95,14 +104,18 @@ t = time.time()
 #frame = bytearray([0x55, 0xff, 0x01, 0x00 | 6])+struct.pack("<I", 123 | (1<<30))+(b"\xaa\xff")
 
 # Enter the bootloader
-def boot(id):
-    print("Entering bootloader", id)
+def boot(id, pr=True):
+    if pr: print("Entering bootloader", id)
     send_command(1, id, b"\x55"*8)
-    resp = parse_response(True)
+    resp = parse_response(pr)
+    if not resp and not pr:
+        print("No response received")
+        return False
     if resp[0]["status"] == BOOT_STATUS_MAINBANK:
-        parse_response(True)
+        parse_response(pr)
     if resp[0]["status"] == BOOT_STATUS_SOFTSWAP_SUCCESS:
-        parse_response(True)
+        parse_response(pr)
+    return True
 
 def boot_enum():
     print("Booting all")
@@ -208,6 +221,37 @@ def extmode_write(bus, id, address, data):
     s.sendto(frame, ('192.168.72.100', 5001))
     return parse_response(True, print_data=True)
 
+def query_errors(pr=True):
+    s.sendto(b"\x05\x00\x00\x00\x01\x00\x00\x00", ('192.168.72.100', 5001))
+    return parse_response(pr)[0]["errors"]
+
+def transmit_check_error(bus, id, data, nit, boot=False):
+    initial = query_errors(False)
+    lost = 0
+    for x in range(nit):
+        s.sendto(struct.pack("<BBHI", bus, 0x80 | len(data), 0, id)+data+b"\x05\x00\x00\x00\x01\x00\x00\x00", ('192.168.72.100', 5001))
+        bootresp = parse_response(False)
+        resp = bootresp[0]["errors"]
+        if boot:    
+            if len(bootresp) < 2: 
+                bootresp = parse_response(False, timeout=0.1)
+            else:
+                bootresp = bootresp[1:]
+            if bootresp:
+                if bootresp[0]["status"] == BOOT_STATUS_MAINBANK:
+                    parse_response(False)
+                if bootresp[0]["status"] == BOOT_STATUS_SOFTSWAP_SUCCESS:
+                    parse_response(False)
+            else: lost += 1
+        pct_prog = 100 * (x + 1) / nit
+        pct_arb = 100 * (resp["arb"] - initial["arb"]) / (x + 1)
+        pct_data = 100 * (resp["data"] - initial["data"]) / (x + 1)
+        pct_bo = 100 * (resp["bus_off"] - initial["bus_off"]) / (x + 1)
+        pct_lost = 100 * lost / (x + 1)
+        print("\33[2K\rProgress: {:1.1f}%, arbitration errors: {:1.1f}%, data errors: {:1.1f}%, bus off: {:1.1f}%, lost: {:1.1f}%".format(pct_prog, pct_arb, pct_data, pct_bo, pct_lost), end="")
+    print()
+
+
 cmd = sys.argv[1]
 if cmd == "program":
     id = int(sys.argv[2])
@@ -215,9 +259,9 @@ if cmd == "program":
         fname = sys.argv[3]
         boot(id)
         program(id, fname)
-        boot(id)
-        verify(id)
-        hardswap(id)
+        #boot(id)
+        #verify(id)
+        #hardswap(id)
 elif cmd == "boot":
     boot(int(sys.argv[2]))
 elif cmd == "softswap":
@@ -284,11 +328,31 @@ elif cmd == "extmode":
             send_data(1, id, address & 0x7fff, data)
             print("\rWritten {:08x}/00030000 bytes".format(i+64), end="")
         print()
-
-
-
-    #reset(id)
-
+elif cmd == "errors":
+    query_errors()
+elif cmd == "test":
+    ids = boot_enum()
+    print(ids)
+    # Test each bus
+    for bus in [1, 2, 3]:
+        print("Testing bus {}".format(bus))
+        transmit_check_error(bus, 1<<30, b"", 1000)
+        query_errors()
+    # Test each board
+    for board in ids:
+        print("Testing board {}".format(board))
+        transmit_check_error(1, (1<<30) | (board << 18), b"\x55"*8, 100, True)
+        #for x in range(1000):
+        #    boot(board, False)
+        query_errors()
+    reset(0x7ff)
+elif cmd == "vectornav":
+    # Program VectorNAV via the rear SSDB
+    id = int(sys.argv[2])
+    boot(id)
+    extmode(id, True)
+    send_data(1, id, 0, b"text\n")
+    reset(id)
 
 s.close()
 
