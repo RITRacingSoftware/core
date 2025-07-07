@@ -47,10 +47,6 @@
 /********************** CAN PARAMETERS *************************/
 /***************************************************************/
 /**
-  * @brief  CAN bitrate in bits per second
-  */
-#define CORE_CAN_BITRATE 1000000
-/**
   * @brief  Number of CAN messages that can be stored in the CAN FreeRTOS queue
   */
 #define CORE_CAN_QUEUE_LENGTH 15
@@ -62,6 +58,14 @@
   * @brief  Disable CAN FreeRTOS TX queues
   */
 #define CORE_CAN_DISABLE_TX_QUEUE 0
+/**
+  * @brief  Disable CAN FreeRTOS RX queues
+  */
+#define CORE_CAN_DISABLE_RX_QUEUE 0
+/**
+  * @brief  Disable CAN FreeRTOS TX semaphores
+  */
+#define CORE_CAN_DISABLE_SEMAPHORE 0
 
 /**
   * @brief If set, calls to core_CAN_send_message will block

@@ -75,10 +75,12 @@
 #include <string.h>
 #include <math.h>
 
+#if (CORE_CAN_DISABLE_TX_QUEUE != 1) || (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_USE_MSGBUF == 1) || (CORE_CAN_DISABLE_RX_QUEUE != 1)
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "semphr.h"
 #include "message_buffer.h"
+#endif
 
 #include "gpio.h"
 #include "clock.h"
@@ -309,7 +311,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
     //if (HAL_FDCAN_ActivateNotification(&(p_can->hfdcan), FDCAN_IT_TX_ABORT_COMPLETE, FDCAN_TX_BUFFER0 | FDCAN_TX_BUFFER1 | FDCAN_TX_BUFFER2) != HAL_OK) return false;
 
     size_t msgsize = (p_can->use_fd ? sizeof(CanExtendedMessage_s) : sizeof(CanMessage_s));
-#if (!defined(CORE_CAN_USE_MSGBUF)) || (CORE_CAN_USE_MSGBUF == 0)
+#if (CORE_CAN_USE_MSGBUF != 1) && (CORE_CAN_DISABLE_RX_QUEUE != 1)
     // Create queue to put received messages in
     p_can->can_queue_rx = xQueueCreate(CORE_CAN_QUEUE_LENGTH, msgsize);
     if (p_can->can_queue_rx == 0) error_handler();
@@ -321,8 +323,10 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
     if (p_can->can_queue_tx == 0) error_handler();
 #endif
 
+#if (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_DISABLE_TX_QUEUE != 1)
     p_can->can_tx_semaphore = xSemaphoreCreateBinary();
     xSemaphoreGive(p_can->can_tx_semaphore);
+#endif
 
     // Start CAN interface
     if (HAL_FDCAN_Start(&(p_can->hfdcan)) != HAL_OK) return false;
@@ -559,7 +563,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
                 msgbuf_overflow++;
             }
             if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-#else
+#elif (CORE_CAN_DISABLE_RX_QUEUE != 1)
             // Add the message to the RX queue
             if (header.IdType == FDCAN_EXTENDED_ID) header.Identifier |= (1<<30);
             if (p_can->use_fd) add_CAN_extended_message_to_rx_queue(can, header.Identifier, core_CAN_dlc_lookup[header.DataLength], can_temp+8, header.FDFormat == FDCAN_FD_CAN);
@@ -567,20 +571,24 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
 #endif
         }
     }
-    //
+    // Transmission completed successfully
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_TC) {
         // Clear interrupt flag
         p_can->hfdcan.Instance->IR = FDCAN_IR_TC;
+#if (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_DISABLE_TX_QUEUE != 1)
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+#endif
     }
     // Error occurred, give the semaphore so the transmitting task does not
     // block indefinitely.
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PEA) {
         core_CAN_errors.arbitration_error++;
         p_can->hfdcan.Instance->IR = FDCAN_IR_PEA;
+#if (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_DISABLE_TX_QUEUE != 1)
         xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+#endif
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PED) {
         p_can->hfdcan.Instance->IR = FDCAN_IR_PED;
@@ -594,7 +602,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     }
 }
 
-#if CORE_CAN_USE_MSGBUF != 1
+#if (CORE_CAN_USE_MSGBUF != 1) && (CORE_CAN_DISABLE_RX_QUEUE != 1)
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
@@ -623,7 +631,6 @@ static void add_CAN_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, u
     xQueueSendFromISR(p_can->can_queue_rx, &rx_msg, &xHigherPriorityTaskWoken);
     if (xHigherPriorityTaskWoken) portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
-#endif
 
 /**
   * @brief  If a frame is waiting in the RX queue, copy it to the given location
@@ -668,7 +675,9 @@ bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *receive
     // Return true if it read a value from the queue, false if not
     return (xQueueReceive(p_can->can_queue_rx, received_message, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT)) == pdTRUE);
 }
+#endif
 
+#if CORE_CAN_USE_MSGBUF == 1
 /**
   * @brief  If a frame is waiting in an RX message buffer, copy it to the given
   *         location and return its length.
@@ -685,6 +694,7 @@ uint8_t core_CAN_receive_from_msgbuf(FDCAN_GlobalTypeDef *can, uint8_t *buf) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
     return xMessageBufferReceive(p_can->msgbuf, buf, 72, pdMS_TO_TICKS(CORE_CAN_RX_TIMEOUT));
 }
+#endif
 
 // Call RX interrupt handlers
 void FDCAN1_IT0_IRQHandler(void) {rx_handler(FDCAN1);}
