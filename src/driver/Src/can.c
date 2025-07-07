@@ -501,7 +501,9 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     uint32_t t1, t3;
     uint32_t old_msb;
     uint16_t t2;
+#if (CORE_CAN_DISABLE_TX_QUEUE != 1) || (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_USE_MSGBUF == 1) || (CORE_CAN_DISABLE_RX_QUEUE != 1)
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+#endif
 
     // If the interrupt flag is set for FIFO0
     if (p_can->hfdcan.Instance->IR & FDCAN_IT_RX_FIFO0_NEW_MESSAGE)

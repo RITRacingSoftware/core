@@ -6,10 +6,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#if (CORE_CAN_DISABLE_TX_QUEUE != 1) || (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_USE_MSGBUF == 1) || (CORE_CAN_DISABLE_RX_QUEUE != 1)
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "semphr.h"
 #include "message_buffer.h"
+#endif
 
 
 typedef struct
@@ -29,12 +31,20 @@ typedef struct
 
 typedef struct core_CAN_module_s {
     FDCAN_HandleTypeDef hfdcan;         /**< @brief HAL FDCAN handle **/
+#if CORE_CAN_DISABLE_RX_QUEUE != 1
     QueueHandle_t can_queue_rx;         /**< @brief Handle for FreeRTOS RX queue **/
+#endif
+#if CORE_CAN_DISABLE_TX_QUEUE != 1
     QueueHandle_t can_queue_tx;         /**< @brief Handle for FreeRTOS TX queue **/
+#endif
+#if CORE_CAN_USE_MSGBUF != 0
     MessageBufferHandle_t msgbuf;       /**< @brief Handle for FreeRTOS RX message buffer **/
+#endif
+#if CORE_CAN_DISABLE_SEMAPHORE != 1
     SemaphoreHandle_t can_tx_semaphore; /**< @brief TX semaphore, taken when a message is added
                                                     to the hardware FIFO and given when
                                                     transmission completes. **/
+#endif
     uint32_t timestamp_msb;             /**< @brief Most significant bits of the timestamp for
                                                     the most recently received packet. **/
     uint8_t fdcan_num_standard_filters;
