@@ -76,7 +76,6 @@ typedef struct {
 
 
 // CAN
-
 typedef struct {
 } FDCAN_GlobalTypeDef;
 
@@ -96,3 +95,7 @@ typedef struct {
 // SPI
 typedef struct {
 } SPI_TypeDef;
+
+// CLOCK
+typedef struct {
+} TIM_TypeDef;

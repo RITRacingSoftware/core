@@ -16,13 +16,15 @@ for root, dir, files in os.walk(src_dir):
         with open(f"{mock_dir}/Inc/{name}", "r") as file:
             print(name) 
             for line in file:
-                x = re.search("^[^ \t]+ .+\(.*\);$", line)
-                if (x != None):
-                    arr = x.string.split();
-                    if (arr[0] != "static"):
-                        pragma += f"#pragma weak {arr[1][:arr[1].index('(')]}\n"
-                        body += x.string[:len(x.string)-2] + " {}\n"
-                        # print(x.string)
+                if (line[0] == '#'): continue
+                arr = line.split()
+                if ("static" in arr): continue
+                x = re.search("[^ \*\)]+\(.*\)", line)
+               if (x == None): continue
+                part = x.group(0)
+                full = x.string
+                pragma += f"#pragma weak {part[:part.index('(')]}\n" 
+                body += full[:len(full)-2] + " {}\n"
 
         src = open(f"{mock_dir}/Src/{name[:len(name)-1]}c", "w")
         src.write(f'#include "{name}"\n\n')

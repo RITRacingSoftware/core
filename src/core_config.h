@@ -86,6 +86,7 @@
   * @brief  Timer that stores the upper bits of the CAN timestamp
   */
 #define CORE_CAN_TIMER  TIM2
+#define CORE_TIMESTAMP_MSB 12
 
 #define CORE_CAN_MSGBUF1_SIZE 1024
 #define CORE_CAN_MSGBUF2_SIZE 0
@@ -283,5 +284,7 @@
  * @brief Number of timeouts used
  */
 #define CORE_TIMEOUT_NUM 5
+
+
 
 #endif //CORE_CORE_CONFIG_H
