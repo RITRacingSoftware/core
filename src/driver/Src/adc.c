@@ -212,6 +212,35 @@ bool core_ADC_init(ADC_TypeDef *adc) {
     return true;
 }
 
+uint16_t core_ADC_read_vrefint() {
+    ADC_HandleTypeDef *hadc;
+    ADC12_COMMON->CCR |= ADC_CCR_VREFEN;
+    ADC345_COMMON->CCR |= ADC_CCR_VREFEN;
+    if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC1) hadc = &adc1;
+    else if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC3) hadc = &adc3;
+    else if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC4) hadc = &adc4;
+    else if (core_ADC_initialized & CORE_ADC_ALLOWED_ADC5) hadc = &adc5;
+    else {
+        core_ADC_init(ADC1);
+        hadc = &adc1;
+    }
+    ADC_ChannelConfTypeDef sConfig;
+    sConfig.Channel = ADC_CHANNEL_18;
+    sConfig.Rank = ADC_REGULAR_RANK_1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_640CYCLES_5;
+    sConfig.SingleDiff = ADC_SINGLE_ENDED;
+    sConfig.OffsetNumber = ADC_OFFSET_NONE;
+    sConfig.Offset = 0;
+
+    if (HAL_ADC_ConfigChannel(hadc, &sConfig) != HAL_OK) return false;
+    // Perform reading
+    HAL_ADC_Start(hadc);
+    HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
+    uint16_t result = HAL_ADC_GetValue(hadc);
+    HAL_ADC_Stop(hadc);
+    return result;
+}
+
 /**
   * @brief  Set up a pin as an analog input
   * @param  port GPIO port (GPIOx)

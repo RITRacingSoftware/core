@@ -29,7 +29,7 @@ void core_clock_ADC12_init() {
   */
 void core_clock_ADC345_init() {
     __HAL_RCC_ADC345_CONFIG(RCC_ADC345CLKSOURCE_SYSCLK);
-    __HAL_RCC_ADC12_CLK_ENABLE();
+    __HAL_RCC_ADC345_CLK_ENABLE();
 }
 
 /**
