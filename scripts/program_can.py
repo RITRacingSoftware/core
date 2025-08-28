@@ -259,9 +259,9 @@ if cmd == "program":
         fname = sys.argv[3]
         boot(id)
         program(id, fname)
-        #boot(id)
-        #verify(id)
-        #hardswap(id)
+        boot(id)
+        verify(id)
+        hardswap(id)
 elif cmd == "boot":
     boot(int(sys.argv[2]))
 elif cmd == "softswap":
@@ -298,14 +298,14 @@ elif cmd == "ls":
 elif cmd == "reset":
     reset(0x7ff)
 elif cmd == "txoff":
-    send_command(5, 0, b"\x00")
+    s.sendto(b"\x05\x01\x00\x00\x00\x00\x00\x00\x00", ('192.168.72.100', 5001))
 elif cmd == "txoff_retry":
     while True:
-        send_command(5, 0, b"\x00")
+        s.sendto(b"\x05\x01\x00\x00\x00\x00\x00\x00\x00", ('192.168.72.100', 5001))
         if parse_response(timeout=0.5): break
         else: print("TXOFF failed, trying agin...")
 elif cmd == "txon":
-    send_command(5, 0, b"\x01")
+    s.sendto(b"\x05\x01\x00\x00\x00\x00\x00\x00\x01", ('192.168.72.100', 5001))
 elif cmd == "c70off":
     frame = struct.pack("<BBHI", 2, 0x08, 0, 0x701)+b"\xff"*8
     s.sendto(frame, ('192.168.72.100', 5001))

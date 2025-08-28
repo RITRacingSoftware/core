@@ -88,7 +88,6 @@
 #include "error_handler.h"
 #include "boot.h"
 #include "timestamp.h"
-#include "rtt.h"
 
 static core_CAN_module_t can1;
 static core_CAN_module_t can2;
@@ -548,7 +547,6 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         // Retrieve Rx messages from RX FIFO0
         while (HAL_FDCAN_GetRxMessage(&(p_can->hfdcan), FDCAN_RX_FIFO0, &header, can_temp+8) == HAL_OK) {
             // Enter the bootloader if the the boot ID or the broadcast ID is received
-            rprintf("id %08x\n", header.Identifier);
             if ((header.IdType == FDCAN_EXTENDED_ID) && ((header.Identifier == (CORE_BOOT_FDCAN_ID << 18)) || (header.Identifier == (0x7ff << 18))) && (can_temp[8] == 0x55)) {
                 //core_GPIO_toggle_heartbeat();
                 core_boot_reset_and_enter();
