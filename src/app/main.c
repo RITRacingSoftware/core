@@ -38,9 +38,9 @@ void heartbeat_task(void *pvParameters) {
         //strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
         //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
         //core_USART_transmit(USART1, txbuf, strlen(txbuf));
-        //vTaskDelay(100 * portTICK_PERIOD_MS);
-        vTaskDelayUntil(&nextWakeTime, 100);
+        //vTaskDelay(100 * portTICK_PERIOD_MS)
         core_CAN_send_message(FDCAN1, 7, 2, 0x55ff);
+        vTaskDelayUntil(&nextWakeTime, 100);
     }
 }
 
@@ -48,7 +48,7 @@ int main(void) {
     HAL_Init();
 
     // Drivers
-    core_heartbeat_init(GPIOA, GPIO_PIN_5);
+    core_heartbeat_init(GPIOA, GPIO_PIN_8);
     core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
