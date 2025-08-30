@@ -29,7 +29,7 @@ void core_clock_ADC12_init() {
   */
 void core_clock_ADC345_init() {
     __HAL_RCC_ADC345_CONFIG(RCC_ADC345CLKSOURCE_SYSCLK);
-    __HAL_RCC_ADC12_CLK_ENABLE();
+    __HAL_RCC_ADC345_CLK_ENABLE();
 }
 
 /**
@@ -154,6 +154,7 @@ void core_clock_port_init(GPIO_TypeDef *port) {
     else if (port == GPIOB) __HAL_RCC_GPIOB_CLK_ENABLE();
     else if (port == GPIOC) __HAL_RCC_GPIOC_CLK_ENABLE();
     else if (port == GPIOD) __HAL_RCC_GPIOD_CLK_ENABLE();
+    else if (port == GPIOE) __HAL_RCC_GPIOE_CLK_ENABLE();
     else if (port == GPIOF) __HAL_RCC_GPIOF_CLK_ENABLE();
     else if (port == GPIOG) __HAL_RCC_GPIOG_CLK_ENABLE();
 }

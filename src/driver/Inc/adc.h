@@ -37,5 +37,6 @@ typedef struct core_ADC_def_s {
 bool core_ADC_init(ADC_TypeDef *adc);
 bool core_ADC_setup_pin(GPIO_TypeDef *port, uint32_t pin, uint8_t opamp);
 bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result);
+uint16_t core_ADC_read_vrefint();
 
 #endif

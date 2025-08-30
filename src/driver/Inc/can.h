@@ -6,10 +6,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#if (CORE_CAN_DISABLE_TX_QUEUE != 1) || (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_USE_MSGBUF == 1) || (CORE_CAN_DISABLE_RX_QUEUE != 1)
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "semphr.h"
 #include "message_buffer.h"
+#endif
 
 
 typedef struct
@@ -29,12 +31,20 @@ typedef struct
 
 typedef struct core_CAN_module_s {
     FDCAN_HandleTypeDef hfdcan;         /**< @brief HAL FDCAN handle **/
+#if CORE_CAN_DISABLE_RX_QUEUE != 1
     QueueHandle_t can_queue_rx;         /**< @brief Handle for FreeRTOS RX queue **/
+#endif
+#if CORE_CAN_DISABLE_TX_QUEUE != 1
     QueueHandle_t can_queue_tx;         /**< @brief Handle for FreeRTOS TX queue **/
+#endif
+#if CORE_CAN_USE_MSGBUF != 0
     MessageBufferHandle_t msgbuf;       /**< @brief Handle for FreeRTOS RX message buffer **/
+#endif
+#if CORE_CAN_DISABLE_SEMAPHORE != 1
     SemaphoreHandle_t can_tx_semaphore; /**< @brief TX semaphore, taken when a message is added
                                                     to the hardware FIFO and given when
                                                     transmission completes. **/
+#endif
     uint32_t timestamp_msb;             /**< @brief Most significant bits of the timestamp for
                                                     the most recently received packet. **/
     uint8_t fdcan_num_standard_filters;
@@ -80,7 +90,10 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can);
 
 bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *received_message);
 bool core_CAN_receive_extended_from_queue(FDCAN_GlobalTypeDef *can, CanExtendedMessage_s *received_message);
-uint8_t core_CAN_receive_from_msgbuf(FDCAN_GlobalTypeDef *can, uint8_t *buf);
+#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+uint8_t core_CAN_receive_from_msgbuf(FDCAN_GlobalTypeDef *can, uint8_t *buf, TickType_t timeout);
+BaseType_t core_CAN_msgbuf_insert_ts(core_CAN_module_t *p_can, uint8_t *buf, uint8_t buflen, uint32_t lsb);
+#endif
 
 bool core_CAN_add_filter(FDCAN_GlobalTypeDef *can, bool isExtended, uint32_t id1, uint32_t id2);
 
