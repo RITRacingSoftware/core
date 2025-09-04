@@ -18,6 +18,7 @@ void core_timestamp_init() {
     TIM3->CR2 = TIM_TRGO_UPDATE;
     TIM3->PSC = 159;
     TIM3->ARR = 0xffff;
+    TIM3->EGR = TIM_EGR_UG;
     // CORE_TIMESTAMP_MSB is clocked from TIM3's overflow event
     CORE_TIMESTAMP_MSB->CR1 = 0x0000;
     CORE_TIMESTAMP_MSB->CR2 = 0x0000;
