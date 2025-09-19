@@ -88,11 +88,6 @@
 #define CORE_CAN_TIMER  TIM2
 
 #define CORE_CAN_MSGBUF1_SIZE 1024
-#define CORE_CAN_MSGBUF2_SIZE 0
-#define CORE_CAN_MSGBUF3_SIZE 0
-#define CORE_FDCAN1_MSGBUF 1
-#define CORE_FDCAN2_MSGBUF 1
-#define CORE_FDCAN3_MSGBUF 1
 
 // Ports and pins for CAN communication
 #define CORE_FDCAN1_TX_PORT GPIOA

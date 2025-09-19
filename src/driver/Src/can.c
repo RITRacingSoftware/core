@@ -111,16 +111,6 @@ static uint8_t msgbuf1_storage[CORE_CAN_MSGBUF1_SIZE];
 static StaticMessageBuffer_t msgbuf1;
 static MessageBufferHandle_t msgbuf1_handle = NULL;
 #endif
-#if (CORE_CAN_MSGBUF2_SIZE > 0)
-static uint8_t msgbuf2_storage[CORE_CAN_MSGBUF2_SIZE];
-static StaticMessageBuffer_t msgbuf2;
-static MessageBufferHandle_t msgbuf2_handle = NULL;
-#endif
-#if (CORE_CAN_MSGBUF3_SIZE > 0)
-static uint8_t msgbuf3_storage[CORE_CAN_MSGBUF3_SIZE];
-static StaticMessageBuffer_t msgbuf3;
-static MessageBufferHandle_t msgbuf3_handle = NULL;
-#endif
 #endif
 
 #define CAT3(a, b, c) (a##b##c)
@@ -179,14 +169,14 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
 #if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
         // Initialize the message buffer associated with FDCAN1 if it has not
         // already been initialized by a previous FDCAN init.
-        if (CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) == NULL) {
-            CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF) = xMessageBufferCreateStatic(
-                    CORE_CAN_MSGBUF_SIZE_BY_NUM(CORE_FDCAN1_MSGBUF), 
-                    CORE_CAN_MSGBUF_STORAGE_BY_NUM(CORE_FDCAN1_MSGBUF),
-                    &(CORE_CAN_MSGBUF_BY_NUM(CORE_FDCAN1_MSGBUF))
+        if (msgbuf1_handle == NULL) {
+            msgbuf1_handle = xMessageBufferCreateStatic(
+                    CORE_CAN_MSGBUF1_SIZE,
+                    msgbuf1_storage,
+                    &msgbuf1
             );
         }
-        p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF);
+        p_can->msgbuf = msgbuf1_handle;
 #endif
     }
     else return false;
