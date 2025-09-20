@@ -409,7 +409,9 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
     } else {
         while ((xQueueReceive(p_can->can_queue_tx, &dequeuedMessage, portMAX_DELAY) == pdTRUE)) {
             /*if (autort)*/ xSemaphoreTake(p_can->can_tx_semaphore, portMAX_DELAY);
-            if (!core_CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) break;
+            if (!core_CAN_send_message(can, dequeuedMessage.id, dequeuedMessage.dlc, dequeuedMessage.data)) {
+                xSemaphoreGive(p_can->can_tx_semaphore);
+            }
         }
     }
     return false;
@@ -431,7 +433,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
 bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint64_t data)
 {
     core_CAN_module_t *p_can = core_CAN_convert(can);
-    HAL_StatusTypeDef err = HAL_OK;
+    HAL_StatusTypeDef err = HAL_OK + 1;
 
     FDCAN_TxHeaderTypeDef header = {0};
     header.Identifier = (id & 0x1fffffff);
@@ -451,6 +453,7 @@ bool core_CAN_send_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, u
     if (!(can->PSR & FDCAN_PSR_BO))
 #endif
     err = HAL_FDCAN_AddMessageToTxFifoQ(&(p_can->hfdcan), &header, (uint8_t*) &data);
+    if (err != HAL_OK) core_CAN_errors.tx_lost++;
     return err == HAL_OK;
 }
 
@@ -601,8 +604,10 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
         core_CAN_errors.arbitration_error++;
         p_can->hfdcan.Instance->IR = FDCAN_IR_PEA;
 #if (CORE_CAN_DISABLE_SEMAPHORE != 1) || (CORE_CAN_DISABLE_TX_QUEUE != 1)
-        xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
-        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        if (!(p_can->autort)) {
+            xSemaphoreGiveFromISR(p_can->can_tx_semaphore, &xHigherPriorityTaskWoken);
+            portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+        }
 #endif
     }
     else if (p_can->hfdcan.Instance->IR & FDCAN_IR_PED) {
