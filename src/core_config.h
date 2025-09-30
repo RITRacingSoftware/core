@@ -224,53 +224,56 @@
   * @brief  Size of the internal RX buffer. One buffer will be created for each
   *         USART module
   */
-#define CORE_USART_RXBUFLEN 512
+#define CORE_USART_RXBUFLEN         512
 /**
   * @brief  Number of bits periods that must elapse since the most recent
   *         transmission for the receive interrupt to trigger
   */
-#define CORE_USART_RX_TIMEOUT 64
+#define CORE_USART_RX_TIMEOUT       64
 
 /**
   * @brief  Enable the uprintf function
   */
-#define CORE_USART_UPRINTF 1
+#define CORE_USART_UPRINTF          1
 /**
   * @brief  Size of the transmit buffer to which uprintf stores characters to
   *         be transmitted. The tranmit buffer is shared and is only defined 
   *         when uprintf is enabled
   */
-#define CORE_USART_TXBUFLEN 512
+#define CORE_USART_TXBUFLEN         512
 
-#define CORE_USART1_PORT GPIOC
-#define CORE_USART1_PINS (GPIO_PIN_4 | GPIO_PIN_5)
-//#define CORE_USART2_PORT GPIOB
-//#define CORE_USART2_PINS (GPIO_PIN_3 | GPIO_PIN_4)
-#define CORE_USART2_PORT GPIOA
-#define CORE_USART2_PINS (GPIO_PIN_3 | GPIO_PIN_2)
-#define CORE_USART3_PORT GPIOC
-#define CORE_USART3_PINS (GPIO_PIN_10 | GPIO_PIN_11)
+#define CORE_USART1_PORT            GPIOC
+#define CORE_USART1_PINS            (GPIO_PIN_4 | GPIO_PIN_5)
+#define CORE_USART1_IRQ_PRIORITY    5
+
+#define CORE_USART2_PORT            GPIOA
+#define CORE_USART2_PINS            (GPIO_PIN_3 | GPIO_PIN_2)
+#define CORE_USART2_IRQ_PRIORITY    5
+
+#define CORE_USART3_PORT            GPIOC
+#define CORE_USART3_PINS            (GPIO_PIN_10 | GPIO_PIN_11)
+#define CORE_USART3_IRQ_PRIORITY    5
 
 
 /*********************** RTC PARAMETERS ************************/
 /***************************************************************/
-#define CORE_RTC_CENTURY 2000
+#define CORE_RTC_CENTURY            2000
 
 /******************** BOOTLOADER PARAMETERS ********************/
 /***************************************************************/
 /**
   * @brief  FDCAN module over which the chip can be programmed via the bootloader
   */
-#define CORE_BOOT_FDCAN FDCAN2
+#define CORE_BOOT_FDCAN             FDCAN2
 /**
   * @brief  Bootloader board ID
   */
-#define CORE_BOOT_FDCAN_ID 0x004
+#define CORE_BOOT_FDCAN_ID          0x004
 /**
   * @brief  Bootloader master ID. Status packets from the bootloader will have
   *         this value in the ID field of the extended CAN ID.
   */
-#define CORE_BOOT_FDCAN_MASTER_ID 0x084
+#define CORE_BOOT_FDCAN_MASTER_ID   0x084
 /**
   * @brief  Broadcast ID to which this board will respond. Only used for bank
   *         enumeration and reset.
@@ -280,14 +283,14 @@
 /**
   * @brief  Enable external programming
   */
-#define CORE_BOOT_EXTERNAL 0
+#define CORE_BOOT_EXTERNAL          0
 
 /********************* TIMEOUT PARAMETERS **********************/
 /***************************************************************/
 /**
  * @brief Number of timeouts used
  */
-#define CORE_TIMEOUT_NUM 5
+#define CORE_TIMEOUT_NUM            5
 
 
 

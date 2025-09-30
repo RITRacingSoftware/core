@@ -1,11 +1,3 @@
-/**
-  * @file   rtc.c
-  * @brief  Core RTC library
-  *
-  * The core library component is used to set and get the current time using
-  * the internal RTC module.
-  */
-
 #include <stdint.h>
 #include <stdbool.h>
 #include <time.h>
@@ -17,11 +9,6 @@
 
 static uint32_t core_RTC_last_usec = 0;
 
-/**
-  * @brief  Initialize the RTC module
-  * @retval 1 if the initialization is successful
-  * @retval 0 otherwise
-  */
 bool core_RTC_init() {
     if (!core_clock_RTC_init()) return false;
 
@@ -33,14 +20,6 @@ bool core_RTC_init() {
     return (HAL_RTC_Init(&hrtc) == HAL_OK);
 }
 
-/**
-  * @brief  Get the current RTC time as a `tm` struct (as defined in time.h)
-  *
-  * When this function is called, the microsecond value is calculated but
-  * is not stored in the struct. This value can be retrieved with a 
-  * subsequent call to core_RTC_get_usec().
-  * @param  tm Pointer to a `tm` struct
-  */
 void core_RTC_get_time(struct tm *tm) {
     uint32_t pre = (RTC->PRER & 0x00007fff);
     uint32_t ssr = RTC->SSR;
@@ -58,10 +37,6 @@ void core_RTC_get_time(struct tm *tm) {
     //tm->tm_format = CORE_RTC_FORMAT_BCD;
 }
 
-/**
-  * @brief  Set the current RTC time from a `tm` struct (as defined in time.h)
-  * @param  tm Pointer to a `tm` struct
-  */
 void core_RTC_set_time(struct tm *tm) {
     RTC->WPR = 0xCA;
     RTC->WPR = 0x53;
@@ -85,11 +60,6 @@ void core_RTC_set_time(struct tm *tm) {
     RTC->WPR = 0xff;
 }
 
-/**
-  * @brief  Get the microsecond value associated with the most recent
-  *         core_RTC_get_time() call
-  * @return The microsecond value
-  */
 uint32_t core_RTC_get_usec() {
     return core_RTC_last_usec;
 }

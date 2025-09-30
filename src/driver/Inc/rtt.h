@@ -19,6 +19,6 @@
   * @brief  Print to the RTT console. The argument structure is identical to
   *         the standard `printf` funcion
   */
-#define rprintf(fmt, ...) SEGGER_RTT_printf(0, fmt, __VA_ARGS__)
+#define rprintf(...) SEGGER_RTT_printf(0, __VA_ARGS__)
 
 #endif
