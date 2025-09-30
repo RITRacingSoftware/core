@@ -334,7 +334,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
     return true;
 }
 
-#if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0)
+#if !defined(CORE_CAN_DISABLE_TX_QUEUE) || (CORE_CAN_DISABLE_TX_QUEUE == 0) || defined(DOXYGEN)
 /**
   * @brief  Add a CAN frame to the TX queue
   * @param  can FDCAN module for which the frame is being enqueued
@@ -497,7 +497,7 @@ bool core_CAN_send_fd_message(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc
     return err == HAL_OK;
 }
 
-#if (defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)
+#if ((defined(CORE_CAN_USE_MSGBUF)) && (CORE_CAN_USE_MSGBUF != 0)) || defined(DOXYGEN)
 BaseType_t core_CAN_msgbuf_insert_ts(core_CAN_module_t *p_can, uint8_t *buf, uint8_t buflen, uint32_t lsb) {
     uint32_t primask = __get_PRIMASK();
     __disable_irq();
@@ -622,7 +622,7 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
     }
 }
 
-#if (CORE_CAN_USE_MSGBUF != 1) && (CORE_CAN_DISABLE_RX_QUEUE != 1)
+#if ((CORE_CAN_USE_MSGBUF != 1) && (CORE_CAN_DISABLE_RX_QUEUE != 1)) || defined(DOXYGEN)
 static void add_CAN_extended_message_to_rx_queue(FDCAN_GlobalTypeDef *can, uint32_t id, uint8_t dlc, uint8_t *data, bool use_fd) {
     core_CAN_module_t *p_can = core_CAN_convert(can);
 
@@ -697,7 +697,7 @@ bool core_CAN_receive_from_queue(FDCAN_GlobalTypeDef *can, CanMessage_s *receive
 }
 #endif
 
-#if CORE_CAN_USE_MSGBUF == 1
+#if (CORE_CAN_USE_MSGBUF == 1) || defined(DOXYGEN)
 /**
   * @brief  If a frame is waiting in an RX message buffer, copy it to the given
   *         location and return its length.
