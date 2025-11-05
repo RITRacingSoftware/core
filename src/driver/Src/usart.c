@@ -13,6 +13,7 @@
 #include "clock.h"
 #include "gpio.h"
 #include "core_config.h"
+#include "rtt.h"
 
 static uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
 static uint32_t core_USART1_rxbuflen_int;
@@ -102,7 +103,11 @@ void USART1_IRQHandler() {
     uint32_t flags = USART1->ISR;
     if (flags & USART_ISR_RXNE) {
         // Receive data
-        core_USART1_rxbuf_int[core_USART1_rxbuflen_int++] = USART1->RDR;
+        if (core_USART1_rxbuflen_int < CORE_USART_RXBUFLEN) {
+            core_USART1_rxbuf_int[core_USART1_rxbuflen_int++] = USART1->RDR;
+        } else {
+            uint8_t dummy = USART1->RDR;
+        }
     }
     if (flags & USART_ISR_RTOF) {
         // Timed out (end of transmission)
@@ -112,13 +117,20 @@ void USART1_IRQHandler() {
         core_USART1_rxbuflen_int = 0;
         USART1->ICR = USART_ICR_RTOCF;
     }
+    if (flags & USART_ISR_ORE) {
+        USART1->ICR = USART_ICR_ORECF;
+    }
 }
 
 void USART2_IRQHandler() {
     uint32_t flags = USART2->ISR;
     if (flags & USART_ISR_RXNE) {
         // Receive data
-        core_USART2_rxbuf_int[core_USART2_rxbuflen_int++] = USART2->RDR;
+        if (core_USART2_rxbuflen_int < CORE_USART_RXBUFLEN) {
+            core_USART2_rxbuf_int[core_USART2_rxbuflen_int++] = USART2->RDR;
+        } else {
+            uint8_t dummy = USART2->RDR;
+        }
     }
     if (flags & USART_ISR_RTOF) {
         // Timed out (end of transmission)
@@ -128,13 +140,21 @@ void USART2_IRQHandler() {
         core_USART2_rxbuflen_int = 0;
         USART2->ICR = USART_ICR_RTOCF;
     }
+    if (flags & USART_ISR_ORE) {
+        USART2->ICR = USART_ICR_ORECF;
+    }
 }
 
 void USART3_IRQHandler() {
     uint32_t flags = USART3->ISR;
+    //rprintf("usart3 %08x %08x\n", USART3->CR1, USART3->CR2);
     if (flags & USART_ISR_RXNE) {
         // Receive data
-        core_USART3_rxbuf_int[core_USART3_rxbuflen_int++] = USART3->RDR;
+        if (core_USART3_rxbuflen_int < CORE_USART_RXBUFLEN) {
+            core_USART3_rxbuf_int[core_USART3_rxbuflen_int++] = USART3->RDR;
+        } else {
+            uint8_t dummy = USART3->RDR;
+        }
     }
     if (flags & USART_ISR_RTOF) {
         // Timed out (end of transmission)
@@ -143,6 +163,9 @@ void USART3_IRQHandler() {
         }
         core_USART3_rxbuflen_int = 0;
         USART3->ICR = USART_ICR_RTOCF;
+    }
+    if (flags & USART_ISR_ORE) {
+        USART3->ICR = USART_ICR_ORECF;
     }
 }
 
