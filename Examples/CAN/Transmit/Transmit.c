@@ -9,7 +9,7 @@
 
 #include <stm32g4xx_hal.h>
 
-#define CAN_ID 3
+#define CAN_ID 11
 #define CAN FDCAN1
 
 void hard_error_handler();
@@ -42,7 +42,7 @@ int main(void) {
 
     // Drivers
     if (!core_clock_init()) hard_error_handler();
-    if (!core_CAN_init(CAN)) hard_error_handler();
+    if (!core_CAN_init(CAN, 1000000)) hard_error_handler();
 
     int err;
     err = xTaskCreate(can_add_to_queue_task,

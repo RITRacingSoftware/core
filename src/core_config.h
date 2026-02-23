@@ -18,7 +18,7 @@
   * @brief  Use the external oscillator. If not defined, the internal
   *         oscillator will be used instead
   */
-#define CORE_CLOCK_USE_HSE 1
+#define CORE_CLOCK_USE_HSE 0
 /**
   * @brief  Frequency of the external oscillator in kHz
   */

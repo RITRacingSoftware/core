@@ -65,8 +65,8 @@ int main(void) {
     HAL_Init();
 
     // Drivers
-    core_heartbeat_init(GPIOA, GPIO_PIN_5);
-    core_GPIO_set_heartbeat(GPIO_PIN_RESET);
+    // core_heartbeat_init(GPIOA, GPIO_PIN_5);
+    // core_GPIO_set_heartbeat(GPIO_PIN_RESET);
 
     if (!core_clock_init()) error_handler();
     if (!core_CAN_init(FDCAN1, 1000000)) error_handler();
