@@ -452,6 +452,11 @@ static void rx_handler(FDCAN_GlobalTypeDef *can)
 #else
             xHigherPriorityTaskWoken |= core_CAN_msgbuf_insert_ts(p_can, can_temp, 8+core_CAN_dlc_lookup[header.DataLength], header.RxTimestamp);
 #endif
+#else
+            if (xMessageBufferSendFromISR(p_can->msgbuf, can_temp, 8+core_CAN_dlc_lookup[header.DataLength], &xHigherPriorityTaskWoken) == 0) {
+                // Increment the error counter
+                msgbuf_overflow++;
+            }
 #endif
 
 #elif (CORE_CAN_DISABLE_RX_QUEUE != 1)

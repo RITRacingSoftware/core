@@ -30,6 +30,13 @@
 #define CORE_USART2_UPDATE 0x02
 #define CORE_USART3_UPDATE 0x04
 
+typedef struct core_USART_module_s {
+    UART_HandleTypeDef husart;
+    uint8_t rxbuf_int[CORE_USART_RXBUFLEN];
+    uint32_t rxbuflen_int;
+    void (*callback)(uint8_t *, uint32_t);
+} core_USART_module_t;
+
 /**
   * @brief  Initialize a USART module in asynchronous mode with the given baud
   *         rate.
