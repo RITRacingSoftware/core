@@ -136,6 +136,11 @@ typedef struct core_CAN_head_s {
     uint8_t esi : 1;        /**< @brief Indicates if the transmitting node is error passive **/
 } core_CAN_head_t;
 
+typedef struct core_CAN_msg_s {
+    core_CAN_head_t header;
+    uint64_t data;
+} core_CAN_msg_t;
+
 typedef struct core_CAN_errors_s {
     uint16_t arbitration_error;
     uint16_t data_error;
