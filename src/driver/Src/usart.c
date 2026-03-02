@@ -14,23 +14,11 @@
 #include "gpio.h"
 #include "core_config.h"
 
-static uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
-static uint32_t core_USART1_rxbuflen_int;
-static void (*core_USART1_callback)(uint8_t *, uint32_t);
-static uint8_t core_USART2_rxbuf_int[CORE_USART_RXBUFLEN];
-static uint32_t core_USART2_rxbuflen_int;
-static void (*core_USART2_callback)(uint8_t *, uint32_t);
-static uint8_t core_USART3_rxbuf_int[CORE_USART_RXBUFLEN];
-static uint32_t core_USART3_rxbuflen_int;
-static void (*core_USART3_callback)(uint8_t *, uint32_t);
-
-static volatile uint8_t core_USART_flags;
-
-static UART_HandleTypeDef usart1;
-static UART_HandleTypeDef usart2;
-static UART_HandleTypeDef usart3;
-static UART_HandleTypeDef uart4;
-static UART_HandleTypeDef uart5;
+static core_USART_module_t usart1;
+static core_USART_module_t usart2;
+static core_USART_module_t usart3;
+static core_USART_module_t uart4;
+static core_USART_module_t uart5;
 
 #if defined(CORE_USART_UPRINTF) && (CORE_USART_UPRINTF != 0)
 uint8_t core_USART_usartbuf[CORE_USART_TXBUFLEN];
