@@ -13,7 +13,6 @@
 #include "clock.h"
 #include "gpio.h"
 #include "core_config.h"
-#include "rtt.h"
 
 static uint8_t core_USART1_rxbuf_int[CORE_USART_RXBUFLEN];
 static uint32_t core_USART1_rxbuflen_int;
