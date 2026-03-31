@@ -18,7 +18,7 @@
   * @retval 1 if the initialization is successful
   * @retval 0 otherwise
   */
-bool core_RTC_init();
+bool core_RTC_init(bool force_init);
 
 /**
   * @brief  Get the current RTC time as a `tm` struct (as defined in time.h)
@@ -34,7 +34,7 @@ void core_RTC_get_time(struct tm *tm);
   * @brief  Set the current RTC time from a `tm` struct (as defined in time.h)
   * @param  tm Pointer to a `tm` struct
   */
-void core_RTC_set_time(struct tm *tm);
+void core_RTC_set_time(struct tm *tm, uint64_t sync);
 
 /**
   * @brief  Get the microsecond value associated with the most recent

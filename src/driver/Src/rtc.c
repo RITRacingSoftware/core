@@ -5,19 +5,36 @@
 #include "rtc.h"
 #include "clock.h"
 #include "core_config.h"
+#include "timestamp.h"
 #include <stm32g4xx_hal.h>
 
 static uint32_t core_RTC_last_usec = 0;
 
-bool core_RTC_init() {
+#ifndef CORE_RTC_ASYNC_PRESCALER
+#define CORE_RTC_ASYNC_PRESCALER 128
+#endif
+
+#ifndef CORE_RTC_SYNC_PRESCALER
+#define CORE_RTC_SYNC_PRESCALER 256
+#endif
+
+bool core_RTC_init(bool force_init) {
     if (!core_clock_RTC_init()) return false;
 
-    RTC_HandleTypeDef hrtc;
-    hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-    hrtc.Init.AsynchPrediv = 127;
-    hrtc.Init.SynchPrediv = 255;
-    hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-    return (HAL_RTC_Init(&hrtc) == HAL_OK);
+    if (force_init || !(RTC->ICSR & RTC_ICSR_INITS)) {
+        RTC->WPR = 0xCA;
+        RTC->WPR = 0x53;
+        // Enter initialization mode
+        RTC->ICSR |= RTC_ICSR_INIT;
+        while (!(RTC->ICSR & RTC_ICSR_INITF));
+        RTC->CR = 0;
+        // Set prescaler
+        RTC->PRER = (RTC->PRER & 0xffff0000) | (((CORE_RTC_SYNC_PRESCALER) - 1)&0x7fff);
+        RTC->PRER = ((((CORE_RTC_ASYNC_PRESCALER) - 1)&0x7f)<<16) | (((CORE_RTC_SYNC_PRESCALER) - 1)&0x7fff);
+        RTC->ICSR &= ~RTC_ICSR_INIT;
+        RTC->WPR = 0xff;
+    }
+    return true;
 }
 
 void core_RTC_get_time(struct tm *tm) {
@@ -37,11 +54,11 @@ void core_RTC_get_time(struct tm *tm) {
     //tm->tm_format = CORE_RTC_FORMAT_BCD;
 }
 
-void core_RTC_set_time(struct tm *tm) {
+void core_RTC_set_time(struct tm *tm, uint64_t sync) {
+    uint32_t tr = 0, dr = 0;
     RTC->WPR = 0xCA;
     RTC->WPR = 0x53;
     RTC->ICSR |= RTC_ICSR_INIT;
-    uint32_t tr = 0, dr = 0;
     tr |= ((tm->tm_sec / 10) << 4) | ((tm->tm_sec % 10));
     tr |= ((tm->tm_min / 10) << 12) | ((tm->tm_min % 10) << 8);
     tr |= ((tm->tm_hour / 10) << 20) | ((tm->tm_hour % 10) << 16);

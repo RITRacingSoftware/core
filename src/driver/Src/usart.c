@@ -20,6 +20,8 @@ static core_USART_module_t usart3;
 static core_USART_module_t uart4;
 static core_USART_module_t uart5;
 
+static const prescaler_lookup[] = {1, 2, 4, 6, 8, 10, 12, 16, 32, 64, 128, 256};
+
 #if defined(CORE_USART_UPRINTF) && (CORE_USART_UPRINTF != 0)
 uint8_t core_USART_usartbuf[CORE_USART_TXBUFLEN];
 #endif
@@ -101,11 +103,25 @@ bool core_USART_init(USART_TypeDef *usart, uint32_t baud) {
     p_usart->husart.Init.ClockPrescaler = USART_PRESCALER_DIV4;
     p_usart->husart.FifoMode = USART_FIFOMODE_ENABLE;
 
-    if (HAL_UART_Init(&(p_usart->husart)) != HAL_OK) return false;
+    usart->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_FIFOEN;
+    usart->CR2 = 0;
+    usart->CR3 = 0;
+    uint8_t presc = 0;
+    int divisor = CORE_CLOCK_SYSCLK_FREQ * 1000 / baud;
+    while (divisor >= prescaler_lookup[presc]*65536) {
+        presc++;
+        if (presc >= 12) return false;
+    }
+    usart->BRR = divisor / prescaler_lookup[presc];
+    usart->PRESC = presc;
+    usart->CR1 |= USART_CR1_UE;
+
+
+    /*if (HAL_UART_Init(&(p_usart->husart)) != HAL_OK) return false;
     // Put the USART in asynchronous mode
     usart->CR1 &= ~USART_CR1_UE;
     usart->CR2 &= ~USART_CR2_CLKEN;
-    usart->CR1 |= USART_CR1_UE;
+    usart->CR1 |= USART_CR1_UE;*/
     return true;
 }
 
@@ -157,7 +173,6 @@ static void USART_IRQHandler(USART_TypeDef *usart) {
     if (flags & USART_ISR_ORE) {
         usart->ICR = USART_ICR_ORECF;
     }
-
 }
 
 void USART1_IRQHandler() {USART_IRQHandler(USART1);}
@@ -167,8 +182,11 @@ void UART4_IRQHandler() {USART_IRQHandler(UART4);}
 void UART5_IRQHandler() {USART_IRQHandler(UART5);}
 
 bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen) {
-    UART_HandleTypeDef *husart = &(core_USART_convert(usart)->husart);
-    return HAL_UART_Transmit(husart, txbuf, txbuflen, 0xffffffff) == HAL_OK;
+    for (int i=0; i < txbuflen; i++) {
+        while (!(usart->ISR & (1<<7)));
+        usart->TDR = txbuf[i];
+    }
+    return 1;
 }
 
 #if (CORE_USART_UPRINTF != 0) || defined(DOXYGEN)
