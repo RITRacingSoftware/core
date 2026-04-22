@@ -20,7 +20,7 @@ static core_USART_module_t usart3;
 static core_USART_module_t uart4;
 static core_USART_module_t uart5;
 
-static const prescaler_lookup[] = {1, 2, 4, 6, 8, 10, 12, 16, 32, 64, 128, 256};
+static const uint16_t prescaler_lookup[] = {1, 2, 4, 6, 8, 10, 12, 16, 32, 64, 128, 256};
 
 #if defined(CORE_USART_UPRINTF) && (CORE_USART_UPRINTF != 0)
 uint8_t core_USART_usartbuf[CORE_USART_TXBUFLEN];
@@ -53,7 +53,7 @@ core_USART_module_t *core_USART_convert(USART_TypeDef *usart) {
 
 bool core_USART_init(USART_TypeDef *usart, uint32_t baud) {
     core_USART_module_t *p_usart = core_USART_convert(usart);
-    GPIO_InitTypeDef usartGPIO = {0, GPIO_MODE_AF_PP, GPIO_PULLUP, GPIO_SPEED_FREQ_LOW, 0};
+    GPIO_InitTypeDef usartGPIO = {0, GPIO_MODE_AF_PP, GPIO_PULLUP, GPIO_SPEED_FREQ_VERY_HIGH, 0};
     p_usart->husart.Instance = usart;
     if (usart == USART1) {
         usartGPIO.Pin = CORE_USART1_TX_PIN; usartGPIO.Alternate = CORE_USART1_TX_AF;
@@ -193,7 +193,7 @@ bool core_USART_transmit(USART_TypeDef *usart, uint8_t *txbuf, uint8_t txbuflen)
 int uprintf(USART_TypeDef *usart, const char *format, ...) {
     va_list args;
     va_start(args, format);
-    int n = vsprintf(core_USART_usartbuf, format, args);
+    int n = vsprintf((char *)core_USART_usartbuf, format, args);
     va_end(args);
     if (core_USART_transmit(usart, core_USART_usartbuf, n)) return n;
     else return -1;

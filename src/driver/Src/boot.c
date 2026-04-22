@@ -24,7 +24,7 @@ uint32_t BOOTSTATE boot_state;
 uint32_t boot_toggle[8];
 uint32_t boot_reset_state;
 
-static uint32_t page_erased[4];
+static uint32_t page_erased[8];
 static uint32_t address;
 static uint32_t id;
 static uint8_t databuf[100];
@@ -153,6 +153,8 @@ void boot_state_machine() {
                     // Soft bank switching can only occur when there are no errors.
                     boot_state = (boot_state & 0xfffffff0) | BOOT_STATE_VERIFY_SOFT_SWITCH;
                     boot_soft_toggle();
+                    boot_state |= BOOT_STATE_ERROR;
+                    return;
                 default:
                     // If the boot state is not in one of the expected states,
                     // set the error flag and continue to main code. The

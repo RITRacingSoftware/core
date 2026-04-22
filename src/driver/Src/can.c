@@ -305,7 +305,7 @@ bool core_CAN_send_from_tx_queue_task(FDCAN_GlobalTypeDef *can)
             } else {
                 memcpy(&data, dequeuedExtendedMessage.data, 8);
                 //uint8_t dlc = dequeuedExtendedMessage.dlc;
-                if (!core_CAN_send_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, data)) break;
+                if (!core_CAN_send_message(can, dequeuedExtendedMessage.id, dequeuedExtendedMessage.dlc, data)) xSemaphoreGive(p_can->can_tx_semaphore);
             }
         }
     } else {

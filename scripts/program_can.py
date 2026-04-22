@@ -35,7 +35,7 @@ def parse_response(print_response=False, timeout=0.5, mintime=0, print_data=Fals
         i = 0
         while i < len(frame):
             bus, length, ts, id = struct.unpack("<BBHI", frame[i:i+8])
-            if id & (1<<30) and bus in [1, 2, 3]:
+            if id & (1<<30) and bus in [1, 2, 3] and length&0x80:
                 packet = {"bus": bus, "id": id, "data": frame[i+8:i+8+(length&0x7f)], "fd": length>>7, "board": (id>>18)&0x7f}
                 if (packet["id"] & (1<<30)):
                     if (packet["id"] & (1<<16)):
