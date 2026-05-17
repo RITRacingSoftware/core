@@ -9,8 +9,11 @@
 
 #include <stm32g4xx_hal.h>
 
+#define HEARTBEAT_PORT GPIOC
+#define HEARTBEAT_PIN GPIO_PIN_7
+
 #define CAN_ID 11
-#define CAN FDCAN1
+#define CAN FDCAN2
 
 void hard_error_handler();
 
@@ -37,28 +40,33 @@ void can_tx_task(void *pvParameters)
     hard_error_handler();
 }
 
+void heartbeat_task(void *pvParameters)
+{
+    (void) pvParameters;
+    TickType_t nextWakeTime = xTaskGetTickCount();
+
+    while (true) {
+        core_GPIO_toggle_heartbeat();
+        vTaskDelayUntil(&nextWakeTime, 200);
+    }
+}
+
 int main(void) {
     HAL_Init();
 
-    // Drivers
+    // Drivers 
+    core_heartbeat_init(HEARTBEAT_PORT, HEARTBEAT_PIN);
     if (!core_clock_init()) hard_error_handler();
     if (!core_CAN_init(CAN, 1000000)) hard_error_handler();
 
     int err;
-    err = xTaskCreate(can_add_to_queue_task,
-    "heartbeat",
-    1000,
-    NULL,
-    4,
-    NULL);
+    err = xTaskCreate(can_add_to_queue_task, "heartbeat", 1000, NULL, 4, NULL);
     if (err != pdPASS) hard_error_handler();
 
-    err = xTaskCreate(can_tx_task,
-    "tx",
-    1000,
-    NULL,
-    2,
-    NULL);
+    err = xTaskCreate(can_tx_task, "tx", 1000, NULL, 2, NULL);
+    if (err != pdPASS) hard_error_handler();
+
+    err = xTaskCreate(heartbeat_task, "heartbeat", 1000, NULL, 4, NULL);
     if (err != pdPASS) hard_error_handler();
 
     // hand control over to FreeRTOS

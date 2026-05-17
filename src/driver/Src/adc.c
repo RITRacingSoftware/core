@@ -237,7 +237,6 @@ bool core_ADC_read_channel(GPIO_TypeDef *port, uint32_t pin, uint16_t *result) {
         }
     }
     ADC_HandleTypeDef *hadc;
-    uint32_t chan;
     if (!adc_def_ptr) return false;
     if (adc_def_ptr->adc == ADC1) {
         hadc = &adc1;

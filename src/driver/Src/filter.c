@@ -22,12 +22,13 @@ float core_filter_update(float x, core_filter_t *filt)
         y += (filt->prevY[(filt->posY + i) % filt->orderY]) * (filt->coeffY[i]);
     }
 
-    filt->posX = ++filt->posX % filt->orderX;
+    filt->posX = (filt->posX + 1) % filt->orderX;
 
     if (filt->orderY > 0) {
         filt->prevY[filt->posY] = y;
-        filt->posY = ++filt->posY % filt->orderY;
+        filt->posY = (filt->posY + 1) % filt->orderY;
     }
+    filt->val = y;
     return y;
 }
 

@@ -14,6 +14,7 @@
 #include "timeout.h"
 #include "rtc.h"
 #include "error_handler.h"
+#include "watchdog.h"
 
 #include "imu.h"
 
@@ -25,52 +26,41 @@
 #include <stm32g4xx_hal_rtc.h>
 #include <stm32g4xx_hal_pwr.h>
 
+void watchdog_task(void *pvParameters) {
+    (void) pvParameters;
+    TickType_t nextWakeTime = xTaskGetTickCount();
+    while(true) {
+        core_watchdog_refresh();
+        vTaskDelayUntil(&nextWakeTime, 5000);
+    }
+}
 
 void heartbeat_task(void *pvParameters) {
     (void) pvParameters;
     TickType_t nextWakeTime = xTaskGetTickCount();
     while(true) {
-        core_GPIO_toggle_heartbeat();
-        //RTC->ICSR &= ~RTC_ICSR_RSF;
-        //while (!(RTC->ICSR & RTC_ICSR_RSF));
-        //struct tm time;
-        //core_RTC_get_time(&time);
-        //sprintf(txbuf, "ssr: %08x, tr: %08x, dr: %08x\r\n", ssr, tr, dr);
-        //strftime(txbuf, 128, "%Y/%m/%d %H:%M:%S ", &time);
-        //sprintf(txbuf+strlen(txbuf), "%ld\r\n", core_RTC_get_usec());
-        //core_USART_transmit(USART1, txbuf, strlen(txbuf));
-        //vTaskDelay(100 * portTICK_PERIOD_MS);
+        // core_watchdog_refresh();
+        // core_GPIO_toggle_heartbeat();
         vTaskDelayUntil(&nextWakeTime, 100);
-        core_CAN_send_message(FDCAN1, 7, 2, 0x55ff);
     }
-}
-
-void core_boot_external_enter() {
-
-}
-
-void core_boot_external_exit() {
-
-}
-
-void core_boot_external_read(uint8_t *ptr, uint32_t address, uint32_t length) {
-
-}
-
-void core_boot_external_write(uint8_t *ptr, uint32_t address, uint32_t length) {
-
 }
 
 int main(void) {
     HAL_Init();
 
-    // Drivers
-    // core_heartbeat_init(GPIOA, GPIO_PIN_5);
-    // core_GPIO_set_heartbeat(GPIO_PIN_RESET);
-
     if (!core_clock_init()) error_handler();
-    if (!core_CAN_init(FDCAN1, 1000000)) error_handler();
-    core_boot_init();
+    core_heartbeat_init(GPIOB, GPIO_PIN_14);
+    core_watchdog_init(false, NULL);
+
+    core_GPIO_set_heartbeat(true);
+    HAL_Delay(500);
+    core_GPIO_set_heartbeat(false);
+    HAL_Delay(500);
+    // core_GPIO_set_heartbeat(true);
+    // HAL_Delay(500);
+    // core_GPIO_set_heartbeat(false);
+    HAL_Delay(1000);
+    core_watchdog_refresh();
 
     int err;
     err = xTaskCreate(heartbeat_task, "heartbeat", 1000, NULL, 4, NULL);

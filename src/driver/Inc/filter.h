@@ -20,6 +20,7 @@ typedef struct core_filter_s {
     float *coeffY;          // Pointer to coefficient array for outputs. Stored most recent last
     float *prevX;           // Pointer to circular buffer holding previous inputs
     float *prevY;           // Pointer to circular buffer holding previous outputs
+    float val;              // Previous saved output
     uint8_t posX;           // Current position in input circular buffer
     uint8_t posY;           // Current position in output circular buffer
     uint8_t orderX;         // How many previous X values to store

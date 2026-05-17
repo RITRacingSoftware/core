@@ -30,8 +30,10 @@ bool I2C_init() {
 
 bool I2C_register_read(uint8_t bus, uint8_t devid, uint8_t regid, uint8_t* buf, uint8_t buflen) {
 	HAL_I2C_Mem_Read(&i2c1, devid << 1, regid, I2C_MEMADD_SIZE_8BIT, buf, buflen, I2C_TIMEOUT);
+    return false;
 }
 
 bool I2C_register_write(uint8_t bus, uint8_t devid, uint8_t regid, uint8_t* buf, uint8_t buflen) {
 	HAL_I2C_Mem_Write(&i2c1, devid << 1, regid, I2C_MEMADD_SIZE_8BIT, buf, buflen, I2C_TIMEOUT);
+    return false;
 }
