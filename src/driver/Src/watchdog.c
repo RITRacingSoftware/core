@@ -3,8 +3,9 @@
 #include <stdbool.h>
 
 #include <stm32g4xx_hal.h>
-#include "common_macros.h"
 #include "core_config.h"
+
+#define MASK(x) ((1<<x)-1)
 
 bool core_watchdog_init(bool window, void (*callback)()) {
     // if (CORE_WATCHDOG_RELOAD_VAL > MASK(6)) return false;

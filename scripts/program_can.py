@@ -27,6 +27,7 @@ while rlist:
 
 
 def parse_response(print_response=False, timeout=0.5, mintime=0, print_data=False):
+    timeout=4
     frames = []
     tstart = time.time()
     rlist, wlist, xlist = select.select([s], [], [], timeout)
@@ -259,6 +260,7 @@ if cmd == "program":
         fname = sys.argv[3]
         boot(id)
         program(id, fname)
+        if id == 7: time.sleep(3)
         boot(id)
         verify(id)
         hardswap(id)
@@ -272,6 +274,7 @@ elif cmd == "hardswap":
     id = int(sys.argv[2])
     boot(id)
     softswap(id)
+    time.sleep(3)
     boot(id)
     verify(id)
     hardswap(id)

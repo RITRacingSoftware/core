@@ -45,16 +45,19 @@ static uint8_t __attribute__((aligned(4))) can_temp[72];
 static uint8_t msgbuf1_storage[CORE_CAN_MSGBUF1_SIZE];
 static StaticMessageBuffer_t msgbuf1;
 static MessageBufferHandle_t msgbuf1_handle = NULL;
+static uint32_t msgbuf1_msb;
 #endif
 #if (CORE_CAN_MSGBUF2_SIZE > 0)
 static uint8_t msgbuf2_storage[CORE_CAN_MSGBUF2_SIZE];
 static StaticMessageBuffer_t msgbuf2;
 static MessageBufferHandle_t msgbuf2_handle = NULL;
+static uint32_t msgbuf2_msb;
 #endif
 #if (CORE_CAN_MSGBUF3_SIZE > 0)
 static uint8_t msgbuf3_storage[CORE_CAN_MSGBUF3_SIZE];
 static StaticMessageBuffer_t msgbuf3;
 static MessageBufferHandle_t msgbuf3_handle = NULL;
+static uint32_t msgbuf3_msb;
 #endif
 #endif
 
@@ -63,6 +66,7 @@ static MessageBufferHandle_t msgbuf3_handle = NULL;
 #define CORE_CAN_MSGBUF_HANDLE_BY_NUM(n) CAT3(msgbuf, n, _handle)
 #define CORE_CAN_MSGBUF_BY_NUM(n) CAT3(msgbuf, n, )
 #define CORE_CAN_MSGBUF_SIZE_BY_NUM(n) CAT3(CORE_CAN_MSGBUF, n, _SIZE)
+#define CORE_CAN_MSGBUF_MSB_BY_NUM(n) CAT3(msgbuf, n, _msb)
 
 core_CAN_module_t *core_CAN_convert(FDCAN_GlobalTypeDef *can) {
     if (can == FDCAN1) return &can1;
@@ -118,6 +122,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
             );
         }
         p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN1_MSGBUF);
+        p_can->timestamp_msb = &CORE_CAN_MSGBUF_MSB_BY_NUM(CORE_FDCAN1_MSGBUF);
 #endif
     }
     else if (can == FDCAN2)
@@ -151,6 +156,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
             );
         }
         p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN2_MSGBUF);
+        p_can->timestamp_msb = &CORE_CAN_MSGBUF_MSB_BY_NUM(CORE_FDCAN2_MSGBUF);
 #endif
     }
     else if (can == FDCAN3)
@@ -184,6 +190,7 @@ bool core_CAN_init(FDCAN_GlobalTypeDef *can, uint32_t baudrate)
             );
         }
         p_can->msgbuf = CORE_CAN_MSGBUF_HANDLE_BY_NUM(CORE_FDCAN3_MSGBUF);
+        p_can->timestamp_msb = &CORE_CAN_MSGBUF_MSB_BY_NUM(CORE_FDCAN3_MSGBUF);
 #endif
     }
     else return false;
@@ -387,7 +394,7 @@ BaseType_t core_CAN_msgbuf_insert_ts(core_CAN_module_t *p_can, uint8_t *buf, uin
         if (t2 < lsb) t1 = t3 - 1;
         t2 = lsb;
     }
-    if (p_can->timestamp_msb != t1) {
+    if (*(p_can->timestamp_msb) != t1) {
         uint32_t tbuf[3];
         tbuf[0] = (t2<<16) | 0x0404;
         tbuf[1] = 0;
@@ -399,7 +406,7 @@ BaseType_t core_CAN_msgbuf_insert_ts(core_CAN_module_t *p_can, uint8_t *buf, uin
             __set_PRIMASK(primask);
             return woken;
         }
-        p_can->timestamp_msb = t1;
+        *(p_can->timestamp_msb) = t1;
     }
     *((uint16_t*)(buf+2)) = t2;
     if (xMessageBufferSendFromISR(p_can->msgbuf, buf, buflen, &woken) == 0) {
