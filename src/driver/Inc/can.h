@@ -113,7 +113,7 @@ typedef struct core_CAN_module_s {
                                                     to the hardware FIFO and given when
                                                     transmission completes. **/
 #endif
-    uint32_t timestamp_msb;             /**< @brief Most significant bits of the timestamp for
+    uint32_t *timestamp_msb;            /**< @brief Most significant bits of the timestamp for
                                                     the most recently received packet. **/
     uint8_t fdcan_num_standard_filters;
     uint8_t fdcan_num_extended_filters;
