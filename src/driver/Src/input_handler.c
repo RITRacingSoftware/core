@@ -1,7 +1,6 @@
 #include "core_config.h"
-#include "../Inc/input_handler.h"
+#include "input_handler.h"
 #include "timeout.h"
-#include "FaultManager.h"
 
 #include <stdio.h>
 #include <stdbool.h>
