@@ -52,7 +52,6 @@ void core_input_handler_reset(core_input_handler_t *input_handler, core_timeout_
 }
 
 void core_input_handler_callback(core_input_handler_t *input_handler){
-    FaultManager_set(input_handler->fault_code);
 }
 
 
