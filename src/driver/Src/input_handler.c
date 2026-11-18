@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <stm32g4xx_hal.h>
 
-static core_input_handler_t *core_input_handler_list[CORE_INPUT_HANDLER_NUM];
-static int n_core_input_handled = 0;
+//static core_input_handler_t *core_input_handler_list[CORE_INPUT_HANDLER_NUM];
+//static int n_core_input_handled = 0;
 
 //Helper
 bool core_input_handler_check_demotion(core_input_handler_t *input_handler){
@@ -20,7 +20,7 @@ bool core_input_handler_check_demotion(core_input_handler_t *input_handler){
  * Getter and setter idea
  * */
 void core_input_handler_setter(core_input_handler_t *input_handler, uint16_t input){
-    if(input <= core_input_handler->max_value && input >= core_input_handler->min_value){
+    if(input <= input_handler->max_value && input >= input_handler->min_value){
         input_handler->input = input;
         input_handler->last_valid_input = input;
         input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
@@ -40,7 +40,7 @@ void core_input_handler_getter(core_input_handler_t *input_handler, uint16_t new
 
 /*
  * List idea
- * */
+ * 
 bool core_input_handler_insert(core_input_handler_t *input_handler){
     if(n_core_input_handled < CORE_INPUT_HANDLER_NUM){
         core_input_handler_list[n_core_input_handled] = input_handler;
@@ -62,6 +62,4 @@ bool core_check_input_handler_irrational(){
         return false;
     }
 }
-
-
-
+*/

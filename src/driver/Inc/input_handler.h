@@ -6,7 +6,6 @@
 
 
 #define CORE_INPUT_HANDLER_NO_DEMOTE 0
-
 #define CORE_INPUT_HANDLER_STATE_ENABLED 0x01
 #define CORE_INPUT_HANDLER_STATE_IRR 0x02
 
@@ -24,6 +23,10 @@ typedef struct core_input_handler_s {
 
 
 
+void core_input_handler_setter(core_input_handler_t *input_handler, uint16_t input);
+
+
+void core_input_handler_getter(core_input_handler_t *input_handler, uint16_t new_input);
 
 /**
 * @brief Add inputs to list of inputs to check for irrationalty and demotion 
