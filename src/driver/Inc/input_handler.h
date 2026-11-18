@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+
+#define CORE_INPUT_HANDLER_NO_DEMOTE 0
+
 #define CORE_INPUT_HANDLER_STATE_ENABLED 0x01
 #define CORE_INPUT_HANDLER_STATE_IRR 0x02
 
@@ -12,20 +15,14 @@ typedef struct core_input_handler_s {
     bool (*check)(struct core_input_handler_s *);
     uint16_t input;
     uint16_t last_valid_input;
-    uint8_t state;
     uint16_t max_value;
     uint16_t min_value;
-    DemotionState demote_state;
-    uint16_t new_input_source[2];
-    //uint64_t fault;
+    bool can_demote;
+    uint64_t fault_code;
+    uint8_t state;
 } core_input_handler_t;
 
-typedef enum {
-    CORE_INPUT_HANDLER_NO_DEMOTION,
-    CORE_INPUT_HANDLER_DEMOTE_1,
-    CORE_INPUT_HANDLER_DEMOTE_2,
-    CORE_INPUT_HANDLER_DEMOTE_3
-} DemotionState_e;
+
 
 
 /**

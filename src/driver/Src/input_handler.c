@@ -11,7 +11,36 @@
 static core_input_handler_t *core_input_handler_list[CORE_INPUT_HANDLER_NUM];
 static int n_core_input_handled = 0;
 
+//Helper
+bool core_input_handler_check_demotion(core_input_handler_t *input_handler){
+    return input_handler->can_demote;
+}
 
+/*
+ * Getter and setter idea
+ * */
+void core_input_handler_setter(core_input_handler_t *input_handler, uint16_t input){
+    if(input <= core_input_handler->max_value && input >= core_input_handler->min_value){
+        input_handler->input = input;
+        input_handler->last_valid_input = input;
+        input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
+    }
+}
+
+void core_input_handler_getter(core_input_handler_t *input_handler, uint16_t new_input){
+    if(input_handler->state != CORE_INPUT_HANDLER_STATE_ENABLED && core_input_handler_check_demotion(input_handler) != CORE_INPUT_HANDLER_NO_DEMOTE){
+        core_input_handler_setter(input_handler, new_input);
+    } 
+    else{
+        input_handler->callback;
+    }
+
+}
+
+
+/*
+ * List idea
+ * */
 bool core_input_handler_insert(core_input_handler_t *input_handler){
     if(n_core_input_handled < CORE_INPUT_HANDLER_NUM){
         core_input_handler_list[n_core_input_handled] = input_handler;
@@ -34,33 +63,5 @@ bool core_check_input_handler_irrational(){
     }
 }
 
-
-void core_input_handler_reset(core_input_handler_t *input_handler){
-    for (int i = 0; i < n_core_input_handled; i++){
-        if(input_handler->state == CORE_INPUT_HANDLER_STATE_IRR){
-           switch(input_handler->demote_state){
-                case CORE_INPUT_HANDLER_NO_DEMOTION:
-                    core_input_handler_callback(timeout);
-                    // Use last valid input?
-                case CORE_INPUT_HANDLER_DEMOTE_1:
-                    input_handler->input = input_handler->new_input_source[0];
-                    input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
-                case CORE_INPUT_HANDLER_DEMOTE_2:
-                    if (input_handler->new_input_source[1] == NULL) input_handler->demote_state = CORE_INPUT_HANDLER_NO_DEMOTION;
-                    input_handler->input = input_handler->new_input_source[1];
-                    input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
-                case CORE_INPUT_HANDLER_DEMOTE_3:
-                    if (input_handler->new_input_source[2] == NULL) input_handler->demote_state = CORE_INPUT_HANDLER_NO_DEMOTION;
-                    input_handler->input = input_handler->new_input_source[2];
-                    input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
-            } 
-        }  
-    } 
-}
-
-
-void core_input_handler_callback(core_input_handler_t *input_handler, uint64_t fault_code){
-    input_handler->fault = fault_code;
-}
 
 
