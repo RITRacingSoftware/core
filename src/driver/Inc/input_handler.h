@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
 #define CORE_INPUT_HANDLER_NO_DEMOTE 0
 #define CORE_INPUT_HANDLER_STATE_ENABLED 0x01
 #define CORE_INPUT_HANDLER_STATE_IRR 0x02
@@ -12,21 +11,24 @@
 typedef struct core_input_handler_s {
     void (*callback)(struct core_input_handler_s *);
     bool (*check)(struct core_input_handler_s *);
-    uint16_t input;
-    uint16_t last_valid_input;
-    uint16_t max_value;
-    uint16_t min_value;
+    float input;
+    float last_valid_input;
+    float max_value;
+    float min_value;
     bool can_demote;
     uint64_t fault_code;
     uint8_t state;
+    float *demotion_input_list;
+    float *max_value_list;
+    float *min_value_list;
 } core_input_handler_t;
 
 
 
-void core_input_handler_setter(core_input_handler_t *input_handler, uint16_t input);
+void core_input_handler_setter(core_input_handler_t *input_handler, float input);
 
 
-void core_input_handler_getter(core_input_handler_t *input_handler, uint16_t new_input);
+void core_input_handler_getter(core_input_handler_t *input_handler, float new_input);
 
 /**
 * @brief Add inputs to list of inputs to check for irrationalty and demotion 

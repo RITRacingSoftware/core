@@ -8,58 +8,27 @@
 #include <stdlib.h>
 #include <stm32g4xx_hal.h>
 
-//static core_input_handler_t *core_input_handler_list[CORE_INPUT_HANDLER_NUM];
-//static int n_core_input_handled = 0;
-
 //Helper
 bool core_input_handler_check_demotion(core_input_handler_t *input_handler){
-    return input_handler->can_demote;
+    return input_handler->can_demote || !(input_handle->demotion_input_list);
 }
 
-/*
- * Getter and setter idea
- * */
-void core_input_handler_setter(core_input_handler_t *input_handler, uint16_t input){
-    if(input <= input_handler->max_value && input >= input_handler->min_value){
-        input_handler->input = input;
-        input_handler->last_valid_input = input;
+void core_input_handler_setter(core_input_handler_t *input_handler){
+    if(input_handler->input <= input_handler->max_value && input_handler->input >= input_handler->min_value){
+        input_handler->last_valid_input = input_handler->input;
         input_handler->state = CORE_INPUT_HANDLER_STATE_ENABLED;
     }
 }
 
-void core_input_handler_getter(core_input_handler_t *input_handler, uint16_t new_input){
+void core_input_handler_getter(core_input_handler_t *input_handler){
     if(input_handler->state != CORE_INPUT_HANDLER_STATE_ENABLED && core_input_handler_check_demotion(input_handler) != CORE_INPUT_HANDLER_NO_DEMOTE){
-        core_input_handler_setter(input_handler, new_input);
+        
     } 
     else{
-        input_handler->callback;
+        input_handler->callback();
     }
 
 }
 
 
-/*
- * List idea
- * 
-bool core_input_handler_insert(core_input_handler_t *input_handler){
-    if(n_core_input_handled < CORE_INPUT_HANDLER_NUM){
-        core_input_handler_list[n_core_input_handled] = input_handler;
-        n_core_input_handled++;
-        return true;
-    }
-    return false;
-}
 
-bool core_check_input_handler_irrational(){
-    for (int i = 0; i < n_core_input_handled; i++){
-        if(core_input_handler_list[i]->input <= core_input_handler_list[i]->max_value && core_input_handler_list[i]->input >= core_input_handler_list[i]->min_value){
-            core_input_handler_list[i]->last_valid_input = core_input_handler_list[i]->input; 
-            core_input_handler_list[i]->state = CORE_INPUT_HANDLER_STATE_ENABLED;
-            return true;
-        }
-        core_input_handler_list[i]->state = CORE_INPUT_HANDLER_STATE_IRR;
-        core_input_handler_reset(core_input_handler_list[i]);
-        return false;
-    }
-}
-*/
